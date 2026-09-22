@@ -114,11 +114,42 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 - **Reproducibility & Verification**: `src/association_rules.py` module and `notebooks/04_association_rules.ipynb` executed head-to-tail with 0 errors. All mathematical validation assertions passed in `src/validate_stage5.py`.
 - **Methodological Limitations**: $N = 36$ aggregate state profiles. These patterns describe statistical co-occurrence among the selected State/UT-level indicators in the observed dataset. The analysis does not test causal mechanisms or external explanatory factors.
 
-### Stage 6 — Clustering
-K-Means on scaled/log-transformed, leaf-only, non-overlapping features from
-`master_state_2023`; determine k via silhouette score; PCA if dimensionality requires it.
-Cluster labels must be descriptive of the actual data pattern (e.g. "high-volume,
-fraud-dominant"), not an unjustified "High/Medium/Low risk" label.
+### Stage 6 — Clustering (implemented — pending freeze review)
+- **Methodological Position**: Unsupervised profile clustering on 36 State/UT observations ($N = 36$) from the 2023 NCRB dataset. To prevent overall reporting scale / state population from dominating distance metrics, clustering was performed on standardized non-redundant composition and motive share variables.
+- **Feature Set Selected (4 Composition Features)**:
+  1. `it_act_share` (Proportion of state cybercrimes registered under the IT Act)
+  2. `fraud_motive_share` (Proportion of state motive profile classified as Financial Fraud)
+  3. `extortion_motive_share` (Proportion of state motive profile classified as Extortion)
+  4. `sexual_exploitation_motive_share` (Proportion of state motive profile classified as Sexual Exploitation)
+- **Preprocessing**: `StandardScaler` applied across the 4 composition features.
+- **Candidate K Evaluation ($K \\in [2, 8]$)**:
+  - $K=2$: Inertia = $106.97$, Silhouette = $0.2557$ (Sizes: {13, 23})
+  - $K=3$: Inertia = $76.35$, Silhouette = $0.2635$ (Sizes: {18, 16, 2})
+  - **$K=4$ (Selected)**: Inertia = $49.68$, Silhouette = **$0.3497$** (Sizes: {15, 12, 7, 2})
+  - $K=5$: Inertia = $37.49$, Silhouette = $0.3632$ (Sizes: {11, 9, 7, 7, 2})
+  - $K=6$: Inertia = $30.44$, Silhouette = $0.3449$
+  - $K=7$: Inertia = $24.81$, Silhouette = $0.3688$
+  - $K=8$: Inertia = $20.08$, Silhouette = $0.3771$
+- **Selected K Justification ($K = 4$)**:
+  - Clear elbow inflection (34.9% inertia reduction from $K=3$ to $K=4$).
+  - Substantial silhouette score improvement ($+32.7\%$ over $K=3$).
+  - Generates 4 well-separated, interpretable regional cybercrime profile archetypes without over-fragmenting the 36-state sample.
+- **Cluster Profiles ($K = 4$)**:
+  - **Cluster 0 ($n = 15$, $41.67\%$)**: *IPC-Dominant, Moderate Fraud Profile* (Low IT Act share mean $32.67\%$, moderate Fraud motive $44.42\%$, low Extortion $2.76\%$). [e.g., Maharashtra, Telangana, Bihar, Andhra Pradesh, Gujarat, MP, Rajasthan, Delhi].
+  - **Cluster 1 ($n = 12$, $33.33\%$)**: *IT Act-Dominant, High Fraud Profile* (High IT Act share mean $88.68\%$, high Fraud motive $71.61\%$, low Extortion $1.94\%$). [e.g., Karnataka, Tamil Nadu, Jharkhand, Goa, HP, Arunachal Pradesh, Mizoram, Nagaland].
+  - **Cluster 2 ($n = 2$, $5.56\%$)**: *Sexual Exploitation-Dominant Micro-Profile* ($100.00\%$ IT Act share, $91.67\%$ Sexual Exploitation motive, $0.00\%$ Fraud motive). [DNH&DD, Lakshadweep].
+  - **Cluster 3 ($n = 7$, $19.44\%$)**: *Elevated Extortion Motive Profile* (High IT Act share mean $74.40\%$, moderate Fraud $33.25\%$, elevated Extortion motive mean $12.54\%$, $\sim 3\times$ national average). [e.g., UP, Assam, Punjab, Kerala, Uttarakhand, Sikkim, Chandigarh].
+- **2D PCA Projection**: PC1 (41.5% variance) and PC2 (27.7% variance) capture $69.1\%$ cumulative variance for 2D visualization of the 4-cluster structure.
+- **Exported Tables & Figures**:
+  - `outputs/tables/clustering_evaluation.csv`
+  - `outputs/tables/cluster_assignments_2023.csv`
+  - `outputs/tables/cluster_profiles_2023.csv`
+  - `outputs/figures/15_clustering_elbow.png`
+  - `outputs/figures/16_clustering_silhouette.png`
+  - `outputs/figures/17_cluster_sizes.png`
+  - `outputs/figures/18_cluster_feature_profiles.png`
+  - `outputs/figures/19_cluster_projection.png`
+- **Reproducibility & Verification**: `src/clustering.py` module and `notebooks/05_clustering.ipynb` executed head-to-tail with 0 errors. All test suites in `src/validate_stage6.py` passed.
 
 ### Stage 7 — Prediction
 Cross-sectional regression only (2023 master table). Time-series forecasting is

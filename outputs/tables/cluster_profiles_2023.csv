@@ -1,0 +1,5 @@
+cluster_id,cluster_label,state_count,state_pct,it_act_share_mean,it_act_share_median,it_act_share_std,fraud_motive_share_mean,fraud_motive_share_median,fraud_motive_share_std,extortion_motive_share_mean,extortion_motive_share_median,extortion_motive_share_std,sexual_exploitation_motive_share_mean,sexual_exploitation_motive_share_median,sexual_exploitation_motive_share_std
+0,"IPC-Dominant, Moderate Fraud Profile",15,41.67,0.3267,0.3145,0.234,0.4442,0.4681,0.2556,0.0276,0.0248,0.0259,0.1103,0.1021,0.1022
+1,"IT Act-Dominant, High Fraud Profile",12,33.33,0.8868,0.9445,0.1628,0.7161,0.7414,0.173,0.0194,0.0165,0.0187,0.1053,0.0692,0.1119
+2,Sexual Exploitation-Dominant Micro-Profile,2,5.56,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9167,0.9167,0.1179
+3,Elevated Extortion Motive Profile,7,19.44,0.744,0.8441,0.2644,0.3325,0.3531,0.1645,0.1254,0.1304,0.0336,0.1438,0.1448,0.13
