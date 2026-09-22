@@ -155,10 +155,36 @@ display(two_states[['state_name', 'total_cases', 'it_act_cases', 'motive_total',
                     'motive_sexual_exploitation', 'it_act_share', 'sexual_exploitation_motive_share']])
 """))
 
-cells.append(make_code_cell("""# Diagnostic 2: Sensitivity Analysis (Sample Exclusion & Feature Ablation)
-sens_df = run_sensitivity_diagnostics(raw_df, X_scaled, feature_cols)
-print("--- Clustering Sensitivity Analysis Table ---")
-display(sens_df[['model_name', 'sample_size', 'features_count', 'K', 'inertia', 'silhouette_score', 'cluster_sizes']])
+cells.append(make_code_cell("""# Diagnostic 2: Sensitivity Analysis & Hungarian Membership Stability Audit
+sens_df, stability_df = run_sensitivity_diagnostics(raw_df, X_scaled, feature_cols)
+print("--- Clustering Sensitivity Summary Table ---")
+display(sens_df[['model_name', 'sample_size', 'features_count', 'K', 'inertia', 'silhouette_score', 'cluster_sizes', 'agreement_vs_primary']])
+
+print("\\n--- State-by-State Membership Stability Table (Hungarian Label Alignment) ---")
+display(stability_df)
+"""))
+
+cells.append(make_code_cell("""# Membership Stability Summary Metrics
+ablation_unchanged = (stability_df['ablation_changed'] == 'No').sum()
+ablation_changed = (stability_df['ablation_changed'] == 'Yes').sum()
+ablation_pct = (ablation_unchanged / 36) * 100
+
+n34_sub = stability_df[stability_df['n34_changed'] != 'Excluded']
+n34_unchanged = (n34_sub['n34_changed'] == 'No').sum()
+n34_changed = (n34_sub['n34_changed'] == 'Yes').sum()
+n34_pct = (n34_unchanged / 34) * 100
+
+print(f"Feature Ablation (3-Feature K=4 vs Primary 4-Feature K=4):")
+print(f"  - Unchanged: {ablation_unchanged} / 36 ({ablation_pct:.1f}%)")
+print(f"  - Changed:   {ablation_changed} / 36 ({100 - ablation_pct:.1f}%)")
+reassigned_ablation = stability_df[stability_df['ablation_changed'] == 'Yes']['state_name'].tolist()
+print(f"  - Reassigned States/UTs: {', '.join(reassigned_ablation)}")
+
+print(f"\\nSample Exclusion (N=34 vs Primary N=36):")
+print(f"  - Unchanged: {n34_unchanged} / 34 ({n34_pct:.1f}%)")
+print(f"  - Changed:   {n34_changed} / 34 ({100 - n34_pct:.1f}%)")
+reassigned_n34 = n34_sub[n34_sub['n34_changed'] == 'Yes']['state_name'].tolist()
+print(f"  - Reassigned States/UTs: {', '.join(reassigned_n34)}")
 """))
 
 # 6. Final Model & Profile Generation
@@ -261,6 +287,7 @@ exported_tables = export_clustering_outputs(
     assignments_df=assignments_df,
     profiles_df=profiles_df,
     sens_df=sens_df,
+    stability_df=stability_df,
     output_dir=str(project_root / 'outputs' / 'tables')
 )
 

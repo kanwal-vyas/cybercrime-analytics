@@ -6,10 +6,10 @@
 |---|---|---|
 | 1. Data Understanding / Validation Gate | `01_data_understanding.ipynb` | **Done** |
 | 2. Preprocessing | `02_preprocessing.ipynb` | **Done** |
-| 3. SQL / OLAP | `03_sql_olap.ipynb` | **Done** |
-| 4. EDA | `03_eda.ipynb` | **Done** |
-| 5. Association Rules | `04_association_rules.ipynb` | Not started |
-| 6. Clustering | `05_clustering.ipynb` | Not started |
+| 3. SQL / OLAP | `03_sql_olap.ipynb` | **Done (FROZEN)** |
+| 4. EDA | `03_eda.ipynb` | **Done (FROZEN)** |
+| 5. Association Rules | `04_association_rules.ipynb` | **Done (FROZEN)** |
+| 6. Clustering | `05_clustering.ipynb` | **Done (FROZEN)** |
 | 7. Prediction (regression) | `06_prediction.ipynb` | Not started |
 | 8. Outlier Detection | `07_outlier_detection.ipynb` | Not started |
 | 9. Power BI Dashboard | — | Not started |
@@ -114,13 +114,16 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 - **Reproducibility & Verification**: `src/association_rules.py` module and `notebooks/04_association_rules.ipynb` executed head-to-tail with 0 errors. All mathematical validation assertions passed in `src/validate_stage5.py`.
 - **Methodological Limitations**: $N = 36$ aggregate state profiles. These patterns describe statistical co-occurrence among the selected State/UT-level indicators in the observed dataset. The analysis does not test causal mechanisms or external explanatory factors.
 
-### Stage 6 — Clustering (implemented — pending freeze review)
-- **Methodological Position**: Unsupervised profile clustering on 36 State/UT observations ($N = 36$) from the 2023 NCRB dataset. To prevent overall reporting scale / state population from dominating distance metrics, clustering was performed on standardized non-redundant composition and motive share variables.
-- **Feature Set Selected (4 Composition Features)**:
-  1. `it_act_share` (Proportion of state cybercrimes registered under the IT Act)
-  2. `fraud_motive_share` (Proportion of state motive profile classified as Financial Fraud)
-  3. `extortion_motive_share` (Proportion of state motive profile classified as Extortion)
-  4. `sexual_exploitation_motive_share` (Proportion of state motive profile classified as Sexual Exploitation)
+### Stage 6 — Clustering: State-Level Cybercrime Profile Grouping (Done / FROZEN)
+
+- **Methodological Framing**: Applied to aggregate State/UT observations ($N = 36$) in the 2023 NCRB dataset. Clusters represent descriptive State/UT profile groups with similar cybercrime composition profiles. Clusters do not imply causality, intra-state homogeneity, or value judgments (not a "crime-risk ranking").
+- **Distance Space Guardrail**: Total crime volume (`total_cases`), parent category totals, and sub-category counts were deliberately excluded from the clustering distance space to prevent state population scale / reporting volume from dominating Euclidean distances.
+- **Clustering Features (4 Standardized Composition Shares)**:
+  1. `it_act_share` (Proportion of state cybercrimes registered under the IT Act; range: 0.057 to 1.000, mean: 0.589)
+  2. `fraud_motive_share` (Proportion of state motive profile classified as Financial Fraud; range: 0.000 to 0.887, mean: 0.490)
+  3. `extortion_motive_share` (Proportion of state motive profile classified as Extortion; range: 0.000 to 0.286, mean: 0.042)
+  4. `sexual_exploitation_motive_share` (Proportion of state motive profile classified as Sexual Exploitation; range: 0.000 to 1.000, mean: 0.158)
+- **Feature Correlation**: Maximum pairwise $|r| = 0.533$ (between `fraud_motive_share` and `sexual_exploitation_motive_share`), confirming sufficient orthogonality across features.
 - **Preprocessing**: `StandardScaler` applied across the 4 composition features.
 - **Candidate K Evaluation ($K \in [2, 8]$)**:
   - $K=2$: Inertia = $106.97$, Silhouette = $0.2557$ (Sizes: {13, 23})
@@ -131,22 +134,23 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - $K=7$: Inertia = $24.81$, Silhouette = $0.3688$ (Sizes: {8, 7, 6, 6, 5, 2, 2}; 2 clusters with $n \le 2$)
   - $K=8$: Inertia = $20.08$, Silhouette = $0.3771$ (Sizes: {8, 6, 6, 5, 4, 3, 2, 2}; 2 clusters with $n \le 2$, 3 with $n \le 3$)
 - **Selected K Justification ($K = 4$)**:
-  - Selected as an **interpretable compromise** between cluster separation, elbow structure, and cluster fragmentation.
+  - Retained and documented as an **interpretable compromise** between cluster separation, elbow structure, and cluster fragmentation.
   - Clear elbow inflection (34.9% inertia reduction from $K=3$ to $K=4$).
   - Substantial silhouette score step-up ($+32.7\%$ over $K=3$).
-  - While $K=5, 7, 8$ yield marginally higher silhouette scores, higher $K$ values introduce additional micro-clusters ($n \le 2$) or over-fragment the small sample of 36 jurisdictions without adding distinct profile interpretations.
+  - Higher-K alternatives ($K=5, 7, 8$) were evaluated; while they produce marginally higher silhouette scores, they introduce additional micro-clusters ($n \le 2$) and over-fragment the small sample of 36 jurisdictions without adding distinct profile interpretations.
 - **Cluster Profiles ($K = 4$)**:
-  - **Cluster 0 ($n = 15$, $41.67\%$)**: *Lower IT Act Share / Moderate Fraud Share Profile* (Low IT Act share mean $32.67\%$, moderate Fraud motive $44.42\%$, low Extortion $2.76\%$). [State/UT Members: Maharashtra, Telangana, Bihar, Andhra Pradesh, Gujarat, MP, Rajasthan, Delhi, West Bengal, Odisha, Chhattisgarh, Haryana, Manipur, Ladakh, A&N Islands].
-  - **Cluster 1 ($n = 12$, $33.33\%$)**: *Higher IT Act Share / Higher Fraud Share Profile* (High IT Act share mean $88.68\%$, high Fraud motive $71.61\%$, low Extortion $1.94\%$). [State/UT Members: Karnataka, Tamil Nadu, Jharkhand, Goa, HP, Arunachal Pradesh, Mizoram, Nagaland, Meghalaya, Tripura, J&K, Puducherry].
-  - **Cluster 2 ($n = 2$, $5.56\%$)**: *High Sexual-Exploitation Share / Small-Denominator Profile* ($100.00\%$ IT Act share, $91.67\%$ Sexual Exploitation motive, $0.00\%$ Fraud motive). [State/UT Members: Dadra & Nagar Haveli and Daman & Diu (6 cases), Lakshadweep (1 case)]. *Caution: High share is driven by tiny denominators ($N=6$ and $N=1$), not high crime volume.*
-  - **Cluster 3 ($n = 7$, $19.44\%$)**: *Higher Extortion Motive Share Profile* (High IT Act share mean $74.40\%$, moderate Fraud $33.25\%$, elevated Extortion motive mean $12.54\%$, $\sim 3\times$ national average). [State/UT Members: UP, Assam, Punjab, Kerala, Uttarakhand, Sikkim, Chandigarh].
-- **Diagnostic Sensitivity Checks**:
-  1. *Sample Exclusion Check ($N = 34$)*: Excluding the 2 small-denominator UTs yields $K=4$ silhouette = $0.3281$ and cluster sizes of $\{11, 9, 8, 6\}$, verifying that the remaining 34 states form a stable 4-group structure.
-  2. *Feature Ablation Check (3 Features)*: Omitting `sexual_exploitation_motive_share` yields $K=4$ silhouette = $0.3523$ and cluster sizes of $\{11, 10, 8, 7\}$, confirming the stability of the 3 primary profile clusters (IPC-dominant, IT-dominant fraud, and elevated extortion).
+  - **Cluster 0 ($n = 15$, $41.67\%$)**: *Lower IT Act Share / Moderate Fraud Share Profile* (Low IT Act share mean $32.67\%$, moderate Fraud motive mean $44.42\%$, low Extortion mean $2.76\%$, moderate Sexual Exploitation mean $11.03\%$). [State/UT Members: Maharashtra, Telangana, Bihar, Andhra Pradesh, Gujarat, MP, Rajasthan, Delhi, West Bengal, Odisha, Chhattisgarh, Haryana, Manipur, Ladakh, A&N Islands].
+  - **Cluster 1 ($n = 12$, $33.33\%$)**: *Higher IT Act Share / Higher Fraud Share Profile* (High IT Act share mean $88.68\%$, high Fraud motive mean $71.61\%$, low Extortion mean $1.94\%$, moderate Sexual Exploitation mean $10.53\%$). [State/UT Members: Karnataka, Tamil Nadu, Jharkhand, Goa, HP, Arunachal Pradesh, Mizoram, Nagaland, Meghalaya, Tripura, J&K, Puducherry].
+  - **Cluster 2 ($n = 2$, $5.56\%$)**: *High Sexual-Exploitation Share / Small-Denominator Profile* ($100.00\%$ IT Act share, $91.67\%$ Sexual Exploitation motive mean, $0.00\%$ Fraud motive). [State/UT Members: Dadra & Nagar Haveli and Daman & Diu (6 total cases), Lakshadweep (1 total case)]. *Caution: High share is driven by tiny denominators ($N=6$ and $N=1$), not high crime volume. Not a high-volume or high-crime cluster.*
+  - **Cluster 3 ($n = 7$, $19.44\%$)**: *Higher Extortion Motive Share Profile* (High IT Act share mean $74.40\%$, moderate Fraud mean $33.25\%$, elevated Extortion motive mean $12.54\%$, $\sim 3\times$ national average). [State/UT Members: UP, Assam, Punjab, Kerala, Uttarakhand, Sikkim, Chandigarh].
+- **Membership Stability & Sensitivity Diagnostics (Hungarian Label Alignment)**:
+  1. *Feature Ablation Check (3-Feature K=4 vs Primary 4-Feature K=4)*: After optimal Hungarian alignment, **27 / 36 (75.0%)** of State/UT observations retain identical cluster profile assignments (9 states reassigned: Chhattisgarh, Haryana, Manipur, Rajasthan, Tamil Nadu, West Bengal, Andaman and Nicobar Islands, Delhi, Ladakh). This quantifies that the substantive three-profile structure is retained without solely depending on the sexual exploitation feature, while boundary shifts (~25%) are transparently documented.
+  2. *Sample Exclusion Check ($N = 34$ vs Primary $N = 36$)*: Excluding the 2 small-denominator UTs and running Hungarian alignment yields **26 / 34 (76.5%)** agreement across common jurisdictions (8 reassigned: Chhattisgarh, Manipur, Meghalaya, Rajasthan, Tripura, Andaman and Nicobar Islands, Chandigarh, J&K), demonstrating that the broad 4-group structure persists when tiny jurisdictions are omitted.
 - **2D PCA Visualization Aid**: PC1 (41.5% variance) and PC2 (27.7% variance) capture $69.1\%$ cumulative variance for 2D visualization aid.
 - **Exported Tables & Figures**:
   - `outputs/tables/clustering_evaluation.csv`
   - `outputs/tables/clustering_sensitivity_analysis.csv`
+  - `outputs/tables/clustering_membership_stability.csv`
   - `outputs/tables/cluster_assignments_2023.csv`
   - `outputs/tables/cluster_profiles_2023.csv`
   - `outputs/figures/15_clustering_elbow.png`
@@ -154,7 +158,7 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - `outputs/figures/17_cluster_sizes.png`
   - `outputs/figures/18_cluster_feature_profiles.png`
   - `outputs/figures/19_cluster_projection.png`
-- **Reproducibility & Verification**: `src/clustering.py` module and `notebooks/05_clustering.ipynb` executed head-to-tail with 0 errors. All test suites in `src/validate_stage6.py` passed.
+- **Reproducibility & Verification**: `src/clustering.py` module and `notebooks/05_clustering.ipynb` executed head-to-tail with 0 errors. All 7 test suites in `src/validate_stage6.py` passed.
 
 ### Stage 7 — Prediction
 Cross-sectional regression only (2023 master table). Time-series forecasting is

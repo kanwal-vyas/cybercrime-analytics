@@ -67,4 +67,26 @@ for fig_name in expected_figures:
     assert p.exists() and p.stat().st_size > 1000, f"Figure {fig_name} missing or empty"
     print(f"[PASS] 6. Figure verified: {fig_name} ({p.stat().st_size:,} bytes)")
 
+# 7. Membership Stability Audit Validation
+stab_path = Path('outputs/tables/clustering_membership_stability.csv')
+assert stab_path.exists() and stab_path.stat().st_size > 100, "Membership stability table missing or empty"
+stab_df = pd.read_csv(stab_path)
+assert len(stab_df) == 36, f"Expected 36 State/UT stability rows, got {len(stab_df)}"
+assert 'ablation_changed' in stab_df.columns, "Missing ablation_changed column"
+assert 'n34_changed' in stab_df.columns, "Missing n34_changed column"
+
+# Verify 3-feature ablation stability (Hungarian alignment)
+ablation_unchanged = (stab_df['ablation_changed'] == 'No').sum()
+ablation_changed = (stab_df['ablation_changed'] == 'Yes').sum()
+assert ablation_unchanged == 27 and ablation_changed == 9, f"Unexpected ablation stability counts: {ablation_unchanged} unchanged, {ablation_changed} changed"
+
+# Verify N=34 sample exclusion stability (Hungarian alignment)
+n34_sub = stab_df[stab_df['n34_changed'] != 'Excluded']
+assert len(n34_sub) == 34, f"Expected 34 non-excluded rows, got {len(n34_sub)}"
+n34_unchanged = (n34_sub['n34_changed'] == 'No').sum()
+n34_changed = (n34_sub['n34_changed'] == 'Yes').sum()
+assert n34_unchanged == 26 and n34_changed == 8, f"Unexpected N=34 stability counts: {n34_unchanged} unchanged, {n34_changed} changed"
+
+print(f"[PASS] 7. Membership Stability: 3-feature ablation agreement = {ablation_unchanged}/36 ({ablation_unchanged/36*100:.1f}%), N=34 agreement = {n34_unchanged}/34 ({n34_unchanged/34*100:.1f}%) verified.")
+
 print("\n=== ALL STAGE 6 VALIDATION CHECKS PASSED SUCCESSFULLY ===")

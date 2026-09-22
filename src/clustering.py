@@ -19,8 +19,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
+from sklearn.metrics import silhouette_score, confusion_matrix
 from sklearn.decomposition import PCA
+from scipy.optimize import linear_sum_assignment
 
 
 # Core feature definitions for profile clustering
@@ -151,37 +152,64 @@ def run_sensitivity_diagnostics(
     raw_df: pd.DataFrame,
     X_scaled: np.ndarray,
     feature_cols: List[str]
-) -> pd.DataFrame:
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Runs diagnostic sensitivity checks:
     1. Primary model (N=36, 4 features)
     2. Sample exclusion sensitivity (N=34, excluding 2 small-denominator UTs)
     3. Feature ablation sensitivity (N=36, 3 features, excluding sexual_exploitation_motive_share)
+    
+    Returns summary metrics table and detailed state-by-state membership comparison table.
     """
     sens_rows = []
     
-    # 1. Primary Model
+    # 1. Primary Model (Model A)
     km_pri = KMeans(n_clusters=4, random_state=42, n_init=10)
     lab_pri = km_pri.fit_predict(X_scaled)
     sil_pri = silhouette_score(X_scaled, lab_pri)
+    
+    # 2. Sample Exclusion Sensitivity (N=34, Model C)
+    mask_n34 = ~raw_df['state_name'].isin(['Dadra and Nagar Haveli and Daman and Diu', 'Lakshadweep'])
+    df_n34 = raw_df[mask_n34].reset_index(drop=True)
+    lab_pri_sub = lab_pri[mask_n34]
+    X_n34 = StandardScaler().fit_transform(df_n34[feature_cols])
+    km_n34 = KMeans(n_clusters=4, random_state=42, n_init=10)
+    lab_n34 = km_n34.fit_predict(X_n34)
+    sil_n34 = silhouette_score(X_n34, lab_n34)
+    
+    # Optimal label alignment for N=34
+    cm_34 = confusion_matrix(lab_pri_sub, lab_n34)
+    r_34, c_34 = linear_sum_assignment(-cm_34)
+    map_34 = {c: r for r, c in zip(r_34, c_34)}
+    aligned_lab_34 = np.array([map_34[c] for c in lab_n34])
+    agree_34 = int((lab_pri_sub == aligned_lab_34).sum())
+    
+    # 3. Feature Ablation Sensitivity (N=36, 3 Features, Model B)
+    feats_3 = ['it_act_share', 'fraud_motive_share', 'extortion_motive_share']
+    X_3 = StandardScaler().fit_transform(raw_df[feats_3])
+    km_3 = KMeans(n_clusters=4, random_state=42, n_init=10)
+    lab_3 = km_3.fit_predict(X_3)
+    sil_3 = silhouette_score(X_3, lab_3)
+    
+    # Optimal label alignment for Model B
+    cm_3 = confusion_matrix(lab_pri, lab_3)
+    r_3, c_3 = linear_sum_assignment(-cm_3)
+    map_3 = {c: r for r, c in zip(r_3, c_3)}
+    aligned_lab_3 = np.array([map_3[c] for c in lab_3])
+    agree_3 = int((lab_pri == aligned_lab_3).sum())
+    
     sens_rows.append({
-        'model_name': 'Primary Model (All 36 States/UTs, 4 Features)',
+        'model_name': 'Primary Model (N=36, 4 Features)',
         'sample_size': 36,
         'features_count': 4,
         'K': 4,
         'inertia': round(km_pri.inertia_, 4),
         'silhouette_score': round(sil_pri, 4),
         'cluster_sizes': str(pd.Series(lab_pri).value_counts().to_dict()),
+        'agreement_vs_primary': '100.0% (36/36)',
         'description': 'Primary model across all 36 observations using 4 composition shares.'
     })
     
-    # 2. Sample Exclusion Sensitivity (N=34)
-    mask_n34 = ~raw_df['state_name'].isin(['Dadra and Nagar Haveli and Daman and Diu', 'Lakshadweep'])
-    df_n34 = raw_df[mask_n34].reset_index(drop=True)
-    X_n34 = StandardScaler().fit_transform(df_n34[feature_cols])
-    km_n34 = KMeans(n_clusters=4, random_state=42, n_init=10)
-    lab_n34 = km_n34.fit_predict(X_n34)
-    sil_n34 = silhouette_score(X_n34, lab_n34)
     sens_rows.append({
         'model_name': 'Sample Exclusion Sensitivity (N=34, 4 Features)',
         'sample_size': 34,
@@ -190,15 +218,10 @@ def run_sensitivity_diagnostics(
         'inertia': round(km_n34.inertia_, 4),
         'silhouette_score': round(sil_n34, 4),
         'cluster_sizes': str(pd.Series(lab_n34).value_counts().to_dict()),
-        'description': 'Diagnostic run excluding 2 small-denominator UTs to verify stability of remaining 34 states.'
+        'agreement_vs_primary': f'{agree_34/34*100:.1f}% ({agree_34}/34)',
+        'description': f'Excludes 2 small UTs. {agree_34}/34 states ({agree_34/34*100:.1f}%) retain identical cluster profiles under Hungarian alignment.'
     })
     
-    # 3. Feature Ablation Sensitivity (N=36, 3 Features)
-    feats_3 = ['it_act_share', 'fraud_motive_share', 'extortion_motive_share']
-    X_3 = StandardScaler().fit_transform(raw_df[feats_3])
-    km_3 = KMeans(n_clusters=4, random_state=42, n_init=10)
-    lab_3 = km_3.fit_predict(X_3)
-    sil_3 = silhouette_score(X_3, lab_3)
     sens_rows.append({
         'model_name': 'Feature Ablation Sensitivity (N=36, 3 Features)',
         'sample_size': 36,
@@ -207,10 +230,31 @@ def run_sensitivity_diagnostics(
         'inertia': round(km_3.inertia_, 4),
         'silhouette_score': round(sil_3, 4),
         'cluster_sizes': str(pd.Series(lab_3).value_counts().to_dict()),
-        'description': 'Diagnostic run omitting sexual_exploitation_motive_share to assess feature dependence.'
+        'agreement_vs_primary': f'{agree_3/36*100:.1f}% ({agree_3}/36)',
+        'description': f'Omits sexual exploitation share. {agree_3}/36 states ({agree_3/36*100:.1f}%) retain identical cluster profiles under Hungarian alignment.'
     })
     
-    return pd.DataFrame(sens_rows)
+    sens_summary = pd.DataFrame(sens_rows)
+    
+    # Build detailed State/UT stability table
+    stability_df = pd.DataFrame({
+        'state_name': raw_df['state_name'],
+        'primary_k4_id': lab_pri,
+        'primary_k4_label': [CLUSTER_DESCRIPTIONS_K4[c] for c in lab_pri],
+        'ablation_k4_aligned_id': aligned_lab_3,
+        'ablation_k4_label': [CLUSTER_DESCRIPTIONS_K4[c] for c in aligned_lab_3],
+        'ablation_changed': ['No' if p == a else 'Yes' for p, a in zip(lab_pri, aligned_lab_3)]
+    })
+    
+    # Map N=34 alignment
+    n34_map_dict = {st: al for st, al in zip(df_n34['state_name'], aligned_lab_34)}
+    stability_df['n34_aligned_id'] = stability_df['state_name'].map(n34_map_dict)
+    stability_df['n34_changed'] = stability_df.apply(
+        lambda r: 'Excluded' if pd.isna(r['n34_aligned_id']) else ('No' if r['primary_k4_id'] == int(r['n34_aligned_id']) else 'Yes'),
+        axis=1
+    )
+    
+    return sens_summary, stability_df
 
 
 def fit_final_kmeans(
@@ -439,7 +483,7 @@ def plot_cluster_projection(
         color = palette[cid % len(palette)]
         ax.scatter(sub['PCA1'], sub['PCA2'], s=90, color=color, label=f'Cluster {cid}: {label}', edgecolors='black', linewidth=1.1, alpha=0.85)
         
-        # Annotate a few sample states per cluster
+        # Annotate sample states per cluster
         for _, row in sub.head(3).iterrows():
             ax.annotate(row['state_name'], (row['PCA1'] + 0.08, row['PCA2'] + 0.06), fontsize=8, color='#333333')
             
@@ -460,6 +504,7 @@ def export_clustering_outputs(
     assignments_df: pd.DataFrame,
     profiles_df: pd.DataFrame,
     sens_df: Optional[pd.DataFrame] = None,
+    stability_df: Optional[pd.DataFrame] = None,
     output_dir: str = 'outputs/tables'
 ) -> Dict[str, str]:
     """Exports all generated clustering tables for downstream analysis and reproducibility."""
@@ -485,4 +530,58 @@ def export_clustering_outputs(
         sens_df.to_csv(sens_path, index=False)
         paths['sensitivity'] = str(sens_path)
         
+    if stability_df is not None:
+        stab_path = out_path / 'clustering_membership_stability.csv'
+        stability_df.to_csv(stab_path, index=False)
+        paths['stability'] = str(stab_path)
+        
     return paths
+
+
+def run_all_clustering(
+    data_path: str = 'data/processed/master_state_2023.csv',
+    output_dir: str = 'outputs/tables',
+    figures_dir: str = 'outputs/figures'
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """
+    Executes the end-to-end Stage 6 profile clustering pipeline:
+    1. Feature loading & standardization
+    2. K=2..8 evaluation & plotting
+    3. Final K=4 fitting, assignments, & profiles
+    4. Sensitivity diagnostics & Hungarian membership stability analysis
+    5. Visualization generation & table exports
+    """
+    raw_df, feature_summary, X_scaled, scaler, feature_cols = load_and_prepare_features(data_path)
+    eval_df = evaluate_k_range(X_scaled, k_range=range(2, 9), random_state=42)
+    
+    # Generate figures
+    plot_clustering_elbow(eval_df, selected_k=4, save_path=f'{figures_dir}/15_clustering_elbow.png')
+    plot_clustering_silhouette(eval_df, selected_k=4, save_path=f'{figures_dir}/16_clustering_silhouette.png')
+    
+    km_model, labels = fit_final_kmeans(X_scaled, n_clusters=4, random_state=42)
+    assignments_df = generate_cluster_assignments(raw_df, X_scaled, labels, feature_cols, cluster_names=CLUSTER_DESCRIPTIONS_K4)
+    profiles_df = generate_cluster_profiles(raw_df, labels, feature_cols, cluster_names=CLUSTER_DESCRIPTIONS_K4)
+    
+    plot_cluster_sizes(assignments_df, cluster_names=CLUSTER_DESCRIPTIONS_K4, save_path=f'{figures_dir}/17_cluster_sizes.png')
+    plot_cluster_feature_profiles(profiles_df, feature_cols, save_path=f'{figures_dir}/18_cluster_feature_profiles.png')
+    plot_cluster_projection(X_scaled, assignments_df, cluster_names=CLUSTER_DESCRIPTIONS_K4, save_path=f'{figures_dir}/19_cluster_projection.png')
+    
+    sens_df, stability_df = run_sensitivity_diagnostics(raw_df, X_scaled, feature_cols)
+    
+    export_clustering_outputs(
+        eval_df=eval_df,
+        assignments_df=assignments_df,
+        profiles_df=profiles_df,
+        sens_df=sens_df,
+        stability_df=stability_df,
+        output_dir=output_dir
+    )
+    
+    return eval_df, assignments_df, profiles_df, sens_df, stability_df
+
+
+if __name__ == '__main__':
+    print("Executing Stage 6 Clustering Pipeline...")
+    eval_df, assignments_df, profiles_df, sens_df, stability_df = run_all_clustering()
+    print("Stage 6 Clustering Pipeline executed successfully.")
+

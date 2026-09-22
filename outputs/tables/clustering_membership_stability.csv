@@ -1,0 +1,37 @@
+state_name,primary_k4_id,primary_k4_label,ablation_k4_aligned_id,ablation_k4_label,ablation_changed,n34_aligned_id,n34_changed
+Andhra Pradesh,0,Lower IT Act Share / Moderate Fraud Share Profile,0,Lower IT Act Share / Moderate Fraud Share Profile,No,0.0,No
+Arunachal Pradesh,1,Higher IT Act Share / Higher Fraud Share Profile,1,Higher IT Act Share / Higher Fraud Share Profile,No,1.0,No
+Assam,3,Higher Extortion Motive Share Profile,3,Higher Extortion Motive Share Profile,No,3.0,No
+Bihar,0,Lower IT Act Share / Moderate Fraud Share Profile,0,Lower IT Act Share / Moderate Fraud Share Profile,No,0.0,No
+Chhattisgarh,0,Lower IT Act Share / Moderate Fraud Share Profile,2,High Sexual-Exploitation Share / Small-Denominator Profile,Yes,2.0,Yes
+Goa,1,Higher IT Act Share / Higher Fraud Share Profile,1,Higher IT Act Share / Higher Fraud Share Profile,No,1.0,No
+Gujarat,0,Lower IT Act Share / Moderate Fraud Share Profile,0,Lower IT Act Share / Moderate Fraud Share Profile,No,0.0,No
+Haryana,0,Lower IT Act Share / Moderate Fraud Share Profile,2,High Sexual-Exploitation Share / Small-Denominator Profile,Yes,0.0,No
+Himachal Pradesh,1,Higher IT Act Share / Higher Fraud Share Profile,1,Higher IT Act Share / Higher Fraud Share Profile,No,1.0,No
+Jharkhand,1,Higher IT Act Share / Higher Fraud Share Profile,1,Higher IT Act Share / Higher Fraud Share Profile,No,1.0,No
+Karnataka,1,Higher IT Act Share / Higher Fraud Share Profile,1,Higher IT Act Share / Higher Fraud Share Profile,No,1.0,No
+Kerala,3,Higher Extortion Motive Share Profile,3,Higher Extortion Motive Share Profile,No,3.0,No
+Madhya Pradesh,0,Lower IT Act Share / Moderate Fraud Share Profile,0,Lower IT Act Share / Moderate Fraud Share Profile,No,0.0,No
+Maharashtra,0,Lower IT Act Share / Moderate Fraud Share Profile,0,Lower IT Act Share / Moderate Fraud Share Profile,No,0.0,No
+Manipur,0,Lower IT Act Share / Moderate Fraud Share Profile,2,High Sexual-Exploitation Share / Small-Denominator Profile,Yes,2.0,Yes
+Meghalaya,1,Higher IT Act Share / Higher Fraud Share Profile,1,Higher IT Act Share / Higher Fraud Share Profile,No,2.0,Yes
+Mizoram,1,Higher IT Act Share / Higher Fraud Share Profile,1,Higher IT Act Share / Higher Fraud Share Profile,No,1.0,No
+Nagaland,1,Higher IT Act Share / Higher Fraud Share Profile,1,Higher IT Act Share / Higher Fraud Share Profile,No,1.0,No
+Odisha,0,Lower IT Act Share / Moderate Fraud Share Profile,0,Lower IT Act Share / Moderate Fraud Share Profile,No,0.0,No
+Punjab,3,Higher Extortion Motive Share Profile,3,Higher Extortion Motive Share Profile,No,3.0,No
+Rajasthan,0,Lower IT Act Share / Moderate Fraud Share Profile,2,High Sexual-Exploitation Share / Small-Denominator Profile,Yes,2.0,Yes
+Sikkim,3,Higher Extortion Motive Share Profile,3,Higher Extortion Motive Share Profile,No,3.0,No
+Tamil Nadu,1,Higher IT Act Share / Higher Fraud Share Profile,0,Lower IT Act Share / Moderate Fraud Share Profile,Yes,1.0,No
+Telangana,0,Lower IT Act Share / Moderate Fraud Share Profile,0,Lower IT Act Share / Moderate Fraud Share Profile,No,0.0,No
+Tripura,1,Higher IT Act Share / Higher Fraud Share Profile,1,Higher IT Act Share / Higher Fraud Share Profile,No,2.0,Yes
+Uttar Pradesh,3,Higher Extortion Motive Share Profile,3,Higher Extortion Motive Share Profile,No,3.0,No
+Uttarakhand,3,Higher Extortion Motive Share Profile,3,Higher Extortion Motive Share Profile,No,3.0,No
+West Bengal,0,Lower IT Act Share / Moderate Fraud Share Profile,2,High Sexual-Exploitation Share / Small-Denominator Profile,Yes,0.0,No
+Andaman and Nicobar Islands,0,Lower IT Act Share / Moderate Fraud Share Profile,2,High Sexual-Exploitation Share / Small-Denominator Profile,Yes,2.0,Yes
+Chandigarh,3,Higher Extortion Motive Share Profile,3,Higher Extortion Motive Share Profile,No,2.0,Yes
+Dadra and Nagar Haveli and Daman and Diu,2,High Sexual-Exploitation Share / Small-Denominator Profile,2,High Sexual-Exploitation Share / Small-Denominator Profile,No,,Excluded
+Delhi,0,Lower IT Act Share / Moderate Fraud Share Profile,2,High Sexual-Exploitation Share / Small-Denominator Profile,Yes,0.0,No
+Jammu and Kashmir,1,Higher IT Act Share / Higher Fraud Share Profile,1,Higher IT Act Share / Higher Fraud Share Profile,No,2.0,Yes
+Ladakh,0,Lower IT Act Share / Moderate Fraud Share Profile,2,High Sexual-Exploitation Share / Small-Denominator Profile,Yes,0.0,No
+Lakshadweep,2,High Sexual-Exploitation Share / Small-Denominator Profile,2,High Sexual-Exploitation Share / Small-Denominator Profile,No,,Excluded
+Puducherry,1,Higher IT Act Share / Higher Fraud Share Profile,1,Higher IT Act Share / Higher Fraud Share Profile,No,1.0,No

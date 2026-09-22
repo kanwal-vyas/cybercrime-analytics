@@ -1,4 +1,4 @@
-model_name,sample_size,features_count,K,inertia,silhouette_score,cluster_sizes,description
-"Primary Model (All 36 States/UTs, 4 Features)",36,4,4,49.6849,0.3497,"{0: 15, 1: 12, 3: 7, 2: 2}",Primary model across all 36 observations using 4 composition shares.
-"Sample Exclusion Sensitivity (N=34, 4 Features)",34,4,4,52.0066,0.3281,"{2: 11, 1: 9, 0: 8, 3: 6}",Diagnostic run excluding 2 small-denominator UTs to verify stability of remaining 34 states.
-"Feature Ablation Sensitivity (N=36, 3 Features)",36,3,4,36.3694,0.3523,"{1: 11, 2: 10, 0: 8, 3: 7}",Diagnostic run omitting sexual_exploitation_motive_share to assess feature dependence.
+model_name,sample_size,features_count,K,inertia,silhouette_score,cluster_sizes,agreement_vs_primary,description
+"Primary Model (N=36, 4 Features)",36,4,4,49.6849,0.3497,"{0: 15, 1: 12, 3: 7, 2: 2}",100.0% (36/36),Primary model across all 36 observations using 4 composition shares.
+"Sample Exclusion Sensitivity (N=34, 4 Features)",34,4,4,52.0066,0.3281,"{2: 11, 1: 9, 0: 8, 3: 6}",76.5% (26/34),Excludes 2 small UTs. 26/34 states (76.5%) retain identical cluster profiles under Hungarian alignment.
+"Feature Ablation Sensitivity (N=36, 3 Features)",36,3,4,36.3694,0.3523,"{1: 11, 2: 10, 0: 8, 3: 7}",75.0% (27/36),Omits sexual exploitation share. 27/36 states (75.0%) retain identical cluster profiles under Hungarian alignment.

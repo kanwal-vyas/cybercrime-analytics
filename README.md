@@ -181,8 +181,8 @@ current status in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md#dataset-validation-gate)
 - [x] Preprocessing implemented
 - [x] SQL schema & SQLite database populated with real structure and analytical views
 - [x] EDA implemented
-- [x] Association rule mining implemented (State-Level Syllabus Demonstration)
-- [x] Clustering implemented (State-Level Profile Grouping)
+- [x] Association rule mining implemented (State-Level Syllabus Demonstration — FROZEN)
+- [x] Clustering implemented & validated (State-Level Profile Grouping — FROZEN)
 - [ ] Prediction implemented (pending validation)
 - [ ] Outlier detection implemented (pending validation)
 - [ ] Power BI dashboard built
