@@ -19,7 +19,7 @@ def make_code_cell(source: str):
         "source": source.splitlines(keepends=True)
     }
 
-# 1. Title & Context
+# 1. Title & Scope
 cells.append(make_markdown_cell("""# Stage 6: State-Level Cybercrime Profile Clustering
 **Project**: Cyber Crime Analytics for National Security  
 **Data Source**: National Crime Records Bureau (NCRB) 2023 Master Dataset (`master_state_2023.csv`)  
@@ -57,6 +57,7 @@ import seaborn as sns
 from src.clustering import (
     load_and_prepare_features,
     evaluate_k_range,
+    run_sensitivity_diagnostics,
     fit_final_kmeans,
     generate_cluster_assignments,
     generate_cluster_profiles,
@@ -75,7 +76,7 @@ print(f"Working Directory: {project_root}")
 print("Clustering module loaded successfully.")
 """))
 
-# 3. Dataset loading and feature inspection
+# 3. Feature Selection & Distribution Inspection
 cells.append(make_markdown_cell("""---
 ## Section B — Feature Selection & Distribution Inspection
 
@@ -108,15 +109,15 @@ cells.append(make_markdown_cell("""---
 
 To identify a reasonable number of clusters, we evaluate $K \\in [2, 8]$ using:
 - **Inertia (Within-Cluster Sum of Squares)**: Measures cluster compactness.
-- **Silhouette Coefficient**: Measures how well-separated and cohesive clusters are (ranges from $-1$ to $+1$).
-- **Cluster Size Distribution**: Checks for excessive fragmentation or degenerate singletons.
+- **Silhouette Coefficient**: Measures how well-separated and cohesive clusters are.
+- **Cluster Size Distribution**: Monitors cluster fragmentation and tiny groups ($n \\le 2$).
 """))
 
 cells.append(make_code_cell("""# Evaluate K from 2 to 8
 eval_df = evaluate_k_range(X_scaled, k_range=range(2, 9), random_state=42)
 
 print("--- K-Means Clustering Evaluation Table ---")
-display(eval_df[['K', 'inertia', 'silhouette_score', 'cluster_sizes']])
+display(eval_df[['K', 'inertia', 'silhouette_score', 'min_cluster_size', 'max_cluster_size', 'clusters_n_le_2', 'cluster_sizes']])
 """))
 
 cells.append(make_code_cell("""# Plot Elbow Method (K vs. Inertia)
@@ -137,14 +138,32 @@ fig_silhouette = plot_clustering_silhouette(
 plt.show()
 """))
 
-# 5. Selected K Rationale & Final Model
+# 5. Selected K Rationale & Diagnostic Checks
 cells.append(make_markdown_cell("""---
-## Section D — Selected K Rationale & Final Model Fitting
+## Section D — Selected K Rationale & Sensitivity Diagnostics
 
 ### Selection Justification for $K = 4$:
-1. **Elbow Inflection**: Inertia drops sharply from $106.97$ ($K=2$) to $76.35$ ($K=3$) and $49.68$ ($K=4$), representing a $34.9\\%$ reduction from $K=3$ to $K=4$, after which marginal inertia reduction flattens.
-2. **Silhouette Step-Up**: Silhouette score increases significantly from $0.2635$ ($K=3$) to **$0.3497$ ($K=4$)** ($+32.7\\%$ improvement).
-3. **Substantive Interpretability**: $K=4$ segments the 36 State/UT observations into 4 distinct, interpretable profile archetypes without over-fragmenting the small sample.
+- **Elbow Inflection**: Inertia drops by $34.9\\%$ from $K=3$ to $K=4$ ($76.35 \\to 49.68$), after which marginal inertia reduction slows.
+- **Silhouette Coefficient Step-Up**: The silhouette coefficient steps up significantly from $0.2635$ ($K=3$) to **$0.3497$ ($K=4$)** ($+32.7\\%$ gain).
+- **Interpretable Compromise**: While $K=5$, $7$, and $8$ yield marginally higher silhouette scores ($0.3632$, $0.3688$, $0.3771$), they introduce additional micro-clusters ($n \\le 2$) and over-fragment the small sample of $36$ jurisdictions without adding distinct profile interpretations. $K=4$ was selected as an interpretable compromise between cluster separation, elbow structure, and cluster fragmentation.
+"""))
+
+cells.append(make_code_cell("""# Diagnostic 1: Two-State Small-Denominator Cluster Inspection
+print("--- Two-State Cluster Diagnostic (Cluster 2) ---")
+two_states = raw_df[raw_df['state_name'].isin(['Dadra and Nagar Haveli and Daman and Diu', 'Lakshadweep'])]
+display(two_states[['state_name', 'total_cases', 'it_act_cases', 'motive_total', 'motive_fraud',
+                    'motive_sexual_exploitation', 'it_act_share', 'sexual_exploitation_motive_share']])
+"""))
+
+cells.append(make_code_cell("""# Diagnostic 2: Sensitivity Analysis (Sample Exclusion & Feature Ablation)
+sens_df = run_sensitivity_diagnostics(raw_df, X_scaled, feature_cols)
+print("--- Clustering Sensitivity Analysis Table ---")
+display(sens_df[['model_name', 'sample_size', 'features_count', 'K', 'inertia', 'silhouette_score', 'cluster_sizes']])
+"""))
+
+# 6. Final Model & Profile Generation
+cells.append(make_markdown_cell("""---
+## Section E — Final Cluster Model & Profiles ($K = 4$)
 """))
 
 cells.append(make_code_cell("""# Fit final K-Means model with K = 4
@@ -165,18 +184,18 @@ display(profiles_df[['cluster_id', 'cluster_label', 'state_count', 'state_pct',
                      'extortion_motive_share_mean', 'sexual_exploitation_motive_share_mean']])
 """))
 
-cells.append(make_code_cell("""# Cluster Membership Breakdown
-print("--- Cluster Members (States/UTs per Cluster) ---")
+cells.append(make_code_cell("""# Cluster Membership Breakdown (State/UT Members)
+print("--- Cluster Membership Breakdown (State/UT Members) ---")
 for cid in range(selected_k):
     sub = assignments_df[assignments_df['cluster_id'] == cid]
     c_name = CLUSTER_DESCRIPTIONS_K4[cid]
     print(f"\\nCluster {cid}: {c_name} (n = {len(sub)}, {len(sub)/36*100:.1f}%):")
-    print("  " + ", ".join(sub['state_name'].tolist()))
+    print("  State/UT Members: " + ", ".join(sub['state_name'].tolist()))
 """))
 
-# 6. Visualizations
+# 7. Visualizations
 cells.append(make_markdown_cell("""---
-## Section E — Cluster Visualizations & Projections
+## Section F — Cluster Visualizations & Projections
 """))
 
 cells.append(make_code_cell("""# Plot Cluster Sizes
@@ -197,7 +216,7 @@ fig_profiles = plot_cluster_feature_profiles(
 plt.show()
 """))
 
-cells.append(make_code_cell("""# Plot 2D PCA Projection of Cluster Space
+cells.append(make_code_cell("""# Plot 2D PCA Projection of Cluster Space (Visualization Aid)
 fig_proj = plot_cluster_projection(
     X_scaled,
     assignments_df,
@@ -207,39 +226,41 @@ fig_proj = plot_cluster_projection(
 plt.show()
 """))
 
-# 7. Descriptive Interpretation
+# 8. Descriptive Interpretation
 cells.append(make_markdown_cell("""---
-## Section F — Descriptive Profile Interpretation
+## Section G — Descriptive Profile Interpretation
 
-### Cluster 0 ($n = 15$ States/UTs, $41.67\\%$): *IPC-Dominant, Moderate Fraud Profile*
-- **Key Characteristics**: Characterized by lower IT Act share (mean $32.67\\%$, indicating predominance of IPC registrations such as Sec. 420 cheating), moderate Fraud motive share (mean $44.42\\%$), and low Extortion motive share ($2.76\\%$).
-- **Representative Jurisdictions**: Maharashtra, Telangana, Bihar, Andhra Pradesh, Gujarat, Madhya Pradesh, Rajasthan, Delhi, West Bengal.
-
----
-
-### Cluster 1 ($n = 12$ States/UTs, $33.33\\%$): *IT Act-Dominant, High Fraud Profile*
-- **Key Characteristics**: Characterized by high IT Act share (mean $88.68\\%$) and high Fraud motive share (mean $71.61\\%$), with low Extortion ($1.94\\%$) and moderate Sexual Exploitation ($10.53\\%$).
-- **Representative Jurisdictions**: Karnataka, Tamil Nadu, Jharkhand, Goa, Himachal Pradesh, Arunachal Pradesh, Mizoram, Nagaland, Puducherry.
+### Cluster 0 ($n = 15$ States/UTs, $41.67\\%$): *Lower IT Act Share / Moderate Fraud Share Profile*
+- **Key Feature Characteristics**: Lowest mean IT Act share ($32.67\\%$, indicating predominance of IPC registrations such as Sec. 420 cheating), moderate mean Fraud motive share ($44.42\\%$), low mean Extortion motive share ($2.76\\%$), and moderate Sexual Exploitation motive share ($11.03\\%$).
+- **State/UT Members**: Maharashtra, Telangana, Bihar, Andhra Pradesh, Gujarat, Madhya Pradesh, Rajasthan, Delhi, West Bengal, Odisha, Chhattisgarh, Haryana, Manipur, Ladakh, Andaman and Nicobar Islands.
 
 ---
 
-### Cluster 2 ($n = 2$ States/UTs, $5.56\\%$): *Sexual Exploitation-Dominant Micro-Profile*
-- **Key Characteristics**: Characterized by $100.00\\%$ IT Act share, $0.00\\%$ Fraud motive, and high Sexual Exploitation motive share (mean $91.67\\%$).
-- **Representative Jurisdictions**: Dadra and Nagar Haveli and Daman and Diu ($6$ total cases), Lakshadweep ($1$ total case).
+### Cluster 1 ($n = 12$ States/UTs, $33.33\\%$): *Higher IT Act Share / Higher Fraud Share Profile*
+- **Key Feature Characteristics**: Highest mean IT Act share ($88.68\\%$) and highest mean Fraud motive share ($71.61\\%$), with low mean Extortion motive share ($1.94\\%$) and moderate Sexual Exploitation motive share ($10.53\\%$).
+- **State/UT Members**: Karnataka, Tamil Nadu, Jharkhand, Goa, Himachal Pradesh, Arunachal Pradesh, Mizoram, Nagaland, Meghalaya, Tripura, Jammu and Kashmir, Puducherry.
 
 ---
 
-### Cluster 3 ($n = 7$ States/UTs, $19.44\\%$): *Elevated Extortion Motive Profile*
-- **Key Characteristics**: Characterized by moderate-to-high IT Act share (mean $74.40\\%$), moderate Fraud motive ($33.25\\%$), and distinctly elevated Extortion motive share (mean $12.54\\%$, approximately $3\\times$ the national state average).
-- **Representative Jurisdictions**: Uttar Pradesh, Assam, Punjab, Kerala, Uttarakhand, Sikkim, Chandigarh.
+### Cluster 2 ($n = 2$ States/UTs, $5.56\\%$): *High Sexual-Exploitation Share / Small-Denominator Profile*
+- **Key Feature Characteristics**: Highest mean Sexual Exploitation motive share ($91.67\\%$) and $100.00\\%$ IT Act share, with $0.00\\%$ Fraud motive share.
+- **State/UT Members**: Dadra and Nagar Haveli and Daman and Diu ($6$ total reported cases), Lakshadweep ($1$ total reported case).
+- **Substantive Caution**: This cluster reflects high proportional concentration in jurisdictions with very small total case counts ($N=6$ and $N=1$), **not high crime volume**.
+
+---
+
+### Cluster 3 ($n = 7$ States/UTs, $19.44\\%$): *Higher Extortion Motive Share Profile*
+- **Key Feature Characteristics**: Distinctly elevated mean Extortion motive share ($12.54\\%$, approximately $3\\times$ the national state average of $4.24\\%$), moderate-to-high mean IT Act share ($74.40\\%$), moderate Fraud motive share ($33.25\\%$), and moderate Sexual Exploitation motive share ($14.38\\%$).
+- **State/UT Members**: Uttar Pradesh, Assam, Punjab, Kerala, Uttarakhand, Sikkim, Chandigarh.
 """))
 
-# 8. Export and validation
+# 9. Export & Validation
 cells.append(make_code_cell("""# Export Tables for Downstream Analysis and Power BI
 exported_tables = export_clustering_outputs(
     eval_df=eval_df,
     assignments_df=assignments_df,
     profiles_df=profiles_df,
+    sens_df=sens_df,
     output_dir=str(project_root / 'outputs' / 'tables')
 )
 
@@ -249,13 +270,13 @@ for k, v in exported_tables.items():
     print(f"  - {k:<15}: {p.name} ({p.stat().st_size:,} bytes)")
 """))
 
-# 9. Methodological Limitations
+# 10. Methodological Limitations
 cells.append(make_markdown_cell("""---
-## Section G — Methodological Limitations & Analytical Boundaries
+## Section H — Methodological Limitations & Analytical Boundaries
 
 ### Explicit Constraints:
-1. **Sample Size ($N = 36$)**: Observations are aggregate State/UT jurisdictions for the single reporting year 2023. Small sample size limits the complexity of cluster boundaries.
-2. **Composition vs. Absolute Volume**: These clusters group states based on *relative legal and motivational composition*. States with vastly different absolute case totals (e.g. Karnataka vs. Mizoram) can belong to the same cluster if their proportional profiles are similar.
+1. **Sample Size ($N = 36$)**: Observations represent aggregate State/UT jurisdictions for the single reporting year 2023. Small sample size limits the geometric complexity of cluster boundaries.
+2. **Composition vs. Absolute Volume**: These clusters group states based on *relative legal and motivational composition*. States with vastly different absolute case totals (e.g., Karnataka vs. Mizoram) belong to the same cluster because their proportional profiles are similar.
 3. **K-Means Geometric Assumptions**: K-Means assumes spherical clusters of approximately equal variance in standardized space.
 4. **Descriptive, Non-Causal Nature**: Clusters represent statistical groupings in the observed cross-sectional dataset. They do not test causal mechanisms or explain why specific profiles emerge.
 """))

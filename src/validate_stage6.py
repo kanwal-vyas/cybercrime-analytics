@@ -46,7 +46,14 @@ assert (eval_df['inertia'] > 0).all() and np.isfinite(eval_df['inertia']).all(),
 assert (eval_df['silhouette_score'] >= -1.0).all() and (eval_df['silhouette_score'] <= 1.0).all(), "Invalid silhouette scores"
 print("[PASS] 4. Evaluation Metrics: K=2..8 evaluation verified with finite inertia and silhouette scores.")
 
-# 5. Output Files & Figures Validation
+# 5. Sensitivity Analysis Table Validation
+sens_path = Path('outputs/tables/clustering_sensitivity_analysis.csv')
+assert sens_path.exists() and sens_path.stat().st_size > 100, "Sensitivity analysis table missing or empty"
+sens_df = pd.read_csv(sens_path)
+assert len(sens_df) == 3, f"Expected 3 sensitivity models, got {len(sens_df)}"
+print(f"[PASS] 5. Sensitivity Analysis: 3 diagnostic models verified in {sens_path.name}.")
+
+# 6. Output Files & Figures Validation
 expected_figures = [
     '15_clustering_elbow.png',
     '16_clustering_silhouette.png',
@@ -58,6 +65,6 @@ expected_figures = [
 for fig_name in expected_figures:
     p = Path('outputs/figures') / fig_name
     assert p.exists() and p.stat().st_size > 1000, f"Figure {fig_name} missing or empty"
-    print(f"[PASS] 5. Figure verified: {fig_name} ({p.stat().st_size:,} bytes)")
+    print(f"[PASS] 6. Figure verified: {fig_name} ({p.stat().st_size:,} bytes)")
 
 print("\n=== ALL STAGE 6 VALIDATION CHECKS PASSED SUCCESSFULLY ===")

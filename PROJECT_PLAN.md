@@ -122,26 +122,31 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   3. `extortion_motive_share` (Proportion of state motive profile classified as Extortion)
   4. `sexual_exploitation_motive_share` (Proportion of state motive profile classified as Sexual Exploitation)
 - **Preprocessing**: `StandardScaler` applied across the 4 composition features.
-- **Candidate K Evaluation ($K \\in [2, 8]$)**:
+- **Candidate K Evaluation ($K \in [2, 8]$)**:
   - $K=2$: Inertia = $106.97$, Silhouette = $0.2557$ (Sizes: {13, 23})
   - $K=3$: Inertia = $76.35$, Silhouette = $0.2635$ (Sizes: {18, 16, 2})
-  - **$K=4$ (Selected)**: Inertia = $49.68$, Silhouette = **$0.3497$** (Sizes: {15, 12, 7, 2})
-  - $K=5$: Inertia = $37.49$, Silhouette = $0.3632$ (Sizes: {11, 9, 7, 7, 2})
-  - $K=6$: Inertia = $30.44$, Silhouette = $0.3449$
-  - $K=7$: Inertia = $24.81$, Silhouette = $0.3688$
-  - $K=8$: Inertia = $20.08$, Silhouette = $0.3771$
+  - **$K=4$ (Selected Compromise)**: Inertia = $49.68$, Silhouette = **$0.3497$** (Sizes: {15, 12, 7, 2}; 1 cluster with $n \le 2$)
+  - $K=5$: Inertia = $37.49$, Silhouette = $0.3632$ (Sizes: {11, 9, 7, 7, 2}; 1 cluster with $n \le 2$)
+  - $K=6$: Inertia = $30.44$, Silhouette = $0.3449$ (Sizes: {8, 7, 7, 7, 5, 2})
+  - $K=7$: Inertia = $24.81$, Silhouette = $0.3688$ (Sizes: {8, 7, 6, 6, 5, 2, 2}; 2 clusters with $n \le 2$)
+  - $K=8$: Inertia = $20.08$, Silhouette = $0.3771$ (Sizes: {8, 6, 6, 5, 4, 3, 2, 2}; 2 clusters with $n \le 2$, 3 with $n \le 3$)
 - **Selected K Justification ($K = 4$)**:
+  - Selected as an **interpretable compromise** between cluster separation, elbow structure, and cluster fragmentation.
   - Clear elbow inflection (34.9% inertia reduction from $K=3$ to $K=4$).
-  - Substantial silhouette score improvement ($+32.7\%$ over $K=3$).
-  - Generates 4 well-separated, interpretable regional cybercrime profile archetypes without over-fragmenting the 36-state sample.
+  - Substantial silhouette score step-up ($+32.7\%$ over $K=3$).
+  - While $K=5, 7, 8$ yield marginally higher silhouette scores, higher $K$ values introduce additional micro-clusters ($n \le 2$) or over-fragment the small sample of 36 jurisdictions without adding distinct profile interpretations.
 - **Cluster Profiles ($K = 4$)**:
-  - **Cluster 0 ($n = 15$, $41.67\%$)**: *IPC-Dominant, Moderate Fraud Profile* (Low IT Act share mean $32.67\%$, moderate Fraud motive $44.42\%$, low Extortion $2.76\%$). [e.g., Maharashtra, Telangana, Bihar, Andhra Pradesh, Gujarat, MP, Rajasthan, Delhi].
-  - **Cluster 1 ($n = 12$, $33.33\%$)**: *IT Act-Dominant, High Fraud Profile* (High IT Act share mean $88.68\%$, high Fraud motive $71.61\%$, low Extortion $1.94\%$). [e.g., Karnataka, Tamil Nadu, Jharkhand, Goa, HP, Arunachal Pradesh, Mizoram, Nagaland].
-  - **Cluster 2 ($n = 2$, $5.56\%$)**: *Sexual Exploitation-Dominant Micro-Profile* ($100.00\%$ IT Act share, $91.67\%$ Sexual Exploitation motive, $0.00\%$ Fraud motive). [DNH&DD, Lakshadweep].
-  - **Cluster 3 ($n = 7$, $19.44\%$)**: *Elevated Extortion Motive Profile* (High IT Act share mean $74.40\%$, moderate Fraud $33.25\%$, elevated Extortion motive mean $12.54\%$, $\sim 3\times$ national average). [e.g., UP, Assam, Punjab, Kerala, Uttarakhand, Sikkim, Chandigarh].
-- **2D PCA Projection**: PC1 (41.5% variance) and PC2 (27.7% variance) capture $69.1\%$ cumulative variance for 2D visualization of the 4-cluster structure.
+  - **Cluster 0 ($n = 15$, $41.67\%$)**: *Lower IT Act Share / Moderate Fraud Share Profile* (Low IT Act share mean $32.67\%$, moderate Fraud motive $44.42\%$, low Extortion $2.76\%$). [State/UT Members: Maharashtra, Telangana, Bihar, Andhra Pradesh, Gujarat, MP, Rajasthan, Delhi, West Bengal, Odisha, Chhattisgarh, Haryana, Manipur, Ladakh, A&N Islands].
+  - **Cluster 1 ($n = 12$, $33.33\%$)**: *Higher IT Act Share / Higher Fraud Share Profile* (High IT Act share mean $88.68\%$, high Fraud motive $71.61\%$, low Extortion $1.94\%$). [State/UT Members: Karnataka, Tamil Nadu, Jharkhand, Goa, HP, Arunachal Pradesh, Mizoram, Nagaland, Meghalaya, Tripura, J&K, Puducherry].
+  - **Cluster 2 ($n = 2$, $5.56\%$)**: *High Sexual-Exploitation Share / Small-Denominator Profile* ($100.00\%$ IT Act share, $91.67\%$ Sexual Exploitation motive, $0.00\%$ Fraud motive). [State/UT Members: Dadra & Nagar Haveli and Daman & Diu (6 cases), Lakshadweep (1 case)]. *Caution: High share is driven by tiny denominators ($N=6$ and $N=1$), not high crime volume.*
+  - **Cluster 3 ($n = 7$, $19.44\%$)**: *Higher Extortion Motive Share Profile* (High IT Act share mean $74.40\%$, moderate Fraud $33.25\%$, elevated Extortion motive mean $12.54\%$, $\sim 3\times$ national average). [State/UT Members: UP, Assam, Punjab, Kerala, Uttarakhand, Sikkim, Chandigarh].
+- **Diagnostic Sensitivity Checks**:
+  1. *Sample Exclusion Check ($N = 34$)*: Excluding the 2 small-denominator UTs yields $K=4$ silhouette = $0.3281$ and cluster sizes of $\{11, 9, 8, 6\}$, verifying that the remaining 34 states form a stable 4-group structure.
+  2. *Feature Ablation Check (3 Features)*: Omitting `sexual_exploitation_motive_share` yields $K=4$ silhouette = $0.3523$ and cluster sizes of $\{11, 10, 8, 7\}$, confirming the stability of the 3 primary profile clusters (IPC-dominant, IT-dominant fraud, and elevated extortion).
+- **2D PCA Visualization Aid**: PC1 (41.5% variance) and PC2 (27.7% variance) capture $69.1\%$ cumulative variance for 2D visualization aid.
 - **Exported Tables & Figures**:
   - `outputs/tables/clustering_evaluation.csv`
+  - `outputs/tables/clustering_sensitivity_analysis.csv`
   - `outputs/tables/cluster_assignments_2023.csv`
   - `outputs/tables/cluster_profiles_2023.csv`
   - `outputs/figures/15_clustering_elbow.png`

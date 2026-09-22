@@ -4,10 +4,10 @@ Project: Cyber Crime Analytics for National Security
 
 IMPORTANT METHODOLOGICAL POSITION:
 Clustering is applied to aggregate State/UT observations (n = 36) in the validated 2023 NCRB dataset.
-To prevent total volume/scale from dominating the distance metrics, the feature space is constructed
-from non-redundant composition and motive share indicators rather than raw case counts.
+To prevent overall reporting scale / state population from dominating distance metrics, the feature space is
+constructed from non-redundant composition and motive share indicators rather than raw case counts.
 
-Clusters represent descriptive State/UT profile groups with similar cybercrime characteristics.
+Clusters represent descriptive State/UT profile groups with similar cybercrime characteristics in the 2023 data.
 Clusters do not imply causality, homogeneous intra-state behavior, or value judgments.
 """
 
@@ -38,12 +38,12 @@ FEATURE_DESCRIPTIONS = {
     'sexual_exploitation_motive_share': 'Share of sexual exploitation motive relative to state motive total'
 }
 
-# Neutral descriptive names for selected K=4 clusters
+# Neutral descriptive names for selected K=4 clusters (relative feature profile descriptions)
 CLUSTER_DESCRIPTIONS_K4 = {
-    0: 'IPC-Dominant, Moderate Fraud Profile',
-    1: 'IT Act-Dominant, High Fraud Profile',
-    2: 'Sexual Exploitation-Dominant Micro-Profile',
-    3: 'Elevated Extortion Motive Profile'
+    0: 'Lower IT Act Share / Moderate Fraud Share Profile',
+    1: 'Higher IT Act Share / Higher Fraud Share Profile',
+    2: 'High Sexual-Exploitation Share / Small-Denominator Profile',
+    3: 'Higher Extortion Motive Share Profile'
 }
 
 
@@ -56,7 +56,7 @@ def load_and_prepare_features(
     Returns:
     --------
     raw_df : pd.DataFrame
-        DataFrame with state_name and unscaled feature values.
+        DataFrame with state_name, raw volume counts for reference, and unscaled feature shares.
     feature_summary : pd.DataFrame
         Descriptive distribution metrics for candidate features.
     X_scaled : np.ndarray
@@ -76,6 +76,12 @@ def load_and_prepare_features(
     
     raw_df = pd.DataFrame({
         'state_name': states,
+        'total_cases': master_df[grand_col],
+        'it_act_cases': master_df[it_col],
+        'motive_total': master_df[m_tot],
+        'motive_fraud': master_df['motive__Fraud'],
+        'motive_extortion': master_df['motive__Extortion'],
+        'motive_sexual_exploitation': master_df['motive__Sexual Exploitation'],
         'it_act_share': master_df[it_col] / master_df[grand_col],
         'fraud_motive_share': master_df['motive__Fraud'] / master_df[m_tot],
         'extortion_motive_share': master_df['motive__Extortion'] / master_df[m_tot],
@@ -114,7 +120,8 @@ def evaluate_k_range(
     random_state: int = 42
 ) -> pd.DataFrame:
     """
-    Evaluates a range of candidate K values using Inertia (Elbow) and Silhouette Scores.
+    Evaluates a range of candidate K values using Inertia (Elbow), Silhouette Scores,
+    and cluster size distribution metrics.
     """
     eval_rows = []
     for k in k_range:
@@ -122,18 +129,88 @@ def evaluate_k_range(
         labels = km.fit_predict(X_scaled)
         sil = silhouette_score(X_scaled, labels)
         
-        # Calculate cluster sizes dictionary string
-        sizes = pd.Series(labels).value_counts().sort_index().to_dict()
+        sizes_series = pd.Series(labels).value_counts().sort_values()
+        sizes = sizes_series.to_dict()
         sizes_str = str(sizes)
         
         eval_rows.append({
             'K': k,
             'inertia': round(km.inertia_, 4),
             'silhouette_score': round(sil, 4),
+            'min_cluster_size': int(sizes_series.min()),
+            'max_cluster_size': int(sizes_series.max()),
+            'clusters_n_le_2': int((sizes_series <= 2).sum()),
+            'clusters_n_le_3': int((sizes_series <= 3).sum()),
             'cluster_sizes': sizes_str
         })
         
     return pd.DataFrame(eval_rows)
+
+
+def run_sensitivity_diagnostics(
+    raw_df: pd.DataFrame,
+    X_scaled: np.ndarray,
+    feature_cols: List[str]
+) -> pd.DataFrame:
+    """
+    Runs diagnostic sensitivity checks:
+    1. Primary model (N=36, 4 features)
+    2. Sample exclusion sensitivity (N=34, excluding 2 small-denominator UTs)
+    3. Feature ablation sensitivity (N=36, 3 features, excluding sexual_exploitation_motive_share)
+    """
+    sens_rows = []
+    
+    # 1. Primary Model
+    km_pri = KMeans(n_clusters=4, random_state=42, n_init=10)
+    lab_pri = km_pri.fit_predict(X_scaled)
+    sil_pri = silhouette_score(X_scaled, lab_pri)
+    sens_rows.append({
+        'model_name': 'Primary Model (All 36 States/UTs, 4 Features)',
+        'sample_size': 36,
+        'features_count': 4,
+        'K': 4,
+        'inertia': round(km_pri.inertia_, 4),
+        'silhouette_score': round(sil_pri, 4),
+        'cluster_sizes': str(pd.Series(lab_pri).value_counts().to_dict()),
+        'description': 'Primary model across all 36 observations using 4 composition shares.'
+    })
+    
+    # 2. Sample Exclusion Sensitivity (N=34)
+    mask_n34 = ~raw_df['state_name'].isin(['Dadra and Nagar Haveli and Daman and Diu', 'Lakshadweep'])
+    df_n34 = raw_df[mask_n34].reset_index(drop=True)
+    X_n34 = StandardScaler().fit_transform(df_n34[feature_cols])
+    km_n34 = KMeans(n_clusters=4, random_state=42, n_init=10)
+    lab_n34 = km_n34.fit_predict(X_n34)
+    sil_n34 = silhouette_score(X_n34, lab_n34)
+    sens_rows.append({
+        'model_name': 'Sample Exclusion Sensitivity (N=34, 4 Features)',
+        'sample_size': 34,
+        'features_count': 4,
+        'K': 4,
+        'inertia': round(km_n34.inertia_, 4),
+        'silhouette_score': round(sil_n34, 4),
+        'cluster_sizes': str(pd.Series(lab_n34).value_counts().to_dict()),
+        'description': 'Diagnostic run excluding 2 small-denominator UTs to verify stability of remaining 34 states.'
+    })
+    
+    # 3. Feature Ablation Sensitivity (N=36, 3 Features)
+    feats_3 = ['it_act_share', 'fraud_motive_share', 'extortion_motive_share']
+    X_3 = StandardScaler().fit_transform(raw_df[feats_3])
+    km_3 = KMeans(n_clusters=4, random_state=42, n_init=10)
+    lab_3 = km_3.fit_predict(X_3)
+    sil_3 = silhouette_score(X_3, lab_3)
+    sens_rows.append({
+        'model_name': 'Feature Ablation Sensitivity (N=36, 3 Features)',
+        'sample_size': 36,
+        'features_count': 3,
+        'K': 4,
+        'inertia': round(km_3.inertia_, 4),
+        'silhouette_score': round(sil_3, 4),
+        'cluster_sizes': str(pd.Series(lab_3).value_counts().to_dict()),
+        'description': 'Diagnostic run omitting sexual_exploitation_motive_share to assess feature dependence.'
+    })
+    
+    return pd.DataFrame(sens_rows)
 
 
 def fit_final_kmeans(
@@ -159,7 +236,7 @@ def generate_cluster_assignments(
     """
     Combines raw features, standardized features, and assigned cluster labels.
     """
-    assignments = raw_df[['state_name']].copy()
+    assignments = raw_df[['state_name', 'total_cases']].copy()
     assignments['cluster_id'] = labels
     
     if cluster_names:
@@ -341,7 +418,8 @@ def plot_cluster_projection(
     save_path: Optional[str] = 'outputs/figures/19_cluster_projection.png'
 ) -> plt.Figure:
     """
-    Plots 2D PCA projection of standardized cluster feature space for visualization.
+    Plots 2D PCA projection of standardized cluster feature space for visualization aid.
+    Clustering itself is performed in the full 4D standardized feature space.
     """
     plt.style.use('seaborn-v0_8-whitegrid')
     fig, ax = plt.subplots(figsize=(10, 7))
@@ -365,7 +443,7 @@ def plot_cluster_projection(
         for _, row in sub.head(3).iterrows():
             ax.annotate(row['state_name'], (row['PCA1'] + 0.08, row['PCA2'] + 0.06), fontsize=8, color='#333333')
             
-    ax.set_title(f'2D PCA Projection of Cluster Space (Explained Variance: {var1+var2:.1f}%)', fontsize=13, fontweight='bold', pad=15)
+    ax.set_title(f'2D PCA Projection of Cluster Space (Visualization Aid, Total Variance: {var1+var2:.1f}%)', fontsize=13, fontweight='bold', pad=15)
     ax.set_xlabel(f'Principal Component 1 ({var1:.1f}% Variance)', fontsize=11, fontweight='bold')
     ax.set_ylabel(f'Principal Component 2 ({var2:.1f}% Variance)', fontsize=11, fontweight='bold')
     ax.legend(title='Clusters', loc='upper right', frameon=True, fontsize=9)
@@ -381,6 +459,7 @@ def export_clustering_outputs(
     eval_df: pd.DataFrame,
     assignments_df: pd.DataFrame,
     profiles_df: pd.DataFrame,
+    sens_df: Optional[pd.DataFrame] = None,
     output_dir: str = 'outputs/tables'
 ) -> Dict[str, str]:
     """Exports all generated clustering tables for downstream analysis and reproducibility."""
@@ -401,4 +480,9 @@ def export_clustering_outputs(
     profiles_df.to_csv(prof_path, index=False)
     paths['profiles'] = str(prof_path)
     
+    if sens_df is not None:
+        sens_path = out_path / 'clustering_sensitivity_analysis.csv'
+        sens_df.to_csv(sens_path, index=False)
+        paths['sensitivity'] = str(sens_path)
+        
     return paths
