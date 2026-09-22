@@ -1,0 +1,50 @@
+category_id,category_display_name,act_group,parent_category,is_leaf,section_reference,national_cases,states_reporting_cases,national_share_pct
+1,Tampering Computer Source documents (Sec.65),IT Act,Offences under I.T. Act,1,Sec.65,71,10,0.08
+2,Computer Related Offences - Computer Related Offences (Total),IT Act,Offences under I.T. Act,0,,35329,34,40.88
+3,Computer Related Offences - A) Computer Related Offences (Sec.66) (Total),IT Act,Offences under I.T. Act,0,Sec.66,4154,25,4.81
+4,Computer Related Offences - Computer Related Offences (Sec.66) - a1) Ransom-ware,IT Act,Offences under I.T. Act,1,Sec.66,795,12,0.92
+5,Computer Related Offences - Computer Related Offences (Sec.66) - a2) Offences other than Ransom-ware,IT Act,Offences under I.T. Act,1,Sec.66,3359,24,3.89
+6,Computer Related Offences - B) Dishonesty receiving stolen computer resource or communication device (Sec.66B),IT Act,Offences under I.T. Act,1,Sec.66B,395,17,0.46
+7,Computer Related Offences - C) Identity Theft (Sec.66C),IT Act,Offences under I.T. Act,1,Sec.66C,4978,31,5.76
+8,Computer Related Offences - D) Cheating by personation by using computer resource (Sec.66D),IT Act,Offences under I.T. Act,1,Sec.66D,25334,29,29.31
+9,Computer Related Offences - E) Violation of Privacy (Sec.66E),IT Act,Offences under I.T. Act,1,Sec.66E,468,23,0.54
+10,Cyber Terrorism (Sec.66 F),IT Act,Offences under I.T. Act,1,Sec.66 F,11,7,0.01
+11,Publication/ transmission of obscene / sexually explicit act in electronic form (Sec. 67) - Publication/ transmission of obscene / sexually explicit act in electronic form (Total),IT Act,Offences under I.T. Act,0,Sec. 67,7893,34,9.13
+12,Publication/ transmission of obscene / sexually explicit act in electronic form (Sec. 67) - A) Publishing or transmitting obscene material in Electronic Form,IT Act,Offences under I.T. Act,1,Sec. 67,3110,28,3.6
+13,Publication/transmission of obscene / sexually explicit act in electronic form (Sec. 67) - B) Publishing or transmitting of material containing Sexually explicit act in electronic form (Sec.67A),IT Act,Offences under I.T. Act,1,Sec. 67,2168,32,2.51
+14,Publication/transmission of obscene / sexually explicit act in electronic form (Sec. 67) - C) Publishing or transmitting of material depicting children in Sexually explicit act in electronic form (Sec.67B),IT Act,Offences under I.T. Act,1,Sec. 67,1472,29,1.7
+15,Publication/transmission of obscene / sexually explicit act in electronic form (Sec. 67) - D) Preservation and retention of information by intermediaries (Sec.67C),IT Act,Offences under I.T. Act,1,Sec. 67,23,7,0.03
+16,Publication/transmission of obscene / sexually explicit act in electronic form (Sec. 67) - E) Other sub-sections of Sec. 67 IT Act,IT Act,Offences under I.T. Act,1,Sec. 67,1120,22,1.3
+17,Interception or Monitoring or decryption of Information (Sec.69),IT Act,Offences under I.T. Act,1,Sec.69,1,1,0.0
+18,Un-authorized access/attempt to access to protected computer system (Sec.70),IT Act,Offences under I.T. Act,1,Sec.70,1,1,0.0
+19,Abetment to Commit Offences (Sec.84 B),IT Act,Offences under I.T. Act,1,Sec.84 B,0,0,0.0
+20,Attempt to Commit Offences (Sec.84C),IT Act,Offences under I.T. Act,1,Sec.84C,11,4,0.01
+21,Other Sections of IT Act,IT Act,Offences under I.T. Act,1,,920,22,1.06
+22,Total Offences under I.T. Act,IT Act,Offences under I.T. Act,0,,44237,35,51.19
+23,Abetment of Suicide (Online) (Sec.305/306 IPC),IPC,IPC Crimes,1,Sec.305/306 IPC,30,10,0.03
+24,Cyber Stalking/ Bullying of Women/ Children (Sec.354D IPC),IPC,IPC Crimes,1,Sec.354D IPC,1305,21,1.51
+25,Data theft (Sec.379 to 381),IPC,IPC Crimes,1,Sec.379 to 381,113,11,0.13
+26,"Fraud (Sec.420 r/w Sec.465, 468- 471 IPC) - Fraud (Sec.420 r/w Sec.465,468- 471 IPC) (Total)",IPC,IPC Crimes,0,"Sec.420 r/w Sec.465, 468- 471 IPC",19466,20,22.52
+27,"Fraud (Sec.420 r/w Sec.465, 468- 471 IPC) - A) Credit Card/Debit Card",IPC,IPC Crimes,1,"Sec.420 r/w Sec.465, 468- 471 IPC",2098,13,2.43
+28,"Fraud (Sec.420 r/w Sec.465, 468- 471 IPC) - B) ATMs",IPC,IPC Crimes,1,"Sec.420 r/w Sec.465, 468- 471 IPC",1783,14,2.06
+29,"Fraud (Sec.420 r/w Sec.465, 468- 471 IPC) - C) Online Banking Fraud",IPC,IPC Crimes,1,"Sec.420 r/w Sec.465, 468- 471 IPC",4435,16,5.13
+30,"Fraud (Sec.420 r/w Sec.465, 468- 471 IPC) - D) OTP Frauds",IPC,IPC Crimes,1,"Sec.420 r/w Sec.465, 468- 471 IPC",5116,15,5.92
+31,"Fraud (Sec.420 r/w Sec.465, 468- 471 IPC) - E) Others",IPC,IPC Crimes,1,"Sec.420 r/w Sec.465, 468- 471 IPC",6034,18,6.98
+32,Cheating (Sec.420 IPC),IPC,IPC Crimes,1,Sec.420 IPC,16943,24,19.61
+33,"Forgery (Sec.465, 468 and 471)",IPC,IPC Crimes,1,"Sec.465, 468 and 471",444,20,0.51
+34,Defamation/ Morphing (Sec.469 IPC r/w IPC and Indecent representation of women Act),IPC,IPC Crimes,1,Sec.469 IPC r/w IPC and Indecent representation of women Act,36,9,0.04
+35,Fake Profile (r/w IPC/SLL),IPC,IPC Crimes,1,,225,13,0.26
+36,Counterfeiting - Counterfeiting (Total),IPC,IPC Crimes,0,,0,0,0.0
+37,Counterfeiting - A) Currency (Sec.489A to 489E),IPC,IPC Crimes,1,Sec.489A to 489E,0,0,0.0
+38,CounterfeitingB) Stamps (Sec.255),IPC,IPC Crimes,1,Sec.255,0,0,0.0
+39,"Cyber Blackmailing/ Threatening (Sec.506,503,384 IPC)",IPC,IPC Crimes,1,"Sec.506,503,384 IPC",689,21,0.8
+40,Fake News on Social Media (Sec.505),IPC,IPC Crimes,1,Sec.505,209,11,0.24
+41,Other Offences (r/w IT Act),IPC,IPC Crimes,1,,2389,24,2.76
+42,Total Offences under IPC,IPC,IPC Crimes,0,,41849,28,48.43
+43,Gambling Act (Online Gambling),SLL,Offences under SLL,1,,87,6,0.1
+44,Lotteries Act (Online Lotteries),SLL,Offences under SLL,1,,0,0,0.0
+45,"Copy Right Act, 1957",SLL,Offences under SLL,1,,23,7,0.03
+46,"Trade Marks Act, 1999",SLL,Offences under SLL,1,,1,1,0.0
+47,Other SLL Crimes,SLL,Offences under SLL,1,,223,13,0.26
+48,Total Offences under SLL,SLL,Offences under SLL,0,,334,18,0.39
+49,Total Cyber Crimes (Grand Total),Grand Total,,0,,86420,36,100.0

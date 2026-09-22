@@ -1,0 +1,9 @@
+item_name,source_column,category,threshold_type,cutoff_value,active_states_count,active_states_pct,description
+HIGH_FRAUD_MOTIVE,motive__Fraud,Motive,50th Percentile (Median),119.5,18,50.0,Fraud motive count >= median threshold across States/UTs
+HIGH_SEC66D_CHEATING,cat__A. Offences under I.T. Act - Computer Related Offences - D) Cheating by personation by using computer resource (Sec.66D) -,IT Act Category,50th Percentile (Median),37.5,18,50.0,Sec. 66D Personation Cheating count >= median threshold
+HIGH_IDENTITY_THEFT,cat__A. Offences under I.T. Act - Computer Related Offences - C) Identity Theft (Sec.66C),IT Act Category,50th Percentile (Median),8.0,19,52.78,Sec. 66C Identity Theft count >= median threshold
+HIGH_IT_ACT_SHARE,it_act_share,Legal Composition,50th Percentile (Median),0.6875,18,50.0,Share of cases under IT Act >= median threshold
+HIGH_EXTORTION_MOTIVE,motive__Extortion,Motive,50th Percentile (Median),9.5,18,50.0,Extortion motive count >= median threshold
+HIGH_SEXUAL_EXPLOITATION_MOTIVE,motive__Sexual Exploitation,Motive,50th Percentile (Median),30.5,18,50.0,Sexual Exploitation motive count >= median threshold
+HIGH_WOMEN_CYBERCRIME,women__Total Cyber Crimes against Women,Vulnerable Groups,50th Percentile (Median),131.0,18,50.0,Total cybercrimes against women >= median threshold
+HIGH_CHILD_CYBERCRIME,child__Total Cyber Crimes against Children,Vulnerable Groups,50th Percentile (Median),12.0,18,50.0,Total cybercrimes against children >= median threshold

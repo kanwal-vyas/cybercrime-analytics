@@ -1,0 +1,148 @@
+# PROJECT PLAN — Cyber Crime Analytics for National Security
+
+## 0. Status
+
+| Stage | Notebook | Status |
+|---|---|---|
+| 1. Data Understanding / Validation Gate | `01_data_understanding.ipynb` | **Done** |
+| 2. Preprocessing | `02_preprocessing.ipynb` | **Done** |
+| 3. SQL / OLAP | `03_sql_olap.ipynb` | **Done** |
+| 4. EDA | `03_eda.ipynb` | **Done** |
+| 5. Association Rules | `04_association_rules.ipynb` | Not started |
+| 6. Clustering | `05_clustering.ipynb` | Not started |
+| 7. Prediction (regression) | `06_prediction.ipynb` | Not started |
+| 8. Outlier Detection | `07_outlier_detection.ipynb` | Not started |
+| 9. Power BI Dashboard | — | Not started |
+
+## 1. Datasets
+
+See `README.md` for the dataset table. In short: four NCRB 2023 tables that share an
+identical 36-row State/UT key and can be merged into one 2023 master table
+(`categories_2023`, `motives_2023`, `women_2023`, `children_2023`), plus one separate
+2018–2022 trend table (`trend_2018_2022`) from a different source (a Rajya Sabha
+parliamentary reply) that is **not** silently concatenated with the 2023 figures — see
+`notebooks/01_data_understanding.ipynb` Phase 5 for the evidence of why.
+
+## 2. Dataset Validation Gate — Decision Record
+
+This is the binding, evidence-based go/no-go record established in Stage 1. Do not
+revisit these verdicts without re-running the corresponding checks in notebook 01.
+
+| Technique | Verdict | Basis |
+|---|---|---|
+| Data preprocessing | **GO** | Missing values, inconsistent aggregate-row labels, and messy headers all identified and understood |
+| SQL / OLAP | **GO** | Clean 36-row join key; hierarchical category structure supports roll-up/drill-down |
+| EDA | **GO** | Verified numeric columns, strong right-skew already characterized |
+| Regression (cross-sectional, 2023) | **GO** | n=36 states, many numeric predictors, totals verified consistent |
+| Forecasting (time series) | **NO-GO** as a real forecast | Only 5–6 annual points, from a source with a documented gap vs. 2023 NCRB figures; descriptive trend line only, explicitly caveated |
+| K-Means clustering | **GO**, conditional | Requires scaling/log-transform + leaf-only (non-parent-total) features; PCA likely needed given feature count vs. n=36 |
+| Outlier detection | **GO** | Real numeric features; must interpret outliers (e.g. Karnataka, Telangana) as plausible genuine high-volume states, not automatically as errors |
+| Apriori / association rules | **GO**, marginal | No natural transaction log exists; defensible only via an explicit state-as-transaction / above-median-category-as-item representation, reported with a heavy small-n (36) caveat |
+| Classification / SVM / Decision Tree | **CONDITIONAL** | No ground-truth label exists; only usable with a clearly labelled, leakage-checked *engineered* target — not a first-class technique for this dataset |
+| Geographic analysis / Power BI | **GO** | Full, clean 36/36 State/UT coverage |
+
+Full evidence for every row above is in `notebooks/01_data_understanding.ipynb`.
+
+## 3. Syllabus Mapping
+
+| Syllabus Unit | Concept | Where demonstrated in this project |
+|---|---|---|
+| Unit 1 | Data mining concepts / applications | Whole project — cybercrime analytics as applied data mining |
+| Unit 2 | Preprocessing, cleaning, transformation | Stage 2 — header cleanup, aggregate-row removal, 2023 master-table join, feature engineering for clustering/classification |
+| Unit 3 | Data warehouse / OLAP, star schema, roll-up/drill-down/slice/dice | Stage 3 — `sql/schema.sql`, `sql/views.sql`, `sql/analysis_queries.sql`, `notebooks/03_sql_olap.ipynb`, `data/database/cybercrime.db` |
+| Unit 4 | Frequent itemsets, Apriori, support/confidence/lift | Stage 5 — state-as-transaction / above-median-category-as-item representation (marginal-but-defensible, see Validation Gate) |
+| Unit 5 | Classification, regression, prediction | Stage 6/7 — cross-sectional regression (GO); classification only if an engineered, leakage-checked target is built |
+| Unit 6 | K-Means, cluster interpretation, outlier/anomaly detection | Stage 6/8 — K-Means on scaled/log-transformed leaf features; IQR/Z-score + Isolation Forest outlier detection |
+| Visualization | Exploratory, geographic, dashboards | Stage 4 (`notebooks/03_eda.ipynb`, `src/eda.py`, `outputs/figures/`) and Stage 9 (Power BI: executive overview, geographic, category, trend pages) |
+
+## 4. Phased Plan
+
+### Stage 1 — Data Understanding (done)
+Inventory, quality checks, cross-table alignment, arithmetic verification, syllabus
+validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `README.md`.
+
+### Stage 2 — Preprocessing (done)
+- Cleaned column headers for `women_2023`/`children_2023`.
+- Joined `categories_2023` + `motives_2023` + `women_2023` + `children_2023` into `data/processed/master_state_2023.csv` (36 rows).
+- Identified the 40 independent **leaf** category columns in `categories_2023` (of 49 total).
+- Cleaned `trend_2018_2022.csv` separately (36 rows; Ladakh 2018/2019 left as `NaN`, not imputed).
+- Added engineered features to `master_state_2023.csv`: `log1p` and `share__<col>` composition features.
+
+### Stage 3 — SQL / OLAP (done)
+- Built `data/database/cybercrime.db` (SQLite 3 with Star Schema, foreign keys enforced).
+- 4 Dimensions (`dim_state`, `dim_year`, `dim_crime_category`, `dim_motive`), 3 Facts (`fact_cybercrime_category_2023`, `fact_cybercrime_motive_2023`, `fact_cybercrime_trend`).
+- Operationalized analytical views and formal OLAP operations (Roll-Up, Drill-Down, Slice, Dice, Pivot).
+- 100% mathematical reconciliation verified across all 36 States/UTs.
+
+### Stage 4 — EDA (done)
+- **Data Profiling:** 36 States/UTs $\times$ 164 columns in 2023 master table (0 missing values, 0 duplicate keys).
+- **Geographic Distribution & Skewness:** Severe positive right-skewness (skewness = 3.14, mean = 2,400.6, median = 707.0). The top 5 states by volume (Karnataka: 21,889, Telangana: 18,236, Uttar Pradesh: 10,794, Maharashtra: 8,103, Bihar: 4,450) account for **73.45%** ($63,472 / 86,420$) of all national cybercrime cases in 2023.
+- **Category Pareto Concentration:** 40 independent leaf categories analyzed without double-counting. Top 2 independent leaf categories: *Cheating by personation using computer resource (Sec.66D IT Act)* with 25,334 cases (29.31%) and *Cheating (Sec.420 IPC)* with 16,943 cases (19.61%), totaling 42,277 cases (48.92%). Including independent leaf fraud subcategories brings total financial cybercrimes to 61,365 cases (71.01%).
+- **Legal Framework Analysis:** IT Act offences account for **51.19%** (44,237 cases), IPC crimes account for **48.79%** (42,166 cases), and SLL crimes account for **0.02%** (17 cases).
+- **Motive Analysis:** Financial **Fraud** is the overwhelming motive classification, accounting for **68.88%** ($59,526 / 86,420$) of all motive-classified cybercrimes, followed by Extortion (5.81%), Sexual Exploitation (5.42%), and Personal Revenge (4.57%).
+- **Special Subsets:** Analyzed cybercrimes against women ($19,510$ cases across 6 component categories) and children ($1,902$ cases across 6 component categories) as independent subset dimensions.
+- **Correlation Structure:** Identified strong collinearity among total crime, fraud motive, and Sec.66D cheating ($r > 0.95$), reflecting shared-scale volume dominance and part-whole mathematical relationships.
+- **Machine Learning Preparation:** Exported curated 13-feature non-redundant state matrix (`outputs/tables/eda_state_feature_matrix.csv`). Formulated candidate clustering and supervised classification questions while strictly enforcing the conditional regression rule (no regressing total cases on component category counts).
+- **Visual & Tabular Outputs:** Generated 12 figures in `outputs/figures/` and 8 summary tables in `outputs/tables/`.
+
+### Stage 5 — Association Rule Mining (done)
+- **Methodological Position**: Explicitly established as **State-Level Association Rule Mining — Syllabus Demonstration** on 36 State/UT aggregate profiles ($n = 36$). No incident-level transaction claims; no causal claims.
+- **Transaction Representation**: 36 binary transactions (1 row per State/UT) constructed over 8 non-redundant, volume-leakage-free items:
+  1. `HIGH_FRAUD_MOTIVE` (Fraud Motive $\ge 119.5$ cases, 50.0% split)
+  2. `HIGH_SEC66D_CHEATING` (Sec. 66D Personation Cheating $\ge 37.5$ cases, 50.0% split)
+  3. `HIGH_IDENTITY_THEFT` (Sec. 66C Identity Theft $\ge 8.0$ cases, 52.8% split)
+  4. `HIGH_IT_ACT_SHARE` (IT Act Share of total $\ge 68.75\%$, 50.0% split)
+  5. `HIGH_EXTORTION_MOTIVE` (Extortion Motive $\ge 9.5$ cases, 50.0% split)
+  6. `HIGH_SEXUAL_EXPLOITATION_MOTIVE` (Sexual Exploitation Motive $\ge 30.5$ cases, 50.0% split)
+  7. `HIGH_WOMEN_CYBERCRIME` (Women Cybercrimes $\ge 131.0$ cases, 50.0% split)
+  8. `HIGH_CHILD_CYBERCRIME` (Children Cybercrimes $\ge 12.0$ cases, 50.0% split)
+- **Frequent Itemset Mining (Apriori)**: With $\text{min\_support} = 0.25$ ($\ge 9 / 36$ states), mined **129 frequent itemsets** (8 1-itemsets, 28 2-itemsets, 48 3-itemsets, 37 4-itemsets, 8 5-itemsets). Verified $\text{support\_count} / 36 = \text{support}$.
+- **Association Rule Generation**: Mined and filtered rules with $\text{min\_confidence} = 0.60$ and $\text{lift} > 1.0$, producing **1,924 filtered association rules** across all itemset combinations, including **42 one-to-one pair rules** used for primary human-readable profile analysis.
+- **Key Empirical Rule Findings (Statistically Neutral)**:
+  - `HIGH_FRAUD_MOTIVE -> HIGH_SEC66D_CHEATING`: Support = $41.67\%$ ($15 / 36$ states), Confidence = $83.33\%$, Lift = $1.67$. (Reverse rule `HIGH_SEC66D_CHEATING -> HIGH_FRAUD_MOTIVE` also holds with Support = $41.67\%$, Confidence = $83.33\%$, Lift = $1.67$).
+  - `HIGH_IDENTITY_THEFT -> HIGH_FRAUD_MOTIVE`: Support = $44.44\%$ ($16 / 36$ states), Confidence = $84.21\%$, Lift = $1.68$. (Reverse rule `HIGH_FRAUD_MOTIVE -> HIGH_IDENTITY_THEFT` has Support = $44.44\%$, Confidence = $88.89\%$, Lift = $1.68$).
+  - `HIGH_WOMEN_CYBERCRIME -> HIGH_SEXUAL_EXPLOITATION_MOTIVE`: Support = $44.44\%$ ($16 / 36$ states), Confidence = $88.89\%$, Lift = $1.78$. (Reverse rule also holds: Support = $44.44\%$, Confidence = $88.89\%$, Lift = $1.78$).
+  - `HIGH_WOMEN_CYBERCRIME -> HIGH_CHILD_CYBERCRIME`: Support = $44.44\%$ ($16 / 36$ states), Confidence = $88.89\%$, Lift = $1.78$.
+  - `HIGH_IT_ACT_SHARE`: Under the selected median thresholds, `HIGH_IT_ACT_SHARE` does not produce a positive-lift association ($\text{Lift} > 1.0$) with the examined raw motive-count indicators.
+- **Exported Tables & Figures**:
+  - `outputs/tables/state_transaction_matrix.csv`
+  - `outputs/tables/association_item_thresholds.csv`
+  - `outputs/tables/frequent_itemsets.csv`
+  - `outputs/tables/association_rules.csv`
+  - `outputs/figures/13_apriori_itemset_support.png`
+  - `outputs/figures/14_association_rules_scatter.png`
+- **Reproducibility & Verification**: `src/association_rules.py` module and `notebooks/04_association_rules.ipynb` executed head-to-tail with 0 errors. All mathematical validation assertions passed in `src/validate_stage5.py`.
+- **Methodological Limitations**: $N = 36$ aggregate state profiles. These patterns describe statistical co-occurrence among the selected State/UT-level indicators in the observed dataset. The analysis does not test causal mechanisms or external explanatory factors.
+
+### Stage 6 — Clustering
+K-Means on scaled/log-transformed, leaf-only, non-overlapping features from
+`master_state_2023`; determine k via silhouette score; PCA if dimensionality requires it.
+Cluster labels must be descriptive of the actual data pattern (e.g. "high-volume,
+fraud-dominant"), not an unjustified "High/Medium/Low risk" label.
+
+### Stage 7 — Prediction
+Cross-sectional regression only (2023 master table). Time-series forecasting is
+explicitly out of scope per the Validation Gate — at most a labelled, caveated descriptive
+trend line. Classification attempted only with an engineered, leakage-checked target.
+
+### Stage 8 — Outlier Detection
+IQR/Z-score (univariate) on totals; Isolation Forest (multivariate) on the same feature
+set as clustering. Every flagged outlier interpreted with a stated, evidence-based
+hypothesis — never asserted as a data error without further evidence.
+
+### Stage 9 — Power BI Dashboard
+Built only from `data/processed/` tables, database views, and Stage 4–8 output tables.
+
+## 5. Known Data Limitations (carry through every later stage)
+
+1. No population data → all figures are raw case counts, not per-capita rates.
+2. `trend_2018_2022` and `categories_2023` differ in 2022 vs. 2023 totals for several
+   states — treat as two distinct series, not one continuous line.
+3. Only 5–6 annual points nationally → no reliable time-series forecasting.
+4. n=36 states/UTs → small-sample caution for every ML technique (clustering, Apriori,
+   any classification).
+5. No case-level/incident-level data → Apriori requires a proxy transaction
+   representation, explicitly labelled as such.
+6. Karnataka/Telangana/UP/Maharashtra dominate raw totals → must be scaled/log-transformed before
+   distance-based methods (clustering, outlier detection), and must not be mislabelled
+   as data errors when flagged as outliers.

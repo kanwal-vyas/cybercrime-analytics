@@ -1,0 +1,37 @@
+state_name,HIGH_FRAUD_MOTIVE,HIGH_SEC66D_CHEATING,HIGH_IDENTITY_THEFT,HIGH_IT_ACT_SHARE,HIGH_EXTORTION_MOTIVE,HIGH_SEXUAL_EXPLOITATION_MOTIVE,HIGH_WOMEN_CYBERCRIME,HIGH_CHILD_CYBERCRIME
+Andhra Pradesh,True,True,True,False,True,True,True,True
+Arunachal Pradesh,False,False,True,True,False,False,False,False
+Assam,True,True,True,True,True,True,True,True
+Bihar,True,True,True,False,True,True,True,False
+Chhattisgarh,False,False,False,False,False,True,True,True
+Goa,False,True,False,True,False,False,False,False
+Gujarat,True,False,True,False,True,True,True,True
+Haryana,True,False,True,False,True,True,True,True
+Himachal Pradesh,False,True,False,True,False,False,False,False
+Jharkhand,True,True,True,True,True,False,False,False
+Karnataka,True,True,True,True,True,True,True,True
+Kerala,True,True,True,False,True,True,True,True
+Madhya Pradesh,True,True,True,False,True,True,True,True
+Maharashtra,True,True,True,False,True,True,True,True
+Manipur,False,False,False,False,False,False,False,False
+Meghalaya,False,False,True,True,False,False,False,False
+Mizoram,False,False,False,True,False,False,False,False
+Nagaland,False,False,False,True,False,False,False,False
+Odisha,True,False,False,False,False,False,True,True
+Punjab,True,True,True,False,True,True,False,True
+Rajasthan,True,True,True,False,True,True,True,True
+Sikkim,False,False,False,True,False,False,False,False
+Tamil Nadu,True,True,True,False,True,True,True,True
+Telangana,True,True,True,False,True,True,True,True
+Tripura,False,False,False,True,False,False,False,False
+Uttar Pradesh,True,True,True,True,True,True,True,True
+Uttarakhand,True,True,True,True,True,True,True,True
+West Bengal,False,False,False,False,False,False,True,False
+Andaman and Nicobar Islands,False,False,False,False,False,False,False,True
+Chandigarh,False,False,False,True,False,False,False,False
+Dadra and Nagar Haveli and Daman and Diu,False,False,False,True,False,False,False,False
+Delhi,False,False,True,False,True,True,True,True
+Jammu and Kashmir,False,True,False,True,True,True,False,False
+Ladakh,False,False,False,False,False,False,False,False
+Lakshadweep,False,False,False,True,False,False,False,False
+Puducherry,True,True,False,True,False,False,False,False

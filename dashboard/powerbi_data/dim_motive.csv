@@ -1,0 +1,20 @@
+motive_id,motive_raw_name,motive_display_name,is_total
+1,motive__Personal Revenge,Personal Revenge,0
+2,motive__Emotional motives like Anger etc,Emotional motives like Anger etc,0
+3,motive__Fraud,Fraud,0
+4,motive__Extortion,Extortion,0
+5,motive__Causing Disrepute,Causing Disrepute,0
+6,motive__Prank,Prank,0
+7,motive__Sexual Exploitation,Sexual Exploitation,0
+8,motive__Political Motives,Political Motives,0
+9,motive__Terrorist Activities,Terrorist Activities,0
+10,motive__Inciting Hate against Country,Inciting Hate against Country,0
+11,motive__Disrupt Public Service,Disrupt Public Service,0
+12,motive__Sale Purchase illegal drugs,Sale Purchase illegal drugs,0
+13,motive__Developing own business,Developing own business,0
+14,motive__Spreading Piracy,Spreading Piracy,0
+15,motive__Psycho or Pervert,Psycho or Pervert,0
+16,motive__Steal Information,Steal Information,0
+17,motive__Abetment to Suicide,Abetment to Suicide,0
+18,motive__Others,Others,0
+19,motive__Total,Total,1
