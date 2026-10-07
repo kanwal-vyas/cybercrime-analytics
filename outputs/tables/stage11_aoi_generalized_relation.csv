@@ -1,0 +1,7 @@
+generalized_admin_type,generalized_act_group,generalized_tuple_support,total_cases,mean_cases_per_leaf_tuple,national_share_pct
+State (28),IT Act,504,43739,86.78,50.61
+State (28),IPC,476,41539,87.27,48.07
+State (28),SLL,140,325,2.32,0.38
+Union Territory (8),IT Act,144,498,3.46,0.58
+Union Territory (8),IPC,136,310,2.28,0.36
+Union Territory (8),SLL,40,9,0.23,0.01

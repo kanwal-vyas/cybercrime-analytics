@@ -70,11 +70,11 @@ The following matrix maps the complete semester Data Mining & Analytics syllabus
 | **Unit 2** | Data reduction | Stage 10 | **Done (FROZEN)** | Feature selection, variance analysis, PCA dimensionality reduction (>90% variance in 4 PCs) |
 | **Unit 2** | Data discretization | Stage 10 | **Done (FROZEN)** | Binning continuous counts/shares (Equal-width, Quantile terciles, Median splits) |
 | **Unit 2** | Concept hierarchy generation | Stage 10 | **Done (FROZEN)** | Structural schema hierarchies (India $\rightarrow$ State/UT; Legal Act $\rightarrow$ Category; Motive taxonomy) |
-| **Unit 3** | Multidimensional data model | Stage 3 + 11 | **Stage 3 Done** / *Stage 11 Planned* | Star schema dimensions (`dim_state`, `dim_year`, `dim_crime_category`, `dim_motive`) |
+| **Unit 3** | Multidimensional data model | Stage 3 + 11 | **Done (FROZEN)** | Star schema dimensions (`dim_state`, `dim_year`, `dim_crime_category`, `dim_motive`) & cuboid lattice |
 | **Unit 3** | Data warehouse architecture | Stage 3 | **Done (FROZEN)** | SQLite 3 relational warehouse (`data/database/cybercrime.db`) with foreign keys |
-| **Unit 3** | OLAP operations | Stage 3 + 11 | **Stage 3 Done** / *Stage 11 Planned* | Roll-Up, Drill-Down, Slice, Dice, Pivot across analytical views (`sql/views.sql`) |
-| **Unit 3** | Data cube aggregation | Stage 11 | *Planned (Stage 11)* | Grouping sets, multidimensional cube views, efficient multi-way rollups |
-| **Unit 3** | Attribute-oriented induction (AOI) | Stage 11 | *Planned (Stage 11)* | Generalized state & crime profile characterization summaries |
+| **Unit 3** | OLAP operations | Stage 3 + 11 | **Done (FROZEN)** | Roll-Up, Drill-Down, Slice, Dice, Pivot across SQL and Python (`sql/stage11_olap.sql`, `src/advanced_olap.py`) |
+| **Unit 3** | Data cube aggregation | Stage 11 | **Done (FROZEN)** | Base and roll-up cuboid materialization, Iceberg cuboid selective pruning ($\ge 1,000$ cases) |
+| **Unit 3** | Attribute-oriented induction (AOI) | Stage 11 | **Done (FROZEN)** | Semantic attribute generalization ($1,440 \rightarrow 6$ concept tuples, $99.58\%$ reduction) |
 | **Unit 4** | Frequent itemset mining | Stage 5 + 12 | **Stage 5 Done** / *Stage 12 Planned* | Mining frequent co-occurring profile itemsets (Apriori & FP-Growth) |
 | **Unit 4** | Apriori algorithm | Stage 5 | **Done (FROZEN)** | 129 frequent itemsets, 1,924 filtered rules at $\text{supp} \ge 0.25, \text{conf} \ge 0.60$ |
 | **Unit 4** | FP-Growth algorithm | Stage 12 | *Planned (Stage 12)* | Tree-based frequent pattern mining, candidate-free generation & runtime benchmarking |
@@ -330,18 +330,57 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 
 ---
 
-### Stage 11 — Advanced OLAP & Data Cube Analysis *(Planned / Not Started)*
-- **Purpose**: Strengthen Unit 3 curriculum coverage with advanced multi-dimensional data cube modeling, high-dimensional slice-and-dice, grouped aggregations, and Attribute-Oriented Induction (AOI).
-- **Planned Analytical Components**:
-  1. *Multidimensional Data Cube Construction*: Formal 3-dimensional data cube representation $\text{Cube}(\text{State}, \text{Crime Category}, \text{Motive})$ operating on validated warehouse tables.
-  2. *OLAP Operations Suite*:
-     - **Roll-Up**: Aggregating specific leaf offences into legal act groups (IT Act, IPC, SLL) and national totals.
-     - **Drill-Down**: Decomposing broad financial fraud into Section 66D personation, Section 420 IPC cheating, banking fraud, and e-commerce fraud.
-     - **Slice**: Isolating cross-sections for specific legal acts (e.g., IT Act only) or specific jurisdictions (e.g., Union Territories only).
-     - **Dice**: Extracting sub-cubes defined by multiple dimensions (e.g., $\{\text{Top 5 States}\} \times \{\text{Fraud, Extortion}\} \times \{\text{IT Act}\}$).
-     - **Pivot**: Cross-tabulating legal act shares across administrative divisions.
-  3. *Attribute-Oriented Induction (AOI)*: Generating generalized concept-tree characterizations and prime relations to extract high-level semantic rules describing state cybercrime profiles.
-  4. *SQL/Warehouse Implementation*: Implemented directly against `data/database/cybercrime.db` using advanced SQLite window functions and grouped views without building a redundant secondary database.
+### Stage 11 — Advanced OLAP & Data Cube Analysis (Done / FROZEN)
+- **Purpose**: Implements a comprehensive, syllabus-aligned Unit 3 multidimensional data cube and OLAP analysis layer extending the foundational warehouse from Stage 3.
+- **Dimensional Fact Grain Audit & Cube Architecture**:
+  - `fact_cybercrime_category_2023`: 1,764 rows ($36 \text{ States} \times 49 \text{ Categories}$). Filtered on $40$ leaf categories (`is_leaf = 1`) to avoid double-counting subtotals ($1,440$ base tuples, sum = $86,420$ cases).
+  - `fact_cybercrime_motive_2023`: 684 rows ($36 \text{ States} \times 19 \text{ Motives}$). Filtered on $18$ specific motives (`is_total = 0`), sum = $86,420$ motives.
+  - `fact_cybercrime_trend`: 180 rows ($36 \text{ States} \times 5 \text{ Years (2018–2022)}$).
+  - **Explicit Fact Separation**: Maintained separate compatible cubes ($\text{Cube}_{\text{Category}}$, $\text{Cube}_{\text{Motive}}$, $\text{Cube}_{\text{Trend}}$) because category and motive dimensions are not cross-tabulated at the micro-incident level by NCRB.
+- **Base & Pre-Materialized Cuboid Layer**:
+  - *Base Cuboid ($\text{State} \times \text{Leaf Category}$)*: 1,440 tuples across 36 jurisdictions and 40 leaf offenses ($86,420$ cases).
+  - *Roll-Up Cuboid ($\text{State} \times \text{Act Group}$)*: 108 tuples across 36 jurisdictions and 3 legal act groups.
+  - *National Cuboid ($\text{National} \times \text{Leaf Category}$)*: 40 tuples showing nationwide totals and shares.
+  - *National Act Group Cuboid ($\text{National} \times \text{Act Group}$)*:
+    - **IT Act**: $44,237$ cases ($51.19\%$, 18 leaf categories)
+    - **IPC Crimes r/w IT Act**: $41,849$ cases ($48.43\%$, 17 leaf categories)
+    - **SLL Crimes r/w IT Act**: $334$ cases ($0.39\%$, 5 leaf categories)
+    - **Grand Total**: $86,420$ cases ($100.0\%$)
+  - *Administrative Roll-Up Cuboid ($\text{Admin Type} \times \text{Act Group}$)*:
+    - **State (28)**: $85,603$ cases ($99.05\%$)
+    - **Union Territory (8)**: $817$ cases ($0.95\%$)
+- **Core OLAP Operations Suite**:
+  - **Roll-Up**: Traversal from 40 leaf categories $\rightarrow$ 3 Act Groups $\rightarrow$ National Total ($86,420$ cases).
+  - **Drill-Down**: Decomposed national top offense (Section 66D Personation: $24,028$ cases) down to state-level distributions (Telangana: $8,367$; Karnataka: $6,438$; Maharashtra: $1,940$; UP: $1,542$).
+  - **Slice**: Single-dimensional filtering on `Act Group = 'IT Act'` ($44,237$ cases) and `is_ut = 1` ($817$ cases).
+  - **Dice**: Multi-dimensional sub-cube extraction spanning $\{\text{Top 5 Volume States}\} \times \{\text{IT Act}, \text{IPC}\}$, isolating 10 distinct sub-cube cells.
+  - **Pivot**: Cross-tabulation matrix of 36 States/UTs $\times$ 3 Act Groups with complete row-wise and column-wise reconciliation.
+- **Attribute-Oriented Induction (AOI)**:
+  - Compressed the 1,440 base tuples into **6 generalized concept tuples** ($2 \text{ Admin Types} \times 3 \text{ Act Groups}$) via concept hierarchies, achieving a **$99.58\%$ reduction in tuple cardinality**.
+  - Contrasted OLAP (multidimensional navigation) with AOI (semantic rule and concept induction).
+- **Efficient Cube Computation & Iceberg Cuboids**:
+  - Demonstrated selective cuboid materialization by applying an analytical threshold $\text{cases} \ge 1,000$ to the base State $\times$ Category table.
+  - **Iceberg Pruning Efficiency**: Retaining only **16 tuples ($1.11\%$ of the base cuboid)** captures **$54,848$ cases ($63.47\%$ of national cybercrime volume)**.
+- **Exported Deliverables**:
+  - `sql/stage11_olap.sql` (Comprehensive SQL queries)
+  - `src/advanced_olap.py` (Reusable Python OLAP module)
+  - `outputs/tables/stage11_cube_state_category.csv`
+  - `outputs/tables/stage11_cube_state_act_group.csv`
+  - `outputs/tables/stage11_cube_national_category.csv`
+  - `outputs/tables/stage11_cube_national_act_group.csv`
+  - `outputs/tables/stage11_cube_admin_act_group.csv`
+  - `outputs/tables/stage11_pivot_state_act_group.csv`
+  - `outputs/tables/stage11_aoi_generalized_relation.csv`
+  - `outputs/tables/stage11_iceberg_state_category.csv`
+  - `outputs/tables/stage11_cube_motive_summary.csv`
+  - `outputs/figures/33_olap_concept_lattice_hierarchy.png`
+  - `outputs/figures/34_state_act_group_heatmap.png`
+  - `outputs/figures/35_cube_rollup_act_group_breakdown.png`
+  - `notebooks/09_advanced_olap_cube.ipynb`
+- **Methodological Limitations**:
+  - Observational unit is aggregate State/UT reporting volumes, not individual incident micro-logs.
+  - Cube aggregations and roll-ups are descriptive; they do not establish causation or socio-economic risk factors.
+- **Reproducibility & Verification**: `src/advanced_olap.py`, `src/generate_stage11_notebook.py`, and `notebooks/09_advanced_olap_cube.ipynb` executed head-to-tail with 0 errors. All 8 test suites in `src/validate_stage11.py` passed with 100% success.
 
 ---
 

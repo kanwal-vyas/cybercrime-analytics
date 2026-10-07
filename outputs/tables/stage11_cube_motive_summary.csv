@@ -1,0 +1,19 @@
+motive_id,motive_display_name,national_motive_count,states_reporting,motive_share_pct
+3,Fraud,59526,33,68.88
+18,Others,13025,31,15.07
+7,Sexual Exploitation,4199,31,4.86
+4,Extortion,3326,28,3.85
+5,Causing Disrepute,2436,25,2.82
+1,Personal Revenge,1118,25,1.29
+2,Emotional motives like Anger etc,1110,22,1.28
+13,Developing own business,1031,16,1.19
+8,Political Motives,205,18,0.24
+6,Prank,190,16,0.22
+16,Steal Information,85,5,0.1
+11,Disrupt Public Service,49,12,0.06
+15,Psycho or Pervert,47,3,0.05
+14,Spreading Piracy,41,12,0.05
+10,Inciting Hate against Country,17,3,0.02
+12,Sale Purchase illegal drugs,7,3,0.01
+9,Terrorist Activities,6,5,0.01
+17,Abetment to Suicide,2,1,0.0

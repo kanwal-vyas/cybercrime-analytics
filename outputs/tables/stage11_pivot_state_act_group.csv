@@ -1,0 +1,37 @@
+state_id,state_name,is_ut,admin_type,it_act_cases,ipc_cases,sll_cases,total_leaf_cases,it_act_share_pct,ipc_share_pct,sll_share_pct
+16,Karnataka,0,State,21870,18,1,21889,99.91,0.08,0.0
+32,Telangana,0,State,439,17787,10,18236,2.41,97.54,0.05
+34,Uttar Pradesh,0,State,10102,689,3,10794,93.59,6.38,0.03
+21,Maharashtra,0,State,960,7131,12,8103,11.85,88.0,0.15
+5,Bihar,0,State,397,4052,1,4450,8.92,91.06,0.02
+31,Tamil Nadu,0,State,1912,2195,14,4121,46.4,53.26,0.34
+17,Kerala,0,State,1089,2110,96,3295,33.05,64.04,2.91
+29,Rajasthan,0,State,1464,953,18,2435,60.12,39.14,0.74
+26,Odisha,0,State,892,1393,63,2348,37.99,59.33,2.68
+2,Andhra Pradesh,0,State,362,1978,1,2341,15.46,84.49,0.04
+11,Gujarat,0,State,476,1504,15,1995,23.86,75.39,0.75
+15,Jharkhand,0,State,993,86,0,1079,92.03,7.97,0.0
+4,Assam,0,State,847,62,0,909,93.18,6.82,0.0
+12,Haryana,0,State,325,404,22,751,43.28,53.79,2.93
+20,Madhya Pradesh,0,State,267,413,5,685,38.98,60.29,0.73
+28,Punjab,0,State,218,283,10,511,42.66,55.38,1.96
+35,Uttarakhand,0,State,417,77,0,494,84.41,15.59,0.0
+7,Chhattisgarh,0,State,310,111,52,473,65.54,23.47,10.99
+9,Delhi,1,Union Territory,128,279,0,407,31.45,68.55,0.0
+36,West Bengal,0,State,61,246,2,309,19.74,79.61,0.65
+14,Jammu and Kashmir,1,Union Territory,169,8,8,185,91.35,4.32,4.32
+27,Puducherry,1,Union Territory,147,0,0,147,100.0,0.0,0.0
+13,Himachal Pradesh,0,State,101,26,0,127,79.53,20.47,0.0
+10,Goa,0,State,75,11,0,86,87.21,12.79,0.0
+23,Meghalaya,0,State,62,2,0,64,96.88,3.13,0.0
+1,Andaman and Nicobar Islands,1,Union Territory,30,17,0,47,63.83,36.17,0.0
+33,Tripura,0,State,36,0,0,36,100.0,0.0,0.0
+24,Mizoram,0,State,31,0,0,31,100.0,0.0,0.0
+3,Arunachal Pradesh,0,State,17,7,0,24,70.83,29.17,0.0
+6,Chandigarh,1,Union Territory,17,6,0,23,73.91,26.09,0.0
+30,Sikkim,0,State,12,0,0,12,100.0,0.0,0.0
+8,Dadra and Nagar Haveli and Daman and Diu,1,Union Territory,6,0,0,6,100.0,0.0,0.0
+22,Manipur,0,State,2,1,0,3,66.67,33.33,0.0
+25,Nagaland,0,State,2,0,0,2,100.0,0.0,0.0
+18,Ladakh,1,Union Territory,0,0,1,1,0.0,0.0,100.0
+19,Lakshadweep,1,Union Territory,1,0,0,1,100.0,0.0,0.0
