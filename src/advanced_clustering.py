@@ -353,7 +353,7 @@ def run_stage15_clustering_suite(
             'Agglomerative_Silhouette': round(float(silhouette_score(X_n34_scaled, agg_n34_k3)), 4),
             'GMM_Silhouette': round(float(silhouette_score(X_n34_scaled, gmm_n34_k3)), 4),
             'KMeans_vs_Agg_ARI': round(float(adjusted_rand_score(km_n34_k3, agg_n34_k3)), 4),
-            'Notes': 'Excluding N<=6 small-denominator states confirms underlying 3-profile macroeconomic structure.'
+            'Notes': 'Excluding N<=6 small-denominator states confirms three-profile crime-composition structure within the reduced sensitivity sample.'
         }
     ]
     sensitivity_df = pd.DataFrame(sensitivity_rows)

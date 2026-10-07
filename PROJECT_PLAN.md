@@ -551,28 +551,30 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - Purely descriptive compositional analysis (proportions: `it_act_share`, `fraud_motive_share`, `extortion_motive_share`, `sexual_exploitation_motive_share`).
   - Total case volume strictly excluded from distance/mixture space; examined only post-hoc.
   - Non-normative profile labels (e.g. Higher IT Act / Higher Fraud Share Profile), strictly avoiding moral, danger, or policing prioritization language.
-- **Frozen Stage 6 Reference Baseline ($K=4$ K-Means)**:
-  - $N=36$ State/UT observations, `StandardScaler` normalization, `random_state=42`.
+- **Frozen Stage 6 Reference Baseline ($K=4$ K-Means Reproduction)**:
+  - $N=36$ State/UT observations, `StandardScaler` normalization, `random_state=42`, `n_init=10`.
+  - Stage 15 reproduces the frozen Stage 6 K=4 partition exactly up to arbitrary cluster-label permutation ($\text{ARI} = 1.000$, $\text{NMI} = 1.000$), preserving the identical cluster size multiset $[2, 7, 12, 15]$ (Cluster 0: 15 states, Cluster 1: 12 states, Cluster 2: 2 states, Cluster 3: 7 states).
   - Reference Silhouette = $0.3497$, Calinski-Harabasz = $20.25$, Davies-Bouldin = $0.8849$.
 - **Evaluated Algorithms & Validation Metrics ($K \in [2, 8]$)**:
   - *K-Means (Reference)*: Silhouette: K=2 (0.2557), K=3 (0.2635), K=4 (0.3497), K=5 (0.3632), K=6 (0.3449), K=7 (0.3688), K=8 (0.3771).
   - *Agglomerative (Ward Linkage)*: Silhouette: K=2 (0.2662), K=3 (0.2929), K=4 (0.2905), K=5 (0.3082), K=6 (0.3242), K=7 (0.3341), K=8 (0.3421).
   - *Gaussian Mixture (GMM)*: Silhouette: K=2 (0.2195), K=3 (0.2929), K=4 (0.3391), K=5 (0.3541), K=6 (0.3255), K=7 (0.3384), K=8 (0.3308). AIC/BIC optimal at K=2 (AIC=281.82, BIC=335.66), with K=4 (AIC=304.06, BIC=397.49).
-  - *DBSCAN*: Evaluated across $\varepsilon \in [0.8, 1.5]$ and $\text{min\_samples} \in [2, 3]$. Due to small $N=36$ and continuous sparsity, DBSCAN produces high noise (5 to 29 noise points) or collapses into 1–2 dense clusters, confirming that continuous partition models (K-Means/GMM/Agglomerative) are more suitable.
+  - *DBSCAN*: Evaluated across $\varepsilon \in [0.8, 1.5]$ and $\text{min\_samples} \in [2, 3]$. DBSCAN did not yield a comparably useful partition under the tested parameter ranges, producing substantial noise (5 to 29 noise observations) or very small numbers of clusters for this dataset ($N=36$, four standardized composition features).
+  - *Reference K=4 Justification*: $K=4$ is retained as the reference solution because it provides a relatively strong and interpretable partition, preserves continuity with the frozen Stage 6 baseline, and avoids excessive fragmentation into very small clusters (as observed at $K=7$ and $K=8$ where multiple clusters contain only 1 or 2 jurisdictions).
 - **Partition Agreement at Preferred $K=4$**:
   - *K-Means vs. GMM*: $\text{ARI} = 0.5884$, $\text{NMI} = 0.6739$ (Substantial partition alignment).
   - *K-Means vs. Agglomerative (Ward)*: $\text{ARI} = 0.3691$, $\text{NMI} = 0.5444$ (Moderate-to-strong partition overlap).
   - *Agglomerative vs. GMM*: $\text{ARI} = 0.2271$, $\text{NMI} = 0.4624$.
 - **Jurisdiction-Level Stability ($N=36$)**:
-  - *Highly Stable (3/3 methods agree)*: 17 States/UTs ($47.2\%$) (e.g. Haryana, Kerala, Rajasthan, UP, Uttarakhand, Mizoram, Dadra & Nagar Haveli, Lakshadweep).
-  - *Moderately Stable (2/3 methods agree)*: 19 States/UTs ($52.8\%$) (e.g. Karnataka, Maharashtra, Telangana, Delhi, Gujarat, Tamil Nadu, Bihar, Assam, MP, Odisha, Punjab).
+  - *Highly Stable (3/3 methods agree)*: 22 States/UTs ($61.1\%$) (e.g. Arunachal Pradesh, Assam, Goa, Haryana, Himachal Pradesh, Jharkhand, Karnataka, Kerala, MP, Mizoram, Nagaland, Rajasthan, Sikkim, UP, Uttarakhand, West Bengal, Chandigarh, Dadra & Nagar Haveli, Delhi, Ladakh, Lakshadweep, Puducherry).
+  - *Moderately Stable (2/3 methods agree)*: 14 States/UTs ($38.9\%$) (e.g. Andhra Pradesh, Bihar, Chhattisgarh, Gujarat, Maharashtra, Manipur, Meghalaya, Odisha, Punjab, Tamil Nadu, Telangana, Tripura, Andaman & Nicobar, Jammu & Kashmir).
   - *Boundary Cases (0/3 agreement)*: 0 States/UTs ($0.0\%$).
 - **Tiny-Denominator Sensitivity Analysis ($N=36$ vs. $N=34$)**:
   - Dadra & Nagar Haveli ($N=6$ cases) and Lakshadweep ($N=1$ case) form Cluster 2 in Stage 6 with extreme sexual-exploitation motive shares ($83.3\%$ and $100.0\%$).
   - Sensitivity analysis excluding jurisdictions with $\le 10$ total cases ($N=34$):
     - At $K=3$ on $N=34$: KMeans Silhouette = $0.2828$, Agglomerative Silhouette = $0.2690$, GMM Silhouette = $0.2676$.
     - KMeans vs. Agglomerative agreement increases to $\text{ARI} = 0.5761$.
-    - Confirms that the underlying macroeconomic structure consists of 3 primary profiles, while Cluster 2 on full $N=36$ is an artifact of tiny-denominator percentages. The primary analysis strictly retains all $N=36$.
+    - Confirms a three-profile crime-composition structure within the reduced sensitivity sample, while Cluster 2 on full $N=36$ is an artifact of tiny-denominator percentages. The primary analysis strictly retains all $N=36$.
 - **Exported Deliverables**:
   - `src/advanced_clustering.py`
   - `src/generate_stage15_notebook.py`

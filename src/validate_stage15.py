@@ -89,6 +89,23 @@ def validate_stage15() -> bool:
         raw_df, X_scaled
     )
     
+    # Explicit Baseline Reproduction against frozen Stage 6 outputs
+    stage6_assign_path = REPO_ROOT / 'outputs' / 'tables' / 'cluster_assignments_2023.csv'
+    assert stage6_assign_path.exists(), "Frozen Stage 6 cluster_assignments_2023.csv missing"
+    stage6_df = pd.read_csv(stage6_assign_path).sort_values('state_name').reset_index(drop=True)
+    assign_sorted = assign_df.sort_values('state_name').reset_index(drop=True)
+    
+    from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
+    ari_base = adjusted_rand_score(stage6_df['cluster_id'], assign_sorted['stage6_kmeans_cluster'])
+    nmi_base = normalized_mutual_info_score(stage6_df['cluster_id'], assign_sorted['stage6_kmeans_cluster'])
+    assert ari_base == 1.0, f"Expected ARI=1.0 vs Stage 6 baseline, got {ari_base}"
+    assert nmi_base == 1.0, f"Expected NMI=1.0 vs Stage 6 baseline, got {nmi_base}"
+    
+    # Cluster-size multiset equality
+    s6_sizes = sorted(stage6_df['cluster_id'].value_counts().values.tolist())
+    s15_sizes = sorted(assign_sorted['stage6_kmeans_cluster'].value_counts().values.tolist())
+    assert s6_sizes == s15_sizes == [2, 7, 12, 15], f"Cluster size multiset mismatch: S6={s6_sizes}, S15={s15_sizes}"
+    
     # Stage 6 baseline K=4 silhouette check (0.3497)
     stage6_row = algo_comp_df[algo_comp_df['Algorithm'] == 'K-Means (Stage 6 Reference)']
     assert len(stage6_row) == 1, "K-Means reference row missing"
@@ -101,7 +118,7 @@ def validate_stage15() -> bool:
     # Check profile shapes
     assert len(profiles_df) == 4, f"Expected 4 cluster profiles, got {len(profiles_df)}"
     assert profiles_df['n_states'].sum() == 36, "Cluster profiles do not sum to 36 states"
-    print(f"[{passed_tests+1}] Preferred K=4 Evaluation & Frozen Stage 6 Consistency: PASSED")
+    print(f"[{passed_tests+1}] Preferred K=4 Evaluation & Frozen Stage 6 Consistency (ARI=1.0, NMI=1.0, multiset [2,7,12,15]): PASSED")
     passed_tests += 1
     
     # -------------------------------------------------------------
