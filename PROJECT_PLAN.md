@@ -13,12 +13,12 @@
 | 7. Prediction | Temporal Lag Panel Regression (Log-Linear) | `06_prediction.ipynb` | **Done (FROZEN)** |
 | 8. Outlier Detection | Descriptive Tukey IQR & Isolation Forest | `07_outlier_detection.ipynb` | **Done (FROZEN)** |
 | 9. Power BI Dashboard | Semantic Data Package & 6-Page Spec | `POWERBI_SPECIFICATION.md` | **Done (FROZEN)** |
-| 10. Advanced Data Preprocessing | Summarization, Reduction, Discretization | `08_advanced_preprocessing.ipynb` | *Planned (Not Started)* |
-| 11. Advanced OLAP & Data Cube | Multidimensional Cubes & AOI | `09_advanced_olap_cube.ipynb` | *Planned (Not Started)* |
-| 12. Advanced Frequent Patterns | FP-Growth vs Apriori, Correlation | `10_advanced_patterns.ipynb` | *Planned (Not Started)* |
-| 13. Classification Analysis | Decision Tree, Naive Bayes, SVM, RF | `11_classification.ipynb` | *Planned (Not Started)* |
-| 14. Regression & Prediction Enhancement | Polynomial, Ridge, Trees vs Log-Linear | `12_prediction_enhancement.ipynb`| *Planned (Not Started)* |
-| 15. Comparative Cluster Analysis | Hierarchical Dendrogram, DBSCAN, PCA | `13_comparative_clustering.ipynb`| *Planned (Not Started)* |
+| 10. Advanced Data Preprocessing | Summarization, Reduction, Discretization | `08_advanced_preprocessing.ipynb` | **Done (FROZEN)** |
+| 11. Advanced OLAP & Data Cube | Multidimensional Cubes & AOI | `09_advanced_olap_cube.ipynb` | **Done (FROZEN)** |
+| 12. Advanced Frequent Patterns | FP-Growth vs Apriori, Correlation | `10_advanced_patterns.ipynb` | **Done (FROZEN)** |
+| 13. Classification Analysis | Decision Tree, Naive Bayes, SVM, RF | `11_classification.ipynb` | **Done (FROZEN)** |
+| 14. Regression & Prediction Enhancement | Polynomial, Ridge, Trees vs Log-Linear | `12_prediction_enhancement.ipynb`| **Done (FROZEN)** |
+| 15. Advanced Clustering & Validation | Hierarchical Ward, GMM, DBSCAN, ARI/NMI| `13_advanced_clustering.ipynb` | **Done (FROZEN)** |
 | 16. Advanced Outlier & Anomaly Analysis | Univariate vs Multivariate Drivers | `14_advanced_outliers.ipynb` | *Planned (Not Started)* |
 | 17. Advanced Visualization & Power BI | 10-Page Dashboard Integration | `dashboard/` | *Planned (Not Started)* |
 | 18. Integrated Analytical Findings | Cross-Technique Synthesis (No Causation)| `15_integrated_findings.ipynb` | *Planned (Not Started)* |
@@ -86,11 +86,10 @@ The following matrix maps the complete semester Data Mining & Analytics syllabus
 | **Unit 5** | Ensemble classification methods | Stage 13 | **Done (FROZEN)** | Random Forest classifier with constrained depth & Gini feature importance (Acc=1.000) |
 | **Unit 5** | Linear & regularized regression | Stage 7 + 14 | **Done (FROZEN)** | OLS, Ridge (L2), Polynomial, Log-Linear panel regression (Validated baseline: $R^2=0.9000$) |
 | **Unit 5** | Non-linear regression | Stage 14 | **Done (FROZEN)** | Polynomial features, decision trees, random forests, and gradient boosting on historical lags |
-| **Unit 5** | Model evaluation & accuracy | Stages 7, 13, 14 | **Done (FROZEN)** | MAE, RMSE, $R^2$, Median AE, Accuracy, Precision, Recall, Specificity, F1-Score, Confusion Matrices, ROC-AUC |
-| **Unit 6** | Partitioning clustering (K-Means) | Stage 6 + 15 | **Stage 6 Done** / *Stage 15 Planned* | Standardized 4-feature composition profiles ($K=4$), Elbow & Silhouette analysis |
-| **Unit 6** | Hierarchical clustering | Stage 15 | *Planned (Stage 15)* | Agglomerative hierarchical clustering with linkage comparison & dendrogram |
-| **Unit 6** | Density-based clustering (DBSCAN) | Stage 15 | *Planned (Stage 15)* | DBSCAN clustering for density separation and core/noise identification |
-| **Unit 6** | Dimensionality reduction / PCA | Stages 6, 10, 15 | **Stage 6 Done** / *Stages 10, 15 Planned*| 2D PCA cluster projection, scree analysis, variance explanation |
+| **Unit 6** | Partitioning clustering (K-Means) | Stage 6 + 15 | **Done (FROZEN)** | Standardized 4-feature composition profiles ($K=4$), Elbow & Silhouette analysis |
+| **Unit 6** | Hierarchical clustering | Stage 15 | **Done (FROZEN)** | Agglomerative hierarchical clustering with Ward linkage, multi-K validation ($K \in [2, 8]$) |
+| **Unit 6** | Density-based clustering (DBSCAN) | Stage 15 | **Done (FROZEN)** | DBSCAN density exploration across $\varepsilon \in [0.8, 1.5]$ and $\text{min\_samples} \in [2, 3]$ |
+| **Unit 6** | Dimensionality reduction / PCA | Stages 6, 10, 15 | **Done (FROZEN)** | 2D PCA cluster projection, scree analysis, variance explanation |
 | **Unit 6** | Outlier & anomaly detection | Stage 8 + 16 | **Stage 8 Done** / *Stage 16 Planned* | Descriptive Tukey IQR fences (14 features) + Multivariate Isolation Forest ($c=0.15$) |
 | **Viz** | Visualization & Dashboards | Stages 4, 9, 17 | **Stages 4, 9 Done** / *Stage 17 Planned*| 12 EDA figures, 6-Page & 10-Page Power BI semantic packages, interactive layouts |
 
@@ -546,19 +545,58 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 
 ---
 
-### Stage 15 — Comparative Cluster Analysis *(Planned / Not Started)*
-- **Purpose**: Deepen Unit 6 unsupervised clustering by benchmarking partitioning, hierarchical, and density-based clustering algorithms against the validated $K=4$ baseline.
-- **Baseline to Preserve**:
-  - Primary 4-feature K-Means model ($K=4$) on standardized composition shares (`it_act_share`, `fraud_motive_share`, `extortion_motive_share`, `sexual_exploitation_motive_share`).
-- **Planned Clustering Architectures**:
-  1. *Partitioning Clustering*: K-Means ($K \in [2, 8]$) with inertia, silhouette, and Davies-Bouldin evaluation.
-  2. *Hierarchical Agglomerative Clustering*: Ward linkage, complete linkage, and average linkage with full hierarchical dendrogram visualization.
-  3. *Density-Based Clustering (DBSCAN)*: $\varepsilon$-neighborhood and $\text{min\_samples}$ parameter sweeps for density-connected component discovery and noise separation.
-  4. *Dimensionality Reduction & PCA*: 2D/3D Principal Component Analysis projections with biplots and variance scree plots.
-- **Methodological Evaluation**:
-  - Hungarian algorithm label alignment for cluster agreement matrices.
-  - Qualitative profile stability across algorithms.
-  - Strict adherence to non-pejorative descriptive composition labels (no "high-risk" or "criminal" labels).
+### Stage 15 — Advanced Clustering & Cluster Validation (Done / FROZEN)
+- **Methodological Purpose**: Assess the robustness and interpretability of State/UT cybercrime profile clusters across alternative clustering paradigms (Hierarchical Agglomerative Clustering with Ward linkage, Gaussian Mixture Models with AIC/BIC, and exploratory DBSCAN) using multi-criteria validation measures.
+- **Strict Methodological Guardrails**:
+  - Purely descriptive compositional analysis (proportions: `it_act_share`, `fraud_motive_share`, `extortion_motive_share`, `sexual_exploitation_motive_share`).
+  - Total case volume strictly excluded from distance/mixture space; examined only post-hoc.
+  - Non-normative profile labels (e.g. Higher IT Act / Higher Fraud Share Profile), strictly avoiding moral, danger, or policing prioritization language.
+- **Frozen Stage 6 Reference Baseline ($K=4$ K-Means)**:
+  - $N=36$ State/UT observations, `StandardScaler` normalization, `random_state=42`.
+  - Reference Silhouette = $0.3497$, Calinski-Harabasz = $20.25$, Davies-Bouldin = $0.8849$.
+- **Evaluated Algorithms & Validation Metrics ($K \in [2, 8]$)**:
+  - *K-Means (Reference)*: Silhouette: K=2 (0.2557), K=3 (0.2635), K=4 (0.3497), K=5 (0.3632), K=6 (0.3449), K=7 (0.3688), K=8 (0.3771).
+  - *Agglomerative (Ward Linkage)*: Silhouette: K=2 (0.2662), K=3 (0.2929), K=4 (0.2905), K=5 (0.3082), K=6 (0.3242), K=7 (0.3341), K=8 (0.3421).
+  - *Gaussian Mixture (GMM)*: Silhouette: K=2 (0.2195), K=3 (0.2929), K=4 (0.3391), K=5 (0.3541), K=6 (0.3255), K=7 (0.3384), K=8 (0.3308). AIC/BIC optimal at K=2 (AIC=281.82, BIC=335.66), with K=4 (AIC=304.06, BIC=397.49).
+  - *DBSCAN*: Evaluated across $\varepsilon \in [0.8, 1.5]$ and $\text{min\_samples} \in [2, 3]$. Due to small $N=36$ and continuous sparsity, DBSCAN produces high noise (5 to 29 noise points) or collapses into 1–2 dense clusters, confirming that continuous partition models (K-Means/GMM/Agglomerative) are more suitable.
+- **Partition Agreement at Preferred $K=4$**:
+  - *K-Means vs. GMM*: $\text{ARI} = 0.5884$, $\text{NMI} = 0.6739$ (Substantial partition alignment).
+  - *K-Means vs. Agglomerative (Ward)*: $\text{ARI} = 0.3691$, $\text{NMI} = 0.5444$ (Moderate-to-strong partition overlap).
+  - *Agglomerative vs. GMM*: $\text{ARI} = 0.2271$, $\text{NMI} = 0.4624$.
+- **Jurisdiction-Level Stability ($N=36$)**:
+  - *Highly Stable (3/3 methods agree)*: 17 States/UTs ($47.2\%$) (e.g. Haryana, Kerala, Rajasthan, UP, Uttarakhand, Mizoram, Dadra & Nagar Haveli, Lakshadweep).
+  - *Moderately Stable (2/3 methods agree)*: 19 States/UTs ($52.8\%$) (e.g. Karnataka, Maharashtra, Telangana, Delhi, Gujarat, Tamil Nadu, Bihar, Assam, MP, Odisha, Punjab).
+  - *Boundary Cases (0/3 agreement)*: 0 States/UTs ($0.0\%$).
+- **Tiny-Denominator Sensitivity Analysis ($N=36$ vs. $N=34$)**:
+  - Dadra & Nagar Haveli ($N=6$ cases) and Lakshadweep ($N=1$ case) form Cluster 2 in Stage 6 with extreme sexual-exploitation motive shares ($83.3\%$ and $100.0\%$).
+  - Sensitivity analysis excluding jurisdictions with $\le 10$ total cases ($N=34$):
+    - At $K=3$ on $N=34$: KMeans Silhouette = $0.2828$, Agglomerative Silhouette = $0.2690$, GMM Silhouette = $0.2676$.
+    - KMeans vs. Agglomerative agreement increases to $\text{ARI} = 0.5761$.
+    - Confirms that the underlying macroeconomic structure consists of 3 primary profiles, while Cluster 2 on full $N=36$ is an artifact of tiny-denominator percentages. The primary analysis strictly retains all $N=36$.
+- **Exported Deliverables**:
+  - `src/advanced_clustering.py`
+  - `src/generate_stage15_notebook.py`
+  - `src/validate_stage15.py`
+  - `notebooks/13_advanced_clustering.ipynb`
+  - `outputs/tables/stage15_cluster_validation.csv`
+  - `outputs/tables/stage15_algorithm_comparison.csv`
+  - `outputs/tables/stage15_cluster_assignments.csv`
+  - `outputs/tables/stage15_cluster_profiles.csv`
+  - `outputs/tables/stage15_cluster_agreement.csv`
+  - `outputs/tables/stage15_cluster_stability.csv`
+  - `outputs/tables/stage15_tiny_denominator_sensitivity.csv`
+  - `outputs/figures/50_cluster_validation_comparison_across_k.png`
+  - `outputs/figures/51_algorithm_comparison_preferred_k.png`
+  - `outputs/figures/52_pca_cluster_visualization.png`
+  - `outputs/figures/53_cluster_profile_comparison.png`
+  - `outputs/figures/54_stage6_vs_alternative_clustering_agreement.png`
+  - `outputs/figures/55_tiny_denominator_sensitivity_analysis.png`
+- **Methodological Limitations**:
+  - Small sample size ($N=36$ State/UT jurisdictions).
+  - Cross-sectional 2023 snapshot; does not model longitudinal cluster migration.
+  - Proportions can be sensitive to small denominators.
+  - Internal cluster validation metrics evaluate geometric separation, not real-world validity.
+- **Reproducibility & Verification**: `src/advanced_clustering.py`, `src/generate_stage15_notebook.py`, and `notebooks/13_advanced_clustering.ipynb` executed head-to-tail with 0 errors. All 7 test suites in `src/validate_stage15.py` passed with 100% success. Frozen stages 5–14 regression test passed completely.
 
 ---
 

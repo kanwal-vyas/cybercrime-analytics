@@ -1,0 +1,4 @@
+Algorithm,K,Silhouette,Calinski_Harabasz,Davies_Bouldin,ARI_vs_Stage6_KMeans,NMI_vs_Stage6_KMeans
+K-Means (Stage 6 Reference),4,0.3497,20.25,0.8849,1.0,1.0
+Agglomerative (Ward Linkage),4,0.2905,15.66,1.1391,0.3691,0.5444
+Gaussian Mixture (GMM),4,0.3391,19.27,0.9134,0.5884,0.6739

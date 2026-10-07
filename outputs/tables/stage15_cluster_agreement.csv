@@ -1,0 +1,4 @@
+Comparison_Pair,Adjusted_Rand_Index_ARI,Normalized_Mutual_Info_NMI,Interpretation
+K-Means vs. Agglomerative (Ward),0.3691,0.5444,Moderate-to-strong partition overlap across distance metrics.
+K-Means vs. Gaussian Mixture (GMM),0.5884,0.6739,Substantial partition alignment between centroid and density/covariance models.
+Agglomerative vs. Gaussian Mixture (GMM),0.2271,0.4624,Moderate agreement across hierarchical vs. probabilistic density assumptions.

@@ -1,0 +1,5 @@
+cluster_id,cluster_label,n_states,mean_it_act_share,mean_fraud_motive_share,mean_extortion_motive_share,mean_sexual_exploitation_motive_share,median_total_cases
+0,Lower IT Act Share / Moderate Fraud Share Profile,15,0.3267,0.4442,0.0276,0.1103,751.0
+1,Higher IT Act Share / Higher Fraud Share Profile,12,0.8868,0.7161,0.0194,0.1053,106.5
+2,High Sexual-Exploitation Share / Small-Denominator Profile,2,1.0,0.0,0.0,0.9167,3.5
+3,Higher Extortion Motive Share Profile,7,0.744,0.3325,0.1254,0.1438,511.0
