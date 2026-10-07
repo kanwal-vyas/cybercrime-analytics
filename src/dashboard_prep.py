@@ -443,8 +443,43 @@ def prepare_powerbi_package():
     ])
     limitations_df.to_csv(POWERBI_DATA / "metadata_project_limitations.csv", index=False)
 
+    # 8. Advanced Analytical Model Tables (Stages 10–16 Integration for 10-Page Dashboard)
+    print("8. Exporting Advanced Model Tables for 10-Page Dashboard...")
+    
+    # Classification (Stage 13)
+    if (OUTPUTS_TABLES / "stage13_model_comparison.csv").exists():
+        df_cls = pd.read_csv(OUTPUTS_TABLES / "stage13_model_comparison.csv")
+        df_cls.to_csv(POWERBI_DATA / "model_classification_comparison.csv", index=False)
+    if (OUTPUTS_TABLES / "stage13_confusion_matrices.csv").exists():
+        df_cm = pd.read_csv(OUTPUTS_TABLES / "stage13_confusion_matrices.csv")
+        df_cm.to_csv(POWERBI_DATA / "model_classification_confusion_matrices.csv", index=False)
+        
+    # Regression Leaderboard (Stage 14)
+    if (OUTPUTS_TABLES / "stage14_model_comparison.csv").exists():
+        df_reg = pd.read_csv(OUTPUTS_TABLES / "stage14_model_comparison.csv")
+        df_reg.to_csv(POWERBI_DATA / "model_regression_leaderboard.csv", index=False)
+        
+    # Advanced Clustering (Stage 15)
+    if (OUTPUTS_TABLES / "stage15_cluster_assignments.csv").exists():
+        df_clust15 = pd.read_csv(OUTPUTS_TABLES / "stage15_cluster_assignments.csv")
+        df_clust15.to_csv(POWERBI_DATA / "model_clustering_stage15.csv", index=False)
+        
+    # Advanced Outlier & Anomaly Validation (Stage 16)
+    if (OUTPUTS_TABLES / "stage16_consensus_anomalies.csv").exists():
+        df_anom = pd.read_csv(OUTPUTS_TABLES / "stage16_consensus_anomalies.csv")
+        df_anom.to_csv(POWERBI_DATA / "model_outlier_consensus.csv", index=False)
+    if (OUTPUTS_TABLES / "stage16_volume_vs_composition.csv").exists():
+        df_vol_comp = pd.read_csv(OUTPUTS_TABLES / "stage16_volume_vs_composition.csv")
+        df_vol_comp.to_csv(POWERBI_DATA / "model_outlier_volume_vs_composition.csv", index=False)
+    if (OUTPUTS_TABLES / "stage16_mahalanobis_scores.csv").exists():
+        df_mah = pd.read_csv(OUTPUTS_TABLES / "stage16_mahalanobis_scores.csv")
+        df_mah.to_csv(POWERBI_DATA / "model_outlier_mahalanobis.csv", index=False)
+    if (OUTPUTS_TABLES / "stage16_lof_scores.csv").exists():
+        df_lof = pd.read_csv(OUTPUTS_TABLES / "stage16_lof_scores.csv")
+        df_lof.to_csv(POWERBI_DATA / "model_outlier_lof.csv", index=False)
+
     conn.close()
-    print(f"[SUCCESS] Exported all 18 Power BI tables to {POWERBI_DATA}.")
+    print(f"[SUCCESS] Exported all Power BI tables to {POWERBI_DATA}.")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,37 @@
+state_name,total_cases,mahalanobis_distance,chi2_cutoff_975,mahalanobis_outlier,distance_rank
+Odisha,2348,1052.2009,26.1189,Yes,1
+Lakshadweep,1,878.4273,26.1189,Yes,2
+Karnataka,21889,345.6066,26.1189,Yes,3
+Ladakh,1,309.8622,26.1189,Yes,4
+Nagaland,2,283.7015,26.1189,Yes,5
+Dadra and Nagar Haveli and Daman and Diu,6,238.2912,26.1189,Yes,6
+West Bengal,309,229.485,26.1189,Yes,7
+Telangana,18236,156.0547,26.1189,Yes,8
+Jharkhand,1079,89.5475,26.1189,Yes,9
+Uttar Pradesh,10794,67.5085,26.1189,Yes,10
+Chhattisgarh,473,19.574,26.1189,No,11
+Andaman and Nicobar Islands,47,18.7871,26.1189,No,12
+Mizoram,31,18.7818,26.1189,No,13
+Manipur,3,18.599,26.1189,No,14
+Assam,909,18.5574,26.1189,No,15
+Chandigarh,23,18.373,26.1189,No,16
+Bihar,4450,17.9441,26.1189,No,17
+Sikkim,12,17.8861,26.1189,No,18
+Puducherry,147,17.4189,26.1189,No,19
+Tamil Nadu,4121,16.014,26.1189,No,20
+Maharashtra,8103,15.799,26.1189,No,21
+Arunachal Pradesh,24,15.3043,26.1189,No,22
+Kerala,3295,14.9692,26.1189,No,23
+Punjab,511,13.921,26.1189,No,24
+Rajasthan,2435,13.5572,26.1189,No,25
+Madhya Pradesh,685,12.1063,26.1189,No,26
+Andhra Pradesh,2341,11.4629,26.1189,No,27
+Delhi,407,11.4607,26.1189,No,28
+Gujarat,1995,10.6126,26.1189,No,29
+Uttarakhand,494,9.6691,26.1189,No,30
+Jammu and Kashmir,185,8.0981,26.1189,No,31
+Goa,86,8.0489,26.1189,No,32
+Tripura,36,7.9434,26.1189,No,33
+Meghalaya,64,6.8309,26.1189,No,34
+Himachal Pradesh,127,6.0337,26.1189,No,35
+Haryana,751,6.0268,26.1189,No,36

@@ -91,7 +91,7 @@ The following matrix maps the complete semester Data Mining & Analytics syllabus
 | **Unit 6** | Density-based clustering (DBSCAN) | Stage 15 | **Done (FROZEN)** | DBSCAN density exploration across $\varepsilon \in [0.8, 1.5]$ and $\text{min\_samples} \in [2, 3]$ |
 | **Unit 6** | Dimensionality reduction / PCA | Stages 6, 10, 15 | **Done (FROZEN)** | 2D PCA cluster projection, scree analysis, variance explanation |
 | **Unit 6** | Outlier & anomaly detection | Stage 8 + 16 | **Done (FROZEN)** | Descriptive Tukey IQR fences (14 features) + Multivariate Isolation Forest ($c=0.15$) + Robust Mahalanobis (MinCovDet) + Local Outlier Factor (LOF) |
-| **Viz** | Visualization & Dashboards | Stages 4, 9, 17 | **Stages 4, 9 Done** / *Stage 17 Planned*| 12 EDA figures, 6-Page & 10-Page Power BI semantic packages, interactive layouts |
+| **Viz** | Visualization & Dashboards | Stages 4, 9, 17 | **Done (FROZEN)** | 12 EDA figures, 6-Page & 10-Page Power BI semantic packages (28 tables), 25+ DAX measures, interactive layouts |
 
 ## 4. Phased Plan
 
@@ -654,19 +654,32 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 
 ---
 
-### Stage 17 — Advanced Visualization & Power BI (10-Page Suite) *(Planned / Not Started)*
-- **Purpose**: Extend the validated 6-page dashboard data package into a full 10-page academic Power BI suite synthesizing all syllabus techniques.
+### Stage 17 — Advanced Visualization & Power BI (10-Page Suite) (Done / FROZEN)
+- **Methodological Purpose**: Translate all validated analytical findings from Stages 1 through 16 into a coherent, interactive, 10-page Power BI dashboard architecture and semantic data package.
+- **Power BI Runtime Environment Disclosure**:
+  - Power BI Desktop is a Windows desktop GUI application and is not executable via CLI automation in this headless runtime.
+  - In strict adherence to academic integrity, no synthetic binary `.pbix` is fabricated.
+  - Stage 17 delivers the complete, authoritative semantic data package (28 validated CSV tables under `dashboard/powerbi_data/`), full 10-page visual blueprints, 25+ standardized DAX measures, and automated mathematical validation.
 - **10-Page Visual Suite Structure**:
-  - **Page 1 — Executive Overview**: National total ($86,420$), legal acts, major motives, top state rankings.
-  - **Page 2 — Geographic / State Analysis**: 36-state ranking, state vs UT comparisons, dynamic profile card.
-  - **Page 3 — Crime Structure & Pareto**: 40 leaf categories, Pareto cumulative curve, motive distributions.
-  - **Page 4 — Association Pattern Mining**: Support/confidence/lift scatter, Apriori vs FP-Growth comparison.
-  - **Page 5 — Supervised Classification**: Decision Tree / SVM / RF confusion matrices, ROC curves, feature importances.
-  - **Page 6 — Regression & Prediction**: Actual vs predicted 2022 test plots, residual distributions, model leaderboard.
-  - **Page 7 — Comparative Clustering**: K-Means profiles, Agglomerative dendrogram, DBSCAN density groups, 2D PCA biplot.
-  - **Page 8 — Anomaly & Outlier Detection**: IQR fence summaries, Isolation Forest projection, small-denominator caution tags.
-  - **Page 9 — Historical Panel Trends**: 2018–2022 trajectory, state growth rates, longitudinal lag relationships.
-  - **Page 10 — Methodology & Limitations**: Data provenance, analytical methodology matrix, 6 core academic guardrails.
+  - **Page 1 — Executive Overview**: National 2023 totals ($86,420$), Act Groups (IT Act: $44,237$ / $51.19\%$, IPC: $41,849$ / $48.43\%$, SLL: $334$ / $0.39\%$), Motives (Fraud: $59,526$), Demographics (Women: $19,510$, Child: $1,902$), Pareto offense ranking.
+  - **Page 2 — Geographic / State Analysis**: 36-state ranking, Top 5 concentration ($63,472$ / $73.45\%$: Karnataka 21,889, Telangana 18,236, UP 10,794, Maharashtra 8,103, Bihar 4,450), 100% stacked Act breakdown, dynamic state drill-through.
+  - **Page 3 — Crime Structure & Pareto**: 40 leaf categories (Sum = $86,420$), Sec 66D ($25,334$), Sec 420 ($16,943$), Combined financial fraud ($61,365$), Motive Fraud ($59,526$), hierarchical treemap, zero double-counting enforcement.
+  - **Page 4 — Association Pattern Mining**: Stage 5 & 12 FP-Growth & Apriori rules, support/confidence/lift scatter, State-Level Syllabus Demonstration framing.
+  - **Page 5 — Supervised Classification**: Stage 13 high-volume regime classification on 2022 held-out test data (Decision Tree $97.22\%$, Gaussian NB $100\%$, Linear SVM $100\%$, RBF SVM $100\%$, Random Forest $100\%$), 5 confusion matrix cards, Gini feature importance.
+  - **Page 6 — Regression & Prediction**: Stage 7 & 14 1-year-ahead continuous forecasting on 2022 test data (Log-Linear OLS $R^2=0.9000$, $\text{MAE}=479.37$ vs. Naive Baseline $R^2=0.8625$, $\text{MAE}=564.75$), residual distributions, leaderboard table.
+  - **Page 7 — Comparative Clustering**: Stage 6 & 15 K=4 composition profiles ($n=15, 12, 2, 7$), 2D PCA cluster biplot, Hungarian stability ($\text{ARI}=1.000$, $\text{NMI}=1.000$), Ward hierarchical concordance.
+  - **Page 8 — Anomaly & Outlier Detection**: Stage 8 & 16 multi-method matrix (Tukey IQR, Isolation Forest, Robust Mahalanobis with $\chi^2$ cutoff, LOF), consensus scores ($0–4$), dual-space volume vs. composition separation, small-denominator sensitivity stability on $N=34$.
+  - **Page 9 — Historical Panel Trends**: 2018–2022 longitudinal panel ($27,248 \to 65,893$ cases), state sparklines, separate series isolation, missing data disclosure for Ladakh.
+  - **Page 10 — Methodology & Limitations**: Star schema provenance, 28-table data dictionary, pipeline methodology table, 6 core academic limitations cards.
+- **Exported Deliverables**:
+  - `dashboard/POWERBI_STAGE17_SPECIFICATION.md`
+  - `dashboard/README.md`
+  - `dashboard/powerbi_data/` (28 validated CSV tables)
+  - `src/dashboard_prep.py`
+  - `src/validate_stage17.py`
+  - `src/generate_stage17_notebook.py`
+  - `notebooks/15_advanced_visualization.ipynb`
+- **Reproducibility & Verification**: `src/dashboard_prep.py`, `src/generate_stage17_notebook.py`, and `notebooks/15_advanced_visualization.ipynb` executed head-to-tail with 0 errors. All 12 test suites in `src/validate_stage17.py` passed with 100% success. Frozen stages 5–16 regression test passed completely.
 
 ---
 

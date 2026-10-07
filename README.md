@@ -177,7 +177,7 @@ current status in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md#dataset-validation-gate)
 
 The project is structured into **20 comprehensive syllabus-aligned stages** (detailed in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md)).
 
-### Core Implemented Foundation (Stages 1–16: FROZEN)
+### Core Implemented Foundation (Stages 1–17: FROZEN)
 - [x] **Stage 1 — Data Understanding**: Dataset Validation Gate completed (`01_data_understanding.ipynb`)
 - [x] **Stage 2 — Preprocessing**: Master state cross-section & feature engineering (`02_preprocessing.ipynb`)
 - [x] **Stage 3 — Data Warehouse & OLAP**: Star schema database (`cybercrime.db`) & analytical views (`03_sql_olap.ipynb`)
@@ -194,9 +194,9 @@ The project is structured into **20 comprehensive syllabus-aligned stages** (det
 - [x] **Stage 14 — Regression & Prediction Enhancement**: Polynomial expansions, tree regressors, random forests, and gradient boosting on historical lags (`12_regression_enhancement.ipynb`)
 - [x] **Stage 15 — Advanced Clustering & Cluster Validation**: Agglomerative Hierarchical (Ward), GMM, DBSCAN, multi-criteria validation, ARI/NMI agreement & sensitivity analysis (`13_advanced_clustering.ipynb`)
 - [x] **Stage 16 — Advanced Outlier Detection & Anomaly Validation**: Robust Mahalanobis (MinCovDet), LOF neighborhood sensitivity, consensus anomaly scoring & volume vs. composition analysis (`14_advanced_outlier_detection.ipynb`)
+- [x] **Stage 17 — Advanced Visualization & Power BI**: 10-page interactive dashboard architecture, 28-table semantic package & 25+ DAX measures (`15_advanced_visualization.ipynb`, `POWERBI_STAGE17_SPECIFICATION.md`)
 
-### Advanced Planned Roadmap (Stages 17–20: Planned / Not Started)
-- [ ] **Stage 17 — Advanced Visualization & Power BI**: 10-page interactive dashboard suite
+### Advanced Planned Roadmap (Stages 18–20: Planned / Not Started)
 - [ ] **Stage 18 — Integrated Analytical Findings**: Cross-technique academic synthesis (strictly non-causal)
 - [ ] **Stage 19 — Final Academic Audit**: End-to-end reproducibility, zero-leakage, and numerical reconciliation
 - [ ] **Stage 20 — Final Report, Presentation & Viva**: 18-section report, 15–18 slides, and defense viva guide

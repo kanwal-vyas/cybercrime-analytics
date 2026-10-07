@@ -1,0 +1,7 @@
+Model,Accuracy,Balanced_Accuracy,Precision,Recall,Specificity,F1_Score,ROC_AUC
+Baseline (Most Frequent),0.4444,0.5,0.0,0.0,1.0,0.0,0.5
+Decision Tree (depth=3),0.9722,0.975,1.0,0.95,1.0,0.9744,0.975
+Gaussian Naive Bayes,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+Linear SVM,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+RBF SVM,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,1.0
