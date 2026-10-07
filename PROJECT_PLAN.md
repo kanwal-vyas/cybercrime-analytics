@@ -198,7 +198,7 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 - **Primary Method (Tukey IQR Fences)**:
   - Calculates $Q_1$, $Q_3$, $\text{IQR} = Q_3 - Q_1$, and fences $[Q_1 - 1.5\text{IQR}, Q_3 + 1.5\text{IQR}]$.
   - Detected 52 total univariate fence violation occurrences across 18 distinct jurisdictions (18 jurisdictions have 0 flags).
-  - Key Volume Outliers: Total cases upper fence = $5,804.75$ (Karnataka: 21,889, Telangana: 18,236, UP: 10,794, Maharashtra: 8,103).
+  - Key Volume Outliers: Total cases upper fence = $5,804.75$; 4 State/UT observations exceed this upper fence: Karnataka (21,889), Telangana (18,236), UP (10,794), and Maharashtra (8,103).
 - **Secondary Method (Multivariate Isolation Forest)**:
   - Applied to $\log(1+y)$ transformed counts and standardized shares ($\text{contamination} = 0.15, \text{random\_state} = 42$) to prevent volume scale domination.
   - Flagged 6 multivariate outliers: Karnataka (extreme overall volume), Kerala (high extortion share + child cybercrimes), UP (high extortion count + IT Act volume), Dadra & Nagar Haveli (small-denominator share), Lakshadweep (small-denominator share), Ladakh (extreme zero sparsity on $N=1$).

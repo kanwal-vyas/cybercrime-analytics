@@ -26,7 +26,7 @@ def create_outlier_notebook():
                     "\n",
                     "### Critical Methodological Guardrails:\n",
                     "1. **Statistical, Not Causal or Value Judgments**: This is an exploratory and descriptive analysis. Outliers are **statistical anomalies relative to the observed cross-sectional distribution**. They do **not** represent criminality rankings, risk scores, or proof that a state is \"more dangerous\".\n",
-                    "2. **Plausible High-Volume Hubs vs. Data Errors**: Extreme counts in major population/technology centers (e.g., Karnataka, Telangana, Uttar Pradesh, Maharashtra) represent genuine high-volume reporting epicenters, **not data entry errors**.\n",
+                    "2. **Plausible High-Volume Observations vs. Data Errors**: Extreme counts in major population/technology jurisdictions (e.g., Karnataka, Telangana, Uttar Pradesh, Maharashtra) represent genuine high reporting volume, **not data entry errors**.\n",
                     "3. **Small-Denominator Caution**: In small Union Territories with tiny total case counts ($N \\le 10$), extreme motive proportions (e.g., 100% sexual exploitation motive in Lakshadweep on $N=1$) are driven by small denominators, **not high crime volume**.\n",
                     "4. **Dual Perspective (Univariate & Multivariate)**: We evaluate both dimension-specific statistical extremity (Tukey IQR fences) and joint multi-dimensional isolation (Isolation Forest on log-transformed counts + shares).\n"
                 ]
@@ -263,9 +263,9 @@ def create_outlier_notebook():
                     "---\n",
                     "## Section G — Analytical Interpretation & Methodological Findings\n",
                     "\n",
-                    "### 1. High-Volume Scale Epicenters:\n",
+                    "### 1. High-Volume Scale Observations:\n",
                     "- **Karnataka (21,889 cases)**, **Telangana (18,236 cases)**, **Uttar Pradesh (10,794 cases)**, and **Maharashtra (8,103 cases)** consistently exceed the upper IQR fence ($5,804.75$ cases) for total cybercrime.\n",
-                    "- These states represent major technology and population hubs with high reporting density, **not recording errors**.\n",
+                    "- These 4 State/UT observations exceed this upper fence, reflecting high reporting volume rather than recording errors.\n",
                     "\n",
                     "### 2. Dimension-Specific Volume Outliers:\n",
                     "- **Extortion Motive Outliers**: Uttar Pradesh ($1,020$ cases, fence: $307.9$), Kerala ($590$ cases), and Karnataka ($437$ cases).\n",
