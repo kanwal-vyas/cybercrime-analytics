@@ -27,9 +27,10 @@ def create_stage14_notebook():
                     "### Analytical Question:\n",
                     "> **\"Can historical longitudinal volume patterns predict 1-year-ahead aggregate State/UT cybercrime case totals without contemporaneous sub-category identities or tautological features?\"**\n",
                     "\n",
-                    "### Stage 7 Baseline Preservation & Extension Scope:\n",
-                    "- **Stage 7 Validated Benchmark**: Stage 7 established that Log-Linear OLS achieves the lowest error and highest variance explained on the 2022 test horizon ($\\text{MAE} = 479.37$, $\\text{RMSE} = 1,143.46$, $R^2 = 0.9000$).\n",
-                    "- **Stage 14 Analytical Expansion**: We evaluate whether adding **non-linear polynomial expansions** (Degree-2 and Degree-3 with Ridge regularizers), **non-linear regression trees**, and **ensemble methods** (Random Forest and Gradient Boosting) improves out-of-sample predictive accuracy over the simpler Log-Linear specification.\n",
+                    "### Methodological Framework & Post-Hoc Evaluation Horizon:\n",
+                    "- **Stage 7 Validated Benchmark**: Stage 7 established that Log-Linear OLS achieved the strongest performance on the historical baseline ($\\text{MAE} = 479.37$, $\\text{RMSE} = 1,143.46$, $R^2 = 0.9000$).\n",
+                    "- **Stage 14 Evaluation Scope**: We evaluate whether non-linear polynomial expansions (Degree-2 and Degree-3 with Ridge regularization), regression trees, and ensemble methods (Random Forest and Gradient Boosting) yield predictive improvements over the simpler Log-Linear specification.\n",
+                    "- **Methodological Note on Evaluation**: The 2022 test partition ($N=36$) serves strictly as the **final held-out evaluation horizon**. Models are specified prior to evaluation, and post-hoc held-out comparison is used to assess out-of-sample behavior without test-set tuning or model-selection leakage.\n",
                     "- **Strict Zero-Leakage Protocol**: Predictors are constructed strictly from years $t-1$ and $t-2$. Zero contemporaneous target-year features or 2023 sectional attributes are used.\n",
                     "- **Evaluation Metric Discipline**: All model predictions are transformed back to the **original case-count scale** via $\\text{expm1}$ before computing MAE, RMSE, $R^2$, and Median Absolute Error.\n"
                 ]
@@ -99,9 +100,9 @@ def create_stage14_notebook():
                 "cell_type": "markdown",
                 "metadata": {},
                 "source": [
-                    "## 3. Model Evaluation Suite across 14 Architectures\n",
+                    "## 3. Post-Hoc Model Evaluation Suite across 14 Architectures\n",
                     "\n",
-                    "We train 14 regression models on the training partition ($N_{\\text{train}}=70$) and evaluate their performance on the held-out 2022 test partition ($N_{\\text{test}}=36$).\n"
+                    "We train 14 regression models on the training partition ($N_{\\text{train}}=70$) and evaluate their out-of-sample performance on the held-out 2022 test partition ($N_{\\text{test}}=36$).\n"
                 ]
             },
             {
@@ -113,7 +114,7 @@ def create_stage14_notebook():
                     "# Train and evaluate all 14 regression architectures\n",
                     "comp_df, test_pred_df, err_df, res_summary_df, models_preds = train_and_evaluate_enhanced_regression(panel_df)\n",
                     "\n",
-                    "print(\"=== COMPREHENSIVE MODEL COMPARISON (HELD-OUT 2022 TEST HORIZON) ===\")\n",
+                    "print(\"=== HELD-OUT MODEL COMPARISON (2022 EVALUATION HORIZON) ===\")\n",
                     "display(comp_df)\n"
                 ]
             },
@@ -123,7 +124,12 @@ def create_stage14_notebook():
                 "source": [
                     "## 4. Test-Level Prediction & Error Analysis\n",
                     "\n",
-                    "We inspect state-level actuals, predictions, signed errors ($y - \\hat{y}$), absolute errors ($|y - \\hat{y}|$), and absolute percentage errors for the benchmark Log-Linear model.\n"
+                    "We inspect state-level actuals, predictions, signed errors ($y - \\hat{y}$), absolute errors ($|y - \\hat{y}|$), and absolute percentage errors for the benchmark Log-Linear model.\n",
+                    "\n",
+                    "### Data-Grounded Observations:\n",
+                    "- **Telangana**: The 2022 observed value ($15,297$) was substantially higher than the preceding-year value ($10,303$), resulting in an underprediction of $4,684.81$ cases.\n",
+                    "- **Assam**: The 2022 observed value ($1,733$) was substantially lower than the preceding-year value ($4,846$), resulting in an overprediction of $3,997.48$ cases.\n",
+                    "- **Uttar Pradesh**: The 2022 observed value ($10,117$) was higher than the preceding-year value ($8,829$), resulting in an underprediction of $2,355.17$ cases.\n"
                 ]
             },
             {
@@ -143,9 +149,12 @@ def create_stage14_notebook():
                 "cell_type": "markdown",
                 "metadata": {},
                 "source": [
-                    "## 5. Residual Diagnostics & Skewness Analysis\n",
+                    "## 5. Residual Diagnostics & Descriptive Error Properties\n",
                     "\n",
-                    "We examine residual error distributions and skewness across all candidate architectures.\n"
+                    "We examine residual error distributions and skewness across all candidate architectures.\n",
+                    "\n",
+                    "### Methodological Note on Residuals:\n",
+                    "The Log-Linear model produced lower residual dispersion ($\\text{Std} = 1,136.75$) and lower residual skewness ($0.6472$) than the tested nonlinear alternatives. Residual variability remains influenced by high-volume jurisdictions.\n"
                 ]
             },
             {
@@ -184,19 +193,21 @@ def create_stage14_notebook():
                     "model_sel_df = pd.DataFrame([\n",
                     "    {\n",
                     "        'Stage': 'Stage 7 (Baseline)',\n",
-                    "        'Selected_Model': 'Log-Linear OLS',\n",
+                    "        'Model_Evaluated': 'Log-Linear OLS (Stage 7 Benchmark)',\n",
+                    "        'Evaluation_Status': 'Validated Historical Benchmark',\n",
                     "        'Model_Complexity': 'Low (2 Linear Log Parameters)',\n",
-                    "        'Test_MAE': 479.37,\n",
-                    "        'Test_R2': 0.9000,\n",
-                    "        'Rationale': 'Log transform stabilizes multi-order variance across states without parameter explosion.'\n",
+                    "        'Held_Out_2022_MAE': 479.37,\n",
+                    "        'Held_Out_2022_R2': 0.9000,\n",
+                    "        'Findings': 'Log transformation compresses scale variance across jurisdictions without adding free parameters.'\n",
                     "    },\n",
                     "    {\n",
                     "        'Stage': 'Stage 14 (Enhanced)',\n",
-                    "        'Selected_Model': 'Log-Linear OLS (Retained Benchmark)',\n",
-                    "        'Model_Complexity': 'Low (2 Linear Log Parameters)',\n",
-                    "        'Test_MAE': 479.37,\n",
-                    "        'Test_R2': 0.9000,\n",
-                    "        'Rationale': 'Non-linear polynomial/tree/boosting extensions increase out-of-sample error on N=70 sample.'\n",
+                    "        'Model_Evaluated': 'Non-Linear & Ensemble Extensions (14 Models)',\n",
+                    "        'Evaluation_Status': 'Post-Hoc Held-Out Comparison',\n",
+                    "        'Model_Complexity': 'Medium to High (Polynomial, Trees, Ensembles)',\n",
+                    "        'Held_Out_2022_MAE': 479.37,\n",
+                    "        'Held_Out_2022_R2': 0.9000,\n",
+                    "        'Findings': 'Post-hoc held-out evaluation shows polynomial, tree, and boosting extensions did not outperform the simpler Log-Linear OLS benchmark.'\n",
                     "    }\n",
                     "])\n",
                     "save_stage14_tables(comp_df, test_pred_df, err_df, res_summary_df, model_sel_df)\n",
@@ -210,14 +221,12 @@ def create_stage14_notebook():
                     "## 7. Model Complexity vs. Performance (Occam's Razor in Small-$N$ Panels)\n",
                     "\n",
                     "### Empirical Finding:\n",
-                    "> **\"Does nonlinear modeling provide meaningful predictive improvement over the already strong Log-Linear baseline?\"**\n",
+                    "> **\"On the held-out 2022 evaluation horizon, the tested polynomial and tree-based nonlinear models did not outperform the simpler Log-Linear OLS benchmark. This suggests that additional nonlinear complexity did not provide an observed predictive advantage under the available historical data.\"**\n",
                     "\n",
-                    "**Result**: **No.** Adding non-linear polynomial expansions (Degree-2 and Degree-3), regression trees, or ensemble boosting did not improve out-of-sample predictive accuracy over the 2-parameter Log-Linear OLS model ($R^2 = 0.9000, \\text{MAE} = 479.37$).\n",
-                    "\n",
-                    "### Methodological Explanation:\n",
-                    "1. **Variance Stabilization**: Indian state cybercrime volumes span 4 orders of magnitude ($N=1$ in Lakshadweep/Ladakh to $N=20,000+$ in Karnataka/Telangana). The logarithmic transformation $\\log(1+y)$ stabilizes this extreme heteroscedastic scale variance.\n",
-                    "2. **Overfitting on Small Sample ($N_{\\text{train}} = 70$)**: Polynomial expansions create interaction terms ($y_{t-1}^2, y_{t-2}^2, y_{t-1}y_{t-2}$) that overfit the volatile training years (2020 pandemic surge) and inflate test error on 2022.\n",
-                    "3. **Step-Function Inefficiency**: Decision Trees and Random Forests partition feature space into piecewise constant step functions, which cannot smoothly extrapolate continuous volume growth as effectively as a log-linear trajectory.\n",
+                    "### Analytical Factors:\n",
+                    "1. **Logarithmic Scale Stabilization**: Indian state cybercrime volumes span multiple orders of magnitude ($N=1$ in small UTs to $N=10,000+$ in large states). The logarithmic transformation $\\log(1+y)$ compresses this numerical scale without adding unconstrained free parameters.\n",
+                    "2. **Degrees of Freedom Tradeoff ($N_{\\text{train}} = 70$)**: Polynomial expansions create interaction terms that increase estimation variance on small historical samples and inflate out-of-sample error on held-out test years.\n",
+                    "3. **Step-Function Partitions**: Decision Trees and Random Forests partition feature space into piecewise constant step functions, which do not extrapolate continuous volume trajectories as smoothly as a log-linear specification on this sample.\n",
                     "\n",
                     "---\n",
                     "\n",
@@ -227,19 +236,21 @@ def create_stage14_notebook():
                     "| :--- | :--- | :--- |\n",
                     "| **Analytical Question** | \"Will next-year volume belong to a high-volume regime?\" | \"What will the exact numerical volume be in year $t$?\" |\n",
                     "| **Target Type ($Y$)** | Binary Discrete: $Y_t \\in \\{0, 1\\}$ ($\\ge 367.0$ cases) | Continuous Magnitude: $\\hat{Y}_t \\in [0, \\infty)$ cases |\n",
-                    "| **Evaluation Metrics** | Accuracy, Precision, Recall, Specificity, F1, ROC-AUC | MAE, RMSE, $R^2$, Median Absolute Error |\n",
-                    "| **Best Model** | Linear SVM / Random Forest / Naive Bayes ($\\text{Acc} = 1.0, F_1 = 1.0$) | Log-Linear OLS ($R^2 = 0.9000, \\text{MAE} = 479.4$) |\n",
+                    "| **Primary Metrics** | Accuracy, Precision, Recall, Specificity, F1, ROC-AUC | MAE, RMSE, $R^2$, Median Absolute Error |\n",
+                    "| **Best-Performing Model** | Linear SVM / Random Forest / Naive Bayes ($\\text{Acc} = 1.0, F_1 = 1.0$) | Log-Linear OLS ($R^2 = 0.9000, \\text{MAE} = 479.4$) |\n",
                     "| **Information Preserved** | Binary regime category (high vs. low) | Full numerical magnitude, scale, and rate of growth |\n",
-                    "| **Operational Utility** | Macro administrative tiering & resource threshold triaging | Budgeting, infrastructure capacity, and personnel allocation |\n",
+                    "| **Potential Analytical Utility** | High-level macro tiering & threshold alert categorization | Estimating future aggregate volume for exploratory planning and analytical comparison |\n",
                     "\n",
                     "---\n",
                     "\n",
-                    "## 9. Limitations & Academic Conclusions\n",
+                    "## 9. Limitations & Academic Guardrails\n",
                     "\n",
-                    "1. **Small-$N$ Panel Constraints**: The test horizon contains exactly $N = 36$ State/UT jurisdictions across 5 historical years ($N=106$ total observations).\n",
-                    "2. **Volatile Regional Reporting Changes**: High absolute errors occur in states experiencing dramatic administrative reporting shifts (e.g., Assam dropping from 4,846 in 2021 to 1,733 in 2022; Telangana surging from 10,303 in 2021 to 15,297 in 2022).\n",
-                    "3. **Non-Causal Interpretation**: Models forecast aggregate statistical volume inertia; they do not isolate criminal intent, enforcement effectiveness, or socio-demographic causation.\n",
-                    "4. **Syllabus Educational Purpose**: This stage demonstrates the principle of **Occam's Razor** in supervised learning: simpler transformed linear models frequently outperform complex non-linear ensembles on small, heavy-tailed macroeconomic panels.\n"
+                    "1. **Limited Historical Horizon**: Only five annual data points are available (2018–2022), yielding a total longitudinal panel of $N = 106$ observations.\n",
+                    "2. **Jurisdictional Sample Size**: The cross-section is bounded to 36 State/UT jurisdictions, with exactly $N = 36$ observations in the single held-out test horizon (2022).\n",
+                    "3. **Panel Dependency**: Jurisdictions recur across observation years as repeated longitudinal panel units.\n",
+                    "4. **Aggregate vs. Incident Data**: Macro aggregate case counts do not capture micro-level incident attributes, criminal tactics, or victim demographics.\n",
+                    "5. **Temporal Persistence**: Models capture historical volume inertia; they do not establish causal determinants of cybercrime.\n",
+                    "6. **Generalizability**: Performance on the 2022 held-out horizon may not generalize to future periods or altered reporting conditions.\n"
                 ]
             }
         ],

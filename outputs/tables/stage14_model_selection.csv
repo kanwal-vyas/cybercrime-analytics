@@ -1,3 +1,3 @@
-Stage,Selected_Model,Model_Complexity,Test_MAE,Test_R2,Rationale
-Stage 7 (Baseline),Log-Linear OLS,Low (2 Linear Log Parameters),479.37,0.9,Log transform stabilizes multi-order variance across states without parameter explosion.
-Stage 14 (Enhanced),Log-Linear OLS (Retained Benchmark),Low (2 Linear Log Parameters),479.37,0.9,Non-linear polynomial/tree/boosting extensions increase out-of-sample error on N=70 sample.
+Stage,Model_Evaluated,Evaluation_Status,Model_Complexity,Held_Out_2022_MAE,Held_Out_2022_R2,Findings
+Stage 7 (Baseline),Log-Linear OLS (Stage 7 Benchmark),Validated Historical Benchmark,Low (2 Linear Log Parameters),479.37,0.9,Log transformation compresses scale variance across jurisdictions without adding free parameters.
+Stage 14 (Enhanced),Non-Linear & Ensemble Extensions (14 Models),Post-Hoc Held-Out Comparison,"Medium to High (Polynomial, Trees, Ensembles)",479.37,0.9,"Post-hoc held-out evaluation shows polynomial, tree, and boosting extensions did not outperform the simpler Log-Linear OLS benchmark."

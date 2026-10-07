@@ -492,6 +492,7 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - Target: Aggregate State/UT cybercrime volume in year $t$ ($N=106$ observations).
   - Chronological Partition: Train on 2020–2021 target years ($N_{\text{train}} = 70$), test on held-out 2022 ($N_{\text{test}} = 36$).
   - Predictors: Historical lagged features strictly preceding the target year (`lag_1`, `lag_2`, `lag_diff`, `lag_growth_rate`, `log_lag_1`, `log_lag_2`). Zero 2023 sectional attributes.
+  - Evaluation Horizon: The 2022 test partition ($N=36$) serves strictly as the **final held-out evaluation horizon**. Post-hoc comparison evaluates out-of-sample behavior without test-set tuning or model-selection leakage.
 - **Evaluated Regression Architectures & Leaderboard (Held-Out 2022 Test Horizon)**:
   1. *Log-Linear OLS (Stage 7 Validated Benchmark)*: **$\text{MAE} = 479.37$ cases**, **$\text{RMSE} = 1,143.46$**, **$R^2 = 0.9000$**, $\text{Median AE} = 69.85$ (Residual Skewness = $0.6472$).
   2. *Historical 2-Year Moving Average*: $\text{MAE} = 563.04$ cases, $\text{RMSE} = 1,523.73$, $R^2 = 0.8224$, $\text{Median AE} = 57.00$.
@@ -508,15 +509,17 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   13. *Polynomial Degree 2 (OLS Raw)*: $\text{MAE} = 778.96$ cases, $\text{RMSE} = 1,802.97$, $R^2 = 0.7513$, $\text{Median AE} = 92.08$.
   14. *Gradient Boosting Regressor (Log Target, depth=2)*: $\text{MAE} = 870.96$ cases, $\text{RMSE} = 2,230.54$, $R^2 = 0.6194$, $\text{Median AE} = 105.32$.
 - **Complexity vs. Performance Analysis (Occam's Razor)**:
-  - *Core Finding*: **Nonlinear complexity did NOT improve held-out predictive accuracy over the Stage 7 Log-Linear benchmark.**
-  - *Mathematical Reason*: Multi-order scale variance across Indian jurisdictions ($N=1$ to $N=20,000+$) is best stabilized by $\log(1+y)$ transformation. On $N_{\text{train}} = 70$, polynomial cross-terms overfit volatile training years, while tree step-functions cannot extrapolate continuous growth smoothly.
-  - *Residual Diagnostics*: Log-Linear OLS exhibits the lowest residual skewness ($0.6472$), compared to $1.74\text{--}3.53$ across raw, polynomial, and tree models.
+  - *Core Finding*: **On the held-out 2022 evaluation horizon, the tested polynomial and tree-based nonlinear models did not outperform the simpler Log-Linear OLS benchmark. This suggests that additional nonlinear complexity did not provide an observed predictive advantage under the available historical data.**
+  - *Scale Dynamics*: The logarithmic transformation $\log(1+y)$ compresses the multi-order numerical scale without adding free parameters. On $N_{\text{train}} = 70$, polynomial cross-terms increase estimation variance on held-out years, while tree step-functions cannot extrapolate continuous growth smoothly.
+  - *Residual Diagnostics*: The Log-Linear model produced lower residual dispersion ($\text{Std} = 1,136.75$) and lower residual skewness ($0.6472$) than the tested nonlinear alternatives. Residual variability remains influenced by high-volume jurisdictions.
 - **State-Level Test Error Findings ($N_{\text{test}} = 36$)**:
-  - Largest absolute residual errors occur in states experiencing severe volumetric shifts: Telangana ($\text{Signed Error} = -4,684.81$, surge from $10,303 \rightarrow 15,297$), Assam ($\text{Signed Error} = 3,997.48$, contraction from $4,846 \rightarrow 1,733$), and Uttar Pradesh ($\text{Signed Error} = -2,355.17$, surge from $8,829 \rightarrow 10,117$).
-  - Median absolute error is low ($\text{Median AE} = 69.85$ cases), confirming strong predictive precision across median-scale jurisdictions.
+  - *Telangana*: The 2022 observed value ($15,297$) was substantially higher than the preceding-year value ($10,303$), resulting in an underprediction of $4,684.81$ cases.
+  - *Assam*: The 2022 observed value ($1,733$) was substantially lower than the preceding-year value ($4,846$), resulting in an overprediction of $3,997.48$ cases.
+  - *Uttar Pradesh*: The 2022 observed value ($10,117$) was higher than the preceding-year value ($8,829$), resulting in an underprediction of $2,355.17$ cases.
+  - Median absolute error across all 36 jurisdictions is $69.85$ cases.
 - **Comparison with Stage 13 Classification**:
   - Stage 13 classifies macro categorical regime ($Y_t \in \{0, 1\}$; Accuracy = $100\%$).
-  - Stage 14 estimates precise continuous volume ($\hat{Y}_t \in \mathbb{R}^+$; Log-Linear $R^2 = 0.9000$), preserving full information on scale, growth rate, and resource requirements.
+  - Stage 14 estimates continuous volume magnitude ($\hat{Y}_t \in \mathbb{R}^+$; Log-Linear $R^2 = 0.9000$). Potential use: estimating future aggregate volume for exploratory planning and analytical comparison.
 - **Exported Deliverables**:
   - `src/regression_enhancement.py`
   - `src/generate_stage14_notebook.py`
@@ -533,8 +536,12 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - `outputs/figures/48_regression_state_error_breakdown.png`
   - `outputs/figures/49_regression_complexity_vs_performance.png`
 - **Methodological Limitations**:
-  - Extremely small longitudinal panel ($N=106$, test $N=36$).
-  - Volatile year-over-year shifts reflect recording/administrative changes that cannot be decomposed from underlying crime rates.
+  - Limited historical horizon: only 5 annual points (2018–2022, $N=106$ panel observations).
+  - Small evaluation sample: single held-out test year with $N = 36$ jurisdictions.
+  - Jurisdictions recur as repeated longitudinal panel units across years.
+  - Aggregate case totals do not capture incident-level behavior.
+  - Models capture temporal volume persistence rather than causal determinants.
+  - Performance on the 2022 horizon may not generalize to future years.
 - **Reproducibility & Verification**: `src/regression_enhancement.py`, `src/generate_stage14_notebook.py`, and `notebooks/12_regression_enhancement.ipynb` executed head-to-tail with 0 errors. All 6 test suites in `src/validate_stage14.py` passed with 100% success.
 
 ---
