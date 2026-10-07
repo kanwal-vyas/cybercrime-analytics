@@ -173,23 +173,43 @@ current status in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md#dataset-validation-gate)
 
 ---
 
-## 8. Current Status
+## 8. Current Status & Syllabus Roadmap
 
-- [x] Repository architecture created
-- [x] Real dataset supplied
-- [x] Dataset Validation Gate completed
-- [x] Preprocessing implemented
-- [x] SQL schema & SQLite database populated with real structure and analytical views
-- [x] EDA implemented
-- [x] Association rule mining implemented (State-Level Syllabus Demonstration — FROZEN)
-- [x] Clustering implemented & validated (State-Level Profile Grouping — FROZEN)
-- [x] Prediction implemented & validated (Temporal Panel Lag Prediction — Zero Leakage)
-- [x] Outlier detection implemented & validated (IQR Tukey Fences & Isolation Forest)
-- [x] Power BI dashboard data package prepared & validated (Semantic data model, DAX library, 6-page specification)
-- [ ] Report and presentation finalized
+The project is structured into **20 comprehensive syllabus-aligned stages** (detailed in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md)).
+
+### Core Implemented Foundation (Stages 1–9: FROZEN)
+- [x] **Stage 1 — Data Understanding**: Dataset Validation Gate completed (`01_data_understanding.ipynb`)
+- [x] **Stage 2 — Preprocessing**: Master state cross-section & feature engineering (`02_preprocessing.ipynb`)
+- [x] **Stage 3 — Data Warehouse & OLAP**: Star schema database (`cybercrime.db`) & analytical views (`03_sql_olap.ipynb`)
+- [x] **Stage 4 — Exploratory Data Analysis**: Pareto category profiling, motives, women/child subsets (`03_eda.ipynb`)
+- [x] **Stage 5 — Association Rule Mining**: State-Level Syllabus Demonstration with Apriori (`04_association_rules.ipynb`)
+- [x] **Stage 6 — Clustering Analysis**: K-Means composition profiles ($K=4$) with Hungarian stability (`05_clustering.ipynb`)
+- [x] **Stage 7 — Predictive Modeling**: Leak-free temporal lag panel regression with Log-Linear model (`06_prediction.ipynb`)
+- [x] **Stage 8 — Outlier Detection**: Descriptive Tukey IQR fences & Isolation Forest (`07_outlier_detection.ipynb`)
+- [x] **Stage 9 — Power BI Semantic Data Package**: 20 validated CSV extracts & 6-page architecture (`POWERBI_SPECIFICATION.md`)
+
+### Advanced Planned Roadmap (Stages 10–20: Planned / Not Started)
+- [ ] **Stage 10 — Advanced Data Preprocessing**: Summarization, multi-scale transformations, discretization & hierarchies
+- [ ] **Stage 11 — Advanced OLAP & Data Cube**: Multidimensional cube modeling & Attribute-Oriented Induction (AOI)
+- [ ] **Stage 12 — Advanced Frequent Patterns**: FP-Growth tree mining, runtime benchmarks & correlation matrices
+- [ ] **Stage 13 — Supervised Classification**: Decision Tree, Naive Bayes, SVM, and Random Forest on historical panel
+- [ ] **Stage 14 — Regression & Prediction Enhancement**: Polynomial, Ridge, Lasso, and regression tree ensembles
+- [ ] **Stage 15 — Comparative Cluster Analysis**: Agglomerative hierarchical clustering with dendrograms & DBSCAN
+- [ ] **Stage 16 — Advanced Anomaly Analysis**: Univariate vs multivariate anomaly drivers & small-denominator diagnostics
+- [ ] **Stage 17 — Advanced Visualization & Power BI**: 10-page interactive dashboard suite
+- [ ] **Stage 18 — Integrated Analytical Findings**: Cross-technique academic synthesis (strictly non-causal)
+- [ ] **Stage 19 — Final Academic Audit**: End-to-end reproducibility, zero-leakage, and numerical reconciliation
+- [ ] **Stage 20 — Final Report, Presentation & Viva**: 18-section report, 15–18 slides, and defense viva guide
+
+---
 
 ## 9. Project Philosophy
 
-Correct technique + correct data + correct interpretation. A small number of
-strong, well-justified analyses is preferred over many weak ones forced in
-merely to cover the syllabus.
+This project prioritizes rigorous methodological integrity over uncritical algorithmic complexity:
+
+$$\text{Data Validity} \longrightarrow \text{Analytical Correctness} \longrightarrow \text{Academic Defensibility} \longrightarrow \text{Syllabus Alignment}$$
+$$\longrightarrow \text{Reproducibility} \longrightarrow \text{Interpretability} \longrightarrow \text{Simplicity} \longrightarrow \text{Presentation Quality}$$
+$$\longrightarrow \text{Sophistication (only when justified)}$$
+
+**Core Guiding Rule**: *The project will not add algorithms solely to increase the number of techniques. Each technique must answer a defined analytical question and must be supported by the available data.*
+

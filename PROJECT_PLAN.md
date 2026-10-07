@@ -2,16 +2,28 @@
 
 ## 0. Status
 
-| Stage | Notebook | Status |
-|---|---|---|
-| 1. Data Understanding / Validation Gate | `01_data_understanding.ipynb` | **Done** |
-| 2. Preprocessing | `02_preprocessing.ipynb` | **Done** |
-| 3. SQL / OLAP | `03_sql_olap.ipynb` | **Done (FROZEN)** |
-| 4. EDA | `03_eda.ipynb` | **Done (FROZEN)** |
-| 5. Association Rules | `04_association_rules.ipynb` | **Done (FROZEN)** |
-| 6. Clustering | `05_clustering.ipynb` | **Done (FROZEN)** | 7. Prediction | `06_prediction.ipynb` | **Done (FROZEN)** |
-| 8. Outlier Detection | `07_outlier_detection.ipynb` | **Done** |
-| 9. Power BI Dashboard | — | Not started |
+| Stage | Focus / Deliverable | Notebook / Script | Status |
+|---|---|---|---|
+| 1. Data Understanding / Validation Gate | Source Data Inventory & Go/No-Go Gate | `01_data_understanding.ipynb` | **Done (FROZEN)** |
+| 2. Preprocessing | Clean Master State Cross-Section & Features | `02_preprocessing.ipynb` | **Done (FROZEN)** |
+| 3. SQL / OLAP | Star Schema Warehouse & Analytical Views | `03_sql_olap.ipynb`, `cybercrime.db` | **Done (FROZEN)** |
+| 4. EDA | Distribution, Pareto, Motives & Subsets | `03_eda.ipynb` | **Done (FROZEN)** |
+| 5. Association Rules | State-Level Syllabus Demonstration (Apriori) | `04_association_rules.ipynb` | **Done (FROZEN)** |
+| 6. Clustering | K-Means Composition Profiles ($K=4$) | `05_clustering.ipynb` | **Done (FROZEN)** |
+| 7. Prediction | Temporal Lag Panel Regression (Log-Linear) | `06_prediction.ipynb` | **Done (FROZEN)** |
+| 8. Outlier Detection | Descriptive Tukey IQR & Isolation Forest | `07_outlier_detection.ipynb` | **Done (FROZEN)** |
+| 9. Power BI Dashboard | Semantic Data Package & 6-Page Spec | `POWERBI_SPECIFICATION.md` | **Done (FROZEN)** |
+| 10. Advanced Data Preprocessing | Summarization, Reduction, Discretization | `08_advanced_preprocessing.ipynb` | *Planned (Not Started)* |
+| 11. Advanced OLAP & Data Cube | Multidimensional Cubes & AOI | `09_advanced_olap_cube.ipynb` | *Planned (Not Started)* |
+| 12. Advanced Frequent Patterns | FP-Growth vs Apriori, Correlation | `10_advanced_patterns.ipynb` | *Planned (Not Started)* |
+| 13. Classification Analysis | Decision Tree, Naive Bayes, SVM, RF | `11_classification.ipynb` | *Planned (Not Started)* |
+| 14. Regression & Prediction Enhancement | Polynomial, Ridge, Trees vs Log-Linear | `12_prediction_enhancement.ipynb`| *Planned (Not Started)* |
+| 15. Comparative Cluster Analysis | Hierarchical Dendrogram, DBSCAN, PCA | `13_comparative_clustering.ipynb`| *Planned (Not Started)* |
+| 16. Advanced Outlier & Anomaly Analysis | Univariate vs Multivariate Drivers | `14_advanced_outliers.ipynb` | *Planned (Not Started)* |
+| 17. Advanced Visualization & Power BI | 10-Page Dashboard Integration | `dashboard/` | *Planned (Not Started)* |
+| 18. Integrated Analytical Findings | Cross-Technique Synthesis (No Causation)| `15_integrated_findings.ipynb` | *Planned (Not Started)* |
+| 19. Final Academic Audit | Full Verification & Zero-Leakage Audit | `src/validate_all.py` | *Planned (Not Started)* |
+| 20. Final Report + Presentation + Viva | Report, 15-18 Slides & Viva Q&A Guide | `docs/` | *Planned (Not Started)* |
 
 ## 1. Datasets
 
@@ -42,17 +54,45 @@ revisit these verdicts without re-running the corresponding checks in notebook 0
 
 Full evidence for every row above is in `notebooks/01_data_understanding.ipynb`.
 
-## 3. Syllabus Mapping
+## 3. Comprehensive Syllabus Coverage Matrix
 
-| Syllabus Unit | Concept | Where demonstrated in this project |
-|---|---|---|
-| Unit 1 | Data mining concepts / applications | Whole project — cybercrime analytics as applied data mining |
-| Unit 2 | Preprocessing, cleaning, transformation | Stage 2 — header cleanup, aggregate-row removal, 2023 master-table join, feature engineering for clustering/classification |
-| Unit 3 | Data warehouse / OLAP, star schema, roll-up/drill-down/slice/dice | Stage 3 — `sql/schema.sql`, `sql/views.sql`, `sql/analysis_queries.sql`, `notebooks/03_sql_olap.ipynb`, `data/database/cybercrime.db` |
-| Unit 4 | Frequent itemsets, Apriori, support/confidence/lift | Stage 5 — state-as-transaction / above-median-category-as-item representation (marginal-but-defensible, see Validation Gate) |
-| Unit 5 | Classification, regression, prediction | Stage 7 (`06_prediction.ipynb`, `src/prediction.py`) — temporal lag panel prediction with zero target leakage |
-| Unit 6 | K-Means, cluster interpretation, outlier/anomaly detection | Stage 6/8 — K-Means on standardized composition features; IQR Tukey fences + Isolation Forest outlier detection |
-| Visualization | Exploratory, geographic, dashboards | Stage 4 (`notebooks/03_eda.ipynb`, `src/eda.py`, `outputs/figures/`) and Stage 9 (Power BI: executive overview, geographic, category, trend pages) |
+The following matrix maps the complete semester Data Mining & Analytics syllabus (Units 1 through 6) to the project stages. All techniques are explicitly categorized as **Completed / Frozen** (Stages 1–9) or **Planned / Not Yet Implemented** (Stages 10–20).
+
+| Unit | Syllabus Concept / Topic | Project Stage Mapping | Implementation Status | Methodological Description |
+|---|---|---|---|---|
+| **Unit 1** | Data mining concepts & applications | Stages 1–20 | **Core Framework** | Real-world cybercrime analytics for national security context |
+| **Unit 1** | Data mining functionalities | Stages 4–18 | **Implemented & Planned** | Characterization, discrimination, association, classification, clustering, outlier analysis |
+| **Unit 1** | Issues & challenges in data mining | Stages 1, 19 | **Active Protocol** | Small-N constraints, absence of per-capita data, macro-level transaction limits, leakage audits |
+| **Unit 2** | Data summarization & distribution | Stage 10 | *Planned (Stage 10)* | Comprehensive descriptive stats, skewness, kurtosis, cardinality, dispersion |
+| **Unit 2** | Data cleaning & quality checks | Stage 2 + 10 | **Stage 2 Done** / *Stage 10 Planned* | Header cleanup, missing values, zero-imputation audit, duplicate detection |
+| **Unit 2** | Data integration | Stage 2 + 10 | **Stage 2 Done** / *Stage 10 Planned* | Cross-table joining (categories, motives, women, children), key reconciliation |
+| **Unit 2** | Data transformation | Stage 10 | *Planned (Stage 10)* | Min-Max scaling, Z-score standardization, Log1p count transformations |
+| **Unit 2** | Data reduction | Stage 10 | *Planned (Stage 10)* | Feature selection, variance thresholding, collinearity pruning, PCA dimensionality reduction |
+| **Unit 2** | Data discretization | Stage 10 | *Planned (Stage 10)* | Binning continuous counts/shares into discrete bands (Low / Medium / High) |
+| **Unit 2** | Concept hierarchy generation | Stage 10 | *Planned (Stage 10)* | Structural schema hierarchies (India $\rightarrow$ State/UT; Legal Act $\rightarrow$ Category) |
+| **Unit 3** | Multidimensional data model | Stage 3 + 11 | **Stage 3 Done** / *Stage 11 Planned* | Star schema dimensions (`dim_state`, `dim_year`, `dim_crime_category`, `dim_motive`) |
+| **Unit 3** | Data warehouse architecture | Stage 3 | **Done (FROZEN)** | SQLite 3 relational warehouse (`data/database/cybercrime.db`) with foreign keys |
+| **Unit 3** | OLAP operations | Stage 3 + 11 | **Stage 3 Done** / *Stage 11 Planned* | Roll-Up, Drill-Down, Slice, Dice, Pivot across analytical views (`sql/views.sql`) |
+| **Unit 3** | Data cube aggregation | Stage 11 | *Planned (Stage 11)* | Grouping sets, multidimensional cube views, efficient multi-way rollups |
+| **Unit 3** | Attribute-oriented induction (AOI) | Stage 11 | *Planned (Stage 11)* | Generalized state & crime profile characterization summaries |
+| **Unit 4** | Frequent itemset mining | Stage 5 + 12 | **Stage 5 Done** / *Stage 12 Planned* | Mining frequent co-occurring profile itemsets (Apriori & FP-Growth) |
+| **Unit 4** | Apriori algorithm | Stage 5 | **Done (FROZEN)** | 129 frequent itemsets, 1,924 filtered rules at $\text{supp} \ge 0.25, \text{conf} \ge 0.60$ |
+| **Unit 4** | FP-Growth algorithm | Stage 12 | *Planned (Stage 12)* | Tree-based frequent pattern mining, candidate-free generation & runtime benchmarking |
+| **Unit 4** | Association rule evaluation | Stage 5 + 12 | **Stage 5 Done** / *Stage 12 Planned* | Support, Confidence, Lift, Conviction, Zhang's metric; quantitative/discretized rules |
+| **Unit 4** | Correlation analysis | Stage 12 | *Planned (Stage 12)* | Pearson & Spearman correlation matrices, collinearity analysis & visualizations |
+| **Unit 5** | Decision Tree classification | Stage 13 | *Planned (Stage 13)* | Tree-based classification on leak-free longitudinal panel target |
+| **Unit 5** | Bayesian classification | Stage 13 | *Planned (Stage 13)* | Gaussian Naive Bayes classifier on lagged volume regime features |
+| **Unit 5** | Support Vector Machines (SVM) | Stage 13 | *Planned (Stage 13)* | Linear & RBF kernel Support Vector Classifiers with standard scaling |
+| **Unit 5** | Ensemble classification methods | Stage 13 | *Planned (Stage 13)* | Random Forest classifier with out-of-bag scoring & feature importance |
+| **Unit 5** | Linear & regularized regression | Stage 7 + 14 | **Stage 7 Done** / *Stage 14 Planned* | OLS, Ridge (L2), Log-Linear panel regression (Validated baseline: $R^2=0.9000$) |
+| **Unit 5** | Non-linear regression | Stage 14 | *Planned (Stage 14)* | Polynomial feature regression & regression tree ensembles on historical lags |
+| **Unit 5** | Model evaluation & accuracy | Stages 7, 13, 14 | **Stage 7 Done** / *Stages 13–14 Planned* | MAE, RMSE, $R^2$, Precision, Recall, F1-Score, Confusion Matrices, ROC-AUC |
+| **Unit 6** | Partitioning clustering (K-Means) | Stage 6 + 15 | **Stage 6 Done** / *Stage 15 Planned* | Standardized 4-feature composition profiles ($K=4$), Elbow & Silhouette analysis |
+| **Unit 6** | Hierarchical clustering | Stage 15 | *Planned (Stage 15)* | Agglomerative hierarchical clustering with linkage comparison & dendrogram |
+| **Unit 6** | Density-based clustering (DBSCAN) | Stage 15 | *Planned (Stage 15)* | DBSCAN clustering for density separation and core/noise identification |
+| **Unit 6** | Dimensionality reduction / PCA | Stages 6, 10, 15 | **Stage 6 Done** / *Stages 10, 15 Planned*| 2D PCA cluster projection, scree analysis, variance explanation |
+| **Unit 6** | Outlier & anomaly detection | Stage 8 + 16 | **Stage 8 Done** / *Stage 16 Planned* | Descriptive Tukey IQR fences (14 features) + Multivariate Isolation Forest ($c=0.15$) |
+| **Viz** | Visualization & Dashboards | Stages 4, 9, 17 | **Stages 4, 9 Done** / *Stage 17 Planned*| 12 EDA figures, 6-Page & 10-Page Power BI semantic packages, interactive layouts |
 
 ## 4. Phased Plan
 
@@ -219,7 +259,7 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - `outputs/figures/27_outlier_multivariate_projection.png`
 - **Reproducibility & Verification**: `src/outlier_detection.py` module and `notebooks/07_outlier_detection.ipynb` executed head-to-tail with 0 errors. All 6 validation suites in `src/validate_stage8.py` passed.
 
-### Stage 9 — Power BI Dashboard Integration & Semantic Data Package (Done)
+### Stage 9 — Power BI Dashboard Integration & Semantic Data Package (Done / FROZEN)
 - **Integration Architecture**: Serves as the interactive visualization and synthesis layer for Stages 1 through 8. Built strictly from validated SQLite database views (`sql/views.sql`), processed tables, and Stage 4–8 analytical output tables. No unverified calculations or raw modifications are performed.
 - **Semantic Data Model (`dashboard/powerbi_data/`)**:
   - Star / Snowflake schema with 3 core dimension tables (`dim_state`, `dim_crime_category`, `dim_motive`), 1 roll-up dimension (`dim_act_group`), 2 granular fact tables (`fact_state_category_2023`, `fact_state_motive_2023`), and 14 pre-aggregated analytical model and summary tables.
@@ -237,17 +277,235 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - `dashboard/POWERBI_SPECIFICATION.md` (Complete 6-page visual architecture, DAX library, ERD, and Power BI Desktop assembly guide)
 - **Reproducibility & Verification**: `src/dashboard_prep.py` pipeline and `src/validate_stage9.py` test suite executed successfully with 100% pass rate across all 6 validation suites.
 
+---
 
-## 5. Known Data Limitations (carry through every later stage)
+### Stage 10 — Advanced Data Preprocessing *(Planned / Not Started)*
+- **Purpose**: Strengthen Unit 2 curriculum coverage beyond initial cleaning and feature joins, establishing formal data summarization, multi-scale transformations, discretization, and hierarchical reductions.
+- **Planned Analytical Components**:
+  1. *Data Summarization & Distributional Profiling*: Compute five-number summaries, mean, median, standard deviation, interquartile range, skewness, kurtosis, and cardinality metrics across all 40 leaf categories and 18 motives.
+  2. *Data Cleaning Audits*: Systematic zero-variance audits, missing-value diagnostic matrices, duplicate record verifications, and cross-source boundary consistency validations.
+  3. *Data Integration*: Formalized multi-table key reconciliation validating identical 36-state relational integrity across category, motive, women, children, and historical trend tables.
+  4. *Data Transformations*: Min-Max feature normalization $[0, 1]$, Z-score standardization ($\mu=0, \sigma=1$), and $\log(1+x)$ transformations for heavy-tailed count distributions.
+  5. *Data Reduction*: Variance thresholding, correlation-based feature redundancy pruning, and principal component dimensionality reduction (PCA) preserving $\ge 70\%$ variance.
+  6. *Data Discretization*: Binning continuous case volumes into ordinal frequency bands (`Low`, `Medium`, `High`) and motive shares into meaningful percentage tiers.
+  7. *Concept Hierarchy Generation*: Structural data cube roll-up taxonomies:
+     - Geography: `National (India)` $\rightarrow$ `Administrative Type (State vs UT)` $\rightarrow$ `Jurisdiction (36 State/UTs)`
+     - Legal Framework: `All Cybercrimes` $\rightarrow$ `Act Group (IT Act / IPC / SLL)` $\rightarrow$ `Offence Category (40 Leaves)`
+     - Crime Motive: `All Motives` $\rightarrow$ `Motive Cluster (Financial / Interpersonal / Extortion / SLL)` $\rightarrow$ `Specific Motive (18 Types)`
+- **Critical Methodological Guardrails**:
+  - Do NOT fabricate unobserved geographic levels (e.g., district-level data not present in NCRB state tables).
+  - Do NOT alter raw files (`data/raw/`).
+  - Stage 10 operates as an advanced analytical layer over Stage 2; existing validated Stage 2 outputs remain intact.
 
-1. No population data → all figures are raw case counts, not per-capita rates.
-2. `trend_2018_2022` and `categories_2023` differ in 2022 vs. 2023 totals for several
-   states — treat as two distinct series, not one continuous line.
-3. Only 5–6 annual points nationally → no reliable time-series forecasting.
-4. n=36 states/UTs → small-sample caution for every ML technique (clustering, Apriori,
-   any classification).
-5. No case-level/incident-level data → Apriori requires a proxy transaction
-   representation, explicitly labelled as such.
-6. Karnataka/Telangana/UP/Maharashtra dominate raw totals → must be scaled/log-transformed before
-   distance-based methods (clustering, outlier detection), and must not be mislabelled
-   as data errors when flagged as outliers.
+---
+
+### Stage 11 — Advanced OLAP & Data Cube Analysis *(Planned / Not Started)*
+- **Purpose**: Strengthen Unit 3 curriculum coverage with advanced multi-dimensional data cube modeling, high-dimensional slice-and-dice, grouped aggregations, and Attribute-Oriented Induction (AOI).
+- **Planned Analytical Components**:
+  1. *Multidimensional Data Cube Construction*: Formal 3-dimensional data cube representation $\text{Cube}(\text{State}, \text{Crime Category}, \text{Motive})$ operating on validated warehouse tables.
+  2. *OLAP Operations Suite*:
+     - **Roll-Up**: Aggregating specific leaf offences into legal act groups (IT Act, IPC, SLL) and national totals.
+     - **Drill-Down**: Decomposing broad financial fraud into Section 66D personation, Section 420 IPC cheating, banking fraud, and e-commerce fraud.
+     - **Slice**: Isolating cross-sections for specific legal acts (e.g., IT Act only) or specific jurisdictions (e.g., Union Territories only).
+     - **Dice**: Extracting sub-cubes defined by multiple dimensions (e.g., $\{\text{Top 5 States}\} \times \{\text{Fraud, Extortion}\} \times \{\text{IT Act}\}$).
+     - **Pivot**: Cross-tabulating legal act shares across administrative divisions.
+  3. *Attribute-Oriented Induction (AOI)*: Generating generalized concept-tree characterizations and prime relations to extract high-level semantic rules describing state cybercrime profiles.
+  4. *SQL/Warehouse Implementation*: Implemented directly against `data/database/cybercrime.db` using advanced SQLite window functions and grouped views without building a redundant secondary database.
+
+---
+
+### Stage 12 — Advanced Frequent Pattern Mining *(Planned / Not Started)*
+- **Purpose**: Strengthen Unit 4 curriculum coverage by benchmarking FP-Growth against Apriori, mining quantitative association rules, and computing comprehensive correlation metrics.
+- **Planned Analytical Components**:
+  1. *FP-Growth Algorithm Implementation*: Construct FP-Tree (Frequent Pattern Tree) over the 36-state binary transaction matrix; extract complete frequent itemsets without candidate generation.
+  2. *Algorithmic Comparative Benchmarking*:
+     - Apriori vs. FP-Growth execution runtime benchmarks across varying support thresholds ($\text{min\_support} \in [0.15, 0.40]$).
+     - Memory scaling and tree node traversal complexity analysis.
+     - Exact frequent itemset mathematical equivalence verification.
+  3. *Quantitative & Discretized Association Rules*: Mining association rules over multi-interval discretized items (e.g., `FRAUD_SHARE:HIGH` $\rightarrow$ `SEC66D_SHARE:HIGH`).
+  4. *Bivariate Correlation Analysis*:
+     - Pearson linear correlation matrix across continuous leaf counts and shares.
+     - Spearman rank correlation matrix to assess monotonic relationships resistant to outlier skewness.
+     - Collinearity heatmaps identifying structural dependencies.
+- **Mandatory Methodological Guardrails**:
+  - The dataset consists of macro-level state aggregates, NOT individual incident crime logs.
+  - All association rules must retain the official designation: **State-Level Association Rule Mining — Syllabus Demonstration**.
+  - Strict non-causal language: rules describe statistical jurisdictional co-occurrence, never individual criminal behavior.
+
+---
+
+### Stage 13 — Classification Analysis *(Planned / Not Started)*
+- **Purpose**: Implement a rigorous, leak-free supervised classification workflow for Unit 5 to evaluate historical pattern discrimination.
+- **Analytical Problem Formulation**:
+  - Because the 2023 cross-sectional dataset has $N=36$ and lacks a natural ground-truth label, classification is formulated on the **longitudinal panel dataset** ($2018–2022$, $N=106$).
+  - **Target Definition**: Next-year high-volume regime indicator ($y_{i, t} \ge \text{Median}(Y_{\text{train}})$) defined strictly using training-partition statistics.
+- **Feature Matrix (Historical Lag Features Only)**:
+  - $\text{Lag}_1$ volume ($y_{t-1}$), $\text{Lag}_2$ volume ($y_{t-2}$), 1-year volume change ($\Delta y = y_{t-1} - y_{t-2}$), YoY growth rate, and 2-year rolling mean/std.
+  - Zero leakage: No contemporaneous category/motive features and no future target information are included.
+- **Evaluated Supervised Classifiers**:
+  1. *Decision Tree Classifier* (entropy & Gini criteria, shallow depth $\le 3$ to prevent overfitting on small $N$).
+  2. *Gaussian Naive Bayes* (probabilistic Bayesian baseline).
+  3. *Support Vector Machine (SVM)* (Linear and RBF kernels with Z-score standardized inputs).
+  4. *Random Forest Classifier* (ensemble bagging with out-of-bag scoring and feature importance).
+- **Evaluation & Diagnostics**:
+  - Accuracy, Precision, Recall, F1-Score, Specificity, Confusion Matrix, and ROC-AUC curves.
+  - Strict temporal partition: Train on 2020–2021 target years ($N_{\text{train}}=70$), test on held-out 2022 ($N_{\text{test}}=36$).
+  - Framed strictly as a syllabus machine learning demonstration, NOT a predictive crime-risk policing system.
+
+---
+
+### Stage 14 — Regression & Prediction Enhancement *(Planned / Not Started)*
+- **Purpose**: Deepen Unit 5 predictive modeling by expanding beyond linear baselines to non-linear and regularized regression architectures on historical lags.
+- **Baseline to Preserve**:
+  - Validated Stage 7 Log-Linear Regression: $\text{MAE} = 479.37$, $\text{RMSE} = 1,143.46$, $R^2 = 0.9000$.
+- **Planned Model Architecture Expansion**:
+  1. *Naive Persistent Baseline* ($y_{t-1}$).
+  2. *Linear Regression (OLS Raw)*.
+  3. *Polynomial / Non-Linear Regression* (degree-2 polynomial lag terms with regularized penalty).
+  4. *Ridge Regression (L2)* & *Lasso Regression (L1)* across regularization paths ($\alpha \in [10^{-3}, 10^3]$).
+  5. *Log-Linear Regression (Log OLS)*.
+  6. *Decision Tree Regressor* (cost-complexity pruning).
+  7. *Random Forest Regressor* (ensemble tree averaging).
+- **Diagnostics & Error Visualizations**:
+  - Cross-model metric leaderboards: MAE, MSE, RMSE, $R^2$, and Median Absolute Error.
+  - Residual vs. fitted value plots, residual normality Q-Q plots, and state-by-state absolute error distributions.
+- **Critical Constraint**: Never regress total cases on contemporaneous category/motive subtotals.
+
+---
+
+### Stage 15 — Comparative Cluster Analysis *(Planned / Not Started)*
+- **Purpose**: Deepen Unit 6 unsupervised clustering by benchmarking partitioning, hierarchical, and density-based clustering algorithms against the validated $K=4$ baseline.
+- **Baseline to Preserve**:
+  - Primary 4-feature K-Means model ($K=4$) on standardized composition shares (`it_act_share`, `fraud_motive_share`, `extortion_motive_share`, `sexual_exploitation_motive_share`).
+- **Planned Clustering Architectures**:
+  1. *Partitioning Clustering*: K-Means ($K \in [2, 8]$) with inertia, silhouette, and Davies-Bouldin evaluation.
+  2. *Hierarchical Agglomerative Clustering*: Ward linkage, complete linkage, and average linkage with full hierarchical dendrogram visualization.
+  3. *Density-Based Clustering (DBSCAN)*: $\varepsilon$-neighborhood and $\text{min\_samples}$ parameter sweeps for density-connected component discovery and noise separation.
+  4. *Dimensionality Reduction & PCA*: 2D/3D Principal Component Analysis projections with biplots and variance scree plots.
+- **Methodological Evaluation**:
+  - Hungarian algorithm label alignment for cluster agreement matrices.
+  - Qualitative profile stability across algorithms.
+  - Strict adherence to non-pejorative descriptive composition labels (no "high-risk" or "criminal" labels).
+
+---
+
+### Stage 16 — Advanced Outlier & Anomaly Analysis *(Planned / Not Started)*
+- **Purpose**: Deepen Unit 6 anomaly detection by cross-analyzing univariate Tukey fences, multivariate Isolation Forest scores, and cluster profile assignments.
+- **Planned Analytical Components**:
+  1. *Univariate vs. Multivariate Concordance Matrix*: Cross-tabulating 1-dimensional fence violations against multidimensional isolation trees.
+  2. *Feature-Level Anomaly Attribution*: Computing SHAP / feature contribution scores identifying which specific variables drive multivariate isolation for anomalous states (Karnataka, Kerala, UP, Ladakh, etc.).
+  3. *Cluster-Outlier Intersection Analysis*: Analyzing the distribution of outlier jurisdictions across the 4 composition clusters.
+  4. *Small-Denominator Mathematical Isolation*: Documenting the exact proportion inflation mechanism in tiny Union Territories (Dadra & Nagar Haveli $N=6$, Lakshadweep $N=1$).
+- **Core Guardrail**: Statistical outlier $\neq$ data entry error $\neq$ dangerous jurisdiction.
+
+---
+
+### Stage 17 — Advanced Visualization & Power BI (10-Page Suite) *(Planned / Not Started)*
+- **Purpose**: Extend the validated 6-page dashboard data package into a full 10-page academic Power BI suite synthesizing all syllabus techniques.
+- **10-Page Visual Suite Structure**:
+  - **Page 1 — Executive Overview**: National total ($86,420$), legal acts, major motives, top state rankings.
+  - **Page 2 — Geographic / State Analysis**: 36-state ranking, state vs UT comparisons, dynamic profile card.
+  - **Page 3 — Crime Structure & Pareto**: 40 leaf categories, Pareto cumulative curve, motive distributions.
+  - **Page 4 — Association Pattern Mining**: Support/confidence/lift scatter, Apriori vs FP-Growth comparison.
+  - **Page 5 — Supervised Classification**: Decision Tree / SVM / RF confusion matrices, ROC curves, feature importances.
+  - **Page 6 — Regression & Prediction**: Actual vs predicted 2022 test plots, residual distributions, model leaderboard.
+  - **Page 7 — Comparative Clustering**: K-Means profiles, Agglomerative dendrogram, DBSCAN density groups, 2D PCA biplot.
+  - **Page 8 — Anomaly & Outlier Detection**: IQR fence summaries, Isolation Forest projection, small-denominator caution tags.
+  - **Page 9 — Historical Panel Trends**: 2018–2022 trajectory, state growth rates, longitudinal lag relationships.
+  - **Page 10 — Methodology & Limitations**: Data provenance, analytical methodology matrix, 6 core academic guardrails.
+
+---
+
+### Stage 18 — Integrated Analytical Findings *(Planned / Not Started)*
+- **Purpose**: Synthesize all disparate analytical techniques (EDA, Association Rules, Classification, Regression, Clustering, Outlier Detection, Power BI) into a single, cohesive academic narrative.
+- **Key Synthesis Questions**:
+  1. *EDA*: What empirical volume and motive distributions characterize Indian cybercrime?
+  2. *Association Mining*: Which specific legal and demographic crime dimensions co-occur across state profiles?
+  3. *Classification*: Can historical volume patterns reliably discriminate future high-volume regimes under strict temporal splits?
+  4. *Regression*: How accurately can 1-year-ahead case volumes be forecast from historical lag panels?
+  5. *Clustering*: What distinct structural composition profiles characterize Indian States and UTs?
+  6. *Outlier Detection*: Which observations exhibit genuine statistical extremity relative to the national cross-section?
+  7. *Visualization*: How do interactive dashboards communicate multidimensional analytical findings?
+- **Academic Distinction**: Explicitly delineates descriptive patterns, statistical associations, classifications, forecasts, clusters, and anomalies from causal claims.
+
+---
+
+### Stage 19 — Final Academic Audit & Verification *(Planned / Not Started)*
+- **Purpose**: Comprehensive pre-submission quality gate ensuring complete reproducibility, zero data leakage, and total cross-stage numerical consistency.
+- **Audit Protocols**:
+  1. *Syllabus Mapping Audit*: Verify that every Unit 1–6 syllabus concept is explicitly covered and evidenced in code/notebooks.
+  2. *Reproducibility Gate*: Head-to-tail clean-state execution of all notebooks and validation scripts (`validate_stage5` through `validate_stage19`).
+  3. *Zero-Leakage Audit*: Complete automated check verifying no target leakage, no test-set contamination, and no contemporaneous total-from-part regressions.
+  4. *Numerical Reconciliation Audit*: Global search across all markdown, docstrings, and tables to eliminate any stale or contradictory values.
+  5. *Limitations Transparency*: Confirm that all 6 core data limitations are prominently disclosed.
+
+---
+
+### Stage 20 — Final Project Report, Presentation & Viva Preparation *(Planned / Not Started)*
+- **Purpose**: Compile the final comprehensive academic project deliverables for academic submission and defense.
+- **Deliverable Structure**:
+  1. *Comprehensive Project Report* (18 Formal Sections):
+     - Title Page & Executive Abstract
+     - Section 1: Introduction & National Security Context
+     - Section 2: Problem Statement & Research Objectives
+     - Section 3: Data Sources & Dataset Architecture
+     - Section 4: Data Understanding & Validation Gate
+     - Section 5: Data Preprocessing & Discretization (Unit 2)
+     - Section 6: Data Warehouse & Multi-Dimensional OLAP (Unit 3)
+     - Section 7: Exploratory Data Analysis & Pareto Profiling
+     - Section 8: Frequent Pattern Mining: Apriori & FP-Growth (Unit 4)
+     - Section 9: Supervised Classification Analysis (Unit 5)
+     - Section 10: Predictive Regression & Time-Series Modeling (Unit 5)
+     - Section 11: Unsupervised Cluster Analysis: K-Means, Hierarchical, DBSCAN (Unit 6)
+     - Section 12: Descriptive Outlier & Anomaly Detection (Unit 6)
+     - Section 13: Power BI Dashboard & Visual Analytics
+     - Section 14: Integrated Analytical Findings & Synthesis
+     - Section 15: Methodological Limitations & Academic Guardrails
+     - Section 16: Future Research Directions
+     - Section 17: Conclusion & Summary
+     - Section 18: Academic References & Bibliography
+  2. *Project Defense Presentation* (15–18 Structured Slides):
+     - Slide 1: Title & Project Overview
+     - Slide 2: Problem Formulation & National Cybercrime Context
+     - Slide 3: Dataset Architecture & Validation Gate
+     - Slide 4: Data Preprocessing & Multidimensional Warehouse Design
+     - Slide 5: Exploratory Data Analysis & Empirical Concentration
+     - Slide 6: Association Rule Mining: Apriori vs. FP-Growth
+     - Slide 7: Supervised Classification: Model Comparison & Metrics
+     - Slide 8: Predictive Regression: Log-Linear Panel Modeling
+     - Slide 9: Unsupervised Clustering: K-Means & Hierarchical Taxonomy
+     - Slide 10: Outlier Analysis: Tukey Fences & Isolation Forest
+     - Slide 11: Power BI Interactive Dashboard Architecture
+     - Slide 12: Key Integrated Insights
+     - Slide 13: Methodological Limitations & Integrity Protocol
+     - Slide 14: Academic & Policy Implications
+     - Slide 15: Conclusion & Summary
+     - Slides 16–18: Appendix & Mathematical Reconciliations
+  3. *Viva Voce Defense Preparation Guide*:
+     - 25+ curated defense questions covering data mining theory, mathematical proofs, algorithm selections, leakage audits, and practical justification of all methodological decisions.
+
+---
+
+## 5. Known Data Limitations (carry through every stage)
+
+1. **Absence of Population Normalization**: All figures are raw reported police case counts from NCRB Table 9A.1. Without state census population normalization, figures represent absolute administrative volume, not per-capita crime rates.
+2. **Strict Time-Series Discontinuity (2018–2022 vs. 2023)**: The historical 2018–2022 series (Rajya Sabha archival data) and the 2023 detailed NCRB dataset originate from distinct recording tables with structural discrepancies. They are maintained as separate series and must never be concatenated into a continuous 2018–2023 line.
+3. **Short Historical Window**: Only 5 annual data points exist nationally (2018–2022). Classical ARIMA/deep time-series forecasting is statistically unjustifiable; longitudinal analysis is restricted to 1-year panel lag regression.
+4. **Small Cross-Sectional Sample ($N = 36$)**: High-dimensional machine learning is constrained by the 36-state sample size. All techniques require strict degrees-of-freedom management, regularized parameters, and conservative interpretation.
+5. **Macro-Aggregate Transaction Representation**: NCRB publishes macro-level state aggregates, not incident-level crime logs. Apriori and FP-Growth association rules operate on binarized state-level profile co-occurrences as a syllabus demonstration, not individual case-level basket linkages.
+6. **Small-Denominator Proportion Distortion**: In small Union Territories (Dadra & Nagar Haveli $N=6$, Lakshadweep $N=1$, Ladakh $N=1$), proportions can reach extreme values ($83.3\%$ or $100\%$) due entirely to tiny denominators rather than high crime volume.
+
+---
+
+## 6. Project Philosophy & Priority Ordering
+
+This project prioritizes rigorous methodological integrity over uncritical algorithmic complexity. Every technique must answer a defined analytical question and must be supported by the available data.
+
+### Methodological Priority Hierarchy:
+$$\text{Data Validity} \longrightarrow \text{Analytical Correctness} \longrightarrow \text{Academic Defensibility} \longrightarrow \text{Syllabus Alignment}$$
+$$\longrightarrow \text{Reproducibility} \longrightarrow \text{Interpretability} \longrightarrow \text{Simplicity} \longrightarrow \text{Presentation Quality}$$
+$$\longrightarrow \text{Sophistication (only when justified)}$$
+
+**Core Guiding Rule**:
+> *The project will not add algorithms solely to increase the number of techniques. Each technique must answer a defined analytical question and must be supported by the available data.*
+
