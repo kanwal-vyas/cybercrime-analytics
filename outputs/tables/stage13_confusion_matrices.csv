@@ -1,0 +1,7 @@
+Model,True_Negative_TN,False_Positive_FP,False_Negative_FN,True_Positive_TP,Total_Test_Obs
+Baseline (Most Frequent),16,0,20,0,36
+Decision Tree (depth=3),16,0,1,19,36
+Gaussian Naive Bayes,16,0,0,20,36
+Linear SVM,16,0,0,20,36
+RBF SVM,16,0,0,20,36
+Random Forest,16,0,0,20,36

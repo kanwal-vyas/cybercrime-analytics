@@ -1,0 +1,8 @@
+Check,Status,Detail
+Target Leakage Prevention,PASSED,Neither target_actual nor HIGH_NEXT_YEAR is in the feature predictor list.
+Temporal Horizon Independence,PASSED,All features are lagged (t-1 and t-2 relative to target_year). Zero contemporaneous features.
+2023 Feature Exclusion,PASSED,Zero 2023 sectional/motive attributes present in the historical panel dataset.
+Threshold Training Exclusivity,PASSED,High-volume threshold (367.0 cases) derived solely from 70 training observations.
+Chronological Split Integrity,PASSED,"Training target years: [2020, 2021] (N=70), Held-out test target year: [2022] (N=36)."
+Observation Tuple Uniqueness,PASSED,"All 106 (State/UT, target_year) tuples are strictly unique."
+Longitudinal Panel Structure,PASSED,Jurisdictions repeat across target years in a longitudinal panel; temporal order is strictly maintained without cross-period shuffling.

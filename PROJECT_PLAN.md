@@ -80,13 +80,13 @@ The following matrix maps the complete semester Data Mining & Analytics syllabus
 | **Unit 4** | FP-Growth algorithm | Stage 12 | **Done (FROZEN)** | FP-Tree mining, 100% itemset/rule mathematical equivalence & scalability benchmarks |
 | **Unit 4** | Association rule evaluation | Stage 5 + 12 | **Done (FROZEN)** | Support, Confidence, Lift, directionality asymmetry & non-causal evaluation |
 | **Unit 4** | Correlation analysis | Stage 12 | **Done (FROZEN)** | Pearson linear ($r$) & Spearman monotonic ($\rho$) matrices, part-whole classifications |
-| **Unit 5** | Decision Tree classification | Stage 13 | *Planned (Stage 13)* | Tree-based classification on leak-free longitudinal panel target |
-| **Unit 5** | Bayesian classification | Stage 13 | *Planned (Stage 13)* | Gaussian Naive Bayes classifier on lagged volume regime features |
-| **Unit 5** | Support Vector Machines (SVM) | Stage 13 | *Planned (Stage 13)* | Linear & RBF kernel Support Vector Classifiers with standard scaling |
-| **Unit 5** | Ensemble classification methods | Stage 13 | *Planned (Stage 13)* | Random Forest classifier with out-of-bag scoring & feature importance |
+| **Unit 5** | Decision Tree classification | Stage 13 | **Done (FROZEN)** | Tree-based classification on leak-free longitudinal panel target (depth=3, Acc=0.9722) |
+| **Unit 5** | Bayesian classification | Stage 13 | **Done (FROZEN)** | Gaussian Naive Bayes classifier on lagged volume regime features (Acc=1.000, F1=1.000) |
+| **Unit 5** | Support Vector Machines (SVM) | Stage 13 | **Done (FROZEN)** | Linear & RBF kernel Support Vector Classifiers with standard scaling pipelines (Acc=1.000) |
+| **Unit 5** | Ensemble classification methods | Stage 13 | **Done (FROZEN)** | Random Forest classifier with constrained depth & Gini feature importance (Acc=1.000) |
 | **Unit 5** | Linear & regularized regression | Stage 7 + 14 | **Stage 7 Done** / *Stage 14 Planned* | OLS, Ridge (L2), Log-Linear panel regression (Validated baseline: $R^2=0.9000$) |
 | **Unit 5** | Non-linear regression | Stage 14 | *Planned (Stage 14)* | Polynomial feature regression & regression tree ensembles on historical lags |
-| **Unit 5** | Model evaluation & accuracy | Stages 7, 13, 14 | **Stage 7 Done** / *Stages 13–14 Planned* | MAE, RMSE, $R^2$, Precision, Recall, F1-Score, Confusion Matrices, ROC-AUC |
+| **Unit 5** | Model evaluation & accuracy | Stages 7, 13, 14 | **Stages 7 & 13 Done** / *Stage 14 Planned* | MAE, RMSE, $R^2$, Accuracy, Precision, Recall, Specificity, F1-Score, Confusion Matrices, ROC-AUC |
 | **Unit 6** | Partitioning clustering (K-Means) | Stage 6 + 15 | **Stage 6 Done** / *Stage 15 Planned* | Standardized 4-feature composition profiles ($K=4$), Elbow & Silhouette analysis |
 | **Unit 6** | Hierarchical clustering | Stage 15 | *Planned (Stage 15)* | Agglomerative hierarchical clustering with linkage comparison & dendrogram |
 | **Unit 6** | Density-based clustering (DBSCAN) | Stage 15 | *Planned (Stage 15)* | DBSCAN clustering for density separation and core/noise identification |
@@ -434,23 +434,55 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 
 ---
 
-### Stage 13 — Classification Analysis *(Planned / Not Started)*
-- **Purpose**: Implement a rigorous, leak-free supervised classification workflow for Unit 5 to evaluate historical pattern discrimination.
+### Stage 13 — Classification Analysis (Done / FROZEN)
+- **Purpose**: Implement a rigorous, leak-free supervised classification workflow for Unit 5 to classify whether a State/UT belongs to a high-volume cybercrime regime in the following year.
 - **Analytical Problem Formulation**:
-  - Because the 2023 cross-sectional dataset has $N=36$ and lacks a natural ground-truth label, classification is formulated on the **longitudinal panel dataset** ($2018–2022$, $N=106$).
-  - **Target Definition**: Next-year high-volume regime indicator ($y_{i, t} \ge \text{Median}(Y_{\text{train}})$) defined strictly using training-partition statistics.
+  - Longitudinal panel dataset: 2018–2022 Rajya Sabha State/UT series ($N = 106$ observations).
+  - **Target Definition**: Next-year high-volume regime indicator:
+    $$\text{HIGH\_NEXT\_YEAR} = \begin{cases} 1 & \text{if } y_t \ge 367.0 \text{ cases} \\ 0 & \text{if } y_t < 367.0 \text{ cases} \end{cases}$$
+  - **Threshold Derivation**: Derived strictly from the **training partition median** ($\text{Median}(Y_{\text{train}}) = 367.0$ cases across 70 observations in target years 2020 and 2021). Zero held-out test data used to define or tune the target boundary.
+  - **Partition Class Balance**:
+    - *Training Partition (2020–2021, $N_{\text{train}} = 70$)*: Exactly 35 Low (50.0%) and 35 High (50.0%) observations.
+    - *Held-Out Test Partition (2022, $N_{\text{test}} = 36$)*: 16 Low (44.4%) and 20 High (55.6%) observations.
 - **Feature Matrix (Historical Lag Features Only)**:
-  - $\text{Lag}_1$ volume ($y_{t-1}$), $\text{Lag}_2$ volume ($y_{t-2}$), 1-year volume change ($\Delta y = y_{t-1} - y_{t-2}$), YoY growth rate, and 2-year rolling mean/std.
-  - Zero leakage: No contemporaneous category/motive features and no future target information are included.
-- **Evaluated Supervised Classifiers**:
-  1. *Decision Tree Classifier* (entropy & Gini criteria, shallow depth $\le 3$ to prevent overfitting on small $N$).
-  2. *Gaussian Naive Bayes* (probabilistic Bayesian baseline).
-  3. *Support Vector Machine (SVM)* (Linear and RBF kernels with Z-score standardized inputs).
-  4. *Random Forest Classifier* (ensemble bagging with out-of-bag scoring and feature importance).
-- **Evaluation & Diagnostics**:
-  - Accuracy, Precision, Recall, F1-Score, Specificity, Confusion Matrix, and ROC-AUC curves.
-  - Strict temporal partition: Train on 2020–2021 target years ($N_{\text{train}}=70$), test on held-out 2022 ($N_{\text{test}}=36$).
-  - Framed strictly as a syllabus machine learning demonstration, NOT a predictive crime-risk policing system.
+  - $\text{Lag}_1$ volume ($y_{t-1}$), $\text{Lag}_2$ volume ($y_{t-2}$), 1-year volume change ($\text{lag\_diff} = y_{t-1} - y_{t-2}$), YoY growth rate ($\text{lag\_growth\_rate}$), $\log(1+\text{lag}_1)$, $\log(1+\text{lag}_2)$.
+  - **Zero Leakage**: No contemporaneous category/motive features, no 2023 sectional attributes, and no future target information.
+  - **StandardScaler Pipelines**: All feature scaling fitted strictly on training observations within scikit-learn Pipelines.
+- **Formal Leakage Audit**: All 7 checks PASSED (`stage13_leakage_audit.csv`): Target Leakage Prevention, Temporal Horizon Independence, 2023 Feature Exclusion, Threshold Training Exclusivity, Chronological Split Integrity, Observation Tuple Uniqueness, and Longitudinal Panel Structure.
+- **Evaluated Supervised Classifiers (Held-Out 2022 Test Horizon, $N=36$)**:
+  1. *Baseline (Most Frequent Class)*: Accuracy = $44.44\%$, Balanced Acc = $50.00\%$, Precision = $0.00\%$, Recall = $0.00\%$, Specificity = $100.0\%$, F1-Score = $0.0000$, ROC-AUC = $0.5000$.
+  2. *Decision Tree (depth=3)*: Accuracy = $97.22\%$, Balanced Acc = $97.50\%$, Precision = $100.0\%$, Recall = $95.00\%$, Specificity = $100.0\%$, F1-Score = $0.9744$, ROC-AUC = $0.9750$ (1 false negative: 16 TN, 0 FP, 1 FN, 19 TP).
+  3. *Gaussian Naive Bayes*: Accuracy = $100.0\%$, Balanced Acc = $100.0\%$, Precision = $100.0\%$, Recall = $100.0\%$, Specificity = $100.0\%$, F1-Score = $1.0000$, ROC-AUC = $1.0000$ (16 TN, 0 FP, 0 FN, 20 TP).
+  4. *Linear SVM (StandardScaler Pipeline)*: Accuracy = $100.0\%$, Balanced Acc = $100.0\%$, Precision = $100.0\%$, Recall = $100.0\%$, Specificity = $100.0\%$, F1-Score = $1.0000$, ROC-AUC = $1.0000$ (16 TN, 0 FP, 0 FN, 20 TP).
+  5. *RBF SVM (StandardScaler Pipeline)*: Accuracy = $100.0\%$, Balanced Acc = $100.0\%$, Precision = $100.0\%$, Recall = $100.0\%$, Specificity = $100.0\%$, F1-Score = $1.0000$, ROC-AUC = $1.0000$ (16 TN, 0 FP, 0 FN, 20 TP).
+  6. *Random Forest (100 Trees, max_depth=3)*: Accuracy = $100.0\%$, Balanced Acc = $100.0\%$, Precision = $100.0\%$, Recall = $100.0\%$, Specificity = $100.0\%$, F1-Score = $1.0000$, ROC-AUC = $1.0000$ (16 TN, 0 FP, 0 FN, 20 TP).
+- **Feature Importance & Non-Causal Interpretation**:
+  - Decision Tree: $\log(1+\text{lag}_1)$ accounts for $94.44\%$ Gini importance; $\log(1+\text{lag}_2)$ accounts for $5.56\%$.
+  - Random Forest: $\log(1+\text{lag}_1)$ ($27.14\%$), $\log(1+\text{lag}_2)$ ($25.42\%$), $\text{lag}_2$ ($23.72\%$), $\text{lag}_1$ ($21.26\%$).
+  - *Methodological Warning*: Near-perfect regime classification reflects **strong temporal scale persistence** across Indian jurisdictions rather than causal determinants.
+- **Comparison with Stage 7 Regression**:
+  - Stage 7: Predicts continuous volume ($\hat{Y}_t \in \mathbb{R}^+$, Log-Linear $R^2 = 0.9000$, $\text{MAE} = 479.4$).
+  - Stage 13: Predicts discrete regime boundary ($Y_t \in \{0, 1\}$, Accuracy = $1.000$, F1 = $1.0000$).
+- **Exported Deliverables**:
+  - `src/classification.py`
+  - `src/generate_stage13_notebook.py`
+  - `src/validate_stage13.py`
+  - `notebooks/11_classification.ipynb`
+  - `outputs/tables/stage13_classification_dataset.csv`
+  - `outputs/tables/stage13_class_distribution.csv`
+  - `outputs/tables/stage13_model_comparison.csv`
+  - `outputs/tables/stage13_confusion_matrices.csv`
+  - `outputs/tables/stage13_feature_importance.csv`
+  - `outputs/tables/stage13_leakage_audit.csv`
+  - `outputs/figures/40_classification_class_distributions.png`
+  - `outputs/figures/41_classification_model_performance_comparison.png`
+  - `outputs/figures/42_classification_confusion_matrices.png`
+  - `outputs/figures/43_classification_roc_curves.png`
+  - `outputs/figures/44_classification_decision_tree_and_feature_importance.png`
+- **Methodological Limitations**:
+  - Test sample is bounded to $N = 36$ State/UT jurisdictions.
+  - Classification models historical volume scale and momentum; does not capture socio-economic causation, dark figures of unrecorded crime, or law enforcement staffing changes.
+- **Reproducibility & Verification**: `src/classification.py`, `src/generate_stage13_notebook.py`, and `notebooks/11_classification.ipynb` executed head-to-tail with 0 errors. All 8 test suites in `src/validate_stage13.py` passed with 100% success.
 
 ---
 

@@ -1,0 +1,4 @@
+Partition,Total_Obs,Class_0_Low,Class_1_High,Pct_Class_0,Pct_Class_1,Threshold_Applied
+Full Panel,106,51,55,48.11,51.89,367.0
+Training (2020-2021),70,35,35,50.0,50.0,367.0
+Held-Out Test (2022),36,16,20,44.44,55.56,367.0
