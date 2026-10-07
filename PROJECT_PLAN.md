@@ -164,7 +164,7 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 - **Analytical Problem Formulation**: Predicts 1-year ahead aggregate State/UT cybercrime volume using historical longitudinal lag features from preceding years ($t-1$ and $t-2$).
 - **Zero-Leakage Protocol**:
   - **No Tautology**: Avoids regressing total cases on contemporaneous category/motive components.
-  - **Chronological Split**: Trained strictly on historical target years 2020 and 2021 ($N_{\\text{train}} = 70$), evaluated on held-out future target year 2022 ($N_{\\text{test}} = 36$).
+  - **Chronological Split**: The training target years (2020 and 2021, $N_{\text{train}} = 70$) precede the held-out test year (2022, $N_{\text{test}} = 36$), preventing target-year lookahead. No `(state_name, target_year)` observation appears in both partitions; states may recur across years because this is a longitudinal panel design.
   - **Automated Audit**: 5 automated leakage checks (`LEAK-01` to `LEAK-05`) verified and passed in `prediction_leakage_audit.csv`.
 - **Evaluated Models & Performance (Held-Out 2022 Test Set)**:
   - *Naive Persistent Baseline ($y_{t-1}$)*: MAE = $564.75$ cases, RMSE = $1,340.75$, $R^2 = 0.8625$, Median AE = $61.50$.
@@ -175,9 +175,10 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - *Decision Tree Regressor (depth=3)*: MAE = $608.42$ cases, RMSE = $1,571.47$, $R^2 = 0.8111$, Median AE = $100.86$.
   - *Random Forest Regressor (depth=3)*: MAE = $582.24$ cases, RMSE = $1,559.55$, $R^2 = 0.8139$, Median AE = $58.47$.
 - **Key Analytical Findings**:
-  - Longitudinal scale inertia is strong ($R^2 > 0.86$ across simple baselines).
+  - The strong performance of the Naive Persistent baseline indicates substantial temporal persistence in observed state-level cybercrime case volumes ($R^2 = 0.8625$).
   - Log-Linear regression achieves the lowest error and highest variance explained by stabilizing variance across extreme volume ranges (high-volume hubs vs small UTs).
-  - High absolute residual errors are concentrated in rapid-acceleration hubs (Telangana, Karnataka) and policy-shift jurisdictions (Assam).
+  - High absolute residual errors are concentrated in states with large year-over-year volume changes (Telangana, Karnataka, Assam).
+  - Annual changes may reflect changes in reporting, registration, enforcement, or other underlying conditions; the available data do not allow these factors to be separated from changes in observed case volume.
 - **Exported Tables & Figures**:
   - `outputs/tables/prediction_dataset.csv`
   - `outputs/tables/prediction_results.csv`
