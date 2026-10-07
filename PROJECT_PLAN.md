@@ -10,7 +10,7 @@
 | 4. EDA | `03_eda.ipynb` | **Done (FROZEN)** |
 | 5. Association Rules | `04_association_rules.ipynb` | **Done (FROZEN)** |
 | 6. Clustering | `05_clustering.ipynb` | **Done (FROZEN)** |
-| 7. Prediction (regression) | `06_prediction.ipynb` | Not started |
+| 7. Prediction | `06_prediction.ipynb` | **Done** |
 | 8. Outlier Detection | `07_outlier_detection.ipynb` | Not started |
 | 9. Power BI Dashboard | — | Not started |
 
@@ -51,7 +51,7 @@ Full evidence for every row above is in `notebooks/01_data_understanding.ipynb`.
 | Unit 2 | Preprocessing, cleaning, transformation | Stage 2 — header cleanup, aggregate-row removal, 2023 master-table join, feature engineering for clustering/classification |
 | Unit 3 | Data warehouse / OLAP, star schema, roll-up/drill-down/slice/dice | Stage 3 — `sql/schema.sql`, `sql/views.sql`, `sql/analysis_queries.sql`, `notebooks/03_sql_olap.ipynb`, `data/database/cybercrime.db` |
 | Unit 4 | Frequent itemsets, Apriori, support/confidence/lift | Stage 5 — state-as-transaction / above-median-category-as-item representation (marginal-but-defensible, see Validation Gate) |
-| Unit 5 | Classification, regression, prediction | Stage 6/7 — cross-sectional regression (GO); classification only if an engineered, leakage-checked target is built |
+| Unit 5 | Classification, regression, prediction | Stage 7 (`06_prediction.ipynb`, `src/prediction.py`) — temporal lag panel prediction with zero target leakage |
 | Unit 6 | K-Means, cluster interpretation, outlier/anomaly detection | Stage 6/8 — K-Means on scaled/log-transformed leaf features; IQR/Z-score + Isolation Forest outlier detection |
 | Visualization | Exploratory, geographic, dashboards | Stage 4 (`notebooks/03_eda.ipynb`, `src/eda.py`, `outputs/figures/`) and Stage 9 (Power BI: executive overview, geographic, category, trend pages) |
 
@@ -160,10 +160,35 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - `outputs/figures/19_cluster_projection.png`
 - **Reproducibility & Verification**: `src/clustering.py` module and `notebooks/05_clustering.ipynb` executed head-to-tail with 0 errors. All 7 test suites in `src/validate_stage6.py` passed.
 
-### Stage 7 — Prediction
-Cross-sectional regression only (2023 master table). Time-series forecasting is
-explicitly out of scope per the Validation Gate — at most a labelled, caveated descriptive
-trend line. Classification attempted only with an engineered, leakage-checked target.
+### Stage 7 — Prediction: State-Level Cybercrime Volume Prediction (Done)
+- **Analytical Problem Formulation**: Predicts 1-year ahead aggregate State/UT cybercrime volume using historical longitudinal lag features from preceding years ($t-1$ and $t-2$).
+- **Zero-Leakage Protocol**:
+  - **No Tautology**: Avoids regressing total cases on contemporaneous category/motive components.
+  - **Chronological Split**: Trained strictly on historical target years 2020 and 2021 ($N_{\\text{train}} = 70$), evaluated on held-out future target year 2022 ($N_{\\text{test}} = 36$).
+  - **Automated Audit**: 5 automated leakage checks (`LEAK-01` to `LEAK-05`) verified and passed in `prediction_leakage_audit.csv`.
+- **Evaluated Models & Performance (Held-Out 2022 Test Set)**:
+  - *Naive Persistent Baseline ($y_{t-1}$)*: MAE = $564.75$ cases, RMSE = $1,340.75$, $R^2 = 0.8625$, Median AE = $61.50$.
+  - *Historical 2-Year Moving Average*: MAE = $563.04$ cases, RMSE = $1,523.73$, $R^2 = 0.8224$, Median AE = $57.00$.
+  - *Linear Regression (OLS, Raw)*: MAE = $776.08$ cases, RMSE = $1,680.13$, $R^2 = 0.7840$, Median AE = $205.07$.
+  - *Ridge Regression (L2 Regularized)*: MAE = $776.08$ cases, RMSE = $1,680.13$, $R^2 = 0.7840$, Median AE = $205.07$.
+  - *Log-Linear Regression (Log OLS - Top Performer)*: **MAE = $479.37$ cases**, **RMSE = $1,143.46$**, **$R^2 = 0.9000$**, Median AE = $69.85$.
+  - *Decision Tree Regressor (depth=3)*: MAE = $608.42$ cases, RMSE = $1,571.47$, $R^2 = 0.8111$, Median AE = $100.86$.
+  - *Random Forest Regressor (depth=3)*: MAE = $582.24$ cases, RMSE = $1,559.55$, $R^2 = 0.8139$, Median AE = $58.47$.
+- **Key Analytical Findings**:
+  - Longitudinal scale inertia is strong ($R^2 > 0.86$ across simple baselines).
+  - Log-Linear regression achieves the lowest error and highest variance explained by stabilizing variance across extreme volume ranges (high-volume hubs vs small UTs).
+  - High absolute residual errors are concentrated in rapid-acceleration hubs (Telangana, Karnataka) and policy-shift jurisdictions (Assam).
+- **Exported Tables & Figures**:
+  - `outputs/tables/prediction_dataset.csv`
+  - `outputs/tables/prediction_results.csv`
+  - `outputs/tables/prediction_actual_vs_predicted.csv`
+  - `outputs/tables/prediction_leakage_audit.csv`
+  - `outputs/figures/20_prediction_actual_vs_predicted.png`
+  - `outputs/figures/21_prediction_model_comparison.png`
+  - `outputs/figures/22_prediction_residuals_by_state.png`
+  - `outputs/figures/23_historical_trajectory_forecast.png`
+  - `outputs/models/` (5 serialized model artifacts)
+- **Reproducibility & Verification**: `src/prediction.py` module and `notebooks/06_prediction.ipynb` executed head-to-tail with 0 errors. All 6 validation suites in `src/validate_stage7.py` passed.
 
 ### Stage 8 — Outlier Detection
 IQR/Z-score (univariate) on totals; Isolation Forest (multivariate) on the same feature

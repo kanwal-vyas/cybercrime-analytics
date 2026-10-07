@@ -1,0 +1,6 @@
+check_id,check_name,description,status,details
+LEAK-01,Predictor-Target Disjunction,Target variable target_actual is strictly excluded from predictor matrices.,PASSED,Predictor set contains only historical lagged indicators.
+LEAK-02,Chronological Split Validity,Training window strictly precedes held-out test window (Train <= 2021 < Test = 2022).,PASSED,"Train years: [2020, 2021], Test years: [2022]."
+LEAK-03,Observation Independence,"Zero overlap in (state_name, target_year) tuples across train and test partitions.",PASSED,Intersection count = 0.
+LEAK-04,No 2023 Detailed Component Leakage,"No 2023 category breakdowns, IT Act subtotals, or motive counts used.",PASSED,Dataset constructed purely from historical 2018-2022 state annual series.
+LEAK-05,Null Value Verification,Zero NaN / null values in panel features and target.,PASSED,Total null count = 0.
