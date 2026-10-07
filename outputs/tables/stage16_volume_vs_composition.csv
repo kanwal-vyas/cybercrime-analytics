@@ -1,0 +1,37 @@
+state_name,total_cases,joint_iso_outlier,joint_mah_outlier,comp_iso_outlier,comp_mah_outlier,joint_mahalanobis_dist,comp_mahalanobis_dist,anomaly_orientation
+Karnataka,21889,Yes,Yes,No,No,345.6066,3.6279,Volume-Scale Driven Anomaly
+Telangana,18236,No,Yes,No,No,156.0547,5.071,Volume-Scale Driven Anomaly
+Uttar Pradesh,10794,Yes,Yes,No,Yes,67.5085,47.9057,Both Volume & Composition Anomaly
+Maharashtra,8103,No,No,No,No,15.799,3.081,Not Anomalous in Tested Spaces
+Bihar,4450,No,No,No,No,17.9441,4.5102,Not Anomalous in Tested Spaces
+Tamil Nadu,4121,No,No,No,No,16.014,2.5779,Not Anomalous in Tested Spaces
+Kerala,3295,Yes,No,Yes,Yes,14.9692,119.3939,Both Volume & Composition Anomaly
+Rajasthan,2435,No,No,No,No,13.5572,3.8901,Not Anomalous in Tested Spaces
+Odisha,2348,No,Yes,No,No,1052.2009,2.3918,Volume-Scale Driven Anomaly
+Andhra Pradesh,2341,No,No,No,No,11.4629,4.6567,Not Anomalous in Tested Spaces
+Gujarat,1995,No,No,No,Yes,10.6126,29.6635,Composition-Profile Driven Anomaly
+Jharkhand,1079,No,Yes,No,No,89.5475,3.6071,Volume-Scale Driven Anomaly
+Assam,909,No,No,Yes,Yes,18.5574,112.4501,Composition-Profile Driven Anomaly
+Haryana,751,No,No,No,No,6.0268,2.6369,Not Anomalous in Tested Spaces
+Madhya Pradesh,685,No,No,No,No,12.1063,1.9029,Not Anomalous in Tested Spaces
+Punjab,511,No,No,No,Yes,13.921,28.9652,Composition-Profile Driven Anomaly
+Uttarakhand,494,No,No,No,Yes,9.6691,65.9418,Composition-Profile Driven Anomaly
+Chhattisgarh,473,No,No,No,Yes,19.574,22.3156,Composition-Profile Driven Anomaly
+Delhi,407,No,No,No,No,11.4607,5.8355,Not Anomalous in Tested Spaces
+West Bengal,309,No,Yes,No,Yes,229.485,21.1428,Both Volume & Composition Anomaly
+Jammu and Kashmir,185,No,No,No,No,8.0981,5.5691,Not Anomalous in Tested Spaces
+Puducherry,147,No,No,No,No,17.4189,3.8229,Not Anomalous in Tested Spaces
+Himachal Pradesh,127,No,No,No,No,6.0337,0.4212,Not Anomalous in Tested Spaces
+Goa,86,No,No,No,No,8.0489,0.6422,Not Anomalous in Tested Spaces
+Meghalaya,64,No,No,No,No,6.8309,3.5079,Not Anomalous in Tested Spaces
+Andaman and Nicobar Islands,47,No,No,No,No,18.7871,2.8131,Not Anomalous in Tested Spaces
+Tripura,36,No,No,No,No,7.9434,7.6144,Not Anomalous in Tested Spaces
+Mizoram,31,No,No,No,No,18.7818,3.4652,Not Anomalous in Tested Spaces
+Arunachal Pradesh,24,No,No,No,No,15.3043,1.7825,Not Anomalous in Tested Spaces
+Chandigarh,23,No,No,Yes,Yes,18.373,33.8329,Composition-Profile Driven Anomaly
+Sikkim,12,No,No,No,Yes,17.8861,54.5442,Composition-Profile Driven Anomaly
+Dadra and Nagar Haveli and Daman and Diu,6,Yes,Yes,Yes,Yes,238.2912,161.9844,Both Volume & Composition Anomaly
+Manipur,3,No,No,No,Yes,18.599,26.9,Composition-Profile Driven Anomaly
+Nagaland,2,No,Yes,No,No,283.7015,9.2432,Volume-Scale Driven Anomaly
+Ladakh,1,Yes,Yes,Yes,Yes,309.8622,31.219,Both Volume & Composition Anomaly
+Lakshadweep,1,Yes,Yes,Yes,Yes,878.4273,242.2513,Both Volume & Composition Anomaly

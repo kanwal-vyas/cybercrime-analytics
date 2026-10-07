@@ -1,0 +1,37 @@
+state_name,total_cases,lof_score_k5,lof_outlier_k5,lof_score_k10,lof_outlier_k10,lof_score_k15,lof_outlier_k15
+Lakshadweep,1,1.5274,Yes,1.4085,Yes,1.3151,Yes
+Karnataka,21889,1.6425,Yes,1.3983,Yes,1.2308,Yes
+Ladakh,1,1.4106,Yes,1.2664,Yes,1.2029,Yes
+Dadra and Nagar Haveli and Daman and Diu,6,1.4398,Yes,1.2537,Yes,1.1906,Yes
+Odisha,2348,1.4523,Yes,1.1735,Yes,1.0146,No
+Jharkhand,1079,1.5098,Yes,1.169,Yes,1.0205,No
+Uttar Pradesh,10794,1.2485,No,1.1167,No,1.0698,Yes
+Chandigarh,23,1.2408,No,1.0978,No,1.0345,No
+Kerala,3295,1.2172,No,1.0721,No,1.062,Yes
+West Bengal,309,1.2454,No,1.0719,No,0.9585,No
+Telangana,18236,1.0325,No,1.0638,No,1.0418,No
+Assam,909,1.1765,No,1.0604,No,1.0193,No
+Nagaland,2,1.0579,No,1.0601,No,1.0521,No
+Manipur,3,1.1437,No,1.0539,No,1.0542,No
+Chhattisgarh,473,1.1515,No,1.0474,No,0.9358,No
+Sikkim,12,1.142,No,1.0245,No,1.0211,No
+Tamil Nadu,4121,1.0506,No,1.0158,No,1.0292,No
+Rajasthan,2435,1.0254,No,1.0108,No,1.0292,No
+Gujarat,1995,0.9016,No,1.0098,No,1.0088,No
+Maharashtra,8103,1.0068,No,1.0097,No,1.0439,No
+Uttarakhand,494,1.1294,No,1.0071,No,0.9834,No
+Andaman and Nicobar Islands,47,1.0544,No,1.0069,No,1.0148,No
+Mizoram,31,1.1659,No,1.0012,No,1.0353,No
+Andhra Pradesh,2341,0.9877,No,1.0,No,1.0124,No
+Meghalaya,64,1.0089,No,0.9996,No,0.9796,No
+Arunachal Pradesh,24,1.1241,No,0.9967,No,1.0269,No
+Bihar,4450,1.0403,No,0.9945,No,1.0163,No
+Tripura,36,0.9894,No,0.994,No,1.0166,No
+Haryana,751,0.9787,No,0.9855,No,0.9875,No
+Puducherry,147,1.0043,No,0.9818,No,1.0081,No
+Goa,86,1.0172,No,0.9775,No,0.9718,No
+Jammu and Kashmir,185,0.9894,No,0.9732,No,0.9539,No
+Himachal Pradesh,127,0.9913,No,0.9672,No,0.9686,No
+Madhya Pradesh,685,0.927,No,0.966,No,0.9804,No
+Punjab,511,1.0212,No,0.9648,No,0.954,No
+Delhi,407,1.0375,No,0.9605,No,0.9554,No

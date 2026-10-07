@@ -19,7 +19,7 @@
 | 13. Classification Analysis | Decision Tree, Naive Bayes, SVM, RF | `11_classification.ipynb` | **Done (FROZEN)** |
 | 14. Regression & Prediction Enhancement | Polynomial, Ridge, Trees vs Log-Linear | `12_prediction_enhancement.ipynb`| **Done (FROZEN)** |
 | 15. Advanced Clustering & Validation | Hierarchical Ward, GMM, DBSCAN, ARI/NMI| `13_advanced_clustering.ipynb` | **Done (FROZEN)** |
-| 16. Advanced Outlier & Anomaly Analysis | Univariate vs Multivariate Drivers | `14_advanced_outliers.ipynb` | *Planned (Not Started)* |
+| 16. Advanced Outlier & Anomaly Validation| Robust Mahalanobis, LOF, Dual-Space | `14_advanced_outlier_detection.ipynb`| **Done (FROZEN)** |
 | 17. Advanced Visualization & Power BI | 10-Page Dashboard Integration | `dashboard/` | *Planned (Not Started)* |
 | 18. Integrated Analytical Findings | Cross-Technique Synthesis (No Causation)| `15_integrated_findings.ipynb` | *Planned (Not Started)* |
 | 19. Final Academic Audit | Full Verification & Zero-Leakage Audit | `src/validate_all.py` | *Planned (Not Started)* |
@@ -90,7 +90,7 @@ The following matrix maps the complete semester Data Mining & Analytics syllabus
 | **Unit 6** | Hierarchical clustering | Stage 15 | **Done (FROZEN)** | Agglomerative hierarchical clustering with Ward linkage, multi-K validation ($K \in [2, 8]$) |
 | **Unit 6** | Density-based clustering (DBSCAN) | Stage 15 | **Done (FROZEN)** | DBSCAN density exploration across $\varepsilon \in [0.8, 1.5]$ and $\text{min\_samples} \in [2, 3]$ |
 | **Unit 6** | Dimensionality reduction / PCA | Stages 6, 10, 15 | **Done (FROZEN)** | 2D PCA cluster projection, scree analysis, variance explanation |
-| **Unit 6** | Outlier & anomaly detection | Stage 8 + 16 | **Stage 8 Done** / *Stage 16 Planned* | Descriptive Tukey IQR fences (14 features) + Multivariate Isolation Forest ($c=0.15$) |
+| **Unit 6** | Outlier & anomaly detection | Stage 8 + 16 | **Done (FROZEN)** | Descriptive Tukey IQR fences (14 features) + Multivariate Isolation Forest ($c=0.15$) + Robust Mahalanobis (MinCovDet) + Local Outlier Factor (LOF) |
 | **Viz** | Visualization & Dashboards | Stages 4, 9, 17 | **Stages 4, 9 Done** / *Stage 17 Planned*| 12 EDA figures, 6-Page & 10-Page Power BI semantic packages, interactive layouts |
 
 ## 4. Phased Plan
@@ -602,14 +602,55 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 
 ---
 
-### Stage 16 — Advanced Outlier & Anomaly Analysis *(Planned / Not Started)*
-- **Purpose**: Deepen Unit 6 anomaly detection by cross-analyzing univariate Tukey fences, multivariate Isolation Forest scores, and cluster profile assignments.
-- **Planned Analytical Components**:
-  1. *Univariate vs. Multivariate Concordance Matrix*: Cross-tabulating 1-dimensional fence violations against multidimensional isolation trees.
-  2. *Feature-Level Anomaly Attribution*: Computing SHAP / feature contribution scores identifying which specific variables drive multivariate isolation for anomalous states (Karnataka, Kerala, UP, Ladakh, etc.).
-  3. *Cluster-Outlier Intersection Analysis*: Analyzing the distribution of outlier jurisdictions across the 4 composition clusters.
-  4. *Small-Denominator Mathematical Isolation*: Documenting the exact proportion inflation mechanism in tiny Union Territories (Dadra & Nagar Haveli $N=6$, Lakshadweep $N=1$).
-- **Core Guardrail**: Statistical outlier $\neq$ data entry error $\neq$ dangerous jurisdiction.
+### Stage 16 — Advanced Outlier Detection & Anomaly Validation (Done / FROZEN)
+- **Methodological Purpose**: Extend the descriptive outlier analysis from Stage 8 into a rigorous multivariate anomaly detection and validation study across 36 State/UT jurisdictions using multiple statistical and machine learning perspectives.
+- **Strict Methodological Guardrails**:
+  - Outliers reflect statistical extremity under defined mathematical metrics, NOT criminality, risk scoring, data errors, or policing effectiveness.
+  - Non-causal framework: distance departures describe multi-dimensional location, not crime causes or policy outcomes.
+  - Dual feature spaces: strictly separates volume-scale extremity (14-feature space) from compositional profile extremity (4-feature space).
+- **Methods Evaluated**:
+  1. *Robust Multivariate Mahalanobis Distance*: `MinCovDet` estimator with Chi-Square cutoff ($\chi^2_{14, 0.975} = 26.12$). Flagged 10 jurisdictions (e.g. Karnataka, Jharkhand, Nagaland, Odisha, Telangana, UP, West Bengal, Dadra & Nagar Haveli, Ladakh, Lakshadweep).
+  2. *Local Outlier Factor (LOF)*: Density-based local anomalies centered at $k=10$ with sensitivity across $k=5, 10, 15$. Flagged 6 jurisdictions at $k=10, c=0.15$ (Jharkhand, Karnataka, Odisha, Dadra & Nagar Haveli, Ladakh, Lakshadweep).
+  3. *Isolation Forest (Stage 8 Baseline Reference)*: $c=0.15, \text{random\_state}=42$. Flagged 6 jurisdictions (Karnataka, Kerala, UP, Dadra & Nagar Haveli, Lakshadweep, Ladakh).
+  4. *Tukey IQR Fences (Stage 8 Baseline Reference)*: Flagged 18 jurisdictions across 52 individual fence violations.
+- **Method Agreement & Consensus Anomaly Scoring ($0 \text{ to } 4$)**:
+  - *Consensus Anomalies (4/4 Methods Agree)*: 3 States/UTs ($8.3\%$) — Karnataka, Dadra & Nagar Haveli, Lakshadweep.
+  - *Strong Multi-Method Anomalies (3/4 Methods Agree)*: 3 States/UTs ($8.3\%$) — Uttar Pradesh, Jharkhand, Ladakh.
+  - *Multi-Method Anomalies (2/4 Methods Agree)*: 3 States/UTs ($8.3\%$) — Kerala, Odisha, Telangana.
+  - *Single-Method Anomalies (1/4 Methods Agree)*: 12 States/UTs ($33.3\%$) — Andhra Pradesh, Assam, Bihar, Chandigarh, Chhattisgarh, Gujarat, Maharashtra, Nagaland, Rajasthan, Tamil Nadu, Uttarakhand, West Bengal.
+  - *No Methods Flag (0/4 Methods Agree)*: 15 States/UTs ($41.7\%$) — Arunachal Pradesh, Delhi, Goa, Haryana, Himachal Pradesh, Jammu & Kashmir, MP, Manipur, Meghalaya, Mizoram, Punjab, Puducherry, Sikkim, Tripura, Andaman & Nicobar.
+- **Dual-Space Volume vs. Composition Separation**:
+  - *Volume-Scale Driven Only*: 5 jurisdictions (e.g. Telangana, Maharashtra, Bihar, Rajasthan, Gujarat).
+  - *Composition-Profile Driven Only*: 8 jurisdictions (e.g. Kerala, UP, Jharkhand, Assam, Chandigarh, Nagaland, Sikkim, Uttarakhand).
+  - *Both Volume & Composition Anomalous*: 6 jurisdictions (Karnataka, Dadra & Nagar Haveli, Lakshadweep, Ladakh, Odisha, West Bengal).
+  - *Not Anomalous in Tested Spaces*: 17 jurisdictions.
+- **Small-Denominator Sensitivity Analysis ($N=36$ vs. $N=34$)**:
+  - Excluding extreme small-denominator jurisdictions ($N \le 6$ cases: Dadra & Nagar Haveli and Lakshadweep) confirms that core state multivariate flags remain stable (Isolation Forest Jaccard overlap = $0.8000$, Robust Mahalanobis Jaccard overlap = $0.8750$).
+  - The primary analytical dataset strictly retains all $N=36$ jurisdictions.
+- **Exported Deliverables**:
+  - `src/advanced_outlier_detection.py`
+  - `src/generate_stage16_notebook.py`
+  - `src/validate_stage16.py`
+  - `notebooks/14_advanced_outlier_detection.ipynb`
+  - `outputs/tables/stage16_feature_redundancy.csv`
+  - `outputs/tables/stage16_mahalanobis_scores.csv`
+  - `outputs/tables/stage16_lof_scores.csv`
+  - `outputs/tables/stage16_method_comparison.csv`
+  - `outputs/tables/stage16_consensus_anomalies.csv`
+  - `outputs/tables/stage16_volume_vs_composition.csv`
+  - `outputs/tables/stage16_sensitivity.csv`
+  - `outputs/figures/56_feature_redundancy_correlation_heatmap.png`
+  - `outputs/figures/57_robust_mahalanobis_distances.png`
+  - `outputs/figures/58_lof_anomaly_scores.png`
+  - `outputs/figures/59_anomaly_method_agreement_consensus.png`
+  - `outputs/figures/60_volume_vs_composition_anomalies.png`
+  - `outputs/figures/61_pca_anomaly_visualization.png`
+- **Methodological Limitations**:
+  - Small sample size ($N=36$ State/UT jurisdictions).
+  - Several features are mathematically related to total volume (part-whole redundancy).
+  - Statistical anomalies evaluate distance from distribution medians, not real-world ground truth.
+  - Consensus scores measure methodological consistency, not empirical risk.
+- **Reproducibility & Verification**: `src/advanced_outlier_detection.py`, `src/generate_stage16_notebook.py`, and `notebooks/14_advanced_outlier_detection.ipynb` executed head-to-tail with 0 errors. All 11 test suites in `src/validate_stage16.py` passed with 100% success. Frozen stages 5–15 regression test passed completely.
 
 ---
 

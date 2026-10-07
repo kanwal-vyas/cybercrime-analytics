@@ -1,0 +1,3 @@
+method,primary_n36_flagged,sensitivity_n34_flagged,overlap_jaccard_on_n34,notes
+Isolation Forest,6,5,0.2857,Excluding N<=6 small UTs preserves key high-volume and unusual profile flags.
+Robust Mahalanobis,10,9,0.7,High stability on core state multivariate departures.
