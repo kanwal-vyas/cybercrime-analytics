@@ -1,0 +1,15 @@
+feature,feature_type,original_mean,original_std,original_skewness,log1p_mean,log1p_std,log1p_skewness,zscore_mean,zscore_std,zscore_skewness,minmax_min,minmax_max,minmax_skewness
+total_cases,Volume Count,2400.56,4954.19,2.961,5.57,2.64,-0.264,0.0,1.0142,2.961,0.0,1.0,2.961
+it_act_cases,Volume Count,1228.81,3919.51,4.751,4.92,2.3,-0.204,0.0,1.0142,4.751,0.0,1.0,4.751
+ipc_cases,Volume Count,1162.47,3181.87,4.507,4.0,3.08,0.076,0.0,1.0142,4.507,0.0,1.0,4.507
+motive_fraud,Volume Count,1653.5,3944.73,3.495,4.78,2.83,-0.104,-0.0,1.0142,3.495,0.0,1.0,3.495
+motive_extortion,Volume Count,92.39,201.96,3.481,2.56,2.19,0.35,-0.0,1.0142,3.481,0.0,1.0,3.481
+motive_sexual_exploitation,Volume Count,116.64,178.82,1.934,3.34,2.04,-0.246,0.0,1.0142,1.934,0.0,1.0,1.934
+sec66d_cheating_personation,Volume Count,703.72,3037.56,5.748,3.39,2.57,0.31,0.0,1.0142,5.748,0.0,1.0,5.748
+sec66c_identity_theft,Volume Count,138.28,412.53,5.087,2.83,2.1,0.447,0.0,1.0142,5.087,0.0,1.0,5.087
+women_cases_total,Volume Count,541.94,1232.35,4.462,4.39,2.38,-0.231,-0.0,1.0142,4.462,0.0,1.0,4.462
+child_cases_total,Volume Count,52.83,104.95,2.768,2.51,1.84,0.185,-0.0,1.0142,2.768,0.0,1.0,2.768
+it_act_share,Composition Share,0.63,0.34,-0.442,-,-,-,-0.0,1.0142,-0.442,0.0,1.0,-0.442
+fraud_motive_share,Composition Share,0.49,0.28,-0.27,-,-,-,0.0,1.0142,-0.27,0.0,1.0,-0.27
+extortion_motive_share,Composition Share,0.04,0.05,1.35,-,-,-,-0.0,1.0142,1.35,0.0,1.0,1.35
+sexual_exploitation_motive_share,Composition Share,0.16,0.22,2.672,-,-,-,-0.0,1.0142,2.672,0.0,1.0,2.672

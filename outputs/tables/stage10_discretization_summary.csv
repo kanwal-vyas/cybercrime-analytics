@@ -1,0 +1,33 @@
+feature,discretization_method,bin_label,bin_range,count,percentage
+total_cases,Equal-Width (3 Bins),Low,"[-20.89, 7297.00]",32,88.89
+total_cases,Equal-Width (3 Bins),Medium,"[7297.00, 14593.00]",2,5.56
+total_cases,Equal-Width (3 Bins),High,"[14593.00, 21889.00]",2,5.56
+total_cases,Quantile-Based (Terciles),T1_Low,"[1.00, 78.67]",12,33.33
+total_cases,Quantile-Based (Terciles),T2_Medium,"[78.67, 965.67]",12,33.33
+total_cases,Quantile-Based (Terciles),T3_High,"[965.67, 21889.00]",12,33.33
+total_cases,Median Binary Split,Below_Median,<= 440.00,18,50.0
+total_cases,Median Binary Split,Above_Median,> 440.00,18,50.0
+it_act_share,Equal-Width (3 Bins),Low,"[-0.00, 0.33]",9,25.0
+it_act_share,Equal-Width (3 Bins),Medium,"[0.33, 0.67]",9,25.0
+it_act_share,Equal-Width (3 Bins),High,"[0.67, 1.00]",18,50.0
+it_act_share,Quantile-Based (Terciles),T1_Low,"[0.00, 0.43]",12,33.33
+it_act_share,Quantile-Based (Terciles),T2_Medium,"[0.43, 0.92]",12,33.33
+it_act_share,Quantile-Based (Terciles),T3_High,"[0.92, 1.00]",12,33.33
+it_act_share,Median Binary Split,Below_Median,<= 0.69,18,50.0
+it_act_share,Median Binary Split,Above_Median,> 0.69,18,50.0
+fraud_motive_share,Equal-Width (3 Bins),Low,"[-0.00, 0.32]",9,25.0
+fraud_motive_share,Equal-Width (3 Bins),Medium,"[0.32, 0.63]",15,41.67
+fraud_motive_share,Equal-Width (3 Bins),High,"[0.63, 0.95]",12,33.33
+fraud_motive_share,Quantile-Based (Terciles),T1_Low,"[0.00, 0.39]",12,33.33
+fraud_motive_share,Quantile-Based (Terciles),T2_Medium,"[0.39, 0.62]",12,33.33
+fraud_motive_share,Quantile-Based (Terciles),T3_High,"[0.62, 0.95]",12,33.33
+fraud_motive_share,Median Binary Split,Below_Median,<= 0.49,18,50.0
+fraud_motive_share,Median Binary Split,Above_Median,> 0.49,18,50.0
+motive_extortion,Equal-Width (3 Bins),Low,"[-1.02, 340.00]",33,91.67
+motive_extortion,Equal-Width (3 Bins),Medium,"[340.00, 680.00]",2,5.56
+motive_extortion,Equal-Width (3 Bins),High,"[680.00, 1020.00]",1,2.78
+motive_extortion,Quantile-Based (Terciles),T1_Low,"[0.00, 1.67]",12,33.33
+motive_extortion,Quantile-Based (Terciles),T2_Medium,"[1.67, 50.33]",12,33.33
+motive_extortion,Quantile-Based (Terciles),T3_High,"[50.33, 1020.00]",12,33.33
+motive_extortion,Median Binary Split,Below_Median,<= 9.50,18,50.0
+motive_extortion,Median Binary Split,Above_Median,> 9.50,18,50.0

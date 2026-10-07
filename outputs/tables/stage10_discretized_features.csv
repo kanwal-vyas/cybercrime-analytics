@@ -1,0 +1,37 @@
+state_name,total_cases__equal_width_3bin,total_cases__quantile_3tercile,total_cases__median_binary,it_act_share__equal_width_3bin,it_act_share__quantile_3tercile,it_act_share__median_binary,fraud_motive_share__equal_width_3bin,fraud_motive_share__quantile_3tercile,fraud_motive_share__median_binary,motive_extortion__equal_width_3bin,motive_extortion__quantile_3tercile,motive_extortion__median_binary
+Andhra Pradesh,Low,T3_High,Above_Median,Low,T1_Low,Below_Median,Medium,T2_Medium,Above_Median,Low,T3_High,Above_Median
+Arunachal Pradesh,Low,T1_Low,Below_Median,High,T2_Medium,Above_Median,High,T3_High,Above_Median,Low,T1_Low,Below_Median
+Assam,Low,T2_Medium,Above_Median,High,T3_High,Above_Median,Low,T1_Low,Below_Median,Low,T3_High,Above_Median
+Bihar,Low,T3_High,Above_Median,Low,T1_Low,Below_Median,High,T3_High,Above_Median,Low,T3_High,Above_Median
+Chhattisgarh,Low,T2_Medium,Above_Median,Medium,T2_Medium,Below_Median,Low,T1_Low,Below_Median,Low,T2_Medium,Below_Median
+Goa,Low,T2_Medium,Below_Median,High,T2_Medium,Above_Median,High,T3_High,Above_Median,Low,T2_Medium,Below_Median
+Gujarat,Low,T3_High,Above_Median,Low,T1_Low,Below_Median,Medium,T2_Medium,Above_Median,Low,T3_High,Above_Median
+Haryana,Low,T2_Medium,Above_Median,Medium,T2_Medium,Below_Median,Medium,T2_Medium,Below_Median,Low,T2_Medium,Above_Median
+Himachal Pradesh,Low,T2_Medium,Below_Median,High,T2_Medium,Above_Median,High,T3_High,Above_Median,Low,T2_Medium,Below_Median
+Jharkhand,Low,T3_High,Above_Median,High,T3_High,Above_Median,High,T3_High,Above_Median,Low,T2_Medium,Above_Median
+Karnataka,High,T3_High,Above_Median,High,T3_High,Above_Median,High,T3_High,Above_Median,Medium,T3_High,Above_Median
+Kerala,Low,T3_High,Above_Median,Low,T1_Low,Below_Median,Medium,T2_Medium,Above_Median,Medium,T3_High,Above_Median
+Madhya Pradesh,Low,T2_Medium,Above_Median,Medium,T1_Low,Below_Median,Medium,T2_Medium,Below_Median,Low,T2_Medium,Above_Median
+Maharashtra,Medium,T3_High,Above_Median,Low,T1_Low,Below_Median,High,T3_High,Above_Median,Low,T3_High,Above_Median
+Manipur,Low,T1_Low,Below_Median,Medium,T2_Medium,Below_Median,Medium,T1_Low,Below_Median,Low,T1_Low,Below_Median
+Meghalaya,Low,T1_Low,Below_Median,High,T3_High,Above_Median,Medium,T2_Medium,Below_Median,Low,T2_Medium,Below_Median
+Mizoram,Low,T1_Low,Below_Median,High,T3_High,Above_Median,High,T3_High,Above_Median,Low,T1_Low,Below_Median
+Nagaland,Low,T1_Low,Below_Median,High,T3_High,Above_Median,Medium,T2_Medium,Above_Median,Low,T1_Low,Below_Median
+Odisha,Low,T3_High,Above_Median,Medium,T1_Low,Below_Median,High,T3_High,Above_Median,Low,T1_Low,Below_Median
+Punjab,Low,T2_Medium,Above_Median,Medium,T1_Low,Below_Median,Medium,T2_Medium,Above_Median,Low,T3_High,Above_Median
+Rajasthan,Low,T3_High,Above_Median,Medium,T2_Medium,Below_Median,Medium,T2_Medium,Below_Median,Low,T3_High,Above_Median
+Sikkim,Low,T1_Low,Below_Median,High,T3_High,Above_Median,Low,T1_Low,Below_Median,Low,T1_Low,Below_Median
+Tamil Nadu,Low,T3_High,Above_Median,Medium,T2_Medium,Below_Median,High,T3_High,Above_Median,Low,T2_Medium,Above_Median
+Telangana,High,T3_High,Above_Median,Low,T1_Low,Below_Median,High,T3_High,Above_Median,Low,T3_High,Above_Median
+Tripura,Low,T1_Low,Below_Median,High,T3_High,Above_Median,Medium,T2_Medium,Below_Median,Low,T1_Low,Below_Median
+Uttar Pradesh,Medium,T3_High,Above_Median,High,T3_High,Above_Median,Medium,T1_Low,Below_Median,High,T3_High,Above_Median
+Uttarakhand,Low,T2_Medium,Above_Median,High,T2_Medium,Above_Median,Medium,T1_Low,Below_Median,Low,T3_High,Above_Median
+West Bengal,Low,T2_Medium,Below_Median,Low,T1_Low,Below_Median,Low,T1_Low,Below_Median,Low,T2_Medium,Below_Median
+Andaman and Nicobar Islands,Low,T1_Low,Below_Median,Medium,T2_Medium,Below_Median,Medium,T2_Medium,Below_Median,Low,T1_Low,Below_Median
+Chandigarh,Low,T1_Low,Below_Median,High,T2_Medium,Above_Median,Low,T1_Low,Below_Median,Low,T2_Medium,Below_Median
+Dadra and Nagar Haveli and Daman and Diu,Low,T1_Low,Below_Median,High,T3_High,Above_Median,Low,T1_Low,Below_Median,Low,T1_Low,Below_Median
+Delhi,Low,T2_Medium,Below_Median,Low,T1_Low,Below_Median,Low,T1_Low,Below_Median,Low,T2_Medium,Above_Median
+Jammu and Kashmir,Low,T2_Medium,Below_Median,High,T2_Medium,Above_Median,Medium,T2_Medium,Above_Median,Low,T2_Medium,Above_Median
+Ladakh,Low,T1_Low,Below_Median,Low,T1_Low,Below_Median,Low,T1_Low,Below_Median,Low,T1_Low,Below_Median
+Lakshadweep,Low,T1_Low,Below_Median,High,T3_High,Above_Median,Low,T1_Low,Below_Median,Low,T1_Low,Below_Median
+Puducherry,Low,T2_Medium,Below_Median,High,T3_High,Above_Median,High,T3_High,Above_Median,Low,T1_Low,Below_Median

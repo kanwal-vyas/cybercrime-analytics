@@ -177,7 +177,7 @@ current status in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md#dataset-validation-gate)
 
 The project is structured into **20 comprehensive syllabus-aligned stages** (detailed in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md)).
 
-### Core Implemented Foundation (Stages 1–9: FROZEN)
+### Core Implemented Foundation (Stages 1–10: FROZEN)
 - [x] **Stage 1 — Data Understanding**: Dataset Validation Gate completed (`01_data_understanding.ipynb`)
 - [x] **Stage 2 — Preprocessing**: Master state cross-section & feature engineering (`02_preprocessing.ipynb`)
 - [x] **Stage 3 — Data Warehouse & OLAP**: Star schema database (`cybercrime.db`) & analytical views (`03_sql_olap.ipynb`)
@@ -187,9 +187,9 @@ The project is structured into **20 comprehensive syllabus-aligned stages** (det
 - [x] **Stage 7 — Predictive Modeling**: Leak-free temporal lag panel regression with Log-Linear model (`06_prediction.ipynb`)
 - [x] **Stage 8 — Outlier Detection**: Descriptive Tukey IQR fences & Isolation Forest (`07_outlier_detection.ipynb`)
 - [x] **Stage 9 — Power BI Semantic Data Package**: 20 validated CSV extracts & 6-page architecture (`POWERBI_SPECIFICATION.md`)
+- [x] **Stage 10 — Advanced Data Preprocessing**: Multi-scale transformations, PCA reduction, discretization & hierarchies (`08_advanced_preprocessing.ipynb`)
 
-### Advanced Planned Roadmap (Stages 10–20: Planned / Not Started)
-- [ ] **Stage 10 — Advanced Data Preprocessing**: Summarization, multi-scale transformations, discretization & hierarchies
+### Advanced Planned Roadmap (Stages 11–20: Planned / Not Started)
 - [ ] **Stage 11 — Advanced OLAP & Data Cube**: Multidimensional cube modeling & Attribute-Oriented Induction (AOI)
 - [ ] **Stage 12 — Advanced Frequent Patterns**: FP-Growth tree mining, runtime benchmarks & correlation matrices
 - [ ] **Stage 13 — Supervised Classification**: Decision Tree, Naive Bayes, SVM, and Random Forest on historical panel

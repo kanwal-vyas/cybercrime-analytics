@@ -63,13 +63,13 @@ The following matrix maps the complete semester Data Mining & Analytics syllabus
 | **Unit 1** | Data mining concepts & applications | Stages 1–20 | **Core Framework** | Real-world cybercrime analytics for national security context |
 | **Unit 1** | Data mining functionalities | Stages 4–18 | **Implemented & Planned** | Characterization, discrimination, association, classification, clustering, outlier analysis |
 | **Unit 1** | Issues & challenges in data mining | Stages 1, 19 | **Active Protocol** | Small-N constraints, absence of per-capita data, macro-level transaction limits, leakage audits |
-| **Unit 2** | Data summarization & distribution | Stage 10 | *Planned (Stage 10)* | Comprehensive descriptive stats, skewness, kurtosis, cardinality, dispersion |
-| **Unit 2** | Data cleaning & quality checks | Stage 2 + 10 | **Stage 2 Done** / *Stage 10 Planned* | Header cleanup, missing values, zero-imputation audit, duplicate detection |
-| **Unit 2** | Data integration | Stage 2 + 10 | **Stage 2 Done** / *Stage 10 Planned* | Cross-table joining (categories, motives, women, children), key reconciliation |
-| **Unit 2** | Data transformation | Stage 10 | *Planned (Stage 10)* | Min-Max scaling, Z-score standardization, Log1p count transformations |
-| **Unit 2** | Data reduction | Stage 10 | *Planned (Stage 10)* | Feature selection, variance thresholding, collinearity pruning, PCA dimensionality reduction |
-| **Unit 2** | Data discretization | Stage 10 | *Planned (Stage 10)* | Binning continuous counts/shares into discrete bands (Low / Medium / High) |
-| **Unit 2** | Concept hierarchy generation | Stage 10 | *Planned (Stage 10)* | Structural schema hierarchies (India $\rightarrow$ State/UT; Legal Act $\rightarrow$ Category) |
+| **Unit 2** | Data summarization & distribution | Stage 10 | **Done (FROZEN)** | Comprehensive descriptive stats, skewness, kurtosis, zero counts, dispersion across 14 features |
+| **Unit 2** | Data cleaning & quality checks | Stage 2 + 10 | **Done (FROZEN)** | Header cleanup, missing values, zero-imputation audit, duplicate detection |
+| **Unit 2** | Data integration | Stage 2 + 10 | **Done (FROZEN)** | Cross-table joining (categories, motives, women, children), key reconciliation |
+| **Unit 2** | Data transformation | Stage 10 | **Done (FROZEN)** | Min-Max scaling, Z-score standardization, Log1p count transformations with skewness reduction |
+| **Unit 2** | Data reduction | Stage 10 | **Done (FROZEN)** | Feature selection, variance analysis, PCA dimensionality reduction (>90% variance in 4 PCs) |
+| **Unit 2** | Data discretization | Stage 10 | **Done (FROZEN)** | Binning continuous counts/shares (Equal-width, Quantile terciles, Median splits) |
+| **Unit 2** | Concept hierarchy generation | Stage 10 | **Done (FROZEN)** | Structural schema hierarchies (India $\rightarrow$ State/UT; Legal Act $\rightarrow$ Category; Motive taxonomy) |
 | **Unit 3** | Multidimensional data model | Stage 3 + 11 | **Stage 3 Done** / *Stage 11 Planned* | Star schema dimensions (`dim_state`, `dim_year`, `dim_crime_category`, `dim_motive`) |
 | **Unit 3** | Data warehouse architecture | Stage 3 | **Done (FROZEN)** | SQLite 3 relational warehouse (`data/database/cybercrime.db`) with foreign keys |
 | **Unit 3** | OLAP operations | Stage 3 + 11 | **Stage 3 Done** / *Stage 11 Planned* | Roll-Up, Drill-Down, Slice, Dice, Pivot across analytical views (`sql/views.sql`) |
@@ -279,23 +279,54 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 
 ---
 
-### Stage 10 — Advanced Data Preprocessing *(Planned / Not Started)*
-- **Purpose**: Strengthen Unit 2 curriculum coverage beyond initial cleaning and feature joins, establishing formal data summarization, multi-scale transformations, discretization, and hierarchical reductions.
-- **Planned Analytical Components**:
-  1. *Data Summarization & Distributional Profiling*: Compute five-number summaries, mean, median, standard deviation, interquartile range, skewness, kurtosis, and cardinality metrics across all 40 leaf categories and 18 motives.
-  2. *Data Cleaning Audits*: Systematic zero-variance audits, missing-value diagnostic matrices, duplicate record verifications, and cross-source boundary consistency validations.
-  3. *Data Integration*: Formalized multi-table key reconciliation validating identical 36-state relational integrity across category, motive, women, children, and historical trend tables.
-  4. *Data Transformations*: Min-Max feature normalization $[0, 1]$, Z-score standardization ($\mu=0, \sigma=1$), and $\log(1+x)$ transformations for heavy-tailed count distributions.
-  5. *Data Reduction*: Variance thresholding, correlation-based feature redundancy pruning, and principal component dimensionality reduction (PCA) preserving $\ge 70\%$ variance.
-  6. *Data Discretization*: Binning continuous case volumes into ordinal frequency bands (`Low`, `Medium`, `High`) and motive shares into meaningful percentage tiers.
-  7. *Concept Hierarchy Generation*: Structural data cube roll-up taxonomies:
-     - Geography: `National (India)` $\rightarrow$ `Administrative Type (State vs UT)` $\rightarrow$ `Jurisdiction (36 State/UTs)`
-     - Legal Framework: `All Cybercrimes` $\rightarrow$ `Act Group (IT Act / IPC / SLL)` $\rightarrow$ `Offence Category (40 Leaves)`
-     - Crime Motive: `All Motives` $\rightarrow$ `Motive Cluster (Financial / Interpersonal / Extortion / SLL)` $\rightarrow$ `Specific Motive (18 Types)`
-- **Critical Methodological Guardrails**:
-  - Do NOT fabricate unobserved geographic levels (e.g., district-level data not present in NCRB state tables).
-  - Do NOT alter raw files (`data/raw/`).
-  - Stage 10 operates as an advanced analytical layer over Stage 2; existing validated Stage 2 outputs remain intact.
+### Stage 10 — Advanced Data Preprocessing (Done / FROZEN)
+- **Purpose**: Implements a complete, syllabus-aligned Unit 2 preprocessing suite spanning descriptive summarization, multi-scale transformations, dimensionality reduction (PCA), continuous feature discretization, and multilevel concept hierarchy extraction.
+- **Analytical Matrix**: 14 features across 36 States/UTs in 2023 (10 volume count variables, 4 composition share variables) from `outputs/tables/eda_state_feature_matrix.csv`.
+- **Part A — Descriptive Summarization & Distributional Profiling**:
+  - Computed 15 statistical metrics per feature: count ($N=36$), missing ($0$), mean, standard deviation, min, $Q_1$, median, $Q_3$, max, IQR, skewness, kurtosis, zero-count, zero-percentage, and variable type.
+  - Highlighted extreme right-skew in volume counts (`total_cases` skewness = $2.75$, `motive_fraud` skewness = $2.97$) and zero-inflation in sparse offenses (`child_cases_total` zero in 15 jurisdictions, `sec66c_identity_theft` zero in 10 jurisdictions).
+- **Part B — Data Transformations & Comparative Impact**:
+  - *Log1p Transformation*: Applied $x_{\log} = \ln(1 + x)$ to all 10 non-negative count features. Effectively mitigated extreme right skew without numerical singularities (`total_cases` skewness reduced from $+2.75$ to $-0.65$; `motive_fraud` reduced from $+2.97$ to $-0.08$).
+  - *Z-Score Standardization*: $z = (x - \mu) / \sigma$ centering all features to mean $0.0$ and standard deviation $1.0$. Verified mathematically that standardization shifts scale while preserving underlying distributional shape/skewness.
+  - *Min-Max Normalization*: $x' = (x - \min) / (\max - \min)$ rescaling values to $[0.0, 1.0]$ bounds.
+- **Part C & D — Data Reduction & Principal Component Analysis (PCA)**:
+  - Standardized feature set composed of 10 log-transformed count features and 4 raw continuous proportions.
+  - *Explained Variance Decomposition*:
+    - **PC1 (58.30% of Variance)**: Captures general **Cybercrime Volume & Administrative Scale** (high positive loadings $0.33$ to $0.38$ across all volume measures).
+    - **PC2 (17.38% of Variance)**: Captures **Statutory vs Exploitation Divergence** (strong positive loading $+0.49$ on `it_act_share` vs negative loading $-0.48$ on `sexual_exploitation_motive_share`).
+    - **PC3 (9.84%)** and **PC4 (5.50%)**: Capture specific motive variations (extortion and IPC proportions).
+    - **Cumulative Variance**: First 2 PCs capture **$75.68\%$** of variance; 4 components explain **$91.01\%$** ($>90\%$ threshold).
+- **Part E — Data Discretization Schemes**:
+  - *Equal-Width (3 Bins)*: Low, Medium, High. Highlighted extreme imbalance vulnerability on right-skewed counts (assigns 33/36 states to Low, 1 to Medium, 2 to High for `total_cases`).
+  - *Quantile-Based (3 Terciles)*: T1_Low, T2_Medium, T3_High. Uniformly partitions the 36 jurisdictions into exactly 12 states per tercile.
+  - *Median Binary Split*: Below_Median vs Above_Median (18 states each), aligning directly with Stage 5 Apriori transaction items.
+- **Part F — Multilevel Concept Hierarchies**:
+  - *Geographic Hierarchy*: `National (India)` $\rightarrow$ `Admin Type (28 States / 8 UTs)` $\rightarrow$ `Jurisdiction (36 States/UTs)` $\rightarrow$ `state_id`.
+  - *Crime Category Hierarchy*: `All Cybercrimes` $\rightarrow$ `Act Group (IT Act, IPC, SLL, Grand Total)` $\rightarrow$ `Parent Category` $\rightarrow$ `Offense Category (49 rows)`.
+  - *Crime Motive Hierarchy*: `All Motives` $\rightarrow$ `Motive Group (6 substantive clusters + Total)` $\rightarrow$ `Specific Motive (19 rows)`.
+- **Exported Deliverables**:
+  - `outputs/tables/stage10_feature_summary.csv`
+  - `outputs/tables/stage10_transformation_comparison.csv`
+  - `outputs/tables/stage10_transformed_matrix.csv`
+  - `outputs/tables/stage10_pca_explained_variance.csv`
+  - `outputs/tables/stage10_pca_loadings.csv`
+  - `outputs/tables/stage10_pca_scores.csv`
+  - `outputs/tables/stage10_discretization_summary.csv`
+  - `outputs/tables/stage10_discretized_features.csv`
+  - `outputs/tables/stage10_geographic_hierarchy.csv`
+  - `outputs/tables/stage10_crime_category_hierarchy.csv`
+  - `outputs/tables/stage10_motive_hierarchy.csv`
+  - `outputs/figures/28_transform_skewness_comparison.png`
+  - `outputs/figures/29_feature_scaling_comparison.png`
+  - `outputs/figures/30_pca_scree_and_cumulative_variance.png`
+  - `outputs/figures/31_pca_2d_projection.png`
+  - `outputs/figures/32_discretization_distributions.png`
+  - `notebooks/08_advanced_preprocessing.ipynb`
+- **Methodological Limitations ($N = 36$)**:
+  - Sample size is strictly cross-sectional ($N=36$ State/UT aggregates); PCA loadings and principal components represent descriptive directions of sample variance, not causal criminological factors.
+  - Discretization boundaries and terciles reflect this specific 2023 distribution.
+  - Correlation-based reduction accounts for structural part-whole dependencies (e.g. IT Act + IPC = Total).
+- **Reproducibility & Verification**: `src/advanced_preprocessing.py`, `src/generate_stage10_notebook.py`, and `notebooks/08_advanced_preprocessing.ipynb` executed head-to-tail with 0 errors. All 7 test suites in `src/validate_stage10.py` passed with 100% success.
 
 ---
 
