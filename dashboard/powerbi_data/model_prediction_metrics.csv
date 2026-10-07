@@ -1,0 +1,8 @@
+model_name,model_type,feature_set,train_samples,test_samples,mae,rmse,r2,median_ae,description
+Naive Persistent (Lag-1),Baseline,lag_1 (Year t-1),70,36,564.75,1340.75,0.8625,61.5,Assumes cybercrime volume remains identical to the immediately preceding year.
+Historical 2-Year Moving Average,Baseline,"lag_1, lag_2 Mean",70,36,563.04,1523.73,0.8224,57.0,Predicts the arithmetic mean of the preceding two years.
+"Linear Regression (OLS, Raw)",Linear Model,"lag_1, lag_2",70,36,776.08,1680.13,0.784,205.07,Ordinary Least Squares regression on raw historical counts.
+Ridge Regression (L2 Regularized),Linear Model,"lag_1, lag_2",70,36,776.08,1680.13,0.784,205.07,Linear regression with L2 regularization penalty (alpha=1.0).
+Log-Linear Regression (Log OLS),Log-Linear Model,"log_lag_1, log_lag_2",70,36,479.37,1143.46,0.9,69.85,Linear regression on log1p counts with exponential back-transformation.
+Decision Tree Regressor,Tree Model,"lag_1, lag_2",70,36,608.42,1571.47,0.8111,100.86,Single decision tree with constrained depth (max_depth=3) to prevent overfitting.
+Random Forest Regressor,Ensemble Model,"lag_1, lag_2",70,36,582.24,1559.55,0.8139,58.47,"Random forest ensemble of 100 shallow trees (max_depth=3, random_state=42)."

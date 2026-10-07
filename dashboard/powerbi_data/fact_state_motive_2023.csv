@@ -1,0 +1,685 @@
+state_id,state_name,is_ut,year_id,year,motive_id,motive_display_name,is_total,motive_count
+1,Andaman and Nicobar Islands,1,1,2023,1,Personal Revenge,0,1
+1,Andaman and Nicobar Islands,1,1,2023,2,Emotional motives like Anger etc,0,0
+1,Andaman and Nicobar Islands,1,1,2023,3,Fraud,0,22
+1,Andaman and Nicobar Islands,1,1,2023,4,Extortion,0,1
+1,Andaman and Nicobar Islands,1,1,2023,5,Causing Disrepute,0,2
+1,Andaman and Nicobar Islands,1,1,2023,6,Prank,0,0
+1,Andaman and Nicobar Islands,1,1,2023,7,Sexual Exploitation,0,9
+1,Andaman and Nicobar Islands,1,1,2023,8,Political Motives,0,1
+1,Andaman and Nicobar Islands,1,1,2023,9,Terrorist Activities,0,0
+1,Andaman and Nicobar Islands,1,1,2023,10,Inciting Hate against Country,0,0
+1,Andaman and Nicobar Islands,1,1,2023,11,Disrupt Public Service,0,0
+1,Andaman and Nicobar Islands,1,1,2023,12,Sale Purchase illegal drugs,0,0
+1,Andaman and Nicobar Islands,1,1,2023,13,Developing own business,0,0
+1,Andaman and Nicobar Islands,1,1,2023,14,Spreading Piracy,0,1
+1,Andaman and Nicobar Islands,1,1,2023,15,Psycho or Pervert,0,0
+1,Andaman and Nicobar Islands,1,1,2023,16,Steal Information,0,0
+1,Andaman and Nicobar Islands,1,1,2023,17,Abetment to Suicide,0,0
+1,Andaman and Nicobar Islands,1,1,2023,18,Others,0,10
+1,Andaman and Nicobar Islands,1,1,2023,19,Total,1,47
+2,Andhra Pradesh,0,1,2023,1,Personal Revenge,0,88
+2,Andhra Pradesh,0,1,2023,2,Emotional motives like Anger etc,0,63
+2,Andhra Pradesh,0,1,2023,3,Fraud,0,1334
+2,Andhra Pradesh,0,1,2023,4,Extortion,0,126
+2,Andhra Pradesh,0,1,2023,5,Causing Disrepute,0,95
+2,Andhra Pradesh,0,1,2023,6,Prank,0,0
+2,Andhra Pradesh,0,1,2023,7,Sexual Exploitation,0,239
+2,Andhra Pradesh,0,1,2023,8,Political Motives,0,34
+2,Andhra Pradesh,0,1,2023,9,Terrorist Activities,0,0
+2,Andhra Pradesh,0,1,2023,10,Inciting Hate against Country,0,0
+2,Andhra Pradesh,0,1,2023,11,Disrupt Public Service,0,1
+2,Andhra Pradesh,0,1,2023,12,Sale Purchase illegal drugs,0,1
+2,Andhra Pradesh,0,1,2023,13,Developing own business,0,27
+2,Andhra Pradesh,0,1,2023,14,Spreading Piracy,0,4
+2,Andhra Pradesh,0,1,2023,15,Psycho or Pervert,0,0
+2,Andhra Pradesh,0,1,2023,16,Steal Information,0,0
+2,Andhra Pradesh,0,1,2023,17,Abetment to Suicide,0,0
+2,Andhra Pradesh,0,1,2023,18,Others,0,329
+2,Andhra Pradesh,0,1,2023,19,Total,1,2341
+3,Arunachal Pradesh,0,1,2023,1,Personal Revenge,0,0
+3,Arunachal Pradesh,0,1,2023,2,Emotional motives like Anger etc,0,0
+3,Arunachal Pradesh,0,1,2023,3,Fraud,0,20
+3,Arunachal Pradesh,0,1,2023,4,Extortion,0,0
+3,Arunachal Pradesh,0,1,2023,5,Causing Disrepute,0,0
+3,Arunachal Pradesh,0,1,2023,6,Prank,0,0
+3,Arunachal Pradesh,0,1,2023,7,Sexual Exploitation,0,0
+3,Arunachal Pradesh,0,1,2023,8,Political Motives,0,0
+3,Arunachal Pradesh,0,1,2023,9,Terrorist Activities,0,0
+3,Arunachal Pradesh,0,1,2023,10,Inciting Hate against Country,0,0
+3,Arunachal Pradesh,0,1,2023,11,Disrupt Public Service,0,0
+3,Arunachal Pradesh,0,1,2023,12,Sale Purchase illegal drugs,0,0
+3,Arunachal Pradesh,0,1,2023,13,Developing own business,0,0
+3,Arunachal Pradesh,0,1,2023,14,Spreading Piracy,0,0
+3,Arunachal Pradesh,0,1,2023,15,Psycho or Pervert,0,0
+3,Arunachal Pradesh,0,1,2023,16,Steal Information,0,0
+3,Arunachal Pradesh,0,1,2023,17,Abetment to Suicide,0,0
+3,Arunachal Pradesh,0,1,2023,18,Others,0,4
+3,Arunachal Pradesh,0,1,2023,19,Total,1,24
+4,Assam,0,1,2023,1,Personal Revenge,0,174
+4,Assam,0,1,2023,2,Emotional motives like Anger etc,0,89
+4,Assam,0,1,2023,3,Fraud,0,138
+4,Assam,0,1,2023,4,Extortion,0,132
+4,Assam,0,1,2023,5,Causing Disrepute,0,12
+4,Assam,0,1,2023,6,Prank,0,6
+4,Assam,0,1,2023,7,Sexual Exploitation,0,59
+4,Assam,0,1,2023,8,Political Motives,0,3
+4,Assam,0,1,2023,9,Terrorist Activities,0,0
+4,Assam,0,1,2023,10,Inciting Hate against Country,0,0
+4,Assam,0,1,2023,11,Disrupt Public Service,0,1
+4,Assam,0,1,2023,12,Sale Purchase illegal drugs,0,0
+4,Assam,0,1,2023,13,Developing own business,0,0
+4,Assam,0,1,2023,14,Spreading Piracy,0,2
+4,Assam,0,1,2023,15,Psycho or Pervert,0,0
+4,Assam,0,1,2023,16,Steal Information,0,0
+4,Assam,0,1,2023,17,Abetment to Suicide,0,0
+4,Assam,0,1,2023,18,Others,0,293
+4,Assam,0,1,2023,19,Total,1,909
+5,Bihar,0,1,2023,1,Personal Revenge,0,326
+5,Bihar,0,1,2023,2,Emotional motives like Anger etc,0,309
+5,Bihar,0,1,2023,3,Fraud,0,3422
+5,Bihar,0,1,2023,4,Extortion,0,159
+5,Bihar,0,1,2023,5,Causing Disrepute,0,23
+5,Bihar,0,1,2023,6,Prank,0,19
+5,Bihar,0,1,2023,7,Sexual Exploitation,0,93
+5,Bihar,0,1,2023,8,Political Motives,0,0
+5,Bihar,0,1,2023,9,Terrorist Activities,0,0
+5,Bihar,0,1,2023,10,Inciting Hate against Country,0,0
+5,Bihar,0,1,2023,11,Disrupt Public Service,0,7
+5,Bihar,0,1,2023,12,Sale Purchase illegal drugs,0,0
+5,Bihar,0,1,2023,13,Developing own business,0,25
+5,Bihar,0,1,2023,14,Spreading Piracy,0,10
+5,Bihar,0,1,2023,15,Psycho or Pervert,0,0
+5,Bihar,0,1,2023,16,Steal Information,0,24
+5,Bihar,0,1,2023,17,Abetment to Suicide,0,0
+5,Bihar,0,1,2023,18,Others,0,33
+5,Bihar,0,1,2023,19,Total,1,4450
+6,Chandigarh,1,1,2023,1,Personal Revenge,0,2
+6,Chandigarh,1,1,2023,2,Emotional motives like Anger etc,0,0
+6,Chandigarh,1,1,2023,3,Fraud,0,3
+6,Chandigarh,1,1,2023,4,Extortion,0,3
+6,Chandigarh,1,1,2023,5,Causing Disrepute,0,0
+6,Chandigarh,1,1,2023,6,Prank,0,0
+6,Chandigarh,1,1,2023,7,Sexual Exploitation,0,9
+6,Chandigarh,1,1,2023,8,Political Motives,0,0
+6,Chandigarh,1,1,2023,9,Terrorist Activities,0,0
+6,Chandigarh,1,1,2023,10,Inciting Hate against Country,0,0
+6,Chandigarh,1,1,2023,11,Disrupt Public Service,0,0
+6,Chandigarh,1,1,2023,12,Sale Purchase illegal drugs,0,0
+6,Chandigarh,1,1,2023,13,Developing own business,0,0
+6,Chandigarh,1,1,2023,14,Spreading Piracy,0,0
+6,Chandigarh,1,1,2023,15,Psycho or Pervert,0,0
+6,Chandigarh,1,1,2023,16,Steal Information,0,0
+6,Chandigarh,1,1,2023,17,Abetment to Suicide,0,0
+6,Chandigarh,1,1,2023,18,Others,0,6
+6,Chandigarh,1,1,2023,19,Total,1,23
+7,Chhattisgarh,0,1,2023,1,Personal Revenge,0,1
+7,Chhattisgarh,0,1,2023,2,Emotional motives like Anger etc,0,1
+7,Chhattisgarh,0,1,2023,3,Fraud,0,49
+7,Chhattisgarh,0,1,2023,4,Extortion,0,3
+7,Chhattisgarh,0,1,2023,5,Causing Disrepute,0,57
+7,Chhattisgarh,0,1,2023,6,Prank,0,3
+7,Chhattisgarh,0,1,2023,7,Sexual Exploitation,0,136
+7,Chhattisgarh,0,1,2023,8,Political Motives,0,4
+7,Chhattisgarh,0,1,2023,9,Terrorist Activities,0,0
+7,Chhattisgarh,0,1,2023,10,Inciting Hate against Country,0,0
+7,Chhattisgarh,0,1,2023,11,Disrupt Public Service,0,0
+7,Chhattisgarh,0,1,2023,12,Sale Purchase illegal drugs,0,0
+7,Chhattisgarh,0,1,2023,13,Developing own business,0,5
+7,Chhattisgarh,0,1,2023,14,Spreading Piracy,0,0
+7,Chhattisgarh,0,1,2023,15,Psycho or Pervert,0,44
+7,Chhattisgarh,0,1,2023,16,Steal Information,0,0
+7,Chhattisgarh,0,1,2023,17,Abetment to Suicide,0,0
+7,Chhattisgarh,0,1,2023,18,Others,0,170
+7,Chhattisgarh,0,1,2023,19,Total,1,473
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,1,Personal Revenge,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,2,Emotional motives like Anger etc,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,3,Fraud,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,4,Extortion,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,5,Causing Disrepute,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,6,Prank,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,7,Sexual Exploitation,0,5
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,8,Political Motives,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,9,Terrorist Activities,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,10,Inciting Hate against Country,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,11,Disrupt Public Service,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,12,Sale Purchase illegal drugs,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,13,Developing own business,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,14,Spreading Piracy,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,15,Psycho or Pervert,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,16,Steal Information,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,17,Abetment to Suicide,0,0
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,18,Others,0,1
+8,Dadra and Nagar Haveli and Daman and Diu,1,1,2023,19,Total,1,6
+9,Delhi,1,1,2023,1,Personal Revenge,0,8
+9,Delhi,1,1,2023,2,Emotional motives like Anger etc,0,2
+9,Delhi,1,1,2023,3,Fraud,0,114
+9,Delhi,1,1,2023,4,Extortion,0,12
+9,Delhi,1,1,2023,5,Causing Disrepute,0,0
+9,Delhi,1,1,2023,6,Prank,0,11
+9,Delhi,1,1,2023,7,Sexual Exploitation,0,42
+9,Delhi,1,1,2023,8,Political Motives,0,1
+9,Delhi,1,1,2023,9,Terrorist Activities,0,0
+9,Delhi,1,1,2023,10,Inciting Hate against Country,0,0
+9,Delhi,1,1,2023,11,Disrupt Public Service,0,0
+9,Delhi,1,1,2023,12,Sale Purchase illegal drugs,0,0
+9,Delhi,1,1,2023,13,Developing own business,0,1
+9,Delhi,1,1,2023,14,Spreading Piracy,0,1
+9,Delhi,1,1,2023,15,Psycho or Pervert,0,0
+9,Delhi,1,1,2023,16,Steal Information,0,0
+9,Delhi,1,1,2023,17,Abetment to Suicide,0,0
+9,Delhi,1,1,2023,18,Others,0,215
+9,Delhi,1,1,2023,19,Total,1,407
+10,Goa,0,1,2023,1,Personal Revenge,0,2
+10,Goa,0,1,2023,2,Emotional motives like Anger etc,0,2
+10,Goa,0,1,2023,3,Fraud,0,60
+10,Goa,0,1,2023,4,Extortion,0,2
+10,Goa,0,1,2023,5,Causing Disrepute,0,7
+10,Goa,0,1,2023,6,Prank,0,0
+10,Goa,0,1,2023,7,Sexual Exploitation,0,11
+10,Goa,0,1,2023,8,Political Motives,0,0
+10,Goa,0,1,2023,9,Terrorist Activities,0,0
+10,Goa,0,1,2023,10,Inciting Hate against Country,0,0
+10,Goa,0,1,2023,11,Disrupt Public Service,0,0
+10,Goa,0,1,2023,12,Sale Purchase illegal drugs,0,0
+10,Goa,0,1,2023,13,Developing own business,0,0
+10,Goa,0,1,2023,14,Spreading Piracy,0,0
+10,Goa,0,1,2023,15,Psycho or Pervert,0,0
+10,Goa,0,1,2023,16,Steal Information,0,0
+10,Goa,0,1,2023,17,Abetment to Suicide,0,0
+10,Goa,0,1,2023,18,Others,0,2
+10,Goa,0,1,2023,19,Total,1,86
+11,Gujarat,0,1,2023,1,Personal Revenge,0,1
+11,Gujarat,0,1,2023,2,Emotional motives like Anger etc,0,9
+11,Gujarat,0,1,2023,3,Fraud,0,1187
+11,Gujarat,0,1,2023,4,Extortion,0,183
+11,Gujarat,0,1,2023,5,Causing Disrepute,0,387
+11,Gujarat,0,1,2023,6,Prank,0,5
+11,Gujarat,0,1,2023,7,Sexual Exploitation,0,84
+11,Gujarat,0,1,2023,8,Political Motives,0,0
+11,Gujarat,0,1,2023,9,Terrorist Activities,0,2
+11,Gujarat,0,1,2023,10,Inciting Hate against Country,0,0
+11,Gujarat,0,1,2023,11,Disrupt Public Service,0,2
+11,Gujarat,0,1,2023,12,Sale Purchase illegal drugs,0,0
+11,Gujarat,0,1,2023,13,Developing own business,0,5
+11,Gujarat,0,1,2023,14,Spreading Piracy,0,0
+11,Gujarat,0,1,2023,15,Psycho or Pervert,0,1
+11,Gujarat,0,1,2023,16,Steal Information,0,0
+11,Gujarat,0,1,2023,17,Abetment to Suicide,0,0
+11,Gujarat,0,1,2023,18,Others,0,129
+11,Gujarat,0,1,2023,19,Total,1,1995
+12,Haryana,0,1,2023,1,Personal Revenge,0,22
+12,Haryana,0,1,2023,2,Emotional motives like Anger etc,0,33
+12,Haryana,0,1,2023,3,Fraud,0,295
+12,Haryana,0,1,2023,4,Extortion,0,36
+12,Haryana,0,1,2023,5,Causing Disrepute,0,20
+12,Haryana,0,1,2023,6,Prank,0,3
+12,Haryana,0,1,2023,7,Sexual Exploitation,0,117
+12,Haryana,0,1,2023,8,Political Motives,0,0
+12,Haryana,0,1,2023,9,Terrorist Activities,0,0
+12,Haryana,0,1,2023,10,Inciting Hate against Country,0,0
+12,Haryana,0,1,2023,11,Disrupt Public Service,0,0
+12,Haryana,0,1,2023,12,Sale Purchase illegal drugs,0,0
+12,Haryana,0,1,2023,13,Developing own business,0,1
+12,Haryana,0,1,2023,14,Spreading Piracy,0,1
+12,Haryana,0,1,2023,15,Psycho or Pervert,0,0
+12,Haryana,0,1,2023,16,Steal Information,0,0
+12,Haryana,0,1,2023,17,Abetment to Suicide,0,0
+12,Haryana,0,1,2023,18,Others,0,223
+12,Haryana,0,1,2023,19,Total,1,751
+13,Himachal Pradesh,0,1,2023,1,Personal Revenge,0,8
+13,Himachal Pradesh,0,1,2023,2,Emotional motives like Anger etc,0,3
+13,Himachal Pradesh,0,1,2023,3,Fraud,0,90
+13,Himachal Pradesh,0,1,2023,4,Extortion,0,3
+13,Himachal Pradesh,0,1,2023,5,Causing Disrepute,0,5
+13,Himachal Pradesh,0,1,2023,6,Prank,0,0
+13,Himachal Pradesh,0,1,2023,7,Sexual Exploitation,0,12
+13,Himachal Pradesh,0,1,2023,8,Political Motives,0,1
+13,Himachal Pradesh,0,1,2023,9,Terrorist Activities,0,0
+13,Himachal Pradesh,0,1,2023,10,Inciting Hate against Country,0,0
+13,Himachal Pradesh,0,1,2023,11,Disrupt Public Service,0,0
+13,Himachal Pradesh,0,1,2023,12,Sale Purchase illegal drugs,0,0
+13,Himachal Pradesh,0,1,2023,13,Developing own business,0,0
+13,Himachal Pradesh,0,1,2023,14,Spreading Piracy,0,0
+13,Himachal Pradesh,0,1,2023,15,Psycho or Pervert,0,0
+13,Himachal Pradesh,0,1,2023,16,Steal Information,0,0
+13,Himachal Pradesh,0,1,2023,17,Abetment to Suicide,0,0
+13,Himachal Pradesh,0,1,2023,18,Others,0,5
+13,Himachal Pradesh,0,1,2023,19,Total,1,127
+14,Jammu and Kashmir,1,1,2023,1,Personal Revenge,0,1
+14,Jammu and Kashmir,1,1,2023,2,Emotional motives like Anger etc,0,2
+14,Jammu and Kashmir,1,1,2023,3,Fraud,0,112
+14,Jammu and Kashmir,1,1,2023,4,Extortion,0,11
+14,Jammu and Kashmir,1,1,2023,5,Causing Disrepute,0,1
+14,Jammu and Kashmir,1,1,2023,6,Prank,0,1
+14,Jammu and Kashmir,1,1,2023,7,Sexual Exploitation,0,46
+14,Jammu and Kashmir,1,1,2023,8,Political Motives,0,0
+14,Jammu and Kashmir,1,1,2023,9,Terrorist Activities,0,1
+14,Jammu and Kashmir,1,1,2023,10,Inciting Hate against Country,0,0
+14,Jammu and Kashmir,1,1,2023,11,Disrupt Public Service,0,0
+14,Jammu and Kashmir,1,1,2023,12,Sale Purchase illegal drugs,0,0
+14,Jammu and Kashmir,1,1,2023,13,Developing own business,0,2
+14,Jammu and Kashmir,1,1,2023,14,Spreading Piracy,0,3
+14,Jammu and Kashmir,1,1,2023,15,Psycho or Pervert,0,0
+14,Jammu and Kashmir,1,1,2023,16,Steal Information,0,0
+14,Jammu and Kashmir,1,1,2023,17,Abetment to Suicide,0,0
+14,Jammu and Kashmir,1,1,2023,18,Others,0,5
+14,Jammu and Kashmir,1,1,2023,19,Total,1,185
+15,Jharkhand,0,1,2023,1,Personal Revenge,0,0
+15,Jharkhand,0,1,2023,2,Emotional motives like Anger etc,0,0
+15,Jharkhand,0,1,2023,3,Fraud,0,1027
+15,Jharkhand,0,1,2023,4,Extortion,0,14
+15,Jharkhand,0,1,2023,5,Causing Disrepute,0,6
+15,Jharkhand,0,1,2023,6,Prank,0,0
+15,Jharkhand,0,1,2023,7,Sexual Exploitation,0,19
+15,Jharkhand,0,1,2023,8,Political Motives,0,0
+15,Jharkhand,0,1,2023,9,Terrorist Activities,0,0
+15,Jharkhand,0,1,2023,10,Inciting Hate against Country,0,0
+15,Jharkhand,0,1,2023,11,Disrupt Public Service,0,2
+15,Jharkhand,0,1,2023,12,Sale Purchase illegal drugs,0,0
+15,Jharkhand,0,1,2023,13,Developing own business,0,0
+15,Jharkhand,0,1,2023,14,Spreading Piracy,0,0
+15,Jharkhand,0,1,2023,15,Psycho or Pervert,0,0
+15,Jharkhand,0,1,2023,16,Steal Information,0,0
+15,Jharkhand,0,1,2023,17,Abetment to Suicide,0,0
+15,Jharkhand,0,1,2023,18,Others,0,11
+15,Jharkhand,0,1,2023,19,Total,1,1079
+16,Karnataka,0,1,2023,1,Personal Revenge,0,109
+16,Karnataka,0,1,2023,2,Emotional motives like Anger etc,0,104
+16,Karnataka,0,1,2023,3,Fraud,0,18602
+16,Karnataka,0,1,2023,4,Extortion,0,437
+16,Karnataka,0,1,2023,5,Causing Disrepute,0,212
+16,Karnataka,0,1,2023,6,Prank,0,2
+16,Karnataka,0,1,2023,7,Sexual Exploitation,0,682
+16,Karnataka,0,1,2023,8,Political Motives,0,12
+16,Karnataka,0,1,2023,9,Terrorist Activities,0,1
+16,Karnataka,0,1,2023,10,Inciting Hate against Country,0,0
+16,Karnataka,0,1,2023,11,Disrupt Public Service,0,1
+16,Karnataka,0,1,2023,12,Sale Purchase illegal drugs,0,3
+16,Karnataka,0,1,2023,13,Developing own business,0,567
+16,Karnataka,0,1,2023,14,Spreading Piracy,0,0
+16,Karnataka,0,1,2023,15,Psycho or Pervert,0,0
+16,Karnataka,0,1,2023,16,Steal Information,0,1
+16,Karnataka,0,1,2023,17,Abetment to Suicide,0,0
+16,Karnataka,0,1,2023,18,Others,0,1156
+16,Karnataka,0,1,2023,19,Total,1,21889
+17,Kerala,0,1,2023,1,Personal Revenge,0,97
+17,Kerala,0,1,2023,2,Emotional motives like Anger etc,0,29
+17,Kerala,0,1,2023,3,Fraud,0,1718
+17,Kerala,0,1,2023,4,Extortion,0,590
+17,Kerala,0,1,2023,5,Causing Disrepute,0,20
+17,Kerala,0,1,2023,6,Prank,0,4
+17,Kerala,0,1,2023,7,Sexual Exploitation,0,500
+17,Kerala,0,1,2023,8,Political Motives,0,3
+17,Kerala,0,1,2023,9,Terrorist Activities,0,0
+17,Kerala,0,1,2023,10,Inciting Hate against Country,0,0
+17,Kerala,0,1,2023,11,Disrupt Public Service,0,0
+17,Kerala,0,1,2023,12,Sale Purchase illegal drugs,0,0
+17,Kerala,0,1,2023,13,Developing own business,0,154
+17,Kerala,0,1,2023,14,Spreading Piracy,0,2
+17,Kerala,0,1,2023,15,Psycho or Pervert,0,2
+17,Kerala,0,1,2023,16,Steal Information,0,57
+17,Kerala,0,1,2023,17,Abetment to Suicide,0,0
+17,Kerala,0,1,2023,18,Others,0,119
+17,Kerala,0,1,2023,19,Total,1,3295
+18,Ladakh,1,1,2023,1,Personal Revenge,0,0
+18,Ladakh,1,1,2023,2,Emotional motives like Anger etc,0,0
+18,Ladakh,1,1,2023,3,Fraud,0,0
+18,Ladakh,1,1,2023,4,Extortion,0,0
+18,Ladakh,1,1,2023,5,Causing Disrepute,0,0
+18,Ladakh,1,1,2023,6,Prank,0,0
+18,Ladakh,1,1,2023,7,Sexual Exploitation,0,0
+18,Ladakh,1,1,2023,8,Political Motives,0,0
+18,Ladakh,1,1,2023,9,Terrorist Activities,0,0
+18,Ladakh,1,1,2023,10,Inciting Hate against Country,0,0
+18,Ladakh,1,1,2023,11,Disrupt Public Service,0,0
+18,Ladakh,1,1,2023,12,Sale Purchase illegal drugs,0,0
+18,Ladakh,1,1,2023,13,Developing own business,0,0
+18,Ladakh,1,1,2023,14,Spreading Piracy,0,0
+18,Ladakh,1,1,2023,15,Psycho or Pervert,0,0
+18,Ladakh,1,1,2023,16,Steal Information,0,0
+18,Ladakh,1,1,2023,17,Abetment to Suicide,0,0
+18,Ladakh,1,1,2023,18,Others,0,1
+18,Ladakh,1,1,2023,19,Total,1,1
+19,Lakshadweep,1,1,2023,1,Personal Revenge,0,0
+19,Lakshadweep,1,1,2023,2,Emotional motives like Anger etc,0,0
+19,Lakshadweep,1,1,2023,3,Fraud,0,0
+19,Lakshadweep,1,1,2023,4,Extortion,0,0
+19,Lakshadweep,1,1,2023,5,Causing Disrepute,0,0
+19,Lakshadweep,1,1,2023,6,Prank,0,0
+19,Lakshadweep,1,1,2023,7,Sexual Exploitation,0,1
+19,Lakshadweep,1,1,2023,8,Political Motives,0,0
+19,Lakshadweep,1,1,2023,9,Terrorist Activities,0,0
+19,Lakshadweep,1,1,2023,10,Inciting Hate against Country,0,0
+19,Lakshadweep,1,1,2023,11,Disrupt Public Service,0,0
+19,Lakshadweep,1,1,2023,12,Sale Purchase illegal drugs,0,0
+19,Lakshadweep,1,1,2023,13,Developing own business,0,0
+19,Lakshadweep,1,1,2023,14,Spreading Piracy,0,0
+19,Lakshadweep,1,1,2023,15,Psycho or Pervert,0,0
+19,Lakshadweep,1,1,2023,16,Steal Information,0,0
+19,Lakshadweep,1,1,2023,17,Abetment to Suicide,0,0
+19,Lakshadweep,1,1,2023,18,Others,0,0
+19,Lakshadweep,1,1,2023,19,Total,1,1
+20,Madhya Pradesh,0,1,2023,1,Personal Revenge,0,13
+20,Madhya Pradesh,0,1,2023,2,Emotional motives like Anger etc,0,10
+20,Madhya Pradesh,0,1,2023,3,Fraud,0,332
+20,Madhya Pradesh,0,1,2023,4,Extortion,0,17
+20,Madhya Pradesh,0,1,2023,5,Causing Disrepute,0,100
+20,Madhya Pradesh,0,1,2023,6,Prank,0,5
+20,Madhya Pradesh,0,1,2023,7,Sexual Exploitation,0,102
+20,Madhya Pradesh,0,1,2023,8,Political Motives,0,1
+20,Madhya Pradesh,0,1,2023,9,Terrorist Activities,0,0
+20,Madhya Pradesh,0,1,2023,10,Inciting Hate against Country,0,0
+20,Madhya Pradesh,0,1,2023,11,Disrupt Public Service,0,0
+20,Madhya Pradesh,0,1,2023,12,Sale Purchase illegal drugs,0,0
+20,Madhya Pradesh,0,1,2023,13,Developing own business,0,0
+20,Madhya Pradesh,0,1,2023,14,Spreading Piracy,0,0
+20,Madhya Pradesh,0,1,2023,15,Psycho or Pervert,0,0
+20,Madhya Pradesh,0,1,2023,16,Steal Information,0,1
+20,Madhya Pradesh,0,1,2023,17,Abetment to Suicide,0,0
+20,Madhya Pradesh,0,1,2023,18,Others,0,104
+20,Madhya Pradesh,0,1,2023,19,Total,1,685
+21,Maharashtra,0,1,2023,1,Personal Revenge,0,54
+21,Maharashtra,0,1,2023,2,Emotional motives like Anger etc,0,26
+21,Maharashtra,0,1,2023,3,Fraud,0,5290
+21,Maharashtra,0,1,2023,4,Extortion,0,123
+21,Maharashtra,0,1,2023,5,Causing Disrepute,0,9
+21,Maharashtra,0,1,2023,6,Prank,0,0
+21,Maharashtra,0,1,2023,7,Sexual Exploitation,0,534
+21,Maharashtra,0,1,2023,8,Political Motives,0,0
+21,Maharashtra,0,1,2023,9,Terrorist Activities,0,0
+21,Maharashtra,0,1,2023,10,Inciting Hate against Country,0,0
+21,Maharashtra,0,1,2023,11,Disrupt Public Service,0,8
+21,Maharashtra,0,1,2023,12,Sale Purchase illegal drugs,0,0
+21,Maharashtra,0,1,2023,13,Developing own business,0,48
+21,Maharashtra,0,1,2023,14,Spreading Piracy,0,0
+21,Maharashtra,0,1,2023,15,Psycho or Pervert,0,0
+21,Maharashtra,0,1,2023,16,Steal Information,0,0
+21,Maharashtra,0,1,2023,17,Abetment to Suicide,0,0
+21,Maharashtra,0,1,2023,18,Others,0,2011
+21,Maharashtra,0,1,2023,19,Total,1,8103
+22,Manipur,0,1,2023,1,Personal Revenge,0,1
+22,Manipur,0,1,2023,2,Emotional motives like Anger etc,0,0
+22,Manipur,0,1,2023,3,Fraud,0,1
+22,Manipur,0,1,2023,4,Extortion,0,0
+22,Manipur,0,1,2023,5,Causing Disrepute,0,0
+22,Manipur,0,1,2023,6,Prank,0,0
+22,Manipur,0,1,2023,7,Sexual Exploitation,0,1
+22,Manipur,0,1,2023,8,Political Motives,0,0
+22,Manipur,0,1,2023,9,Terrorist Activities,0,0
+22,Manipur,0,1,2023,10,Inciting Hate against Country,0,0
+22,Manipur,0,1,2023,11,Disrupt Public Service,0,0
+22,Manipur,0,1,2023,12,Sale Purchase illegal drugs,0,0
+22,Manipur,0,1,2023,13,Developing own business,0,0
+22,Manipur,0,1,2023,14,Spreading Piracy,0,0
+22,Manipur,0,1,2023,15,Psycho or Pervert,0,0
+22,Manipur,0,1,2023,16,Steal Information,0,0
+22,Manipur,0,1,2023,17,Abetment to Suicide,0,0
+22,Manipur,0,1,2023,18,Others,0,0
+22,Manipur,0,1,2023,19,Total,1,3
+23,Meghalaya,0,1,2023,1,Personal Revenge,0,2
+23,Meghalaya,0,1,2023,2,Emotional motives like Anger etc,0,2
+23,Meghalaya,0,1,2023,3,Fraud,0,29
+23,Meghalaya,0,1,2023,4,Extortion,0,3
+23,Meghalaya,0,1,2023,5,Causing Disrepute,0,1
+23,Meghalaya,0,1,2023,6,Prank,0,0
+23,Meghalaya,0,1,2023,7,Sexual Exploitation,0,17
+23,Meghalaya,0,1,2023,8,Political Motives,0,1
+23,Meghalaya,0,1,2023,9,Terrorist Activities,0,0
+23,Meghalaya,0,1,2023,10,Inciting Hate against Country,0,0
+23,Meghalaya,0,1,2023,11,Disrupt Public Service,0,0
+23,Meghalaya,0,1,2023,12,Sale Purchase illegal drugs,0,0
+23,Meghalaya,0,1,2023,13,Developing own business,0,0
+23,Meghalaya,0,1,2023,14,Spreading Piracy,0,0
+23,Meghalaya,0,1,2023,15,Psycho or Pervert,0,0
+23,Meghalaya,0,1,2023,16,Steal Information,0,0
+23,Meghalaya,0,1,2023,17,Abetment to Suicide,0,0
+23,Meghalaya,0,1,2023,18,Others,0,9
+23,Meghalaya,0,1,2023,19,Total,1,64
+24,Mizoram,0,1,2023,1,Personal Revenge,0,0
+24,Mizoram,0,1,2023,2,Emotional motives like Anger etc,0,0
+24,Mizoram,0,1,2023,3,Fraud,0,24
+24,Mizoram,0,1,2023,4,Extortion,0,0
+24,Mizoram,0,1,2023,5,Causing Disrepute,0,5
+24,Mizoram,0,1,2023,6,Prank,0,0
+24,Mizoram,0,1,2023,7,Sexual Exploitation,0,0
+24,Mizoram,0,1,2023,8,Political Motives,0,0
+24,Mizoram,0,1,2023,9,Terrorist Activities,0,0
+24,Mizoram,0,1,2023,10,Inciting Hate against Country,0,0
+24,Mizoram,0,1,2023,11,Disrupt Public Service,0,0
+24,Mizoram,0,1,2023,12,Sale Purchase illegal drugs,0,0
+24,Mizoram,0,1,2023,13,Developing own business,0,0
+24,Mizoram,0,1,2023,14,Spreading Piracy,0,0
+24,Mizoram,0,1,2023,15,Psycho or Pervert,0,0
+24,Mizoram,0,1,2023,16,Steal Information,0,2
+24,Mizoram,0,1,2023,17,Abetment to Suicide,0,0
+24,Mizoram,0,1,2023,18,Others,0,0
+24,Mizoram,0,1,2023,19,Total,1,31
+25,Nagaland,0,1,2023,1,Personal Revenge,0,0
+25,Nagaland,0,1,2023,2,Emotional motives like Anger etc,0,0
+25,Nagaland,0,1,2023,3,Fraud,0,1
+25,Nagaland,0,1,2023,4,Extortion,0,0
+25,Nagaland,0,1,2023,5,Causing Disrepute,0,0
+25,Nagaland,0,1,2023,6,Prank,0,0
+25,Nagaland,0,1,2023,7,Sexual Exploitation,0,0
+25,Nagaland,0,1,2023,8,Political Motives,0,0
+25,Nagaland,0,1,2023,9,Terrorist Activities,0,0
+25,Nagaland,0,1,2023,10,Inciting Hate against Country,0,0
+25,Nagaland,0,1,2023,11,Disrupt Public Service,0,0
+25,Nagaland,0,1,2023,12,Sale Purchase illegal drugs,0,0
+25,Nagaland,0,1,2023,13,Developing own business,0,1
+25,Nagaland,0,1,2023,14,Spreading Piracy,0,0
+25,Nagaland,0,1,2023,15,Psycho or Pervert,0,0
+25,Nagaland,0,1,2023,16,Steal Information,0,0
+25,Nagaland,0,1,2023,17,Abetment to Suicide,0,0
+25,Nagaland,0,1,2023,18,Others,0,0
+25,Nagaland,0,1,2023,19,Total,1,2
+26,Odisha,0,1,2023,1,Personal Revenge,0,0
+26,Odisha,0,1,2023,2,Emotional motives like Anger etc,0,0
+26,Odisha,0,1,2023,3,Fraud,0,1676
+26,Odisha,0,1,2023,4,Extortion,0,0
+26,Odisha,0,1,2023,5,Causing Disrepute,0,0
+26,Odisha,0,1,2023,6,Prank,0,0
+26,Odisha,0,1,2023,7,Sexual Exploitation,0,8
+26,Odisha,0,1,2023,8,Political Motives,0,0
+26,Odisha,0,1,2023,9,Terrorist Activities,0,0
+26,Odisha,0,1,2023,10,Inciting Hate against Country,0,0
+26,Odisha,0,1,2023,11,Disrupt Public Service,0,0
+26,Odisha,0,1,2023,12,Sale Purchase illegal drugs,0,0
+26,Odisha,0,1,2023,13,Developing own business,0,0
+26,Odisha,0,1,2023,14,Spreading Piracy,0,0
+26,Odisha,0,1,2023,15,Psycho or Pervert,0,0
+26,Odisha,0,1,2023,16,Steal Information,0,0
+26,Odisha,0,1,2023,17,Abetment to Suicide,0,0
+26,Odisha,0,1,2023,18,Others,0,664
+26,Odisha,0,1,2023,19,Total,1,2348
+27,Puducherry,1,1,2023,1,Personal Revenge,0,0
+27,Puducherry,1,1,2023,2,Emotional motives like Anger etc,0,0
+27,Puducherry,1,1,2023,3,Fraud,0,125
+27,Puducherry,1,1,2023,4,Extortion,0,1
+27,Puducherry,1,1,2023,5,Causing Disrepute,0,0
+27,Puducherry,1,1,2023,6,Prank,0,0
+27,Puducherry,1,1,2023,7,Sexual Exploitation,0,19
+27,Puducherry,1,1,2023,8,Political Motives,0,0
+27,Puducherry,1,1,2023,9,Terrorist Activities,0,0
+27,Puducherry,1,1,2023,10,Inciting Hate against Country,0,0
+27,Puducherry,1,1,2023,11,Disrupt Public Service,0,0
+27,Puducherry,1,1,2023,12,Sale Purchase illegal drugs,0,0
+27,Puducherry,1,1,2023,13,Developing own business,0,0
+27,Puducherry,1,1,2023,14,Spreading Piracy,0,0
+27,Puducherry,1,1,2023,15,Psycho or Pervert,0,0
+27,Puducherry,1,1,2023,16,Steal Information,0,0
+27,Puducherry,1,1,2023,17,Abetment to Suicide,0,0
+27,Puducherry,1,1,2023,18,Others,0,2
+27,Puducherry,1,1,2023,19,Total,1,147
+28,Punjab,0,1,2023,1,Personal Revenge,0,16
+28,Punjab,0,1,2023,2,Emotional motives like Anger etc,0,13
+28,Punjab,0,1,2023,3,Fraud,0,277
+28,Punjab,0,1,2023,4,Extortion,0,53
+28,Punjab,0,1,2023,5,Causing Disrepute,0,29
+28,Punjab,0,1,2023,6,Prank,0,3
+28,Punjab,0,1,2023,7,Sexual Exploitation,0,74
+28,Punjab,0,1,2023,8,Political Motives,0,2
+28,Punjab,0,1,2023,9,Terrorist Activities,0,1
+28,Punjab,0,1,2023,10,Inciting Hate against Country,0,1
+28,Punjab,0,1,2023,11,Disrupt Public Service,0,2
+28,Punjab,0,1,2023,12,Sale Purchase illegal drugs,0,0
+28,Punjab,0,1,2023,13,Developing own business,0,3
+28,Punjab,0,1,2023,14,Spreading Piracy,0,1
+28,Punjab,0,1,2023,15,Psycho or Pervert,0,0
+28,Punjab,0,1,2023,16,Steal Information,0,0
+28,Punjab,0,1,2023,17,Abetment to Suicide,0,0
+28,Punjab,0,1,2023,18,Others,0,36
+28,Punjab,0,1,2023,19,Total,1,511
+29,Rajasthan,0,1,2023,1,Personal Revenge,0,52
+29,Rajasthan,0,1,2023,2,Emotional motives like Anger etc,0,7
+29,Rajasthan,0,1,2023,3,Fraud,0,1102
+29,Rajasthan,0,1,2023,4,Extortion,0,134
+29,Rajasthan,0,1,2023,5,Causing Disrepute,0,100
+29,Rajasthan,0,1,2023,6,Prank,0,4
+29,Rajasthan,0,1,2023,7,Sexual Exploitation,0,365
+29,Rajasthan,0,1,2023,8,Political Motives,0,3
+29,Rajasthan,0,1,2023,9,Terrorist Activities,0,1
+29,Rajasthan,0,1,2023,10,Inciting Hate against Country,0,0
+29,Rajasthan,0,1,2023,11,Disrupt Public Service,0,1
+29,Rajasthan,0,1,2023,12,Sale Purchase illegal drugs,0,0
+29,Rajasthan,0,1,2023,13,Developing own business,0,1
+29,Rajasthan,0,1,2023,14,Spreading Piracy,0,0
+29,Rajasthan,0,1,2023,15,Psycho or Pervert,0,0
+29,Rajasthan,0,1,2023,16,Steal Information,0,0
+29,Rajasthan,0,1,2023,17,Abetment to Suicide,0,0
+29,Rajasthan,0,1,2023,18,Others,0,665
+29,Rajasthan,0,1,2023,19,Total,1,2435
+30,Sikkim,0,1,2023,1,Personal Revenge,0,0
+30,Sikkim,0,1,2023,2,Emotional motives like Anger etc,0,0
+30,Sikkim,0,1,2023,3,Fraud,0,3
+30,Sikkim,0,1,2023,4,Extortion,0,1
+30,Sikkim,0,1,2023,5,Causing Disrepute,0,1
+30,Sikkim,0,1,2023,6,Prank,0,0
+30,Sikkim,0,1,2023,7,Sexual Exploitation,0,0
+30,Sikkim,0,1,2023,8,Political Motives,0,2
+30,Sikkim,0,1,2023,9,Terrorist Activities,0,0
+30,Sikkim,0,1,2023,10,Inciting Hate against Country,0,0
+30,Sikkim,0,1,2023,11,Disrupt Public Service,0,0
+30,Sikkim,0,1,2023,12,Sale Purchase illegal drugs,0,0
+30,Sikkim,0,1,2023,13,Developing own business,0,0
+30,Sikkim,0,1,2023,14,Spreading Piracy,0,0
+30,Sikkim,0,1,2023,15,Psycho or Pervert,0,0
+30,Sikkim,0,1,2023,16,Steal Information,0,0
+30,Sikkim,0,1,2023,17,Abetment to Suicide,0,0
+30,Sikkim,0,1,2023,18,Others,0,5
+30,Sikkim,0,1,2023,19,Total,1,12
+31,Tamil Nadu,0,1,2023,1,Personal Revenge,0,29
+31,Tamil Nadu,0,1,2023,2,Emotional motives like Anger etc,0,21
+31,Tamil Nadu,0,1,2023,3,Fraud,0,3697
+31,Tamil Nadu,0,1,2023,4,Extortion,0,49
+31,Tamil Nadu,0,1,2023,5,Causing Disrepute,0,29
+31,Tamil Nadu,0,1,2023,6,Prank,0,8
+31,Tamil Nadu,0,1,2023,7,Sexual Exploitation,0,181
+31,Tamil Nadu,0,1,2023,8,Political Motives,0,36
+31,Tamil Nadu,0,1,2023,9,Terrorist Activities,0,0
+31,Tamil Nadu,0,1,2023,10,Inciting Hate against Country,0,3
+31,Tamil Nadu,0,1,2023,11,Disrupt Public Service,0,4
+31,Tamil Nadu,0,1,2023,12,Sale Purchase illegal drugs,0,0
+31,Tamil Nadu,0,1,2023,13,Developing own business,0,25
+31,Tamil Nadu,0,1,2023,14,Spreading Piracy,0,6
+31,Tamil Nadu,0,1,2023,15,Psycho or Pervert,0,0
+31,Tamil Nadu,0,1,2023,16,Steal Information,0,0
+31,Tamil Nadu,0,1,2023,17,Abetment to Suicide,0,0
+31,Tamil Nadu,0,1,2023,18,Others,0,33
+31,Tamil Nadu,0,1,2023,19,Total,1,4121
+32,Telangana,0,1,2023,1,Personal Revenge,0,3
+32,Telangana,0,1,2023,2,Emotional motives like Anger etc,0,165
+32,Telangana,0,1,2023,3,Fraud,0,14749
+32,Telangana,0,1,2023,4,Extortion,0,134
+32,Telangana,0,1,2023,5,Causing Disrepute,0,0
+32,Telangana,0,1,2023,6,Prank,0,0
+32,Telangana,0,1,2023,7,Sexual Exploitation,0,195
+32,Telangana,0,1,2023,8,Political Motives,0,38
+32,Telangana,0,1,2023,9,Terrorist Activities,0,0
+32,Telangana,0,1,2023,10,Inciting Hate against Country,0,0
+32,Telangana,0,1,2023,11,Disrupt Public Service,0,0
+32,Telangana,0,1,2023,12,Sale Purchase illegal drugs,0,0
+32,Telangana,0,1,2023,13,Developing own business,0,96
+32,Telangana,0,1,2023,14,Spreading Piracy,0,9
+32,Telangana,0,1,2023,15,Psycho or Pervert,0,0
+32,Telangana,0,1,2023,16,Steal Information,0,0
+32,Telangana,0,1,2023,17,Abetment to Suicide,0,2
+32,Telangana,0,1,2023,18,Others,0,2845
+32,Telangana,0,1,2023,19,Total,1,18236
+33,Tripura,0,1,2023,1,Personal Revenge,0,3
+33,Tripura,0,1,2023,2,Emotional motives like Anger etc,0,0
+33,Tripura,0,1,2023,3,Fraud,0,17
+33,Tripura,0,1,2023,4,Extortion,0,1
+33,Tripura,0,1,2023,5,Causing Disrepute,0,3
+33,Tripura,0,1,2023,6,Prank,0,0
+33,Tripura,0,1,2023,7,Sexual Exploitation,0,11
+33,Tripura,0,1,2023,8,Political Motives,0,1
+33,Tripura,0,1,2023,9,Terrorist Activities,0,0
+33,Tripura,0,1,2023,10,Inciting Hate against Country,0,0
+33,Tripura,0,1,2023,11,Disrupt Public Service,0,0
+33,Tripura,0,1,2023,12,Sale Purchase illegal drugs,0,0
+33,Tripura,0,1,2023,13,Developing own business,0,0
+33,Tripura,0,1,2023,14,Spreading Piracy,0,0
+33,Tripura,0,1,2023,15,Psycho or Pervert,0,0
+33,Tripura,0,1,2023,16,Steal Information,0,0
+33,Tripura,0,1,2023,17,Abetment to Suicide,0,0
+33,Tripura,0,1,2023,18,Others,0,0
+33,Tripura,0,1,2023,19,Total,1,36
+34,Uttar Pradesh,0,1,2023,1,Personal Revenge,0,90
+34,Uttar Pradesh,0,1,2023,2,Emotional motives like Anger etc,0,202
+34,Uttar Pradesh,0,1,2023,3,Fraud,0,3811
+34,Uttar Pradesh,0,1,2023,4,Extortion,0,1020
+34,Uttar Pradesh,0,1,2023,5,Causing Disrepute,0,1268
+34,Uttar Pradesh,0,1,2023,6,Prank,0,97
+34,Uttar Pradesh,0,1,2023,7,Sexual Exploitation,0,514
+34,Uttar Pradesh,0,1,2023,8,Political Motives,0,61
+34,Uttar Pradesh,0,1,2023,9,Terrorist Activities,0,0
+34,Uttar Pradesh,0,1,2023,10,Inciting Hate against Country,0,13
+34,Uttar Pradesh,0,1,2023,11,Disrupt Public Service,0,10
+34,Uttar Pradesh,0,1,2023,12,Sale Purchase illegal drugs,0,3
+34,Uttar Pradesh,0,1,2023,13,Developing own business,0,70
+34,Uttar Pradesh,0,1,2023,14,Spreading Piracy,0,1
+34,Uttar Pradesh,0,1,2023,15,Psycho or Pervert,0,0
+34,Uttar Pradesh,0,1,2023,16,Steal Information,0,0
+34,Uttar Pradesh,0,1,2023,17,Abetment to Suicide,0,0
+34,Uttar Pradesh,0,1,2023,18,Others,0,3634
+34,Uttar Pradesh,0,1,2023,19,Total,1,10794
+35,Uttarakhand,0,1,2023,1,Personal Revenge,0,0
+35,Uttarakhand,0,1,2023,2,Emotional motives like Anger etc,0,14
+35,Uttarakhand,0,1,2023,3,Fraud,0,187
+35,Uttarakhand,0,1,2023,4,Extortion,0,70
+35,Uttarakhand,0,1,2023,5,Causing Disrepute,0,41
+35,Uttarakhand,0,1,2023,6,Prank,0,17
+35,Uttarakhand,0,1,2023,7,Sexual Exploitation,0,102
+35,Uttarakhand,0,1,2023,8,Political Motives,0,1
+35,Uttarakhand,0,1,2023,9,Terrorist Activities,0,0
+35,Uttarakhand,0,1,2023,10,Inciting Hate against Country,0,0
+35,Uttarakhand,0,1,2023,11,Disrupt Public Service,0,10
+35,Uttarakhand,0,1,2023,12,Sale Purchase illegal drugs,0,0
+35,Uttarakhand,0,1,2023,13,Developing own business,0,0
+35,Uttarakhand,0,1,2023,14,Spreading Piracy,0,0
+35,Uttarakhand,0,1,2023,15,Psycho or Pervert,0,0
+35,Uttarakhand,0,1,2023,16,Steal Information,0,0
+35,Uttarakhand,0,1,2023,17,Abetment to Suicide,0,0
+35,Uttarakhand,0,1,2023,18,Others,0,52
+35,Uttarakhand,0,1,2023,19,Total,1,494
+36,West Bengal,0,1,2023,1,Personal Revenge,0,15
+36,West Bengal,0,1,2023,2,Emotional motives like Anger etc,0,4
+36,West Bengal,0,1,2023,3,Fraud,0,12
+36,West Bengal,0,1,2023,4,Extortion,0,8
+36,West Bengal,0,1,2023,5,Causing Disrepute,0,3
+36,West Bengal,0,1,2023,6,Prank,0,2
+36,West Bengal,0,1,2023,7,Sexual Exploitation,0,12
+36,West Bengal,0,1,2023,8,Political Motives,0,0
+36,West Bengal,0,1,2023,9,Terrorist Activities,0,0
+36,West Bengal,0,1,2023,10,Inciting Hate against Country,0,0
+36,West Bengal,0,1,2023,11,Disrupt Public Service,0,0
+36,West Bengal,0,1,2023,12,Sale Purchase illegal drugs,0,0
+36,West Bengal,0,1,2023,13,Developing own business,0,0
+36,West Bengal,0,1,2023,14,Spreading Piracy,0,0
+36,West Bengal,0,1,2023,15,Psycho or Pervert,0,0
+36,West Bengal,0,1,2023,16,Steal Information,0,0
+36,West Bengal,0,1,2023,17,Abetment to Suicide,0,0
+36,West Bengal,0,1,2023,18,Others,0,253
+36,West Bengal,0,1,2023,19,Total,1,309

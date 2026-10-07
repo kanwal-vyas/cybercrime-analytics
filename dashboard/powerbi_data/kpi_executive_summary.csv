@@ -1,0 +1,16 @@
+kpi_name,kpi_value_num,kpi_value_str,kpi_unit,category,source_stage
+Total 2023 Cybercrime Cases,86420.0,"86,420",Cases,Volume,Stage 3 & 4
+Total States & UTs Evaluated,36.0,36,Jurisdictions,Scope,Stage 2
+IT Act Cases,44237.0,"44,237",Cases,Legal Framework,Stage 3
+IT Act Share,51.19,51.19%,Percentage,Legal Framework,Stage 3
+IPC Crimes r/w IT Act Cases,41849.0,"41,849",Cases,Legal Framework,Stage 3
+IPC Crimes r/w IT Act Share,48.43,48.43%,Percentage,Legal Framework,Stage 3
+Special & Local Laws (SLL) Cases,334.0,334,Cases,Legal Framework,Stage 3
+Fraud Motive Cases,59526.0,"59,526",Cases,Motive,Stage 3 & 4
+Fraud Motive Share,68.88,68.88%,Percentage,Motive,Stage 3 & 4
+Cybercrimes Against Women,19510.0,"19,510",Cases,Demographic Subset,Stage 4
+Cybercrimes Against Children,1902.0,"1,902",Cases,Demographic Subset,Stage 4
+Top Case Volume State (Karnataka),21889.0,"21,889 (25.33%)",Cases,Geographic Volume,Stage 4
+Top Predictor Model (Log-Linear R²),0.9,0.9000 (MAE: 479.37),R² Score,Predictive Modeling,Stage 7
+Distinct Cluster Profiles,4.0,4 Profiles (K=4),Clusters,Unsupervised Grouping,Stage 6
+Multivariate Outlier Observations,6.0,6 States/UTs,Jurisdictions,Outlier Detection,Stage 8

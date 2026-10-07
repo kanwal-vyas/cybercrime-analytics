@@ -219,8 +219,24 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - `outputs/figures/27_outlier_multivariate_projection.png`
 - **Reproducibility & Verification**: `src/outlier_detection.py` module and `notebooks/07_outlier_detection.ipynb` executed head-to-tail with 0 errors. All 6 validation suites in `src/validate_stage8.py` passed.
 
-### Stage 9 — Power BI Dashboard
-Built only from `data/processed/` tables, database views, and Stage 4–8 output tables.
+### Stage 9 — Power BI Dashboard Integration & Semantic Data Package (Done)
+- **Integration Architecture**: Serves as the interactive visualization and synthesis layer for Stages 1 through 8. Built strictly from validated SQLite database views (`sql/views.sql`), processed tables, and Stage 4–8 analytical output tables. No unverified calculations or raw modifications are performed.
+- **Semantic Data Model (`dashboard/powerbi_data/`)**:
+  - Star / Snowflake schema with 3 core dimension tables (`dim_state`, `dim_crime_category`, `dim_motive`), 1 roll-up dimension (`dim_act_group`), 2 granular fact tables (`fact_state_category_2023`, `fact_state_motive_2023`), and 14 pre-aggregated analytical model and summary tables.
+  - Zero historical contamination: Historical 2018–2022 series and 2023 detailed cross-section are isolated into separate tables (`trend_summary_2018_2022.csv`, `trend_national_2018_2022.csv`).
+- **Standardized DAX Measure Library**: Contains 11 verified DAX measures (`Total Cases 2023`, `IT Act Cases`, `IPC Cases`, `SLL Cases`, `IT Act Share %`, `IPC Share %`, `Fraud Motive Cases`, `Fraud Motive Share %`, `Women Cybercrime Cases`, `Children Cybercrime Cases`, `State Count`).
+- **6-Page Dashboard Architecture (`dashboard/POWERBI_SPECIFICATION.md`)**:
+  1. *Executive Overview*: High-level national scale briefing (86,420 total cases, 59,526 fraud motive cases, 19,510 women cases, 1,902 child cases), legal act breakdown (IT Act 51.19%, IPC 48.43%, SLL 0.39%), state volume ranking (top states: Karnataka 21,889, Telangana 18,236).
+  2. *Geographic / State Analysis*: Interactive jurisdictional exploration across all 36 States/UTs, State vs UT toggle slicer, and dynamic multi-metric jurisdictional profile card.
+  3. *Crime Categories & Motives*: 40 independent leaf categories with Pareto cumulative volume curve (top 2 categories account for 48.92% of national cases), 18-motive distribution showing financial fraud dominance (68.88%).
+  4. *Analytical Models*: Separated modular sections for Stage 5 Principal Association Rules (co-occurrence disclaimer), Stage 6 K-Means Cluster Profiles (4 composition groups), and Stage 8 Outlier Detection (Tukey IQR + Isolation Forest with small-denominator caution for tiny UTs).
+  5. *Historical Trend & Prediction*: National 2018–2022 trajectory (27,248 to 65,893 cases) with prominent historical separation banner; 7-model performance leaderboard on held-out 2022 test set highlighting Log-Linear regression ($\text{MAE} = 479.37$, $R^2 = 0.9000$).
+  6. *Data Sources & Methodological Limitations*: Comprehensive data provenance, analytical methodology matrix, and the 6 core academic guardrails.
+- **Exported Deliverables**:
+  - `dashboard/powerbi_data/` (20 validated CSV extracts)
+  - `dashboard/POWERBI_SPECIFICATION.md` (Complete 6-page visual architecture, DAX library, ERD, and Power BI Desktop assembly guide)
+- **Reproducibility & Verification**: `src/dashboard_prep.py` pipeline and `src/validate_stage9.py` test suite executed successfully with 100% pass rate across all 6 validation suites.
+
 
 ## 5. Known Data Limitations (carry through every later stage)
 
