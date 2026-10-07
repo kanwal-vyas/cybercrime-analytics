@@ -177,7 +177,7 @@ current status in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md#dataset-validation-gate)
 
 The project is structured into **20 comprehensive syllabus-aligned stages** (detailed in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md)).
 
-### Core Implemented Foundation (Stages 1–13: FROZEN)
+### Core Implemented Foundation (Stages 1–14: FROZEN)
 - [x] **Stage 1 — Data Understanding**: Dataset Validation Gate completed (`01_data_understanding.ipynb`)
 - [x] **Stage 2 — Preprocessing**: Master state cross-section & feature engineering (`02_preprocessing.ipynb`)
 - [x] **Stage 3 — Data Warehouse & OLAP**: Star schema database (`cybercrime.db`) & analytical views (`03_sql_olap.ipynb`)
@@ -191,9 +191,9 @@ The project is structured into **20 comprehensive syllabus-aligned stages** (det
 - [x] **Stage 11 — Advanced OLAP & Data Cube**: Multidimensional cuboid lattice, roll-up/drill-down/slice/dice/pivot, AOI & Iceberg cubes (`09_advanced_olap_cube.ipynb`)
 - [x] **Stage 12 — Advanced Frequent Patterns**: FP-Growth tree mining, 100% equivalence, scalability benchmark & correlation analysis (`10_advanced_frequent_patterns.ipynb`)
 - [x] **Stage 13 — Classification Analysis**: Decision Tree, Naive Bayes, Linear/RBF SVM, Random Forest on historical panel (`11_classification.ipynb`)
+- [x] **Stage 14 — Regression & Prediction Enhancement**: Polynomial expansions, tree regressors, random forests, and gradient boosting on historical lags (`12_regression_enhancement.ipynb`)
 
-### Advanced Planned Roadmap (Stages 14–20: Planned / Not Started)
-- [ ] **Stage 14 — Regression & Prediction Enhancement**: Polynomial, Ridge, Lasso, and regression tree ensembles
+### Advanced Planned Roadmap (Stages 15–20: Planned / Not Started)
 - [ ] **Stage 15 — Comparative Cluster Analysis**: Agglomerative hierarchical clustering with dendrograms & DBSCAN
 - [ ] **Stage 16 — Advanced Anomaly Analysis**: Univariate vs multivariate anomaly drivers & small-denominator diagnostics
 - [ ] **Stage 17 — Advanced Visualization & Power BI**: 10-page interactive dashboard suite

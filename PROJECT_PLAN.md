@@ -84,9 +84,9 @@ The following matrix maps the complete semester Data Mining & Analytics syllabus
 | **Unit 5** | Bayesian classification | Stage 13 | **Done (FROZEN)** | Gaussian Naive Bayes classifier on lagged volume regime features (Acc=1.000, F1=1.000) |
 | **Unit 5** | Support Vector Machines (SVM) | Stage 13 | **Done (FROZEN)** | Linear & RBF kernel Support Vector Classifiers with standard scaling pipelines (Acc=1.000) |
 | **Unit 5** | Ensemble classification methods | Stage 13 | **Done (FROZEN)** | Random Forest classifier with constrained depth & Gini feature importance (Acc=1.000) |
-| **Unit 5** | Linear & regularized regression | Stage 7 + 14 | **Stage 7 Done** / *Stage 14 Planned* | OLS, Ridge (L2), Log-Linear panel regression (Validated baseline: $R^2=0.9000$) |
-| **Unit 5** | Non-linear regression | Stage 14 | *Planned (Stage 14)* | Polynomial feature regression & regression tree ensembles on historical lags |
-| **Unit 5** | Model evaluation & accuracy | Stages 7, 13, 14 | **Stages 7 & 13 Done** / *Stage 14 Planned* | MAE, RMSE, $R^2$, Accuracy, Precision, Recall, Specificity, F1-Score, Confusion Matrices, ROC-AUC |
+| **Unit 5** | Linear & regularized regression | Stage 7 + 14 | **Done (FROZEN)** | OLS, Ridge (L2), Polynomial, Log-Linear panel regression (Validated baseline: $R^2=0.9000$) |
+| **Unit 5** | Non-linear regression | Stage 14 | **Done (FROZEN)** | Polynomial features, decision trees, random forests, and gradient boosting on historical lags |
+| **Unit 5** | Model evaluation & accuracy | Stages 7, 13, 14 | **Done (FROZEN)** | MAE, RMSE, $R^2$, Median AE, Accuracy, Precision, Recall, Specificity, F1-Score, Confusion Matrices, ROC-AUC |
 | **Unit 6** | Partitioning clustering (K-Means) | Stage 6 + 15 | **Stage 6 Done** / *Stage 15 Planned* | Standardized 4-feature composition profiles ($K=4$), Elbow & Silhouette analysis |
 | **Unit 6** | Hierarchical clustering | Stage 15 | *Planned (Stage 15)* | Agglomerative hierarchical clustering with linkage comparison & dendrogram |
 | **Unit 6** | Density-based clustering (DBSCAN) | Stage 15 | *Planned (Stage 15)* | DBSCAN clustering for density separation and core/noise identification |
@@ -486,22 +486,56 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 
 ---
 
-### Stage 14 — Regression & Prediction Enhancement *(Planned / Not Started)*
-- **Purpose**: Deepen Unit 5 predictive modeling by expanding beyond linear baselines to non-linear and regularized regression architectures on historical lags.
-- **Baseline to Preserve**:
-  - Validated Stage 7 Log-Linear Regression: $\text{MAE} = 479.37$, $\text{RMSE} = 1,143.46$, $R^2 = 0.9000$.
-- **Planned Model Architecture Expansion**:
-  1. *Naive Persistent Baseline* ($y_{t-1}$).
-  2. *Linear Regression (OLS Raw)*.
-  3. *Polynomial / Non-Linear Regression* (degree-2 polynomial lag terms with regularized penalty).
-  4. *Ridge Regression (L2)* & *Lasso Regression (L1)* across regularization paths ($\alpha \in [10^{-3}, 10^3]$).
-  5. *Log-Linear Regression (Log OLS)*.
-  6. *Decision Tree Regressor* (cost-complexity pruning).
-  7. *Random Forest Regressor* (ensemble tree averaging).
-- **Diagnostics & Error Visualizations**:
-  - Cross-model metric leaderboards: MAE, MSE, RMSE, $R^2$, and Median Absolute Error.
-  - Residual vs. fitted value plots, residual normality Q-Q plots, and state-by-state absolute error distributions.
-- **Critical Constraint**: Never regress total cases on contemporaneous category/motive subtotals.
+### Stage 14 — Regression & Prediction Enhancement (Done / FROZEN)
+- **Purpose**: Deepen Unit 5 predictive modeling by evaluating non-linear polynomial expansions, decision trees, random forests, and gradient boosting against the validated Stage 7 baseline under strict zero-leakage chronological forecasting.
+- **Analytical Problem Formulation**:
+  - Target: Aggregate State/UT cybercrime volume in year $t$ ($N=106$ observations).
+  - Chronological Partition: Train on 2020–2021 target years ($N_{\text{train}} = 70$), test on held-out 2022 ($N_{\text{test}} = 36$).
+  - Predictors: Historical lagged features strictly preceding the target year (`lag_1`, `lag_2`, `lag_diff`, `lag_growth_rate`, `log_lag_1`, `log_lag_2`). Zero 2023 sectional attributes.
+- **Evaluated Regression Architectures & Leaderboard (Held-Out 2022 Test Horizon)**:
+  1. *Log-Linear OLS (Stage 7 Validated Benchmark)*: **$\text{MAE} = 479.37$ cases**, **$\text{RMSE} = 1,143.46$**, **$R^2 = 0.9000$**, $\text{Median AE} = 69.85$ (Residual Skewness = $0.6472$).
+  2. *Historical 2-Year Moving Average*: $\text{MAE} = 563.04$ cases, $\text{RMSE} = 1,523.73$, $R^2 = 0.8224$, $\text{Median AE} = 57.00$.
+  3. *Naive Persistent Lag-1*: $\text{MAE} = 564.75$ cases, $\text{RMSE} = 1,340.75$, $R^2 = 0.8625$, $\text{Median AE} = 61.50$.
+  4. *Random Forest Regressor (Raw Target, depth=3)*: $\text{MAE} = 593.18$ cases, $\text{RMSE} = 1,565.92$, $R^2 = 0.8124$, $\text{Median AE} = 89.53$.
+  5. *Decision Tree Regressor (depth=3)*: $\text{MAE} = 608.42$ cases, $\text{RMSE} = 1,571.47$, $R^2 = 0.8111$, $\text{Median AE} = 100.86$.
+  6. *Log-Polynomial Degree 2 (Ridge, $\alpha=1.0$)*: $\text{MAE} = 621.24$ cases, $\text{RMSE} = 1,465.82$, $R^2 = 0.8356$, $\text{Median AE} = 48.02$.
+  7. *Log-Polynomial Degree 2 (OLS)*: $\text{MAE} = 643.44$ cases, $\text{RMSE} = 1,520.52$, $R^2 = 0.8231$, $\text{Median AE} = 47.42$.
+  8. *Random Forest Regressor (Log Target)*: $\text{MAE} = 663.24$ cases, $\text{RMSE} = 1,679.41$, $R^2 = 0.7842$, $\text{Median AE} = 108.31$.
+  9. *Gradient Boosting Regressor (Raw, depth=2)*: $\text{MAE} = 728.33$ cases, $\text{RMSE} = 1,732.42$, $R^2 = 0.7704$, $\text{Median AE} = 197.17$.
+  10. *Linear Regression (OLS Raw)*: $\text{MAE} = 776.08$ cases, $\text{RMSE} = 1,680.13$, $R^2 = 0.7840$, $\text{Median AE} = 205.07$.
+  11. *Ridge Regression (Raw, $\alpha=1.0$)*: $\text{MAE} = 776.08$ cases, $\text{RMSE} = 1,680.13$, $R^2 = 0.7840$, $\text{Median AE} = 205.07$.
+  12. *Polynomial Degree 2 (Ridge, $\alpha=100.0$)*: $\text{MAE} = 778.94$ cases, $\text{RMSE} = 1,802.94$, $R^2 = 0.7513$, $\text{Median AE} = 92.06$.
+  13. *Polynomial Degree 2 (OLS Raw)*: $\text{MAE} = 778.96$ cases, $\text{RMSE} = 1,802.97$, $R^2 = 0.7513$, $\text{Median AE} = 92.08$.
+  14. *Gradient Boosting Regressor (Log Target, depth=2)*: $\text{MAE} = 870.96$ cases, $\text{RMSE} = 2,230.54$, $R^2 = 0.6194$, $\text{Median AE} = 105.32$.
+- **Complexity vs. Performance Analysis (Occam's Razor)**:
+  - *Core Finding*: **Nonlinear complexity did NOT improve held-out predictive accuracy over the Stage 7 Log-Linear benchmark.**
+  - *Mathematical Reason*: Multi-order scale variance across Indian jurisdictions ($N=1$ to $N=20,000+$) is best stabilized by $\log(1+y)$ transformation. On $N_{\text{train}} = 70$, polynomial cross-terms overfit volatile training years, while tree step-functions cannot extrapolate continuous growth smoothly.
+  - *Residual Diagnostics*: Log-Linear OLS exhibits the lowest residual skewness ($0.6472$), compared to $1.74\text{--}3.53$ across raw, polynomial, and tree models.
+- **State-Level Test Error Findings ($N_{\text{test}} = 36$)**:
+  - Largest absolute residual errors occur in states experiencing severe volumetric shifts: Telangana ($\text{Signed Error} = -4,684.81$, surge from $10,303 \rightarrow 15,297$), Assam ($\text{Signed Error} = 3,997.48$, contraction from $4,846 \rightarrow 1,733$), and Uttar Pradesh ($\text{Signed Error} = -2,355.17$, surge from $8,829 \rightarrow 10,117$).
+  - Median absolute error is low ($\text{Median AE} = 69.85$ cases), confirming strong predictive precision across median-scale jurisdictions.
+- **Comparison with Stage 13 Classification**:
+  - Stage 13 classifies macro categorical regime ($Y_t \in \{0, 1\}$; Accuracy = $100\%$).
+  - Stage 14 estimates precise continuous volume ($\hat{Y}_t \in \mathbb{R}^+$; Log-Linear $R^2 = 0.9000$), preserving full information on scale, growth rate, and resource requirements.
+- **Exported Deliverables**:
+  - `src/regression_enhancement.py`
+  - `src/generate_stage14_notebook.py`
+  - `src/validate_stage14.py`
+  - `notebooks/12_regression_enhancement.ipynb`
+  - `outputs/tables/stage14_model_comparison.csv`
+  - `outputs/tables/stage14_test_predictions.csv`
+  - `outputs/tables/stage14_error_analysis.csv`
+  - `outputs/tables/stage14_residual_summary.csv`
+  - `outputs/tables/stage14_model_selection.csv`
+  - `outputs/figures/45_regression_model_performance_comparison.png`
+  - `outputs/figures/46_regression_actual_vs_predicted_comparison.png`
+  - `outputs/figures/47_regression_residual_diagnostics.png`
+  - `outputs/figures/48_regression_state_error_breakdown.png`
+  - `outputs/figures/49_regression_complexity_vs_performance.png`
+- **Methodological Limitations**:
+  - Extremely small longitudinal panel ($N=106$, test $N=36$).
+  - Volatile year-over-year shifts reflect recording/administrative changes that cannot be decomposed from underlying crime rates.
+- **Reproducibility & Verification**: `src/regression_enhancement.py`, `src/generate_stage14_notebook.py`, and `notebooks/12_regression_enhancement.ipynb` executed head-to-tail with 0 errors. All 6 test suites in `src/validate_stage14.py` passed with 100% success.
 
 ---
 

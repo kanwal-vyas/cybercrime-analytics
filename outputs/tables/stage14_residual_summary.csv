@@ -1,0 +1,15 @@
+Model,Mean_Residual,Std_Residual,Min_Residual,Max_Residual,Residual_Skewness
+Naive Persistent (Lag-1),358.86,1291.84,-3113.0,4994.0,1.8448
+Historical 2-Year Moving Average,399.68,1470.37,-2455.0,7633.5,3.5269
+Linear Regression (OLS Raw),371.62,1638.51,-3050.0,6829.48,2.2971
+"Ridge Regression (Raw, alpha=1.0)",371.62,1638.51,-3050.0,6829.48,2.2971
+Log-Linear OLS (Stage 7 Benchmark),-41.51,1142.71,-3997.48,4684.81,0.6472
+Polynomial Degree 2 (OLS Raw),429.83,1750.98,-4364.56,7292.88,1.745
+"Polynomial Degree 2 (Ridge, alpha=100.0)",429.81,1750.95,-4364.56,7292.7,1.745
+Log-Polynomial Degree 2 (OLS),331.07,1484.04,-3235.31,5668.57,1.9981
+"Log-Polynomial Degree 2 (Ridge, alpha=1.0)",308.1,1433.07,-3295.48,5358.58,1.9046
+Decision Tree Regressor (depth=3),328.3,1536.8,-3763.0,7089.5,2.4611
+"Random Forest Regressor (Raw, depth=3)",230.13,1531.29,-4408.99,6936.22,2.0601
+Random Forest Regressor (Log Target),367.48,1695.98,-4428.87,7705.93,2.1882
+"Gradient Boosting (Raw, depth=2)",320.38,1702.54,-3447.9,7814.73,2.8277
+"Gradient Boosting (Log Target, depth=2)",689.85,2121.18,-2415.67,9704.54,3.0572

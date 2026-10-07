@@ -1,0 +1,15 @@
+Model,Model_Category,Feature_Representation,Target_Transformation,MAE,RMSE,R2,Median_AE,Train_Obs,Test_Obs
+Log-Linear OLS (Stage 7 Benchmark),Log-Linear OLS,"log_lag_1, log_lag_2",Log1p -> Expm1,479.37,1143.46,0.9,69.85,70,36
+Historical 2-Year Moving Average,Baseline,"lag_1, lag_2 Mean",None (Raw),563.04,1523.73,0.8224,57.0,70,36
+Naive Persistent (Lag-1),Baseline,lag_1 (t-1),None (Raw),564.75,1340.75,0.8625,61.5,70,36
+"Random Forest Regressor (Raw, depth=3)",Ensemble Forest,"lag_1, lag_2 (Raw)",None (Raw),576.8,1548.49,0.8166,75.69,70,36
+Decision Tree Regressor (depth=3),Decision Tree,"lag_1, lag_2 (Raw)",None (Raw),608.42,1571.47,0.8111,100.86,70,36
+"Log-Polynomial Degree 2 (Ridge, alpha=1.0)",Log-Polynomial Regularized,Degree-2 Log Features,Log1p -> Expm1,621.24,1465.82,0.8356,48.02,70,36
+Log-Polynomial Degree 2 (OLS),Log-Polynomial,Degree-2 Log Features,Log1p -> Expm1,643.44,1520.52,0.8231,47.42,70,36
+Random Forest Regressor (Log Target),Ensemble Forest,"log_lag_1, log_lag_2",Log1p -> Expm1,685.2,1735.34,0.7696,111.11,70,36
+"Gradient Boosting (Raw, depth=2)",Ensemble Boosting,"lag_1, lag_2 (Raw)",None (Raw),728.33,1732.42,0.7704,197.17,70,36
+"Ridge Regression (Raw, alpha=1.0)",Linear Regularized,"lag_1, lag_2 (Raw)",None (Raw),776.08,1680.13,0.784,205.07,70,36
+Linear Regression (OLS Raw),Linear,"lag_1, lag_2 (Raw)",None (Raw),776.08,1680.13,0.784,205.07,70,36
+"Polynomial Degree 2 (Ridge, alpha=100.0)",Polynomial Regularized,Degree-2 Raw Features,None (Raw),778.94,1802.94,0.7513,92.06,70,36
+Polynomial Degree 2 (OLS Raw),Polynomial,Degree-2 Raw Features,None (Raw),778.96,1802.97,0.7513,92.08,70,36
+"Gradient Boosting (Log Target, depth=2)",Ensemble Boosting,"log_lag_1, log_lag_2",Log1p -> Expm1,870.96,2230.54,0.6194,105.32,70,36
