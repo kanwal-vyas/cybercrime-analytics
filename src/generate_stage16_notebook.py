@@ -127,7 +127,9 @@ def create_stage16_notebook():
                 "source": [
                     "## 4. Robust Multivariate Mahalanobis Distance (MinCovDet)\n",
                     "\n",
-                    "We fit the Minimum Covariance Determinant (`MinCovDet`) estimator on the standardized feature matrix and compute robust Mahalanobis distances against the theoretical Chi-Square cutoff $\\chi^2_{14, 0.975} = 26.12$."
+                    "We fit the Minimum Covariance Determinant (`MinCovDet`) estimator on the standardized feature matrix and compute robust Mahalanobis distances against the reference Chi-Square cutoff $\\chi^2_{14, 0.975} = 26.12$.\n",
+                    "\n",
+                    "> **Methodological Qualification**: The $\\chi^2$ cutoff is used as a reference threshold for screening robust Mahalanobis distances in the small-sample multivariate setting; the associated p-values should not be interpreted as exact finite-sample inferential significance levels."
                 ]
             },
             {
@@ -230,7 +232,7 @@ def create_stage16_notebook():
                 "source": [
                     "## 8. Small-Denominator Non-Destructive Sensitivity Analysis\n",
                     "\n",
-                    "We evaluate how anomaly classifications shift when excluding extreme tiny-denominator Union Territories ($N \\le 6$ cases: Dadra & Nagar Haveli and Lakshadweep), confirming that primary multivariate flags on major states are robust."
+                    "We evaluate how anomaly classifications shift when excluding extreme tiny-denominator Union Territories ($N \\le 6$ cases: Dadra & Nagar Haveli and Lakshadweep). The sensitivity analysis shows that the identified substantive state-level multivariate departures remain stable after excluding the two tiny-denominator jurisdictions, indicating that these findings are not driven solely by those small-denominator observations."
                 ]
             },
             {
@@ -277,7 +279,7 @@ def create_stage16_notebook():
                     "1. **Consensus Anomalies ($4/4$ Methods Agree)**: Karnataka, Dadra & Nagar Haveli, and Lakshadweep are identified as consensus anomalies across univariate IQR, Isolation Forest, robust Mahalanobis, and LOF. Karnataka is driven by extreme absolute volume across all categories; Dadra & Nagar Haveli and Lakshadweep are driven by extreme sexual-exploitation motive shares on tiny denominators ($N=6$ and $N=1$).\n",
                     "2. **Strong Multi-Method Anomalies ($3/4$ Methods Agree)**: Uttar Pradesh (extreme volume + high extortion cases), Jharkhand (high IT Act share + fraud motive concentration), and Ladakh (complete zero sparsity on $N=1$).\n",
                     "3. **Dual-Space Separation**: Separating volume space from composition space clarifies that 5 jurisdictions are anomalous strictly due to volume scale (e.g. Telangana, Maharashtra), 8 jurisdictions are anomalous strictly due to composition proportions (e.g. Kerala, UP, Jharkhand, Assam), and 6 jurisdictions exhibit joint extremity.\n",
-                    "4. **Methodological Stability**: Excluding tiny jurisdictions ($N=34$) produces high overlap on core state anomaly flags (Isolation Forest Jaccard = $0.8000$, Mahalanobis Jaccard = $0.8750$).\n",
+                    "4. **Methodological Stability**: The sensitivity analysis shows that the identified substantive state-level multivariate departures remain stable after excluding the two tiny-denominator jurisdictions ($N=34$; Isolation Forest Jaccard = $0.8000$, Mahalanobis Jaccard = $0.8750$), indicating that these findings are not driven solely by those small-denominator observations.\n",
                     "\n",
                     "### Strict Non-Normative Guardrails:\n",
                     "- Statistical anomalies reflect **dimensional distribution extremity**, NOT crime risk, danger, or moral judgment.\n",

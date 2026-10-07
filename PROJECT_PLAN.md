@@ -609,23 +609,23 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - Non-causal framework: distance departures describe multi-dimensional location, not crime causes or policy outcomes.
   - Dual feature spaces: strictly separates volume-scale extremity (14-feature space) from compositional profile extremity (4-feature space).
 - **Methods Evaluated**:
-  1. *Robust Multivariate Mahalanobis Distance*: `MinCovDet` estimator with Chi-Square cutoff ($\chi^2_{14, 0.975} = 26.12$). Flagged 10 jurisdictions (e.g. Karnataka, Jharkhand, Nagaland, Odisha, Telangana, UP, West Bengal, Dadra & Nagar Haveli, Ladakh, Lakshadweep).
-  2. *Local Outlier Factor (LOF)*: Density-based local anomalies centered at $k=10$ with sensitivity across $k=5, 10, 15$. Flagged 6 jurisdictions at $k=10, c=0.15$ (Jharkhand, Karnataka, Odisha, Dadra & Nagar Haveli, Ladakh, Lakshadweep).
-  3. *Isolation Forest (Stage 8 Baseline Reference)*: $c=0.15, \text{random\_state}=42$. Flagged 6 jurisdictions (Karnataka, Kerala, UP, Dadra & Nagar Haveli, Lakshadweep, Ladakh).
+  1. *Robust Multivariate Mahalanobis Distance*: `MinCovDet` estimator with Chi-Square reference cutoff ($\chi^2_{14, 0.975} = 26.12$). The $\chi^2$ cutoff is used as a reference threshold for screening robust Mahalanobis distances in the small-sample multivariate setting; the associated p-values should not be interpreted as exact finite-sample inferential significance levels. Flagged 8 jurisdictions (Karnataka, Dadra & Nagar Haveli, Uttar Pradesh, Lakshadweep, Jharkhand, Kerala, Ladakh, Odisha).
+  2. *Local Outlier Factor (LOF)*: Density-based local anomalies centered at $k=10$ with sensitivity across $k=5, 10, 15$. Flagged 4 jurisdictions at $k=10, c=0.15$ (Karnataka, Dadra & Nagar Haveli, Lakshadweep, Telangana).
+  3. *Isolation Forest (Stage 8 Baseline Reference)*: $c=0.15, \text{random\_state}=42$. Flagged 6 jurisdictions (Karnataka, Telangana, Uttar Pradesh, Dadra & Nagar Haveli, Lakshadweep, Ladakh).
   4. *Tukey IQR Fences (Stage 8 Baseline Reference)*: Flagged 18 jurisdictions across 52 individual fence violations.
 - **Method Agreement & Consensus Anomaly Scoring ($0 \text{ to } 4$)**:
   - *Consensus Anomalies (4/4 Methods Agree)*: 3 States/UTs ($8.3\%$) — Karnataka, Dadra & Nagar Haveli, Lakshadweep.
   - *Strong Multi-Method Anomalies (3/4 Methods Agree)*: 3 States/UTs ($8.3\%$) — Uttar Pradesh, Jharkhand, Ladakh.
   - *Multi-Method Anomalies (2/4 Methods Agree)*: 3 States/UTs ($8.3\%$) — Kerala, Odisha, Telangana.
-  - *Single-Method Anomalies (1/4 Methods Agree)*: 12 States/UTs ($33.3\%$) — Andhra Pradesh, Assam, Bihar, Chandigarh, Chhattisgarh, Gujarat, Maharashtra, Nagaland, Rajasthan, Tamil Nadu, Uttarakhand, West Bengal.
-  - *No Methods Flag (0/4 Methods Agree)*: 15 States/UTs ($41.7\%$) — Arunachal Pradesh, Delhi, Goa, Haryana, Himachal Pradesh, Jammu & Kashmir, MP, Manipur, Meghalaya, Mizoram, Punjab, Puducherry, Sikkim, Tripura, Andaman & Nicobar.
+  - *Single-Method Anomalies (1/4 Methods Agree)*: 12 States/UTs ($33.3\%$) — Andaman & Nicobar, Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Goa, Gujarat, Haryana, Maharashtra, Nagaland, Puducherry, Sikkim.
+  - *No Methods Flag (0/4 Methods Agree)*: 15 States/UTs ($41.7\%$) — Chandigarh, Chhattisgarh, Delhi, Himachal Pradesh, Jammu & Kashmir, Madhya Pradesh, Manipur, Meghalaya, Mizoram, Punjab, Rajasthan, Tamil Nadu, Tripura, Uttarakhand, West Bengal.
 - **Dual-Space Volume vs. Composition Separation**:
-  - *Volume-Scale Driven Only*: 5 jurisdictions (e.g. Telangana, Maharashtra, Bihar, Rajasthan, Gujarat).
-  - *Composition-Profile Driven Only*: 8 jurisdictions (e.g. Kerala, UP, Jharkhand, Assam, Chandigarh, Nagaland, Sikkim, Uttarakhand).
-  - *Both Volume & Composition Anomalous*: 6 jurisdictions (Karnataka, Dadra & Nagar Haveli, Lakshadweep, Ladakh, Odisha, West Bengal).
+  - *Volume-Scale Driven Only*: 5 jurisdictions (Maharashtra, Telangana, Andhra Pradesh, Bihar, Haryana).
+  - *Composition-Profile Driven Only*: 8 jurisdictions (Andaman & Nicobar, Arunachal Pradesh, Goa, Gujarat, Nagaland, Puducherry, Sikkim, Ladakh).
+  - *Both Volume & Composition Anomalous*: 6 jurisdictions (Karnataka, Uttar Pradesh, Jharkhand, Kerala, Odisha, Dadra & Nagar Haveli).
   - *Not Anomalous in Tested Spaces*: 17 jurisdictions.
 - **Small-Denominator Sensitivity Analysis ($N=36$ vs. $N=34$)**:
-  - Excluding extreme small-denominator jurisdictions ($N \le 6$ cases: Dadra & Nagar Haveli and Lakshadweep) confirms that core state multivariate flags remain stable (Isolation Forest Jaccard overlap = $0.8000$, Robust Mahalanobis Jaccard overlap = $0.8750$).
+  - The sensitivity analysis shows that the identified substantive state-level multivariate departures remain stable after excluding the two tiny-denominator jurisdictions ($N \le 6$ cases: Dadra & Nagar Haveli and Lakshadweep; Isolation Forest Jaccard overlap = $0.8000$, Robust Mahalanobis Jaccard overlap = $0.8750$), indicating that these findings are not driven solely by those small-denominator observations.
   - The primary analytical dataset strictly retains all $N=36$ jurisdictions.
 - **Exported Deliverables**:
   - `src/advanced_outlier_detection.py`

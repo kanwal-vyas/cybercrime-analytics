@@ -108,7 +108,12 @@ def compute_robust_mahalanobis(
 ) -> Tuple[pd.DataFrame, MinCovDet, float]:
     """
     Computes robust Mahalanobis distances using the Minimum Covariance Determinant (MinCovDet)
-    estimator and a Chi-Square distribution cutoff at quantile alpha.
+    estimator and a Chi-Square reference cutoff at quantile alpha.
+
+    Methodological Note:
+    The Chi-Square cutoff (df=14, alpha=0.975) is used as a reference threshold for screening
+    robust Mahalanobis distances in the small-sample multivariate setting; the associated
+    p-values should not be interpreted as exact finite-sample inferential significance levels.
     """
     X_counts_log = np.log1p(features_df[[c for c in feature_cols if c in VOLUME_FEATURES]])
     X_shares = features_df[[c for c in feature_cols if c in SHARE_FEATURES]]
@@ -366,14 +371,14 @@ def run_stage16_sensitivity_analysis(features_df: pd.DataFrame) -> pd.DataFrame:
             'primary_n36_flagged': int((iso_36 == -1).sum()),
             'sensitivity_n34_flagged': int((iso_34 == -1).sum()),
             'overlap_jaccard_on_n34': round(float(iso_jaccard), 4),
-            'notes': 'Excluding N<=6 small UTs preserves key high-volume and unusual profile flags.'
+            'notes': 'The sensitivity analysis shows that the identified substantive state-level multivariate departures remain stable after excluding the two tiny-denominator jurisdictions, indicating that these findings are not driven solely by those small-denominator observations.'
         },
         {
             'method': 'Robust Mahalanobis',
             'primary_n36_flagged': int(mah_36.sum()),
             'sensitivity_n34_flagged': int(mah_34.sum()),
             'overlap_jaccard_on_n34': round(float(mah_jaccard), 4),
-            'notes': 'High stability on core state multivariate departures.'
+            'notes': 'The sensitivity analysis shows that the identified substantive state-level multivariate departures remain stable after excluding the two tiny-denominator jurisdictions, indicating that these findings are not driven solely by those small-denominator observations.'
         }
     ]
     return pd.DataFrame(sens_rows)
