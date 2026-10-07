@@ -1,0 +1,37 @@
+state_name,total_cases,anomaly_score,isolation_forest_outlier,anomaly_rank
+Karnataka,21889,-0.1139,Yes,1
+Ladakh,1,-0.0505,Yes,2
+Lakshadweep,1,-0.0229,Yes,3
+Kerala,3295,-0.0184,Yes,4
+Dadra and Nagar Haveli and Daman and Diu,6,-0.0022,Yes,5
+Uttar Pradesh,10794,-0.0007,Yes,6
+Odisha,2348,0.0021,No,7
+Jharkhand,1079,0.0038,No,8
+Sikkim,12,0.0135,No,9
+Chandigarh,23,0.0173,No,10
+Manipur,3,0.0177,No,11
+Telangana,18236,0.0203,No,12
+Nagaland,2,0.0216,No,13
+Maharashtra,8103,0.024,No,14
+Mizoram,31,0.0255,No,15
+Arunachal Pradesh,24,0.0312,No,16
+Tamil Nadu,4121,0.0434,No,17
+Assam,909,0.047,No,18
+West Bengal,309,0.0482,No,19
+Rajasthan,2435,0.0506,No,20
+Bihar,4450,0.0509,No,21
+Chhattisgarh,473,0.0515,No,22
+Uttarakhand,494,0.0614,No,23
+Puducherry,147,0.0616,No,24
+Andaman and Nicobar Islands,47,0.0727,No,25
+Tripura,36,0.0745,No,26
+Jammu and Kashmir,185,0.0756,No,27
+Delhi,407,0.0823,No,28
+Gujarat,1995,0.0832,No,29
+Meghalaya,64,0.0858,No,30
+Punjab,511,0.0935,No,31
+Andhra Pradesh,2341,0.0942,No,32
+Himachal Pradesh,127,0.0993,No,33
+Goa,86,0.105,No,34
+Haryana,751,0.1087,No,35
+Madhya Pradesh,685,0.1114,No,36

@@ -9,9 +9,8 @@
 | 3. SQL / OLAP | `03_sql_olap.ipynb` | **Done (FROZEN)** |
 | 4. EDA | `03_eda.ipynb` | **Done (FROZEN)** |
 | 5. Association Rules | `04_association_rules.ipynb` | **Done (FROZEN)** |
-| 6. Clustering | `05_clustering.ipynb` | **Done (FROZEN)** |
-| 7. Prediction | `06_prediction.ipynb` | **Done** |
-| 8. Outlier Detection | `07_outlier_detection.ipynb` | Not started |
+| 6. Clustering | `05_clustering.ipynb` | **Done (FROZEN)** | 7. Prediction | `06_prediction.ipynb` | **Done (FROZEN)** |
+| 8. Outlier Detection | `07_outlier_detection.ipynb` | **Done** |
 | 9. Power BI Dashboard | — | Not started |
 
 ## 1. Datasets
@@ -52,7 +51,7 @@ Full evidence for every row above is in `notebooks/01_data_understanding.ipynb`.
 | Unit 3 | Data warehouse / OLAP, star schema, roll-up/drill-down/slice/dice | Stage 3 — `sql/schema.sql`, `sql/views.sql`, `sql/analysis_queries.sql`, `notebooks/03_sql_olap.ipynb`, `data/database/cybercrime.db` |
 | Unit 4 | Frequent itemsets, Apriori, support/confidence/lift | Stage 5 — state-as-transaction / above-median-category-as-item representation (marginal-but-defensible, see Validation Gate) |
 | Unit 5 | Classification, regression, prediction | Stage 7 (`06_prediction.ipynb`, `src/prediction.py`) — temporal lag panel prediction with zero target leakage |
-| Unit 6 | K-Means, cluster interpretation, outlier/anomaly detection | Stage 6/8 — K-Means on scaled/log-transformed leaf features; IQR/Z-score + Isolation Forest outlier detection |
+| Unit 6 | K-Means, cluster interpretation, outlier/anomaly detection | Stage 6/8 — K-Means on standardized composition features; IQR Tukey fences + Isolation Forest outlier detection |
 | Visualization | Exploratory, geographic, dashboards | Stage 4 (`notebooks/03_eda.ipynb`, `src/eda.py`, `outputs/figures/`) and Stage 9 (Power BI: executive overview, geographic, category, trend pages) |
 
 ## 4. Phased Plan
@@ -160,7 +159,7 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - `outputs/figures/19_cluster_projection.png`
 - **Reproducibility & Verification**: `src/clustering.py` module and `notebooks/05_clustering.ipynb` executed head-to-tail with 0 errors. All 7 test suites in `src/validate_stage6.py` passed.
 
-### Stage 7 — Prediction: State-Level Cybercrime Volume Prediction (Done)
+### Stage 7 — Prediction: State-Level Cybercrime Volume Prediction (Done / FROZEN)
 - **Analytical Problem Formulation**: Predicts 1-year ahead aggregate State/UT cybercrime volume using historical longitudinal lag features from preceding years ($t-1$ and $t-2$).
 - **Zero-Leakage Protocol**:
   - **No Tautology**: Avoids regressing total cases on contemporaneous category/motive components.
@@ -191,10 +190,34 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
   - `outputs/models/` (5 serialized model artifacts)
 - **Reproducibility & Verification**: `src/prediction.py` module and `notebooks/06_prediction.ipynb` executed head-to-tail with 0 errors. All 6 validation suites in `src/validate_stage7.py` passed.
 
-### Stage 8 — Outlier Detection
-IQR/Z-score (univariate) on totals; Isolation Forest (multivariate) on the same feature
-set as clustering. Every flagged outlier interpreted with a stated, evidence-based
-hypothesis — never asserted as a data error without further evidence.
+### Stage 8 — Outlier Detection: Descriptive Extreme Observation Analysis (Done)
+- **Methodological Purpose**: Identifies State/UT observations that are statistically unusual relative to the observed 2023 distribution ($N = 36$). Confined to descriptive statistical extremity; does not imply criminality, risk scoring, or recording errors.
+- **Analytical Features (14 Dimensions)**:
+  - *10 Volume Features (Count Scale)*: `total_cases`, `it_act_cases`, `ipc_cases`, `motive_fraud`, `motive_extortion`, `motive_sexual_exploitation`, `sec66d_cheating_personation`, `sec66c_identity_theft`, `women_cases_total`, `child_cases_total`.
+  - *4 Composition Features (Share Scale)*: `it_act_share`, `fraud_motive_share`, `extortion_motive_share`, `sexual_exploitation_motive_share`.
+- **Primary Method (Tukey IQR Fences)**:
+  - Calculates $Q_1$, $Q_3$, $\text{IQR} = Q_3 - Q_1$, and fences $[Q_1 - 1.5\text{IQR}, Q_3 + 1.5\text{IQR}]$.
+  - Detected 52 total univariate fence violation occurrences across 18 distinct jurisdictions (18 jurisdictions have 0 flags).
+  - Key Volume Outliers: Total cases upper fence = $5,804.75$ (Karnataka: 21,889, Telangana: 18,236, UP: 10,794, Maharashtra: 8,103).
+- **Secondary Method (Multivariate Isolation Forest)**:
+  - Applied to $\log(1+y)$ transformed counts and standardized shares ($\text{contamination} = 0.15, \text{random\_state} = 42$) to prevent volume scale domination.
+  - Flagged 6 multivariate outliers: Karnataka (extreme overall volume), Kerala (high extortion share + child cybercrimes), UP (high extortion count + IT Act volume), Dadra & Nagar Haveli (small-denominator share), Lakshadweep (small-denominator share), Ladakh (extreme zero sparsity on $N=1$).
+- **State-Level Classification Synthesis (36 States/UTs)**:
+  - *No detected outlier*: **18 States/UTs (50.0%)** (e.g., Delhi, Haryana, MP, Odisha, Punjab, West Bengal).
+  - *Univariate outlier only*: **12 States/UTs (33.3%)** (e.g., Maharashtra, Telangana, Tamil Nadu, Rajasthan, Bihar, Gujarat, Jharkhand, Assam, Chhattisgarh, Uttarakhand, Chandigarh, Andhra Pradesh).
+  - *Both (Univariate & Multivariate)*: **5 States/UTs (13.9%)** (Karnataka, Uttar Pradesh, Kerala, Dadra and Nagar Haveli and Daman and Diu, Lakshadweep).
+  - *Multivariate outlier only*: **1 State/UT (2.8%)** (Ladakh).
+- **Small-Denominator Caution**: Proportions in Dadra & Nagar Haveli ($83.33\%$) and Lakshadweep ($100.00\%$) exceed the upper fence ($44.52\%$) due entirely to tiny denominators ($N=6$ and $N=1$), **not high crime volume**.
+- **Exported Tables & Figures**:
+  - `outputs/tables/outlier_feature_statistics.csv`
+  - `outputs/tables/outlier_univariate_results.csv`
+  - `outputs/tables/outlier_multivariate_results.csv`
+  - `outputs/tables/outlier_state_summary.csv`
+  - `outputs/figures/24_outlier_iqr_boxplots.png`
+  - `outputs/figures/25_outlier_flags_by_feature.png`
+  - `outputs/figures/26_outlier_state_summary.png`
+  - `outputs/figures/27_outlier_multivariate_projection.png`
+- **Reproducibility & Verification**: `src/outlier_detection.py` module and `notebooks/07_outlier_detection.ipynb` executed head-to-tail with 0 errors. All 6 validation suites in `src/validate_stage8.py` passed.
 
 ### Stage 9 — Power BI Dashboard
 Built only from `data/processed/` tables, database views, and Stage 4–8 output tables.

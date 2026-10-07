@@ -1,0 +1,15 @@
+feature_name,feature_display,feature_type,min,q1,median,mean,q3,max,iqr,lower_fence,upper_fence,skewness,high_outlier_count,low_outlier_count,total_outlier_count,flagged_states
+total_cases,Total Cybercrime Cases,Volume (Count),1.0,34.75,440.0,2400.5556,2342.75,21889.0,2308.0,-3427.25,5804.75,2.9612,4,0,4,"Karnataka, Maharashtra, Telangana, Uttar Pradesh"
+it_act_cases,IT Act Cases,Volume (Count),0.0,30.75,193.5,1228.8056,568.75,21870.0,538.0,-776.25,1375.75,4.7515,4,0,4,"Karnataka, Rajasthan, Tamil Nadu, Uttar Pradesh"
+ipc_cases,IPC Cases,Volume (Count),0.0,1.75,69.5,1162.4722,755.0,17787.0,753.25,-1128.125,1884.875,4.5071,6,0,6,"Andhra Pradesh, Bihar, Kerala, Maharashtra, Tamil Nadu, Telangana"
+motive_fraud,Fraud Motive Cases,Volume (Count),0.0,19.25,119.5,1653.5,1223.75,18602.0,1204.5,-1787.5,3030.5,3.4948,6,0,6,"Bihar, Karnataka, Maharashtra, Tamil Nadu, Telangana, Uttar Pradesh"
+motive_extortion,Extortion Motive Cases,Volume (Count),0.0,1.0,9.5,92.3889,123.75,1020.0,122.75,-183.125,307.875,3.4807,3,0,3,"Karnataka, Kerala, Uttar Pradesh"
+motive_sexual_exploitation,Sexual Exploitation Motive Cases,Volume (Count),0.0,8.75,30.5,116.6389,121.75,682.0,113.0,-160.75,291.25,1.9343,5,0,5,"Karnataka, Kerala, Maharashtra, Rajasthan, Uttar Pradesh"
+sec66d_cheating_personation,Sec. 66D Personation Cheating,Volume (Count),0.0,1.75,37.5,703.7222,159.5,18166.0,157.75,-234.875,396.125,5.7481,5,0,5,"Karnataka, Kerala, Rajasthan, Tamil Nadu, Uttar Pradesh"
+sec66c_identity_theft,Sec. 66C Identity Theft,Volume (Count),0.0,2.75,8.0,138.2778,80.25,2411.0,77.5,-113.5,196.5,5.087,5,0,5,"Gujarat, Jharkhand, Karnataka, Maharashtra, Uttar Pradesh"
+women_cases_total,Cybercrimes Against Women,Volume (Count),0.0,13.0,131.0,541.9444,530.5,7002.0,517.5,-763.25,1306.75,4.4622,4,0,4,"Karnataka, Maharashtra, Telangana, Uttar Pradesh"
+child_cases_total,Cybercrimes Against Children,Volume (Count),0.0,2.5,12.0,52.8333,39.25,443.0,36.75,-52.625,94.375,2.768,4,0,4,"Chhattisgarh, Karnataka, Kerala, Rajasthan"
+it_act_share,IT Act Share (0-1),Composition (Share),0.0,0.3675,0.6875,0.632,0.9441,1.0,0.5766,-0.4973,1.8089,-0.4421,0,0,0,No outliers detected
+fraud_motive_share,Fraud Motive Share (0-1),Composition (Share),0.0,0.32,0.4923,0.4885,0.7099,0.9518,0.3899,-0.2649,1.2948,-0.2699,0,0,0,No outliers detected
+extortion_motive_share,Extortion Motive Share (0-1),Composition (Share),0.0,0.0067,0.0242,0.0424,0.0561,0.1791,0.0495,-0.0675,0.1303,1.3496,4,0,4,"Assam, Kerala, Uttarakhand, Chandigarh"
+sexual_exploitation_motive_share,Sexual Exploitation Motive Share (0-1),Composition (Share),0.0,0.0286,0.1026,0.16,0.1952,1.0,0.1666,-0.2214,0.4452,2.6717,2,0,2,"Dadra and Nagar Haveli and Daman and Diu, Lakshadweep"

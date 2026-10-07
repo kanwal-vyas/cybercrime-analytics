@@ -1,0 +1,37 @@
+state_name,total_cases,univariate_flags_count,high_flags_count,low_flags_count,flagged_features,isolation_forest_outlier,anomaly_score,anomaly_rank,outlier_classification,small_denominator_flag,stage6_cluster_id,stage6_cluster_label
+Karnataka,21889,9,9,0,"child_cases_total, it_act_cases, motive_extortion, motive_fraud, motive_sexual_exploitation, sec66c_identity_theft, sec66d_cheating_personation, total_cases, women_cases_total",Yes,-0.1139,1,Both,No,1,Higher IT Act Share / Higher Fraud Share Profile
+Uttar Pradesh,10794,8,8,0,"it_act_cases, motive_extortion, motive_fraud, motive_sexual_exploitation, sec66c_identity_theft, sec66d_cheating_personation, total_cases, women_cases_total",Yes,-0.0007,6,Both,No,3,Higher Extortion Motive Share Profile
+Kerala,3295,6,6,0,"child_cases_total, extortion_motive_share, ipc_cases, motive_extortion, motive_sexual_exploitation, sec66d_cheating_personation",Yes,-0.0184,4,Both,No,3,Higher Extortion Motive Share Profile
+Maharashtra,8103,6,6,0,"ipc_cases, motive_fraud, motive_sexual_exploitation, sec66c_identity_theft, total_cases, women_cases_total",No,0.024,14,Univariate outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile
+Telangana,18236,4,4,0,"ipc_cases, motive_fraud, total_cases, women_cases_total",No,0.0203,12,Univariate outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile
+Tamil Nadu,4121,4,4,0,"ipc_cases, it_act_cases, motive_fraud, sec66d_cheating_personation",No,0.0434,17,Univariate outlier,No,1,Higher IT Act Share / Higher Fraud Share Profile
+Rajasthan,2435,4,4,0,"child_cases_total, it_act_cases, motive_sexual_exploitation, sec66d_cheating_personation",No,0.0506,20,Univariate outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile
+Bihar,4450,2,2,0,"ipc_cases, motive_fraud",No,0.0509,21,Univariate outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile
+Lakshadweep,1,1,1,0,sexual_exploitation_motive_share,Yes,-0.0229,3,Both,Yes (N <= 10),2,High Sexual-Exploitation Share / Small-Denominator Profile
+Dadra and Nagar Haveli and Daman and Diu,6,1,1,0,sexual_exploitation_motive_share,Yes,-0.0022,5,Both,Yes (N <= 10),2,High Sexual-Exploitation Share / Small-Denominator Profile
+Jharkhand,1079,1,1,0,sec66c_identity_theft,No,0.0038,8,Univariate outlier,No,1,Higher IT Act Share / Higher Fraud Share Profile
+Chandigarh,23,1,1,0,extortion_motive_share,No,0.0173,10,Univariate outlier,No,3,Higher Extortion Motive Share Profile
+Assam,909,1,1,0,extortion_motive_share,No,0.047,18,Univariate outlier,No,3,Higher Extortion Motive Share Profile
+Chhattisgarh,473,1,1,0,child_cases_total,No,0.0515,22,Univariate outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile
+Uttarakhand,494,1,1,0,extortion_motive_share,No,0.0614,23,Univariate outlier,No,3,Higher Extortion Motive Share Profile
+Gujarat,1995,1,1,0,sec66c_identity_theft,No,0.0832,29,Univariate outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile
+Andhra Pradesh,2341,1,1,0,ipc_cases,No,0.0942,32,Univariate outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile
+Ladakh,1,0,0,0,None,Yes,-0.0505,2,Multivariate outlier,Yes (N <= 10),0,Lower IT Act Share / Moderate Fraud Share Profile
+Odisha,2348,0,0,0,None,No,0.0021,7,No detected outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile
+Sikkim,12,0,0,0,None,No,0.0135,9,No detected outlier,No,3,Higher Extortion Motive Share Profile
+Manipur,3,0,0,0,None,No,0.0177,11,No detected outlier,Yes (N <= 10),0,Lower IT Act Share / Moderate Fraud Share Profile
+Nagaland,2,0,0,0,None,No,0.0216,13,No detected outlier,Yes (N <= 10),1,Higher IT Act Share / Higher Fraud Share Profile
+Mizoram,31,0,0,0,None,No,0.0255,15,No detected outlier,No,1,Higher IT Act Share / Higher Fraud Share Profile
+Arunachal Pradesh,24,0,0,0,None,No,0.0312,16,No detected outlier,No,1,Higher IT Act Share / Higher Fraud Share Profile
+West Bengal,309,0,0,0,None,No,0.0482,19,No detected outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile
+Puducherry,147,0,0,0,None,No,0.0616,24,No detected outlier,No,1,Higher IT Act Share / Higher Fraud Share Profile
+Andaman and Nicobar Islands,47,0,0,0,None,No,0.0727,25,No detected outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile
+Tripura,36,0,0,0,None,No,0.0745,26,No detected outlier,No,1,Higher IT Act Share / Higher Fraud Share Profile
+Jammu and Kashmir,185,0,0,0,None,No,0.0756,27,No detected outlier,No,1,Higher IT Act Share / Higher Fraud Share Profile
+Delhi,407,0,0,0,None,No,0.0823,28,No detected outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile
+Meghalaya,64,0,0,0,None,No,0.0858,30,No detected outlier,No,1,Higher IT Act Share / Higher Fraud Share Profile
+Punjab,511,0,0,0,None,No,0.0935,31,No detected outlier,No,3,Higher Extortion Motive Share Profile
+Himachal Pradesh,127,0,0,0,None,No,0.0993,33,No detected outlier,No,1,Higher IT Act Share / Higher Fraud Share Profile
+Goa,86,0,0,0,None,No,0.105,34,No detected outlier,No,1,Higher IT Act Share / Higher Fraud Share Profile
+Haryana,751,0,0,0,None,No,0.1087,35,No detected outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile
+Madhya Pradesh,685,0,0,0,None,No,0.1114,36,No detected outlier,No,0,Lower IT Act Share / Moderate Fraud Share Profile

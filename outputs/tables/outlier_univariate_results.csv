@@ -1,0 +1,53 @@
+state_name,feature,feature_type,observed_value,q1,q3,iqr,lower_fence,upper_fence,direction,distance_from_fence,total_cases_denominator
+Kerala,child_cases_total,Volume (Count),443.0,2.5,39.25,36.75,-52.625,94.375,High,348.625,3295
+Karnataka,child_cases_total,Volume (Count),363.0,2.5,39.25,36.75,-52.625,94.375,High,268.625,21889
+Rajasthan,child_cases_total,Volume (Count),306.0,2.5,39.25,36.75,-52.625,94.375,High,211.625,2435
+Chhattisgarh,child_cases_total,Volume (Count),193.0,2.5,39.25,36.75,-52.625,94.375,High,98.625,473
+Kerala,extortion_motive_share,Composition (Share),0.1791,0.0067,0.0561,0.0495,-0.0675,0.1303,High,0.0487,3295
+Assam,extortion_motive_share,Composition (Share),0.1452,0.0067,0.0561,0.0495,-0.0675,0.1303,High,0.0149,909
+Uttarakhand,extortion_motive_share,Composition (Share),0.1417,0.0067,0.0561,0.0495,-0.0675,0.1303,High,0.0114,494
+Chandigarh,extortion_motive_share,Composition (Share),0.1304,0.0067,0.0561,0.0495,-0.0675,0.1303,High,0.0001,23
+Telangana,ipc_cases,Volume (Count),17787.0,1.75,755.0,753.25,-1128.125,1884.875,High,15902.125,18236
+Maharashtra,ipc_cases,Volume (Count),7131.0,1.75,755.0,753.25,-1128.125,1884.875,High,5246.125,8103
+Bihar,ipc_cases,Volume (Count),4052.0,1.75,755.0,753.25,-1128.125,1884.875,High,2167.125,4450
+Tamil Nadu,ipc_cases,Volume (Count),2195.0,1.75,755.0,753.25,-1128.125,1884.875,High,310.125,4121
+Kerala,ipc_cases,Volume (Count),2110.0,1.75,755.0,753.25,-1128.125,1884.875,High,225.125,3295
+Andhra Pradesh,ipc_cases,Volume (Count),1978.0,1.75,755.0,753.25,-1128.125,1884.875,High,93.125,2341
+Karnataka,it_act_cases,Volume (Count),21870.0,30.75,568.75,538.0,-776.25,1375.75,High,20494.25,21889
+Uttar Pradesh,it_act_cases,Volume (Count),10102.0,30.75,568.75,538.0,-776.25,1375.75,High,8726.25,10794
+Tamil Nadu,it_act_cases,Volume (Count),1912.0,30.75,568.75,538.0,-776.25,1375.75,High,536.25,4121
+Rajasthan,it_act_cases,Volume (Count),1464.0,30.75,568.75,538.0,-776.25,1375.75,High,88.25,2435
+Uttar Pradesh,motive_extortion,Volume (Count),1020.0,1.0,123.75,122.75,-183.125,307.875,High,712.125,10794
+Kerala,motive_extortion,Volume (Count),590.0,1.0,123.75,122.75,-183.125,307.875,High,282.125,3295
+Karnataka,motive_extortion,Volume (Count),437.0,1.0,123.75,122.75,-183.125,307.875,High,129.125,21889
+Karnataka,motive_fraud,Volume (Count),18602.0,19.25,1223.75,1204.5,-1787.5,3030.5,High,15571.5,21889
+Telangana,motive_fraud,Volume (Count),14749.0,19.25,1223.75,1204.5,-1787.5,3030.5,High,11718.5,18236
+Maharashtra,motive_fraud,Volume (Count),5290.0,19.25,1223.75,1204.5,-1787.5,3030.5,High,2259.5,8103
+Uttar Pradesh,motive_fraud,Volume (Count),3811.0,19.25,1223.75,1204.5,-1787.5,3030.5,High,780.5,10794
+Tamil Nadu,motive_fraud,Volume (Count),3697.0,19.25,1223.75,1204.5,-1787.5,3030.5,High,666.5,4121
+Bihar,motive_fraud,Volume (Count),3422.0,19.25,1223.75,1204.5,-1787.5,3030.5,High,391.5,4450
+Karnataka,motive_sexual_exploitation,Volume (Count),682.0,8.75,121.75,113.0,-160.75,291.25,High,390.75,21889
+Maharashtra,motive_sexual_exploitation,Volume (Count),534.0,8.75,121.75,113.0,-160.75,291.25,High,242.75,8103
+Uttar Pradesh,motive_sexual_exploitation,Volume (Count),514.0,8.75,121.75,113.0,-160.75,291.25,High,222.75,10794
+Kerala,motive_sexual_exploitation,Volume (Count),500.0,8.75,121.75,113.0,-160.75,291.25,High,208.75,3295
+Rajasthan,motive_sexual_exploitation,Volume (Count),365.0,8.75,121.75,113.0,-160.75,291.25,High,73.75,2435
+Karnataka,sec66c_identity_theft,Volume (Count),2411.0,2.75,80.25,77.5,-113.5,196.5,High,2214.5,21889
+Uttar Pradesh,sec66c_identity_theft,Volume (Count),486.0,2.75,80.25,77.5,-113.5,196.5,High,289.5,10794
+Jharkhand,sec66c_identity_theft,Volume (Count),479.0,2.75,80.25,77.5,-113.5,196.5,High,282.5,1079
+Maharashtra,sec66c_identity_theft,Volume (Count),474.0,2.75,80.25,77.5,-113.5,196.5,High,277.5,8103
+Gujarat,sec66c_identity_theft,Volume (Count),254.0,2.75,80.25,77.5,-113.5,196.5,High,57.5,1995
+Karnataka,sec66d_cheating_personation,Volume (Count),18166.0,1.75,159.5,157.75,-234.875,396.125,High,17769.875,21889
+Uttar Pradesh,sec66d_cheating_personation,Volume (Count),2748.0,1.75,159.5,157.75,-234.875,396.125,High,2351.875,10794
+Tamil Nadu,sec66d_cheating_personation,Volume (Count),1542.0,1.75,159.5,157.75,-234.875,396.125,High,1145.875,4121
+Kerala,sec66d_cheating_personation,Volume (Count),526.0,1.75,159.5,157.75,-234.875,396.125,High,129.875,3295
+Rajasthan,sec66d_cheating_personation,Volume (Count),521.0,1.75,159.5,157.75,-234.875,396.125,High,124.875,2435
+Lakshadweep,sexual_exploitation_motive_share,Composition (Share),1.0,0.0286,0.1952,0.1666,-0.2214,0.4452,High,0.5548,1
+Dadra and Nagar Haveli and Daman and Diu,sexual_exploitation_motive_share,Composition (Share),0.8333,0.0286,0.1952,0.1666,-0.2214,0.4452,High,0.3881,6
+Karnataka,total_cases,Volume (Count),21889.0,34.75,2342.75,2308.0,-3427.25,5804.75,High,16084.25,21889
+Telangana,total_cases,Volume (Count),18236.0,34.75,2342.75,2308.0,-3427.25,5804.75,High,12431.25,18236
+Uttar Pradesh,total_cases,Volume (Count),10794.0,34.75,2342.75,2308.0,-3427.25,5804.75,High,4989.25,10794
+Maharashtra,total_cases,Volume (Count),8103.0,34.75,2342.75,2308.0,-3427.25,5804.75,High,2298.25,8103
+Karnataka,women_cases_total,Volume (Count),7002.0,13.0,530.5,517.5,-763.25,1306.75,High,5695.25,21889
+Maharashtra,women_cases_total,Volume (Count),2502.0,13.0,530.5,517.5,-763.25,1306.75,High,1195.25,8103
+Uttar Pradesh,women_cases_total,Volume (Count),1463.0,13.0,530.5,517.5,-763.25,1306.75,High,156.25,10794
+Telangana,women_cases_total,Volume (Count),1447.0,13.0,530.5,517.5,-763.25,1306.75,High,140.25,18236

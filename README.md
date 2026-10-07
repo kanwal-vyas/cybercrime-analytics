@@ -184,7 +184,7 @@ current status in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md#dataset-validation-gate)
 - [x] Association rule mining implemented (State-Level Syllabus Demonstration — FROZEN)
 - [x] Clustering implemented & validated (State-Level Profile Grouping — FROZEN)
 - [x] Prediction implemented & validated (Temporal Panel Lag Prediction — Zero Leakage)
-- [ ] Outlier detection implemented (pending validation)
+- [x] Outlier detection implemented & validated (IQR Tukey Fences & Isolation Forest)
 - [ ] Power BI dashboard built
 - [ ] Report and presentation finalized
 
