@@ -75,11 +75,11 @@ The following matrix maps the complete semester Data Mining & Analytics syllabus
 | **Unit 3** | OLAP operations | Stage 3 + 11 | **Done (FROZEN)** | Roll-Up, Drill-Down, Slice, Dice, Pivot across SQL and Python (`sql/stage11_olap.sql`, `src/advanced_olap.py`) |
 | **Unit 3** | Data cube aggregation | Stage 11 | **Done (FROZEN)** | Base and roll-up cuboid materialization, Iceberg cuboid selective pruning ($\ge 1,000$ cases) |
 | **Unit 3** | Attribute-oriented induction (AOI) | Stage 11 | **Done (FROZEN)** | Semantic attribute generalization ($1,440 \rightarrow 6$ concept tuples, $99.58\%$ reduction) |
-| **Unit 4** | Frequent itemset mining | Stage 5 + 12 | **Stage 5 Done** / *Stage 12 Planned* | Mining frequent co-occurring profile itemsets (Apriori & FP-Growth) |
+| **Unit 4** | Frequent itemset mining | Stage 5 + 12 | **Done (FROZEN)** | Mining frequent co-occurring profile itemsets (Apriori & FP-Growth) |
 | **Unit 4** | Apriori algorithm | Stage 5 | **Done (FROZEN)** | 129 frequent itemsets, 1,924 filtered rules at $\text{supp} \ge 0.25, \text{conf} \ge 0.60$ |
-| **Unit 4** | FP-Growth algorithm | Stage 12 | *Planned (Stage 12)* | Tree-based frequent pattern mining, candidate-free generation & runtime benchmarking |
-| **Unit 4** | Association rule evaluation | Stage 5 + 12 | **Stage 5 Done** / *Stage 12 Planned* | Support, Confidence, Lift, Conviction, Zhang's metric; quantitative/discretized rules |
-| **Unit 4** | Correlation analysis | Stage 12 | *Planned (Stage 12)* | Pearson & Spearman correlation matrices, collinearity analysis & visualizations |
+| **Unit 4** | FP-Growth algorithm | Stage 12 | **Done (FROZEN)** | FP-Tree mining, 100% itemset/rule mathematical equivalence & scalability benchmarks |
+| **Unit 4** | Association rule evaluation | Stage 5 + 12 | **Done (FROZEN)** | Support, Confidence, Lift, directionality asymmetry & non-causal evaluation |
+| **Unit 4** | Correlation analysis | Stage 12 | **Done (FROZEN)** | Pearson linear ($r$) & Spearman monotonic ($\rho$) matrices, part-whole classifications |
 | **Unit 5** | Decision Tree classification | Stage 13 | *Planned (Stage 13)* | Tree-based classification on leak-free longitudinal panel target |
 | **Unit 5** | Bayesian classification | Stage 13 | *Planned (Stage 13)* | Gaussian Naive Bayes classifier on lagged volume regime features |
 | **Unit 5** | Support Vector Machines (SVM) | Stage 13 | *Planned (Stage 13)* | Linear & RBF kernel Support Vector Classifiers with standard scaling |
@@ -384,23 +384,53 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 
 ---
 
-### Stage 12 — Advanced Frequent Pattern Mining *(Planned / Not Started)*
-- **Purpose**: Strengthen Unit 4 curriculum coverage by benchmarking FP-Growth against Apriori, mining quantitative association rules, and computing comprehensive correlation metrics.
-- **Planned Analytical Components**:
-  1. *FP-Growth Algorithm Implementation*: Construct FP-Tree (Frequent Pattern Tree) over the 36-state binary transaction matrix; extract complete frequent itemsets without candidate generation.
-  2. *Algorithmic Comparative Benchmarking*:
-     - Apriori vs. FP-Growth execution runtime benchmarks across varying support thresholds ($\text{min\_support} \in [0.15, 0.40]$).
-     - Memory scaling and tree node traversal complexity analysis.
-     - Exact frequent itemset mathematical equivalence verification.
-  3. *Quantitative & Discretized Association Rules*: Mining association rules over multi-interval discretized items (e.g., `FRAUD_SHARE:HIGH` $\rightarrow$ `SEC66D_SHARE:HIGH`).
-  4. *Bivariate Correlation Analysis*:
-     - Pearson linear correlation matrix across continuous leaf counts and shares.
-     - Spearman rank correlation matrix to assess monotonic relationships resistant to outlier skewness.
-     - Collinearity heatmaps identifying structural dependencies.
-- **Mandatory Methodological Guardrails**:
-  - The dataset consists of macro-level state aggregates, NOT individual incident crime logs.
-  - All association rules must retain the official designation: **State-Level Association Rule Mining — Syllabus Demonstration**.
-  - Strict non-causal language: rules describe statistical jurisdictional co-occurrence, never individual criminal behavior.
+### Stage 12 — Advanced Frequent Pattern Mining & Correlation Analysis (Done / FROZEN)
+- **Purpose**: Implements a rigorous, syllabus-aligned Unit 4 frequent pattern mining and bivariate correlation analysis suite extending Stage 5.
+- **Transaction Representation ($N = 36$)**: Reuses the validated Stage 5 State-Level binary transaction matrix (36 State/UT observations, 8 median-thresholded items).
+- **FP-Growth Algorithm & Mathematical Equivalence**:
+  - Implemented FP-Growth mining using an FP-Tree (Frequent Pattern Tree) structure, extracting patterns without candidate generation ($s_{\min} = 0.25, c_{\min} = 0.60, \text{lift} > 1.0$).
+  - **100% Set Equivalence with Apriori**: Both algorithms discovered the **exact same 129 frequent itemsets** and the **exact same 1,924 filtered association rules** (including 42 1-to-1 pair rules).
+  - Key Rules Re-Verified:
+    - `HIGH_FRAUD_MOTIVE -> HIGH_SEC66D_CHEATING`: Support = $41.67\%$, Confidence = $83.33\%$, Lift = $1.67$.
+    - `HIGH_IDENTITY_THEFT -> HIGH_FRAUD_MOTIVE`: Support = $44.44\%$, Confidence = $84.21\%$, Lift = $1.68$.
+    - `HIGH_WOMEN_CYBERCRIME -> HIGH_SEXUAL_EXPLOITATION_MOTIVE`: Support = $44.44\%$, Confidence = $88.89\%$, Lift = $1.78$.
+- **Runtime Benchmarking & Scalability Analysis**:
+  - *Actual Dataset ($N = 36$)*: Execution runtimes for both algorithms are on the millisecond scale ($\approx 1.0\text{–}3.0\text{ ms}$), reflecting small-$N$ transaction size.
+  - *Controlled Synthetic Scalability ($N = 36$ to $36,000$)*: Multiplied transactions to benchmark scaling curves; verified that FP-Growth avoids candidate generation explosion and scales linearly with transaction count.
+- **Bivariate Correlation Analysis (Pearson $r$ vs. Spearman $\rho$)**:
+  - Evaluated 66 unique bivariate pairs across 12 analytical dimensions.
+  - *Part-Whole Structural Collinearity Warnings (Category A)*:
+    - `total_cases` vs `it_act_cases`: $r = 0.9631, \rho = 0.9669$.
+    - `total_cases` vs `ipc_cases`: $r = 0.9416, \rho = 0.9168$.
+    - `it_act_cases` vs `sec66d_cheating_personation`: $r = 0.9666, \rho = 0.8872$.
+    - *Methodological Warning*: These correlations arise mathematically from part-whole subtotal definitions, **not empirical behavioral causation**.
+  - *Scale-Driven Volume Associations (Category B)*: Separate offense categories exhibit high positive linear correlation ($r \approx 0.65\text{–}0.85$) due to shared administrative/population scale.
+  - *Compositional / Share Relationships (Category C)*: Scale-invariant proportions show moderate, meaningful correlation (e.g. `it_act_share` vs `fraud_motive_share`: $r = 0.5235, \rho = 0.5097$).
+  - *Discrepancy Diagnostics*: Discrepancies ($|r - \rho| \ge 0.15$) pinpoint pairs sensitive to heavy volume outliers (e.g. Karnataka, Telangana).
+- **Association vs. Correlation Distinction**:
+  - *Association Rules*: Discrete, asymmetric conditional probabilities ($P(B|A)$) describing co-occurrence of high-level state profile items.
+  - *Correlation Analysis*: Continuous, symmetric covariance ($r \in [-1, 1]$) across full numerical distributions.
+- **Exported Deliverables**:
+  - `sql/stage12_association_correlation.sql`
+  - `src/advanced_association.py`
+  - `outputs/tables/stage12_fpgrowth_itemsets.csv`
+  - `outputs/tables/stage12_fpgrowth_rules.csv`
+  - `outputs/tables/stage12_fpgrowth_pair_rules.csv`
+  - `outputs/tables/stage12_algorithm_comparison.csv`
+  - `outputs/tables/stage12_algorithm_benchmark.csv`
+  - `outputs/tables/stage12_synthetic_scalability_benchmark.csv`
+  - `outputs/tables/stage12_pearson_correlation.csv`
+  - `outputs/tables/stage12_spearman_correlation.csv`
+  - `outputs/tables/stage12_correlation_comparison.csv`
+  - `outputs/figures/36_fpgrowth_vs_apriori_benchmark.png`
+  - `outputs/figures/37_pearson_correlation_heatmap.png`
+  - `outputs/figures/38_spearman_correlation_heatmap.png`
+  - `outputs/figures/39_pearson_vs_spearman_discrepancy.png`
+  - `notebooks/10_advanced_frequent_patterns.ipynb`
+- **Methodological Limitations**:
+  - Transactions represent $N=36$ macro-level State/UT jurisdictions, not individual criminal incidents.
+  - Association rules and correlation metrics are strictly descriptive cross-sectional summaries; neither proves causation.
+- **Reproducibility & Verification**: `src/advanced_association.py`, `src/generate_stage12_notebook.py`, and `notebooks/10_advanced_frequent_patterns.ipynb` executed head-to-tail with 0 errors. All 8 test suites in `src/validate_stage12.py` passed with 100% success.
 
 ---
 

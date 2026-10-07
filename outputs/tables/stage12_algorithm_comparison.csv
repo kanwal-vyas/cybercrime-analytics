@@ -1,0 +1,6 @@
+metric,apriori_result,fpgrowth_result,mathematical_match
+Number of Transactions (N),36,36,EXACT
+Minimum Support Threshold,0.25,0.25,EXACT
+Frequent Itemsets Found,129,129,EXACT
+Filtered Association Rules (Lift > 1.0),1924,1924,EXACT
+1-to-1 Pair Rules,42,42,EXACT
