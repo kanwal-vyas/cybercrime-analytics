@@ -44,7 +44,7 @@ export const ChartContainer = ({
           alignItems: 'flex-start',
           justifyContent: 'space-between',
           gap: 'var(--space-3)',
-          backgroundColor: 'rgba(14, 19, 16, 0.6)',
+          backgroundColor: 'var(--bg-surface-elevated)',
         }}
       >
         <div>
@@ -97,7 +97,7 @@ export const ChartContainer = ({
           style={{
             padding: 'var(--space-2) var(--space-5)',
             borderTop: '1px solid var(--border-subtle)',
-            backgroundColor: 'rgba(9, 12, 10, 0.4)',
+            backgroundColor: 'var(--bg-surface-elevated)',
             fontSize: '0.6875rem',
             fontFamily: 'var(--font-mono)',
             color: 'var(--text-dim)',
@@ -107,7 +107,7 @@ export const ChartContainer = ({
           }}
         >
           <span>{sourceNote}</span>
-          <span style={{ color: 'var(--primary-deep)' }}>STRICT NON-CAUSAL SCOPE</span>
+          <span style={{ color: 'var(--text-muted)' }}>STRICT NON-CAUSAL SCOPE</span>
         </div>
       )}
     </div>

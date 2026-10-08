@@ -17,6 +17,10 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
 body {
   min-height: 100vh;
   background-color: var(--bg-app);
@@ -26,6 +30,15 @@ body {
   background-attachment: fixed;
   overflow-x: hidden;
   line-height: 1.5;
+  color: var(--text-primary);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+[data-theme="light"] body {
+  background-color: var(--bg-app);
+  background-image: 
+    radial-gradient(ellipse 60% 40% at 50% -10%, rgba(133, 162, 137, 0.18), transparent 70%),
+    linear-gradient(180deg, rgba(234, 230, 223, 0.7) 0%, rgba(245, 243, 239, 1) 100%);
 }
 
 /* Custom Scrollbars */
@@ -80,7 +93,7 @@ a {
 }
 
 a:hover {
-  color: var(--color-ivory);
+  color: var(--text-primary);
 }
 
 button {
@@ -94,6 +107,8 @@ input, select, textarea {
   font-family: inherit;
   font-size: var(--text-sm);
   color: var(--text-primary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
 }
 
 /* Technical Label & Uppercase Utility */
@@ -164,6 +179,6 @@ input, select, textarea {
 .bg-grid-subtle {
   background-size: 24px 24px;
   background-image: 
-    linear-gradient(to right, rgba(133, 162, 137, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(133, 162, 137, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
 }

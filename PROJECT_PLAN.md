@@ -931,7 +931,17 @@ Stage 19: UI Foundation (React + Vite) ─────────► Interactiv
   - Production build optimization (Vite production bundle + FastAPI Uvicorn ASGI server)
   - Containerization / deployment configuration (Docker, environment files, setup scripts)
   - Final UI user guide and academic presentation walkthrough documentation
-- **Status**: **Planned / Not Started**
+- **Status**: **Done (FROZEN)**
+
+---
+
+### Post-Final UI Branding Enhancement — NIRIKSHA
+
+- **Identity**: NIRIKSHA (Sanskrit: *निरीक्षा* — Observation / Examination / Inspection)
+- **Primary Descriptor**: Cyber Crime Intelligence & Analytics
+- **Academic Title**: Cyber Crime Analytics for National Security (retained in academic documentation & metadata)
+- **Scope**: Rebranded global TopNavigation header with bespoke geometric observation SVG mark, 7 capsule navigation pills, right-side system utilities (`● DATA VERIFIED · NCRB 2023`, `36 JURISDICTIONS`), GitHub repository link, and dual-theme Dark/Light workstation toggle with localStorage persistence.
+- **Analytical Boundary**: Zero modifications to analytical core, datasets, database schema, ML models, or API endpoints. All 29 stages remain frozen.
 
 ---
 

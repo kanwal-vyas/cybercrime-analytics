@@ -18,7 +18,7 @@ export const Panel = ({
   const backgrounds = {
     default: 'var(--bg-surface)',
     elevated: 'var(--bg-surface-elevated)',
-    subtle: 'rgba(14, 19, 16, 0.5)',
+    subtle: 'var(--bg-surface)',
     interactive: 'var(--bg-surface)',
   };
 
@@ -49,7 +49,7 @@ export const Panel = ({
         ...style,
       }}
     >
-      {/* Optional Top Accent Bar for specific analytical emphasis */}
+      {/* Top Accent Bar for subtle analytical framing */}
       <div 
         style={{
           position: 'absolute',
@@ -57,7 +57,7 @@ export const Panel = ({
           left: 0,
           right: 0,
           height: '1px',
-          background: 'linear-gradient(90deg, transparent, rgba(133, 162, 137, 0.25), transparent)',
+          background: 'linear-gradient(90deg, transparent, var(--border-strong), transparent)',
         }} 
       />
 
@@ -97,7 +97,7 @@ export const Panel = ({
           style={{
             padding: 'var(--space-3) var(--space-5)',
             borderTop: '1px solid var(--border-subtle)',
-            backgroundColor: 'rgba(9, 12, 10, 0.4)',
+            backgroundColor: 'var(--bg-surface-elevated)',
             fontSize: 'var(--text-xs)',
             color: 'var(--text-muted)',
           }}
