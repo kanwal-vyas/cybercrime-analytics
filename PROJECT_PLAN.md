@@ -2,7 +2,7 @@
 
 ## 0. Status
 
-| Stage | Focus / Deliverable | Notebook / Script | Status |
+| Stage | Focus / Deliverable | Notebook / Script / Artifact | Status |
 |---|---|---|---|
 | 1. Data Understanding / Validation Gate | Source Data Inventory & Go/No-Go Gate | `01_data_understanding.ipynb` | **Done (FROZEN)** |
 | 2. Preprocessing | Clean Master State Cross-Section & Features | `02_preprocessing.ipynb` | **Done (FROZEN)** |
@@ -15,15 +15,24 @@
 | 9. Power BI Dashboard | Semantic Data Package & 6-Page Spec | `POWERBI_SPECIFICATION.md` | **Done (FROZEN)** |
 | 10. Advanced Data Preprocessing | Summarization, Reduction, Discretization | `08_advanced_preprocessing.ipynb` | **Done (FROZEN)** |
 | 11. Advanced OLAP & Data Cube | Multidimensional Cubes & AOI | `09_advanced_olap_cube.ipynb` | **Done (FROZEN)** |
-| 12. Advanced Frequent Patterns | FP-Growth vs Apriori, Correlation | `10_advanced_patterns.ipynb` | **Done (FROZEN)** |
+| 12. Advanced Frequent Patterns | FP-Growth vs Apriori, Correlation | `10_advanced_frequent_patterns.ipynb` | **Done (FROZEN)** |
 | 13. Classification Analysis | Decision Tree, Naive Bayes, SVM, RF | `11_classification.ipynb` | **Done (FROZEN)** |
-| 14. Regression & Prediction Enhancement | Polynomial, Ridge, Trees vs Log-Linear | `12_prediction_enhancement.ipynb`| **Done (FROZEN)** |
+| 14. Regression & Prediction Enhancement | Polynomial, Ridge, Trees vs Log-Linear | `12_regression_enhancement.ipynb`| **Done (FROZEN)** |
 | 15. Advanced Clustering & Validation | Hierarchical Ward, GMM, DBSCAN, ARI/NMI| `13_advanced_clustering.ipynb` | **Done (FROZEN)** |
 | 16. Advanced Outlier & Anomaly Validation| Robust Mahalanobis, LOF, Dual-Space | `14_advanced_outlier_detection.ipynb`| **Done (FROZEN)** |
-| 17. Advanced Visualization & Power BI | 10-Page Dashboard Integration | `dashboard/` | *Planned (Not Started)* |
-| 18. Integrated Analytical Findings | Cross-Technique Synthesis (No Causation)| `15_integrated_findings.ipynb` | *Planned (Not Started)* |
-| 19. Final Academic Audit | Full Verification & Zero-Leakage Audit | `src/validate_all.py` | *Planned (Not Started)* |
-| 20. Final Report + Presentation + Viva | Report, 15-18 Slides & Viva Q&A Guide | `docs/` | *Planned (Not Started)* |
+| 17. Advanced Visualization & Power BI | 10-Page Visual Architecture & 28 Tables| `15_advanced_visualization.ipynb` | **Done (FROZEN)** |
+| 18. Final Integration, Audit & Readiness | Full Repository & Academic Audit Gate | `PROJECT_FINAL_AUDIT.md`, `src/validate_stage18.py` | **Done (FROZEN)** |
+| 19. UI Architecture & Foundation | React + Vite Scaffold, Layout & Design | `frontend/` | *Planned (Not Started)* |
+| 20. Backend / API Layer | FastAPI REST Endpoints & Data Access | `backend/` | *Planned (Not Started)* |
+| 21. Executive Dashboard | National KPIs & High-Level Visuals | Frontend Page | *Planned (Not Started)* |
+| 22. Geographic & Crime Explorer | State/UT & Offense Interactive Explorer | Frontend Page | *Planned (Not Started)* |
+| 23. Historical Analytics | 2018–2022 Longitudinal Trend View | Frontend Page | *Planned (Not Started)* |
+| 24. Machine Learning Analytics UI | Supervised Models & Regression UI | Frontend Page | *Planned (Not Started)* |
+| 25. Association Rules & Clustering UI | Apriori/FP-Growth & K-Means Clusters | Frontend Page | *Planned (Not Started)* |
+| 26. Anomaly & Outlier UI | Multi-Method Anomaly Exploration UI | Frontend Page | *Planned (Not Started)* |
+| 27. Methodology & Data Explorer | Transparent Academic Data & Limitations | Frontend Page | *Planned (Not Started)* |
+| 28. UI Integration & UX Polish | Responsive Design, Navigation & Polish | Full Frontend App | *Planned (Not Started)* |
+| 29. Final UI QA & Deployment Readiness | End-to-End Build, Test & Deployment | Production App | *Planned (Not Started)* |
 
 ## 1. Datasets
 
@@ -700,59 +709,227 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 
 ---
 
-### Stage 19 — Final Academic Audit & Verification *(Planned / Not Started)*
-- **Purpose**: Comprehensive pre-submission quality gate ensuring complete reproducibility, zero data leakage, and total cross-stage numerical consistency.
-- **Audit Protocols**:
-  1. *Syllabus Mapping Audit*: Verify that every Unit 1–6 syllabus concept is explicitly covered and evidenced in code/notebooks.
-  2. *Reproducibility Gate*: Head-to-tail clean-state execution of all notebooks and validation scripts (`validate_stage5` through `validate_stage19`).
-  3. *Zero-Leakage Audit*: Complete automated check verifying no target leakage, no test-set contamination, and no contemporaneous total-from-part regressions.
-  4. *Numerical Reconciliation Audit*: Global search across all markdown, docstrings, and tables to eliminate any stale or contradictory values.
-  5. *Limitations Transparency*: Confirm that all 6 core data limitations are prominently disclosed.
+---
+
+# UI Engineering Track — Stages 19–29
+
+Stages 1–18 constitute the completed and frozen analytical/data-mining pipeline. Stages 19–29 constitute a separate user-interface and application engineering track that consumes the validated outputs of Stages 1–18 without modifying their analytical logic.
+
+```text
+Stages 1–18
+Analytical / Data Mining Pipeline
+                ↓
+        Validated Data & Models
+                ↓
+Stages 19–29
+User Interface / Application Layer
+```
+
+The UI track is a **presentation and application layer**, not a replacement for the validated analytical pipeline.
 
 ---
 
-### Stage 20 — Final Project Report, Presentation & Viva Preparation *(Planned / Not Started)*
-- **Purpose**: Compile the final comprehensive academic project deliverables for academic submission and defense.
-- **Deliverable Structure**:
-  1. *Comprehensive Project Report* (18 Formal Sections):
-     - Title Page & Executive Abstract
-     - Section 1: Introduction & National Security Context
-     - Section 2: Problem Statement & Research Objectives
-     - Section 3: Data Sources & Dataset Architecture
-     - Section 4: Data Understanding & Validation Gate
-     - Section 5: Data Preprocessing & Discretization (Unit 2)
-     - Section 6: Data Warehouse & Multi-Dimensional OLAP (Unit 3)
-     - Section 7: Exploratory Data Analysis & Pareto Profiling
-     - Section 8: Frequent Pattern Mining: Apriori & FP-Growth (Unit 4)
-     - Section 9: Supervised Classification Analysis (Unit 5)
-     - Section 10: Predictive Regression & Time-Series Modeling (Unit 5)
-     - Section 11: Unsupervised Cluster Analysis: K-Means, Hierarchical, DBSCAN (Unit 6)
-     - Section 12: Descriptive Outlier & Anomaly Detection (Unit 6)
-     - Section 13: Power BI Dashboard & Visual Analytics
-     - Section 14: Integrated Analytical Findings & Synthesis
-     - Section 15: Methodological Limitations & Academic Guardrails
-     - Section 16: Future Research Directions
-     - Section 17: Conclusion & Summary
-     - Section 18: Academic References & Bibliography
-  2. *Project Defense Presentation* (15–18 Structured Slides):
-     - Slide 1: Title & Project Overview
-     - Slide 2: Problem Formulation & National Cybercrime Context
-     - Slide 3: Dataset Architecture & Validation Gate
-     - Slide 4: Data Preprocessing & Multidimensional Warehouse Design
-     - Slide 5: Exploratory Data Analysis & Empirical Concentration
-     - Slide 6: Association Rule Mining: Apriori vs. FP-Growth
-     - Slide 7: Supervised Classification: Model Comparison & Metrics
-     - Slide 8: Predictive Regression: Log-Linear Panel Modeling
-     - Slide 9: Unsupervised Clustering: K-Means & Hierarchical Taxonomy
-     - Slide 10: Outlier Analysis: Tukey Fences & Isolation Forest
-     - Slide 11: Power BI Interactive Dashboard Architecture
-     - Slide 12: Key Integrated Insights
-     - Slide 13: Methodological Limitations & Integrity Protocol
-     - Slide 14: Academic & Policy Implications
-     - Slide 15: Conclusion & Summary
-     - Slides 16–18: Appendix & Mathematical Reconciliations
-  3. *Viva Voce Defense Preparation Guide*:
-     - 25+ curated defense questions covering data mining theory, mathematical proofs, algorithm selections, leakage audits, and practical justification of all methodological decisions.
+### UI Track Core Principles
+
+1. **Frozen Analytical Core**: Stages 1–18 remain the authoritative analytical source.
+2. **UI Consumes, Not Redefines**: The UI consumes validated outputs (CSVs, SQLite database, serialized models) and exposes them through standard APIs and components.
+3. **No Analytical Duplication**: No competing implementations of the project's analytical methods are created inside the frontend.
+4. **Reproducibility**: The exact same underlying validated values appear regardless of whether data are viewed through notebooks, SQL, CSV outputs, Power BI package, or web UI.
+5. **Academic Transparency**: The UI prominently exposes methodological constraints, missingness, and data limitations rather than obscuring them.
+6. **No Causal Overinterpretation**: Visualizations and copy strictly adhere to non-causal, descriptive, and statistical association interpretations.
+
+---
+
+### UI Architecture Diagram
+
+```text
+Stages 1–18 (Frozen Analytical Core)
+                 │
+                 ▼
+     Validated Analytical Outputs
+     (CSVs, SQLite DB, Serialized Models)
+                 │
+                 ├──────────────────────────────► Stage 20: Backend API (FastAPI)
+                 │                                        │
+                 ▼                                        ▼
+Stage 19: UI Foundation (React + Vite) ─────────► Interactive UI Modules (Stages 21–27)
+                                                          │
+                 ┌────────────────────────────────────────┼────────────────────────────────────────┐
+                 ▼                                        ▼                                        ▼
+      Executive & Geographic                  Machine Learning & Pattern                   Methodology & Data
+       Explorers (Stages 21–23)                Analytics (Stages 24–26)                    Explorer (Stage 27)
+                                                          │
+                                                          ▼
+                                            Stage 28: UI Integration & UX Polish
+                                                          │
+                                                          ▼
+                                            Stage 29: Final UI QA & Deployment
+```
+
+---
+
+### Stage 19 — UI Architecture & Foundation *(Planned / Not Started)*
+- **Purpose**: Establish the frontend architecture, visual foundation, and component library.
+- **Planned Scope**:
+  - React + Vite frontend scaffold and directory structure
+  - Application routing and layout shell (sidebar, header, content area)
+  - Unified design system: dark/light theme tokens, typography, spacing, surface hierarchy
+  - Reusable foundational components: Metric Cards, Data Tables, Chart Containers, Filter Controls
+  - UI State Handling: Loading skeletons, error boundaries, empty states, responsive layouts
+  - Frontend build configuration and API client contracts
+- **Critical Constraint**: Stage 19 establishes architectural foundation only; full dashboard pages are implemented in subsequent stages.
+- **Status**: **Planned / Not Started**
+
+---
+
+### Stage 20 — Backend / API Layer *(Planned / Not Started)*
+- **Purpose**: Create a clean FastAPI service exposing already-validated project datasets, warehouse tables, and model outputs to the frontend.
+- **Planned Scope**:
+  - FastAPI modular application structure with CORS configuration
+  - Validated data access layer reading `data/processed/`, `dashboard/powerbi_data/`, `outputs/tables/`, and `cybercrime.db`
+  - RESTful API endpoints:
+    - `/api/summary`: National 2023 totals, Act Group sums, vulnerability subsets
+    - `/api/states`: 36 State/UT cross-sectional metrics, category shares, motive distributions
+    - `/api/categories`: 49 crime categories with leaf vs. parent/subtotal taxonomy
+    - `/api/motives`: 18 specific motives and volume rankings
+    - `/api/trend`: 2018–2022 historical panel with explicit missing-value handling
+    - `/api/models/classification`: Model comparisons, confusion matrices, evaluation metrics
+    - `/api/models/regression`: OLS/Log-Linear/Tree metrics, actual vs. predicted, residuals
+    - `/api/models/association`: Apriori/FP-Growth itemsets, filtered rules (support, confidence, lift)
+    - `/api/models/clustering`: K=4 composition clusters, Hungarian stability, PCA coordinates
+    - `/api/models/outliers`: Consensus anomaly scores ($0–4$), Mahalanobis, LOF, Isolation Forest, IQR
+  - Pydantic response schemas ensuring strict data type validation
+- **Critical Rule**: The API consumes existing validated outputs and must never independently recalculate or alter analytical results.
+- **Status**: **Planned / Not Started**
+
+---
+
+### Stage 21 — Executive Dashboard *(Planned / Not Started)*
+- **Purpose**: Build the high-level national overview dashboard communicating primary cybercrime volume, legal classification, and geographic concentration.
+- **Planned Scope**:
+  - Top-level National KPI Cards: Total Cases ($86,420$), IT Act ($44,237$), IPC ($41,849$), SLL ($334$), Fraud Motive ($59,526$), Women ($19,510$), Children ($1,902$)
+  - Top 5 State Concentration Visual ($63,472$ cases / $73.45\%$ share: Karnataka, Telangana, UP, Maharashtra, Bihar)
+  - Legal Act Group Donut/Bar breakdown and Financial Fraud dominance callout ($61,365$ cases / $71.01\%$)
+  - Top Leaf Categories ranking (Sec. 66D Personation: $25,334$; Sec. 420 Cheating: $16,943$)
+  - Executive summary cards and cross-navigation links to detailed analytical modules
+- **Status**: **Planned / Not Started**
+
+---
+
+### Stage 22 — Geographic & Crime Explorer *(Planned / Not Started)*
+- **Purpose**: Provide interactive exploration of the 2023 State/UT cross-section, legal categories, and motive distributions.
+- **Planned Scope**:
+  - Interactive State/UT selector and comparative side-by-side profiling
+  - Granular Category Explorer with strict leaf vs. parent/subtotal hierarchy navigation
+  - Motive Breakdown explorer comparing financial fraud, extortion, sexual exploitation, and personal revenge
+  - Interactive multi-criteria sorting, column filtering, and drill-down tables
+  - State composition share visualizer (IT Act share, IPC share, Fraud share, Extortion share)
+- **Status**: **Planned / Not Started**
+
+---
+
+### Stage 23 — Historical Analytics *(Planned / Not Started)*
+- **Purpose**: Interactive interface for longitudinal panel trend analysis across 2018–2022.
+- **Planned Scope**:
+  - National 5-year growth trajectory visualization ($27,248 \to 65,893$, $+141.83\%$)
+  - State-level historical time-series selector with multi-state trend comparison
+  - Year-over-year growth rates, compound expansion metrics, and state trajectory rankings
+  - Explicit historical series isolation notice (independent from 2023 detailed cross-section)
+  - Transparent Ladakh historical missingness disclosure (`NaN` for 2018/2019 without synthetic imputation)
+- **Status**: **Planned / Not Started**
+
+---
+
+### Stage 24 — Machine Learning Analytics UI *(Planned / Not Started)*
+- **Purpose**: Interactive presentation of validated supervised classification and predictive regression models.
+- **Planned Scope**:
+  - **Supervised Classification Explorer**:
+    - Model performance leaderboard (Decision Tree: $97.22\%$; Naive Bayes, SVM, Random Forest: $100\%$)
+    - Confusion matrices, Precision, Recall, F1-Score, and ROC-AUC visualizations
+    - Chronological evaluation split explanation ($N_{\text{train}}=70$, $N_{\text{test}}=36$ on 2022 held-out panel)
+    - Prominent academic disclaimer: perfect classification metrics reflect high temporal volume persistence, not commercial deployment readiness
+  - **Predictive Regression Explorer**:
+    - 10-model regression comparison leaderboard
+    - Superiority of Log-Linear OLS ($\text{MAE}=479.37$, $\text{RMSE}=1,143.46$, $R^2=0.9000$, $\text{MedAE}=69.85$) over Linear OLS, Ridge, Polynomials, and Ensemble regressors
+    - Actual vs. Predicted scatter plots with $y=x$ reference line
+    - Residual distribution histograms and log-scale variance stabilization diagnostics
+- **Status**: **Planned / Not Started**
+
+---
+
+### Stage 25 — Association Rules & Clustering UI *(Planned / Not Started)*
+- **Purpose**: Interactive exploration of unsupervised pattern mining, Apriori/FP-Growth association rules, and K-Means composition clusters.
+- **Planned Scope**:
+  - **Association Rule Explorer**:
+    - 129 frequent itemsets and 1,924 association rules with interactive Support, Confidence, and Lift sliders
+    - Rule visualization: Antecedent $\implies$ Consequent network graph / scatter plot
+    - Prominent label: **State-Level Syllabus Demonstration** (macro-aggregate profile co-occurrences, not individual case logs)
+    - Key highlighted rule: $\text{HIGH\_FRAUD\_MOTIVE} \implies \text{HIGH\_SEC66D\_CHEATING}$ ($\text{lift}=1.67$)
+  - **Cluster Analysis Explorer**:
+    - K-Means 4-Profile Composition Taxonomy ($K=4$, $\text{Silhouette}=0.551$):
+      - Cluster 0 ($n=15$): Moderate Fraud / Mixed IPC-IT Baseline
+      - Cluster 1 ($n=12$): Fraud & Cyber Cheating Dominant
+      - Cluster 2 ($n=2$): High Sexual-Exploitation Share / Small-Denominator Profile (Dadra & Nagar Haveli, Lakshadweep)
+      - Cluster 3 ($n=7$): Extortion & Non-Fraud Motivation
+    - Interactive 2D PCA cluster projection scatter plot
+    - State membership selector, profile characteristic radar/bar charts, and tiny-denominator cautionary tags
+- **Status**: **Planned / Not Started**
+
+---
+
+### Stage 26 — Anomaly & Outlier UI *(Planned / Not Started)*
+- **Purpose**: Multidimensional anomaly detection interface visualizing statistical departures across univariate and multivariate methods.
+- **Planned Scope**:
+  - Multi-method anomaly matrix: Tukey IQR fences, Isolation Forest ($c=0.15$), Robust Mahalanobis (MinCovDet with $\chi^2$ screening cutoff), and Local Outlier Factor (LOF, $k=10$)
+  - Consensus Anomaly Score visualizer ($0$ to $4$ methods agreeing) highlighting 3 consensus states (Karnataka, Dadra & Nagar Haveli, Lakshadweep)
+  - Dual-Space Separation view: Absolute Volume Extremes (Karnataka, Telangana, UP) vs. Compositional Extremes (Dadra & Nagar Haveli, Lakshadweep)
+  - Non-destructive Small-Denominator Sensitivity Analysis toggle ($N=36$ vs. $N=34$ excluding tiny UTs)
+  - Strict non-normative academic terminology: departures represent statistical extremity in feature space, not criminological "hotspots" or "risk"
+- **Status**: **Planned / Not Started**
+
+---
+
+### Stage 27 — Methodology & Data Explorer *(Planned / Not Started)*
+- **Purpose**: Full academic transparency interface providing data provenance, star schema dictionaries, algorithm documentation, and limitation disclosures.
+- **Planned Scope**:
+  - Source Data Provenance: NCRB Crime in India (Tables 9A.2, 9A.3, 9A.10, 9A.11) and Rajya Sabha archival records
+  - Relational Schema Explorer: Interactive Star Schema diagram (`dim_state`, `dim_crime_category`, `dim_motive`, `dim_year`, and fact tables)
+  - End-to-End Pipeline Architecture: Visual representation of Stages 1–18 analytical lifecycle
+  - Prominent 6 Core Methodological Limitations view:
+    1. Absence of population normalization (administrative volume, not per-capita rate) and reporting behavior variability
+    2. Historical series discontinuity (2018–2022 vs. 2023)
+    3. Short longitudinal window (5 annual points)
+    4. Small sample size ($N=36$ cross-section)
+    5. Macro-aggregate transaction proxies (syllabus demonstration)
+    6. Small-denominator percentage distortion in tiny UTs
+  - Reference link to Power BI 28-table semantic package and data dictionary
+- **Status**: **Planned / Not Started**
+
+---
+
+### Stage 28 — UI Integration & UX Polish *(Planned / Not Started)*
+- **Purpose**: Integrate all modular UI components into a responsive, accessible, and polished single-page application.
+- **Planned Scope**:
+  - Unified global header, collapsible sidebar navigation, breadcrumbs, and deep-linking
+  - Theme toggle (Dark / Light mode) with high-contrast accessibility compliance
+  - Cross-module filter synchronization and persistent user selection state
+  - Seamless transitions, responsive layouts for desktop and tablet screens
+  - Reusable chart formatting, consistent tooltips, number formatting (Indian and International numbering systems)
+  - Performance optimization: Lazy loading of heavy chart views, optimized bundle size
+- **Status**: **Planned / Not Started**
+
+---
+
+### Stage 29 — Final UI QA & Deployment Readiness *(Planned / Not Started)*
+- **Purpose**: Comprehensive end-to-end quality assurance, data reconciliation audit, and production deployment packaging.
+- **Planned Scope**:
+  - End-to-end automated UI component testing and API endpoint integration test suite
+  - Strict UI data reconciliation audit against authoritative outputs ($86,420$ national total check)
+  - Cross-browser compatibility and responsive layout validation
+  - Production build optimization (Vite production bundle + FastAPI Uvicorn ASGI server)
+  - Containerization / deployment configuration (Docker, environment files, setup scripts)
+  - Final UI user guide and academic presentation walkthrough documentation
+- **Status**: **Planned / Not Started**
 
 ---
 
