@@ -22,14 +22,14 @@
 | 16. Advanced Outlier & Anomaly Validation| Robust Mahalanobis, LOF, Dual-Space | `14_advanced_outlier_detection.ipynb`| **Done (FROZEN)** |
 | 17. Advanced Visualization & Power BI | 10-Page Visual Architecture & 28 Tables| `15_advanced_visualization.ipynb` | **Done (FROZEN)** |
 | 18. Final Integration, Audit & Readiness | Full Repository & Academic Audit Gate | `PROJECT_FINAL_AUDIT.md`, `src/validate_stage18.py` | **Done (FROZEN)** |
-| 19. UI Architecture & Foundation | React + Vite Scaffold, Layout & Design | `frontend/` | *Planned (Not Started)* |
-| 20. Backend / API Layer | FastAPI REST Endpoints & Data Access | `backend/` | *Planned (Not Started)* |
-| 21. Executive Dashboard | National KPIs & High-Level Visuals | Frontend Page | *Planned (Not Started)* |
-| 22. Geographic & Crime Explorer | State/UT & Offense Interactive Explorer | Frontend Page | *Planned (Not Started)* |
-| 23. Historical Analytics | 2018–2022 Longitudinal Trend View | Frontend Page | *Planned (Not Started)* |
-| 24. Machine Learning Analytics UI | Supervised Models & Regression UI | Frontend Page | *Planned (Not Started)* |
-| 25. Association Rules & Clustering UI | Apriori/FP-Growth & K-Means Clusters | Frontend Page | *Planned (Not Started)* |
-| 26. Anomaly & Outlier UI | Multi-Method Anomaly Exploration UI | Frontend Page | *Planned (Not Started)* |
+| 19. UI Architecture & Foundation | React + Vite Scaffold, Layout & Design | `frontend/` | **Done (FROZEN)** |
+| 20. Backend / API Layer | FastAPI REST Endpoints & Data Access | `backend/` | **Done (FROZEN)** |
+| 21. Executive Dashboard | National KPIs & High-Level Visuals | Frontend Page | **Done (FROZEN)** |
+| 22. Geographic & Crime Explorer | State/UT & Offense Interactive Explorer | Frontend Page | **Done (FROZEN)** |
+| 23. Historical Analytics | 2018–2022 Longitudinal Trend View | Frontend Page | **Done (FROZEN)** |
+| 24. Machine Learning Analytics UI | Supervised Models & Regression UI | Frontend Page | **Done (FROZEN)** |
+| 25. Association Rules & Clustering UI | Apriori/FP-Growth & K-Means Clusters | Frontend Page | **Done (FROZEN)** |
+| 26. Anomaly & Outlier UI | Multi-Method Anomaly Exploration UI | Frontend Page | **Done (FROZEN)** |
 | 27. Methodology & Data Explorer | Transparent Academic Data & Limitations | Frontend Page | *Planned (Not Started)* |
 | 28. UI Integration & UX Polish | Responsive Design, Navigation & Polish | Full Frontend App | *Planned (Not Started)* |
 | 29. Final UI QA & Deployment Readiness | End-to-End Build, Test & Deployment | Production App | *Planned (Not Started)* |
