@@ -246,10 +246,10 @@ export const OverviewPage = () => {
           <MetricCard
             label="FINANCIAL FRAUD / CHEATING"
             value={`${summary.financial_fraud_share || 71.01}%`}
-            description={`${(summary.financial_fraud_cases || 61365).toLocaleString()} cases across fraud leaves`}
-            change="Dominant Motif"
+            description={`${(summary.financial_fraud_cases || 61365).toLocaleString()} cases in fraud/cheating leaves`}
+            change="Category Construct"
             changeType="accent"
-            statusBadge="DOMINANT"
+            statusBadge="CATEGORY"
             badgeVariant="mauve"
             accentColor="var(--color-mauve-deep)"
           />
@@ -961,7 +961,7 @@ export const OverviewPage = () => {
               Financial Cheating Dominance
             </h4>
             <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', lineHeight: '1.5', margin: 0 }}>
-              Section 66D Personation Cheating represents <strong>29.31%</strong> of all crimes, and combined financial fraud/cheating accounts for <strong>71.01%</strong> (61,365 cases).
+              Section 66D Personation Cheating represents <strong>29.31%</strong> of all crimes, and combined financial fraud/cheating leaf categories account for <strong>71.01%</strong> (61,365 cases) under the category construct.
             </p>
           </div>
 
