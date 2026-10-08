@@ -135,18 +135,18 @@ export const ModelsPage = () => {
       sortable: true,
       render: (val, row) => {
         const isSelected = row.Model === selectedClassifier;
-        const isPrimary = row.Model.includes('Decision Tree');
+        const isFeatured = row.Model.includes('Decision Tree');
         return (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontWeight: isSelected ? 600 : 500, color: isSelected ? 'var(--color-sage-light)' : 'var(--text-primary)' }}>
               {val}
             </span>
-            {isPrimary && (
+            {isFeatured && (
               <StatusBadge size="sm" variant="success">
-                Primary Benchmark
+                Featured Interpretable
               </StatusBadge>
             )}
-            {row.Accuracy === 1.0 && !isPrimary && (
+            {row.Accuracy === 1.0 && !isFeatured && (
               <StatusBadge size="sm" variant="neutral">
                 Separable
               </StatusBadge>
@@ -425,12 +425,12 @@ export const ModelsPage = () => {
           icon={Layers}
         />
         <MetricCard
-          label="PRIMARY CLASSIFIER"
+          label="FEATURED INTERPRETABLE CLASSIFIER"
           value="97.22%"
           unit="ACC"
-          description="Decision Tree (depth=3) • F1: 97.44% • ROC-AUC: 0.9750"
-          badgeVariant="success"
-          statusBadge="Decision Tree"
+          description="Decision Tree (depth=3) • F1: 97.44% (NB, SVM, RF achieve 1.0000 on test set)"
+          badgeVariant="neutral"
+          statusBadge="Interpretable Tree"
           accentColor="var(--color-sage-deep)"
           icon={Award}
         />
@@ -445,12 +445,12 @@ export const ModelsPage = () => {
           icon={TrendingUp}
         />
         <MetricCard
-          label="DOMINANT FEATURE"
-          value="94.4%"
+          label="FEATURE IMPORTANCE"
+          value="0.9444"
           unit="IMPORTANCE"
-          description="log_lag_1 (Previous Year Log Volume) drives 94.4% split gain"
+          description="log_lag_1 — Decision Tree feature importance: 0.9444 (RF: 0.2714)"
           badgeVariant="accent"
-          statusBadge="Scale Persistence"
+          statusBadge="Tree Model Split"
           accentColor="var(--status-warning)"
           icon={Cpu}
         />
@@ -545,7 +545,7 @@ export const ModelsPage = () => {
             />
 
             <div style={{ marginTop: 'var(--space-3)', fontSize: '0.6875rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)', lineHeight: 1.5 }}>
-              * Decision Tree (depth=3) serves as the primary interpretable baseline (97.22% accuracy, F1=0.9744). Gaussian Naive Bayes, Linear SVM, RBF SVM, and Random Forest achieve 100% metrics on the 2022 test split because state cybercrime volume distributions exhibit near-total separation between major high-volume states (e.g. Karnataka, UP) and smaller union territories across consecutive years.
+              * Decision Tree (depth=3) is featured as an interpretable benchmark (97.22% accuracy, F1=0.9744). Note that Gaussian Naive Bayes, Linear SVM, RBF SVM, and Random Forest all achieved 1.0000 (100%) accuracy on the 2022 held-out test split.
             </div>
           </Panel>
 
@@ -651,10 +651,10 @@ export const ModelsPage = () => {
 
             {/* 2. Feature Importance Visualizer */}
             <ChartContainer
-              category="LAG FEATURE IMPORTANCE"
-              title="Information Gain Dominance"
-              subtitle="Tree Split Gini Importance vs Random Forest MDI"
-              sourceNote="Dominance driven by extreme scale separation across State/UT panel"
+              category="FEATURE IMPORTANCE"
+              title="Fitted Model Feature Importance"
+              subtitle="Decision Tree Gini Importance vs Random Forest MDI"
+              sourceNote="Feature importance reflects how the fitted model uses the feature; it does not imply causal importance."
               height="260px"
             >
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '4px 0' }}>
@@ -724,7 +724,7 @@ export const ModelsPage = () => {
                 PREDICTIVE REGRESSION • STAGES 7 & 14 BENCHMARK
               </div>
               <h3 style={{ margin: '2px 0 0 0', fontSize: 'var(--text-xl)', color: 'var(--text-primary)' }}>
-                10-Model Regression Leaderboard & Prediction Diagnostics
+                Candidate Regression Leaderboard & Prediction Diagnostics ({regModels.length} Models Exposed by API)
               </h3>
             </div>
             <StatusBadge variant="success">Selected Best: Log-Linear OLS (R² = 0.9000, MAE = 479.37)</StatusBadge>
@@ -735,7 +735,7 @@ export const ModelsPage = () => {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-3)', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
               <div>
                 <h4 style={{ margin: 0, fontSize: 'var(--text-sm)', color: 'var(--text-primary)' }}>
-                  Candidate Model Evaluation on Held-Out 2022 Panel (N=36)
+                  Candidate Model Evaluation on Held-Out 2022 Panel ({regModels.length} Models Exposed by API)
                 </h4>
                 <p style={{ margin: '2px 0 0 0', fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>
                   Models trained strictly on 2020–2021 panel observations (N=70) and evaluated on 2022 held-out out-of-time data.
