@@ -7,6 +7,22 @@
   --color-mauve-dusty: #B296AE;
   --color-mauve-deep: #765070;
 
+  /* Categorical 4-Color Analytical Palette (K-Means & Feature Groups) */
+  --cat-sage: #85A289;
+  --cat-mauve: #B296AE;
+  --cat-amber: #D6A15D;
+  --cat-slate: #607D8B;
+
+  --cat-sage-bg: rgba(133, 162, 137, 0.15);
+  --cat-mauve-bg: rgba(178, 150, 174, 0.15);
+  --cat-amber-bg: rgba(214, 161, 93, 0.15);
+  --cat-slate-bg: rgba(96, 125, 139, 0.15);
+
+  --cat-sage-border: rgba(133, 162, 137, 0.35);
+  --cat-mauve-border: rgba(178, 150, 174, 0.35);
+  --cat-amber-border: rgba(214, 161, 93, 0.35);
+  --cat-slate-border: rgba(96, 125, 139, 0.35);
+
   /* Dark Analytical Workstation Theme (Default) */
   --bg-app: #090C0A;
   --bg-surface: #0E1310;

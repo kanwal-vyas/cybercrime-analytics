@@ -22,10 +22,10 @@ import {
 } from 'lucide-react';
 
 const CLUSTER_COLORS = {
-  0: { color: '#85A289', name: 'Cluster 0 (Lower IT / Mod Fraud)', bg: 'rgba(133, 162, 137, 0.15)' },
-  1: { color: '#507656', name: 'Cluster 1 (High IT / High Fraud)', bg: 'rgba(80, 118, 86, 0.2)' },
-  2: { color: '#D8A563', name: 'Cluster 2 (Small-Denominator / Sex Expl)', bg: 'rgba(216, 165, 99, 0.2)' },
-  3: { color: '#B296AE', name: 'Cluster 3 (Higher Extortion Share)', bg: 'rgba(178, 150, 174, 0.2)' },
+  0: { color: '#85A289', name: 'Cluster 0 (Lower IT / Mod Fraud)', bg: 'rgba(133, 162, 137, 0.15)', border: 'rgba(133, 162, 137, 0.35)', label: 'Sage' },
+  1: { color: '#B296AE', name: 'Cluster 1 (High IT / High Fraud)', bg: 'rgba(178, 150, 174, 0.15)', border: 'rgba(178, 150, 174, 0.35)', label: 'Mauve' },
+  2: { color: '#D6A15D', name: 'Cluster 2 (Small-Denominator / Sex Expl)', bg: 'rgba(214, 161, 93, 0.15)', border: 'rgba(214, 161, 93, 0.35)', label: 'Amber' },
+  3: { color: '#607D8B', name: 'Cluster 3 (Higher Extortion Share)', bg: 'rgba(96, 125, 139, 0.15)', border: 'rgba(96, 125, 139, 0.35)', label: 'Slate Blue' },
 };
 
 export const PatternsPage = () => {
@@ -230,14 +230,30 @@ export const PatternsPage = () => {
       key: 'cluster_id',
       label: 'Cluster',
       sortable: true,
-      render: (val) => (
-        <StatusBadge
-          size="sm"
-          variant={val === 0 ? 'neutral' : val === 1 ? 'success' : val === 2 ? 'warning' : 'accent'}
-        >
-          Cluster {val}
-        </StatusBadge>
-      ),
+      render: (val) => {
+        const cfg = CLUSTER_COLORS[val] || { color: '#85A289', bg: 'rgba(133, 162, 137, 0.15)', border: 'rgba(133, 162, 137, 0.35)', label: 'Sage' };
+        return (
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '2px 8px',
+              borderRadius: 'var(--radius-sm)',
+              backgroundColor: cfg.bg,
+              border: `1px solid ${cfg.border}`,
+              color: cfg.color,
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.6875rem',
+              fontWeight: 600,
+              textTransform: 'uppercase',
+            }}
+          >
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: cfg.color }} />
+            Cluster {val}
+          </span>
+        );
+      },
     },
     {
       key: 'total_cases',
@@ -770,9 +786,25 @@ export const PatternsPage = () => {
                   onClick={() => setSelectedClusterFilter(isSelected ? 'ALL' : String(cp.cluster_id))}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-2)' }}>
-                    <StatusBadge size="sm" variant={cp.cluster_id === 0 ? 'neutral' : cp.cluster_id === 1 ? 'success' : cp.cluster_id === 2 ? 'warning' : 'accent'}>
-                      Cluster {cp.cluster_id}
-                    </StatusBadge>
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '2px 8px',
+                        borderRadius: 'var(--radius-sm)',
+                        backgroundColor: cfg.bg,
+                        border: `1px solid ${cfg.border}`,
+                        color: cfg.color,
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.6875rem',
+                        fontWeight: 600,
+                        textTransform: 'uppercase',
+                      }}
+                    >
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: cfg.color }} />
+                      Cluster {cp.cluster_id} · {cfg.label}
+                    </span>
                     <span style={{ fontSize: '0.6875rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                       {cp.state_count} States ({cp.state_pct.toFixed(1)}%)
                     </span>
@@ -908,8 +940,8 @@ export const PatternsPage = () => {
                     position: 'absolute',
                     top: '10px',
                     right: '10px',
-                    backgroundColor: 'rgba(14, 19, 16, 0.95)',
-                    border: `1px solid ${CLUSTER_COLORS[hoveredStatePoint.cluster_id]?.color || 'var(--color-sage-light)'}`,
+                    backgroundColor: 'var(--bg-surface-elevated)',
+                    border: `1px solid ${CLUSTER_COLORS[hoveredStatePoint.cluster_id]?.color || 'var(--primary)'}`,
                     borderRadius: 'var(--radius-sm)',
                     padding: 'var(--space-3)',
                     boxShadow: 'var(--shadow-lg)',
@@ -925,7 +957,7 @@ export const PatternsPage = () => {
                   <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
                     <span>Assigned Profile:</span>
                     <strong style={{ color: CLUSTER_COLORS[hoveredStatePoint.cluster_id]?.color }}>
-                      Cluster {hoveredStatePoint.cluster_id}
+                      Cluster {hoveredStatePoint.cluster_id} ({CLUSTER_COLORS[hoveredStatePoint.cluster_id]?.label})
                     </strong>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
@@ -943,6 +975,49 @@ export const PatternsPage = () => {
                 </div>
               )}
             </div>
+
+            {/* Explicit 4-Color Category Legend */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 'var(--space-4)',
+                flexWrap: 'wrap',
+                padding: 'var(--space-2) var(--space-4)',
+                borderTop: '1px solid var(--border-subtle)',
+                backgroundColor: 'var(--bg-surface-elevated)',
+                fontSize: '0.6875rem',
+                fontFamily: 'var(--font-mono)',
+              }}
+            >
+              {[0, 1, 2, 3].map((cId) => {
+                const cfg = CLUSTER_COLORS[cId];
+                const isSelected = selectedClusterFilter === String(cId);
+                return (
+                  <div
+                    key={cId}
+                    onClick={() => setSelectedClusterFilter(selectedClusterFilter === String(cId) ? 'ALL' : String(cId))}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      cursor: 'pointer',
+                      padding: '2px 6px',
+                      borderRadius: 'var(--radius-sm)',
+                      backgroundColor: isSelected ? cfg.bg : 'transparent',
+                      border: isSelected ? `1px solid ${cfg.border}` : '1px solid transparent',
+                      opacity: selectedClusterFilter === 'ALL' || selectedClusterFilter === String(cId) ? 1 : 0.45,
+                      transition: 'all var(--transition-fast)',
+                    }}
+                  >
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: cfg.color }} />
+                    <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Cluster {cId}</span>
+                    <span style={{ color: 'var(--text-muted)' }}>({cfg.label})</span>
+                  </div>
+                );
+              })}
+            </div>
           </ChartContainer>
 
           {/* State Cluster Membership Table */}
@@ -959,26 +1034,41 @@ export const PatternsPage = () => {
 
               {/* Cluster Filter Buttons + Search Input */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', gap: '4px' }}>
-                  {['ALL', '0', '1', '2', '3'].map((cId) => (
-                    <button
-                      key={cId}
-                      onClick={() => setSelectedClusterFilter(cId)}
-                      style={{
-                        padding: '4px 8px',
-                        fontSize: '0.6875rem',
-                        fontFamily: 'var(--font-mono)',
-                        borderRadius: 'var(--radius-sm)',
-                        border: '1px solid var(--border-default)',
-                        backgroundColor: selectedClusterFilter === cId ? 'var(--color-sage-light)' : 'var(--bg-surface-elevated)',
-                        color: selectedClusterFilter === cId ? '#090C0A' : 'var(--text-primary)',
-                        cursor: 'pointer',
-                        fontWeight: selectedClusterFilter === cId ? 700 : 500,
-                      }}
-                    >
-                      {cId === 'ALL' ? 'All Clusters' : `C${cId}`}
-                    </button>
-                  ))}
+                <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                  {['ALL', '0', '1', '2', '3'].map((cId) => {
+                    const isSelected = selectedClusterFilter === cId;
+                    const cfg = cId !== 'ALL' ? CLUSTER_COLORS[cId] : null;
+                    return (
+                      <button
+                        key={cId}
+                        onClick={() => setSelectedClusterFilter(cId)}
+                        style={{
+                          padding: '4px 8px',
+                          fontSize: '0.6875rem',
+                          fontFamily: 'var(--font-mono)',
+                          borderRadius: 'var(--radius-sm)',
+                          border: isSelected
+                            ? `1px solid ${cfg ? cfg.color : 'var(--primary)'}`
+                            : '1px solid var(--border-default)',
+                          backgroundColor: isSelected
+                            ? (cfg ? cfg.bg : 'var(--primary-muted)')
+                            : 'var(--bg-surface-elevated)',
+                          color: isSelected
+                            ? (cfg ? cfg.color : 'var(--text-primary)')
+                            : 'var(--text-secondary)',
+                          cursor: 'pointer',
+                          fontWeight: isSelected ? 700 : 500,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          transition: 'all var(--transition-fast)',
+                        }}
+                      >
+                        {cfg && <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: cfg.color }} />}
+                        {cId === 'ALL' ? 'All Clusters' : `C${cId}`}
+                      </button>
+                    );
+                  })}
                 </div>
 
                 <div style={{ position: 'relative', width: '180px' }}>
