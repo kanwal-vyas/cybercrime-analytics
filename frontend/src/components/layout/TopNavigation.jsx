@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Shield, Menu, X, Database, Terminal } from 'lucide-react';
+import { Shield, Menu, X } from 'lucide-react';
 import { NAV_ITEMS, PROJECT_METADATA } from '../../lib/constants';
 import StatusBadge from '../ui/StatusBadge';
 

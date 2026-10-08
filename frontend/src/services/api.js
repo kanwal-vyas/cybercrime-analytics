@@ -10,8 +10,21 @@ class ApiClient {
     this.baseUrl = baseUrl;
   }
 
-  async request(endpoint, options = {}) {
-    const url = `${this.baseUrl}${endpoint}`;
+  async request(endpoint, options = {}, params = {}) {
+    let url = `${this.baseUrl}${endpoint}`;
+    if (params && Object.keys(params).length > 0) {
+      const searchParams = new URLSearchParams();
+      Object.entries(params).forEach(([key, val]) => {
+        if (val !== undefined && val !== null && val !== '') {
+          searchParams.append(key, val);
+        }
+      });
+      const qs = searchParams.toString();
+      if (qs) {
+        url += (url.includes('?') ? '&' : '?') + qs;
+      }
+    }
+
     const headers = {
       'Content-Type': 'application/json',
       ...options.headers,
@@ -30,25 +43,29 @@ class ApiClient {
     }
   }
 
-  // Future Endpoint Contracts (Stage 20+)
+  // Endpoint Contracts
+  async getHealth() {
+    return this.request('/health');
+  }
+
   async getSummary() {
     return this.request('/summary');
   }
 
-  async getStates() {
-    return this.request('/states');
+  async getStates(params = {}) {
+    return this.request('/states', {}, params);
   }
 
-  async getCategories() {
-    return this.request('/categories');
+  async getCategories(params = {}) {
+    return this.request('/categories', {}, params);
   }
 
-  async getMotives() {
-    return this.request('/motives');
+  async getMotives(params = {}) {
+    return this.request('/motives', {}, params);
   }
 
-  async getTrend() {
-    return this.request('/trend');
+  async getTrend(params = {}) {
+    return this.request('/trend', {}, params);
   }
 
   async getClassificationMetrics() {
