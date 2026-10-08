@@ -19,29 +19,35 @@ export const AppShell = ({ children }) => {
         {children}
       </div>
       
-      {/* Global Compact Footer */}
+      {/* Global Compact Analytical Footer */}
       <footer
         style={{
-          height: '40px',
           borderTop: '1px solid var(--border-subtle)',
-          backgroundColor: 'rgba(9, 12, 10, 0.9)',
+          backgroundColor: 'rgba(9, 12, 10, 0.95)',
           display: 'flex',
+          flexWrap: 'wrap',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0 var(--space-6)',
+          padding: 'var(--space-3) var(--space-6)',
           fontSize: '0.6875rem',
           fontFamily: 'var(--font-mono)',
-          color: 'var(--text-dim)',
+          color: 'var(--text-muted)',
+          gap: 'var(--space-2)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
-          <span>CYBER CRIME ANALYTICS FOR NATIONAL SECURITY</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
+          <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>CYBER CRIME ANALYTICS</span>
           <span style={{ color: 'var(--border-default)' }}>|</span>
-          <span>STAGES 1–18 FROZEN & AUDITED</span>
+          <span>NCRB CII 2023 & Historical Panel (2018–2022)</span>
+          <span style={{ color: 'var(--border-default)' }}>|</span>
+          <span style={{ color: 'var(--text-dim)' }}>Read-Only Analytical Workstation</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
-          <span>STAGE 19 UI FOUNDATION</span>
-          <span style={{ color: 'var(--primary)' }}>● ONLINE</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+          <span>Stages 1–28 Integrated</span>
+          <span style={{ color: 'var(--color-sage-light)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-sage-light)', display: 'inline-block' }}></span>
+            VALIDATED
+          </span>
         </div>
       </footer>
     </div>
