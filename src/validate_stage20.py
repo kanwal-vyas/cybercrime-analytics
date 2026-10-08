@@ -185,8 +185,12 @@ def validate_stage20() -> bool:
     res_clust = client.get("/api/models/clustering")
     assert res_clust.status_code == 200
     clust_json = res_clust.json()
-    assert "K=4" in clust_json["methodology"]
-    assert clust_json["silhouette_score"] == 0.551
+    assert clust_json["selected_k"] == 4
+    assert clust_json["algorithm"] == "K-Means"
+    assert clust_json["random_state"] == 42
+    assert clust_json["silhouette_score"] == 0.3497
+    assert clust_json["calinski_harabasz"] == 20.25
+    assert clust_json["davies_bouldin"] == 0.8849
     assert len(clust_json["state_assignments"]) == 36
     # Outliers
     res_out = client.get("/api/models/outliers")

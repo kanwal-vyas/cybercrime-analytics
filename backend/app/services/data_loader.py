@@ -366,12 +366,25 @@ class DataLoaderService:
         
         return {
             "methodology": "K-Means Composition Clustering (Primary Baseline: K=4, random_state=42)",
-            "features": ["IT Act Share", "IPC Share", "Fraud Motive Share", "Sexual Exploitation Motive Share"],
+            "selected_k": 4,
+            "algorithm": "K-Means",
+            "scaling": "StandardScaler",
+            "random_state": 42,
+            "features": [
+                "it_act_share",
+                "fraud_motive_share",
+                "extortion_motive_share",
+                "sexual_exploitation_motive_share"
+            ],
             "feature_space_exclusion": "Total volume strictly excluded from distance computation to identify pure compositional profiles",
-            "silhouette_score": 0.551,
+            "silhouette_score": 0.3497,
+            "calinski_harabasz": 20.25,
+            "davies_bouldin": 0.8849,
+            "inertia": 49.6849,
             "cluster_profiles": df_prof.to_dict(orient="records"),
             "state_assignments": df_assign.to_dict(orient="records"),
-            "small_denominator_caution": "Cluster 2 (Dadra & Nagar Haveli N=6, Lakshadweep N=1) represents small-denominator motive share distortion, not high crime volume.",
+            "sensitivity_stability_summary": "N=34 sample exclusion preserves 76.5% (26/34) cluster profile stability under Hungarian alignment; 3-feature ablation preserves 75.0% (27/36) assignment agreement.",
+            "small_denominator_caution": "Cluster 2 (Dadra & Nagar Haveli N=6, Lakshadweep N=1) absorbs 2 small-denominator sexual-exploitation motive share outliers, not high absolute crime volume.",
         }
 
     def get_outliers_data(self) -> Dict[str, Any]:

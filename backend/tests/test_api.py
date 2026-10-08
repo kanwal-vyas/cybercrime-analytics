@@ -168,7 +168,12 @@ def test_models_clustering():
     res = client.get("/api/models/clustering")
     assert res.status_code == 200
     data = res.json()
-    assert pytest.approx(data["silhouette_score"], 0.01) == 0.551
+    assert data["selected_k"] == 4
+    assert data["algorithm"] == "K-Means"
+    assert data["random_state"] == 42
+    assert pytest.approx(data["silhouette_score"], 0.0001) == 0.3497
+    assert data["calinski_harabasz"] == 20.25
+    assert data["davies_bouldin"] == 0.8849
     assert len(data["cluster_profiles"]) == 4
     assert len(data["state_assignments"]) == 36
 

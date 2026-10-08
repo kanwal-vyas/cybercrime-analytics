@@ -208,8 +208,8 @@ Every endpoint adheres strictly to the audited national totals established in St
 
 #### 4.7.4 Unsupervised Compositional Clustering (Stages 6 & 15)
 - **Endpoint**: `GET /api/models/clustering`
-- **Authoritative Provenance**: `dashboard/powerbi_data/model_cluster_profiles.csv` & `model_cluster_assignments.csv`
-- **Baseline Solution**: $K=4$ K-Means clustering ($K=4$, $\text{Silhouette}=0.551$, `random_state=42`) using 4 standardized composition share features (IT Act %, Fraud Motive %, Extortion Motive %, Sexual Exploitation Motive %).
+- **Authoritative Provenance**: `dashboard/powerbi_data/model_cluster_profiles.csv`, `model_cluster_assignments.csv`, `outputs/tables/clustering_evaluation.csv`, and `outputs/tables/stage15_algorithm_comparison.csv`
+- **Baseline Solution**: Primary Stage 6 / Stage 15 $K=4$ K-Means clustering ($K=4$, $\text{Silhouette}=0.3497$, $\text{Calinski-Harabasz}=20.25$, $\text{Davies-Bouldin}=0.8849$, $\text{Inertia}=49.6849$, `StandardScaler`, `random_state=42`) using 4 standardized composition share features (`it_act_share`, `fraud_motive_share`, `extortion_motive_share`, `sexual_exploitation_motive_share`).
 - **Response Model**: `ClusteringResponse`
 
 #### 4.7.5 Multivariate Outlier & Anomaly Detection (Stages 8 & 16)

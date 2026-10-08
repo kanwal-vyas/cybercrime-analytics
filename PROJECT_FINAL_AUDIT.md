@@ -154,7 +154,7 @@ All modules, SQL views, notebooks, export tables, and Power BI semantic extracts
 - Validated key rule: $\text{HIGH\_FRAUD\_MOTIVE} \implies \text{HIGH\_SEC66D\_CHEATING}$ ($\text{supp}=41.67\%$, $\text{conf}=83.33\%$, $\text{lift}=1.67$).
 
 ### Stage 6: Unsupervised Cluster Analysis (FROZEN)
-- Standardized 4-feature composition profiles ($K=4$, $\text{random\_state}=42$); Elbow and Silhouette validation ($s=0.551$).
+- Standardized 4-feature composition profiles ($K=4$, $\text{random\_state}=42$); Elbow and Silhouette validation ($s=0.3497$, $\text{Calinski-Harabasz}=20.25$, $\text{Davies-Bouldin}=0.8849$).
 - K=4 Profile Breakdown: Cluster 0 ($n=15$), Cluster 1 ($n=12$), Cluster 2 ($n=2$, small UTs), Cluster 3 ($n=7$).
 
 ### Stage 7: Predictive Regression & Time-Series Modeling (FROZEN)

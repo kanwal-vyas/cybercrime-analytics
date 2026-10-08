@@ -866,7 +866,7 @@ Stage 19: UI Foundation (React + Vite) ─────────► Interactiv
     - Prominent label: **State-Level Syllabus Demonstration** (macro-aggregate profile co-occurrences, not individual case logs)
     - Key highlighted rule: $\text{HIGH\_FRAUD\_MOTIVE} \implies \text{HIGH\_SEC66D\_CHEATING}$ ($\text{lift}=1.67$)
   - **Cluster Analysis Explorer**:
-    - K-Means 4-Profile Composition Taxonomy ($K=4$, $\text{Silhouette}=0.551$):
+    - K-Means 4-Profile Composition Taxonomy ($K=4$, $\text{Silhouette}=0.3497$):
       - Cluster 0 ($n=15$): Moderate Fraud / Mixed IPC-IT Baseline
       - Cluster 1 ($n=12$): Fraud & Cyber Cheating Dominant
       - Cluster 2 ($n=2$): High Sexual-Exploitation Share / Small-Denominator Profile (Dadra & Nagar Haveli, Lakshadweep)
