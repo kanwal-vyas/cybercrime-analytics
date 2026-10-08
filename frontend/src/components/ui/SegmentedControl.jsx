@@ -29,14 +29,40 @@ export const SegmentedControl = ({
       }}
     >
       {options.map((opt) => {
-        const val = typeof opt === 'object' ? opt.value : opt;
-        const lbl = typeof opt === 'object' ? opt.label : opt;
-        const count = typeof opt === 'object' ? opt.count : null;
+        const val =
+          typeof opt === 'object' && opt !== null
+            ? opt.value !== undefined
+              ? opt.value
+              : opt.id !== undefined
+              ? opt.id
+              : opt.key !== undefined
+              ? opt.key
+              : opt.label
+            : opt;
+        const lbl =
+          typeof opt === 'object' && opt !== null
+            ? opt.label !== undefined
+              ? opt.label
+              : opt.name !== undefined
+              ? opt.name
+              : String(val)
+            : opt;
+        const count = typeof opt === 'object' && opt !== null ? opt.count : null;
+        const key =
+          typeof opt === 'object' && opt !== null
+            ? opt.id !== undefined
+              ? opt.id
+              : opt.value !== undefined
+              ? opt.value
+              : opt.key !== undefined
+              ? opt.key
+              : opt.label || String(val)
+            : String(opt);
         const active = value === val;
 
         return (
           <button
-            key={val}
+            key={key}
             role="tab"
             aria-selected={active}
             onClick={() => onChange && onChange(val)}

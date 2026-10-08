@@ -5,19 +5,27 @@ import StatusBadge from './StatusBadge';
  * MetricCard component for high-impact analytical metrics
  */
 export const MetricCard = ({
+  title,
   label,
   value,
   unit,
+  subtitle,
   description,
   change,
-  changeType = 'neutral', // 'positive' | 'negative' | 'neutral' | 'accent'
+  changeType = 'neutral', // 'positive' | 'negative' | 'neutral' | 'accent' | 'warning'
   statusBadge,
-  badgeVariant = 'neutral',
+  status,
+  badgeVariant,
   accentColor,
-  icon: Icon,
+  icon,
   className = '',
   style = {},
 }) => {
+  const displayLabel = label || title;
+  const displayDescription = description || subtitle;
+  const displayBadgeVariant = badgeVariant || status || 'neutral';
+  const displayStatusBadge = statusBadge;
+
   const getChangeColor = () => {
     switch (changeType) {
       case 'positive':
@@ -31,6 +39,18 @@ export const MetricCard = ({
       default:
         return 'var(--text-muted)';
     }
+  };
+
+  const renderIcon = () => {
+    if (!icon) return null;
+    if (React.isValidElement(icon)) {
+      return icon;
+    }
+    if (typeof icon === 'function' || (typeof icon === 'object' && icon !== null)) {
+      const IconComponent = icon;
+      return <IconComponent size={16} style={{ color: 'var(--text-muted)' }} />;
+    }
+    return null;
   };
 
   return (
@@ -77,15 +97,16 @@ export const MetricCard = ({
           }}
         >
           <span className="tech-label" style={{ fontSize: '0.6875rem' }}>
-            {label}
+            {displayLabel}
           </span>
-          {statusBadge ? (
-            <StatusBadge size="sm" variant={badgeVariant}>
-              {statusBadge}
-            </StatusBadge>
-          ) : Icon ? (
-            <Icon size={16} style={{ color: 'var(--text-muted)' }} />
-          ) : null}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+            {displayStatusBadge && (
+              <StatusBadge size="sm" variant={displayBadgeVariant}>
+                {displayStatusBadge}
+              </StatusBadge>
+            )}
+            {renderIcon()}
+          </div>
         </div>
 
         {/* Value Row */}
@@ -125,7 +146,7 @@ export const MetricCard = ({
       </div>
 
       {/* Footer / Description / Trend */}
-      {(description || change) && (
+      {(displayDescription || change) && (
         <div
           style={{
             display: 'flex',
@@ -138,8 +159,8 @@ export const MetricCard = ({
             marginTop: 'var(--space-2)',
           }}
         >
-          {description && (
-            <span style={{ color: 'var(--text-muted)' }}>{description}</span>
+          {displayDescription && (
+            <span style={{ color: 'var(--text-muted)' }}>{displayDescription}</span>
           )}
           {change && (
             <span

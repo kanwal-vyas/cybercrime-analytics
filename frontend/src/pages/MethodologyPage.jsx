@@ -27,13 +27,13 @@ import {
 } from 'lucide-react';
 
 const SECTION_TABS = [
-  { id: 'all', label: 'ALL SECTIONS' },
-  { id: 'provenance', label: 'DATA PROVENANCE & SOURCES' },
-  { id: 'architecture', label: 'SYSTEM ARCHITECTURE & WAREHOUSE' },
-  { id: 'methods', label: 'ANALYTICAL METHODS SPECIFICATION' },
-  { id: 'validation', label: 'VALIDATION & QUALITY GATES' },
-  { id: 'limitations', label: 'DEFINITIONS & LIMITATIONS' },
-  { id: 'explorer', label: 'INTERACTIVE METADATA EXPLORER' },
+  { id: 'all', value: 'all', label: 'ALL SECTIONS' },
+  { id: 'provenance', value: 'provenance', label: 'DATA PROVENANCE & SOURCES' },
+  { id: 'architecture', value: 'architecture', label: 'SYSTEM ARCHITECTURE & WAREHOUSE' },
+  { id: 'methods', value: 'methods', label: 'ANALYTICAL METHODS SPECIFICATION' },
+  { id: 'validation', value: 'validation', label: 'VALIDATION & QUALITY GATES' },
+  { id: 'limitations', value: 'limitations', label: 'DEFINITIONS & LIMITATIONS' },
+  { id: 'explorer', value: 'explorer', label: 'INTERACTIVE METADATA EXPLORER' },
 ];
 
 export const MethodologyPage = () => {
@@ -152,32 +152,36 @@ export const MethodologyPage = () => {
         }}
       >
         <MetricCard
-          title="2023 Detailed Universe"
+          label="2023 DETAILED UNIVERSE"
           value="86,420"
-          subtitle="36 States/UTs × 40 Leaf Offenses"
-          status="success"
-          icon={<FileText size={18} />}
+          description="36 States/UTs × 40 Leaf Offenses"
+          badgeVariant="success"
+          statusBadge="NCRB 2023"
+          icon={FileText}
         />
         <MetricCard
-          title="Historical Panel Size"
+          label="HISTORICAL PANEL SIZE"
           value="180 Tuples"
-          subtitle="36 States/UTs × 5 Years (2018–2022)"
-          status="info"
-          icon={<Layers size={18} />}
+          description="36 States/UTs × 5 Years (2018–2022)"
+          badgeVariant="neutral"
+          statusBadge="Rajya Sabha"
+          icon={Layers}
         />
         <MetricCard
-          title="Star Schema Warehouse"
+          label="STAR SCHEMA WAREHOUSE"
           value="4 Dims / 3 Facts"
-          subtitle="SQLite Analytical Repository"
-          status="accent"
-          icon={<Database size={18} />}
+          description="SQLite Analytical Repository"
+          badgeVariant="accent"
+          statusBadge="Relational"
+          icon={Database}
         />
         <MetricCard
-          title="Validation Integrity"
+          label="VALIDATION INTEGRITY"
           value="100% Passed"
-          subtitle="Stages 1–26 Complete & Frozen"
-          status="success"
-          icon={<ShieldCheck size={18} />}
+          description="Stages 1–29 Complete & Frozen"
+          badgeVariant="success"
+          statusBadge="Verified"
+          icon={ShieldCheck}
         />
       </div>
 
