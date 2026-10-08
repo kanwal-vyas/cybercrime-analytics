@@ -857,7 +857,7 @@ Stage 19: UI Foundation (React + Vite) ─────────► Interactiv
 
 ---
 
-### Stage 25 — Association Rules & Clustering UI *(Planned / Not Started)*
+### Stage 25 — Association Rules & Clustering UI *(Complete / Frozen)*
 - **Purpose**: Interactive exploration of unsupervised pattern mining, Apriori/FP-Growth association rules, and K-Means composition clusters.
 - **Planned Scope**:
   - **Association Rule Explorer**:
@@ -873,7 +873,7 @@ Stage 19: UI Foundation (React + Vite) ─────────► Interactiv
       - Cluster 3 ($n=7$): Extortion & Non-Fraud Motivation
     - Interactive 2D PCA cluster projection scatter plot
     - State membership selector, profile characteristic radar/bar charts, and tiny-denominator cautionary tags
-- **Status**: **Planned / Not Started**
+- **Status**: **Complete / Frozen** (Stage 25 Implementation)
 
 ---
 
