@@ -1,109 +1,81 @@
 # Cyber Crime Analytics for National Security
 
-An undergraduate **Data Analytics & Visualization / Data Mining** project analyzing
-publicly available Indian cybercrime data across time, geography, and crime categories.
+An undergraduate **Data Analytics & Visualization / Data Mining** laboratory and analytical workstation analyzing publicly available Indian cybercrime data across time, geography, statutory crime categories, and recorded motives.
 
-> **Status: Stages 1–18 Complete & Frozen.** All core analytical and advanced modeling
-> stages, database warehouse, validation suites, and the comprehensive repository-wide audit
-> have been executed, verified, and documented. See [`PROJECT_FINAL_AUDIT.md`](./PROJECT_FINAL_AUDIT.md)
-> and [`PROJECT_PLAN.md`](./PROJECT_PLAN.md) for full audit reports and gate verifications.
+> **Final Project Status: Stages 1–29 Complete, Validated, Audited, and Frozen.**  
+> All core analytical pipelines, SQLite database warehouse, machine learning models, Power BI semantic packages, FastAPI data presentation services, and React/Vite UI analytics workstation pages are fully integrated, validated, audited, and frozen. See [`PROJECT_FINAL_AUDIT.md`](./PROJECT_FINAL_AUDIT.md) and [`PROJECT_PLAN.md`](./PROJECT_PLAN.md) for full audit reports and gate verifications.
 
 ---
 
-## 1. Project Objective
+## 1. Project Overview & Primary Objective
 
-This project applies a complete data analytics and data mining lifecycle to
-publicly available Indian cybercrime data in order to understand:
+This project applies a complete data analytics, data mining, and machine learning lifecycle to publicly available Indian cybercrime data. It is structured as an integrated **cyber intelligence analytics laboratory**, answering descriptive and exploratory questions:
 
-- How cybercrime has changed over time
-- Which states/regions carry the highest cybercrime burden
-- Which crime categories are increasing or decreasing
-- Which states/regions have similar cybercrime profiles
-- Whether meaningful relationships exist between crime categories
-- Which observations behave unusually (anomalies)
-- Whether future cybercrime levels can be reasonably estimated
-- Whether states/regions can be grouped into meaningful, data-justified categories
-
-The project is deliberately scoped as a **complete analytics pipeline**, not a
-single dashboard or a single machine-learning model. Every technique used must
-be justified by what the actual dataset supports — see Section 5.
+- **Volume & Geographic Burden**: How registered cybercrime cases are distributed across 36 Indian States and Union Territories.
+- **Crime Category Structure**: How the 40 statutory leaf offenses (under IT Act, IPC, and SLL) compose national and state-level cybercrime portfolios.
+- **Motive Distribution**: How the 18 recorded crime motives (dominated by Fraud at 68.88%) profile criminal intent.
+- **Historical Trajectories**: How State/UT registered volumes evolved longitudinally from 2018 to 2022 (tracking growth from 27,248 to 65,893 cases).
+- **Predictive Regimes**: How historical panel lags estimate short-term volume and high-volume state regimes on held-out test data.
+- **Compositional Clustering**: How States/UTs group into 4 distinct proportional composition profiles ($K=4$).
+- **Frequent Itemset Patterns**: Which crime categories co-occur above median thresholds across jurisdictions (42 pairwise association rules).
+- **Multivariate Anomalies**: Which observations depart statistically from typical feature structures under multiple screening algorithms.
+- **Academic Transparency**: Full disclosure of data provenance, star schema data dictionaries, validation checkpoints, and core limitations.
 
 ---
 
-## 2. Intended Analytics Pipeline
+## 2. System Architecture & End-to-End Flow
 
 ```
-Data Collection
-      │
-      ▼
-Data Understanding  ──────────►  Dataset Validation Gate
-      │                                  │
-      ▼                                  │ (must pass before
-Data Preprocessing                       │  proceeding further)
-      │                                  │
-      ▼                                  │
-SQL / OLAP Layer  ◄───────────────────────┘
-      │
-      ▼
-Exploratory Data Analysis (EDA)
-      │
-      ├─────────────► Association Rule Mining (if transactional structure exists)
-      ├─────────────► Classification / Regression (if a valid target exists)
-      ├─────────────► Clustering (if meaningful numerical features exist)
-      └─────────────► Outlier Detection (if sufficient data/features exist)
-      │
-      ▼
-Visualization (Matplotlib / Seaborn)
-      │
-      ▼
-Power BI Dashboard
-      │
-      ▼
-Insights & Conclusions
-```
-
-### Data flow diagram (Mermaid)
-
-```mermaid
-flowchart TD
-    A[Raw Data<br/>data/raw/] --> B[Data Understanding<br/>01_data_understanding.ipynb]
-    B --> C{Dataset Validation Gate}
-    C -->|Pass| D[Preprocessing<br/>02_preprocessing.ipynb]
-    C -->|Fail on a technique| C1[Document limitation,<br/>propose alternative]
-    D --> E[Processed Data<br/>data/processed/]
-    E --> F[(SQLite DB<br/>data/database/)]
-    F --> G[SQL / OLAP Queries<br/>sql/analysis_queries.sql, views.sql]
-    E --> H[EDA<br/>03_eda.ipynb]
-    G --> H
-    H --> I[Association Rules<br/>04_association_rules.ipynb]
-    H --> J[Clustering<br/>05_clustering.ipynb]
-    H --> K[Prediction<br/>06_prediction.ipynb]
-    H --> L[Outlier Detection<br/>07_outlier_detection.ipynb]
-    I --> M[Outputs<br/>outputs/figures, tables, models]
-    J --> M
-    K --> M
-    L --> M
-    M --> N[Power BI Dashboard<br/>dashboard/powerbi_data/]
-    N --> O[Insights & Report]
+RAW SOURCES (data/raw/)
+  ├── NCRB Crime in India 2023 (Tables 9A.2, 9A.3, 9A.10, 9A.11)
+  └── Rajya Sabha Unstarred Question No. 226 (2018–2022 Panel)
+         │
+         ▼
+DATA VALIDATION & PREPROCESSING (src/, notebooks/)
+  ├── Strict schema normalization & non-destructive cleaning
+  └── Separation of 2018–2022 panel and 2023 cross-section
+         │
+         ▼
+SQLITE STAR SCHEMA WAREHOUSE (data/database/cybercrime.db)
+  ├── 4 Dimensions: dim_state, dim_year, dim_crime_category, dim_motive
+  └── 3 Facts: fact_cybercrime_category_2023, fact_cybercrime_motive_2023, fact_cybercrime_trend
+         │
+         ▼
+FROZEN ANALYTICAL CORE (Stages 1–18)
+  ├── EDA, OLAP & Cuboid Lattices (Stages 4, 11)
+  ├── Association Rules & Frequent Patterns (Stages 5, 12)
+  ├── Unsupervised K-Means & Advanced Clustering (Stages 6, 15)
+  ├── Supervised Regression & Classification (Stages 7, 13, 14)
+  ├── Multi-Method Outlier & Anomaly Screening (Stages 8, 16)
+  └── Power BI 28-Table Semantic Package (Stage 17)
+         │
+         ▼
+FASTAPI DATA PRESENTATION LAYER (backend/)
+  ├── Read-only REST service exposing validated models & metadata
+  └── Endpoints: /api/health, /api/summary, /api/states, /api/categories,
+      /api/motives, /api/trend, /api/models/*
+         │
+         ▼
+REACT / VITE ANALYTICS WORKSTATION (frontend/)
+  └── 7 Integrated Pages: / (Overview), /explore, /trends, /models,
+      /patterns, /anomalies, /methodology
 ```
 
 ---
 
-## 3. Planned Technology Stack
+## 3. Web Workstation Application Routes
 
-| Layer | Tools |
-|---|---|
-| Language | Python |
-| Data handling | Pandas, NumPy |
-| Visualization | Matplotlib, Seaborn |
-| Machine learning | Scikit-learn |
-| Association rule mining | Mlxtend (if a defensible transactional structure exists) |
-| Database | SQLite (SQL) |
-| Dashboarding | Power BI |
-| Inspection/validation | Excel (ad hoc only) |
-| Experimentation | Jupyter Notebook |
+The React/Vite analytics workstation exposes seven integrated analytical views:
 
-No dependency is added until it is actually needed by a validated technique.
+| Route | Page Name | Analytical Focus |
+|---|---|---|
+| `/` | **Executive Overview** | Authoritative national synthesis across 86,420 registered cases, top-5 state concentration (73.45%), Pareto crime categories, motive distribution, and longitudinal growth summary. |
+| `/explore` | **Geographic & Crime Explorer** | Interactive multi-dimensional filtering across 36 States/UTs, 40 statutory leaf offenses, and 18 recorded motives with state-level profile comparisons. |
+| `/trends` | **Historical Analytics** | 2018–2022 longitudinal series across 180 warehouse tuples, year-over-year growth trajectories, state-specific trajectories, and explicit separation of Ladakh missing values. |
+| `/models` | **Machine Learning Analytics** | Empirical supervised regression (Log-Linear OLS $R^2=0.9000$) and classification (Featured Decision Tree depth 3, $97.22\%$ accuracy) on 2022 held-out test data. |
+| `/patterns` | **Patterns & Clustering** | 42 pairwise association rules (Apriori/FP-Growth) and 4 composition-based K-Means clusters (Silhouette $= 0.3497$) with volume-excluded feature spaces. |
+| `/anomalies` | **Anomaly & Outlier Analytics** | Multi-method descriptive statistical screening (IQR, Isolation Forest, LOF, Robust Mahalanobis) and volume vs. composition dual-space analysis. |
+| `/methodology` | **Methodology & Data Explorer** | Complete academic data provenance, star schema data dictionaries, 11 validation gates, live metadata explorer, and full disclosure of the 9 core limitations. |
 
 ---
 
@@ -112,104 +84,165 @@ No dependency is added until it is actually needed by a validated technique.
 ```
 cybercrime-analytics/
 ├── data/
-│   ├── raw/            # Original, untouched source data (never modified)
-│   ├── processed/       # Cleaned, analysis-ready data
-│   └── database/        # SQLite database file(s)
-├── notebooks/            # One notebook per pipeline stage
-├── src/                  # Reusable Python modules backing the notebooks
-├── sql/                  # Schema, analytical queries, views
+│   ├── raw/                # Untouched official government source CSVs (immutable)
+│   ├── processed/          # Cleaned, standardized, analysis-ready datasets
+│   └── database/           # SQLite analytical warehouse (cybercrime.db)
+├── notebooks/              # 16 Jupyter notebooks documenting Stages 1–17
+├── src/                    # Reusable Python modules backing analytics & validation
+│   ├── preprocessing.py
+│   ├── eda.py
+│   ├── association_rules.py
+│   ├── clustering.py
+│   ├── prediction.py
+│   ├── outlier_detection.py
+│   └── validate_stage*.py  # Automated regression validation gates (Stages 5–20)
+├── sql/                    # Star schema DDL, analytical queries, and analytical views
 ├── outputs/
-│   ├── figures/          # Saved charts
-│   ├── models/           # Saved model artifacts
-│   └── tables/           # Saved result tables (e.g., for Power BI)
+│   ├── figures/            # Generated analytical figures and diagnostic plots
+│   ├── models/             # Serialized model artifacts and metrics
+│   └── tables/             # Output result tables and summaries
 ├── dashboard/
-│   └── powerbi_data/     # Final analysis-ready extracts for Power BI
-├── requirements.txt
-├── README.md
-└── PROJECT_PLAN.md
+│   ├── powerbi_data/       # 28 validated CSV tables for Power BI semantic model
+│   ├── POWERBI_SPECIFICATION.md
+│   └── API_SPECIFICATION.md
+├── backend/                # FastAPI REST API presentation layer (Stage 20)
+│   ├── app/
+│   │   ├── main.py         # FastAPI application entrypoint & route handlers
+│   │   ├── models.py       # Pydantic schema definitions
+│   │   └── services.py     # SQLite data loader & analytical model artifact service
+│   ├── tests/              # Pytest test suite (11 unit tests)
+│   └── requirements.txt
+├── frontend/               # React 19 + Vite analytics workstation UI (Stages 19, 21–28)
+│   ├── src/
+│   │   ├── components/     # Layout, UI primitives, data tables, and chart containers
+│   │   ├── pages/          # 7 integrated workstation page views
+│   │   ├── services/       # API client service
+│   │   └── styles/         # CSS design tokens & analytical workstation theme
+│   ├── package.json
+│   └── vite.config.js
+├── requirements.txt        # Core Python analytical dependencies
+├── PROJECT_PLAN.md         # Authoritative 29-stage roadmap & validation records
+├── PROJECT_FINAL_AUDIT.md  # Comprehensive repository-wide audit report
+└── README.md
 ```
 
 ---
 
-## 5. Syllabus Mapping (summary)
+## 5. Local Setup & Quickstart Guide
 
-A full mapping table is in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md). In brief:
+### Prerequisites
+- Python 3.10+ (Python 3.13 recommended)
+- Node.js 18+ & npm
+- Git
 
-| Syllabus Unit | Where it appears |
-|---|---|
-| Introduction to Data Mining | Project framing, Stage 1 |
-| Data Preprocessing | Stage 2 (`02_preprocessing.ipynb`, `src/preprocessing.py`) |
-| Data Warehouse / OLAP | Stage 3 (`sql/`) |
-| Frequent Pattern Mining (Apriori) | Stage 5 (`04_association_rules.ipynb`, `src/association_rules.py`) — only if justified |
-| Classification & Prediction | Stage 7 (`06_prediction.ipynb`, `src/prediction.py`) — only if justified |
-| Clustering & Outlier Detection | Stages 6 & 8 (`05_clustering.ipynb`, `07_outlier_detection.ipynb`) — only if justified |
-| Visualization | Stage 4 and throughout (`src/eda.py`, `outputs/figures/`) |
-| Interactive Dashboards | Stage 9 (`dashboard/`, Power BI — not yet built) |
+### 1. Clone & Set Up Backend Environment
+```bash
+# Clone the repository
+git clone https://github.com/kanwal-vyas/cybercrime-analytics.git
+cd cybercrime-analytics
 
----
+# Create and activate Python virtual environment
+python -m venv .venv
+# On Windows (PowerShell):
+.venv\Scripts\Activate.ps1
+# On Linux / macOS:
+source .venv/bin/activate
 
-## 6. Dataset Validation Gate
+# Install analytical and backend dependencies
+pip install -r requirements.txt
+pip install -r backend/requirements.txt
+```
 
-**No algorithm in this repository will be implemented against real data until
-the dataset has been inspected and validated.** See the full gate criteria and
-current status in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md#dataset-validation-gate).
+### 2. Start the FastAPI Backend Service
+```bash
+# Launch FastAPI server on http://localhost:8000
+uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
+```
+Verify the backend is live at: `http://localhost:8000/api/health`
 
----
+### 3. Set Up & Launch the Frontend Workstation
+```bash
+# Open a new terminal in the frontend directory
+cd frontend
 
-## 7. Expected Final Deliverables
+# Install Node dependencies
+npm install
 
-1. Cleaned, analysis-ready dataset
-2. Python notebooks documenting each pipeline stage
-3. Reusable Python modules (`src/`)
-4. SQL database/schema and analytical queries
-5. Association-rule analysis (if supported by the data)
-6. Clustering analysis (if supported by the data)
-7. Predictive analysis (if supported by the data)
-8. Outlier analysis (if supported by the data)
-9. Power BI dashboard
-10. Project report
-11. Presentation
-12. This documentation
+# (Optional) Copy example environment configuration
+cp .env.example .env
 
----
-
-## 8. Current Status & Syllabus Roadmap
-
-The project is structured into **20 comprehensive syllabus-aligned stages** (detailed in [`PROJECT_PLAN.md`](./PROJECT_PLAN.md)).
-
-### Core Implemented Foundation (Stages 1–18: FROZEN)
-- [x] **Stage 1 — Data Understanding**: Dataset Validation Gate completed (`01_data_understanding.ipynb`)
-- [x] **Stage 2 — Preprocessing**: Master state cross-section & feature engineering (`02_preprocessing.ipynb`)
-- [x] **Stage 3 — Data Warehouse & OLAP**: Star schema database (`cybercrime.db`) & analytical views (`03_sql_olap.ipynb`)
-- [x] **Stage 4 — Exploratory Data Analysis**: Pareto category profiling, motives, women/child subsets (`03_eda.ipynb`)
-- [x] **Stage 5 — Association Rule Mining**: State-Level Syllabus Demonstration with Apriori (`04_association_rules.ipynb`)
-- [x] **Stage 6 — Clustering Analysis**: K-Means composition profiles ($K=4$) with Hungarian stability (`05_clustering.ipynb`)
-- [x] **Stage 7 — Predictive Modeling**: Leak-free temporal lag panel regression with Log-Linear model (`06_prediction.ipynb`)
-- [x] **Stage 8 — Outlier Detection**: Descriptive Tukey IQR fences & Isolation Forest (`07_outlier_detection.ipynb`)
-- [x] **Stage 9 — Power BI Semantic Data Package**: 20 validated CSV extracts & 6-page architecture (`POWERBI_SPECIFICATION.md`)
-- [x] **Stage 10 — Advanced Data Preprocessing**: Multi-scale transformations, PCA reduction, discretization & hierarchies (`08_advanced_preprocessing.ipynb`)
-- [x] **Stage 11 — Advanced OLAP & Data Cube**: Multidimensional cuboid lattice, roll-up/drill-down/slice/dice/pivot, AOI & Iceberg cubes (`09_advanced_olap_cube.ipynb`)
-- [x] **Stage 12 — Advanced Frequent Patterns**: FP-Growth tree mining, 100% equivalence, scalability benchmark & correlation analysis (`10_advanced_frequent_patterns.ipynb`)
-- [x] **Stage 13 — Classification Analysis**: Decision Tree, Naive Bayes, Linear/RBF SVM, Random Forest on historical panel (`11_classification.ipynb`)
-- [x] **Stage 14 — Regression & Prediction Enhancement**: Polynomial expansions, tree regressors, random forests, and gradient boosting on historical lags (`12_regression_enhancement.ipynb`)
-- [x] **Stage 15 — Advanced Clustering & Cluster Validation**: Agglomerative Hierarchical (Ward), GMM, DBSCAN, multi-criteria validation, ARI/NMI agreement & sensitivity analysis (`13_advanced_clustering.ipynb`)
-- [x] **Stage 16 — Advanced Outlier Detection & Anomaly Validation**: Robust Mahalanobis (MinCovDet), LOF neighborhood sensitivity, consensus anomaly scoring & volume vs. composition analysis (`14_advanced_outlier_detection.ipynb`)
-- [x] **Stage 17 — Advanced Visualization & Power BI**: 10-page interactive dashboard architecture, 28-table semantic package & 25+ DAX measures (`15_advanced_visualization.ipynb`, `POWERBI_STAGE17_SPECIFICATION.md`)
-- [x] **Stage 18 — Final Integration, Audit & Project Readiness**: Comprehensive repository-wide reproducibility, data integrity, and academic readiness audit (`PROJECT_FINAL_AUDIT.md`, `src/validate_stage18.py`)
-
-### Advanced Planned Roadmap (Stages 19–20: Planned / Not Started)
-- [ ] **Stage 19 — Integrated Analytical Findings**: Cross-technique academic synthesis (strictly non-causal)
-- [ ] **Stage 20 — Final Report, Presentation & Viva**: Comprehensive academic report, slide deck, and defense viva guide
+# Launch the Vite development server
+npm run dev
+```
+Open your browser at: `http://localhost:5173/`
 
 ---
 
-## 9. Project Philosophy
+## 6. Testing & Validation Commands
 
-This project prioritizes rigorous methodological integrity over uncritical algorithmic complexity:
+The repository maintains an automated validation framework. Run the full test suite:
 
-$$\text{Data Validity} \longrightarrow \text{Analytical Correctness} \longrightarrow \text{Academic Defensibility} \longrightarrow \text{Syllabus Alignment}$$
-$$\longrightarrow \text{Reproducibility} \longrightarrow \text{Interpretability} \longrightarrow \text{Simplicity} \longrightarrow \text{Presentation Quality}$$
-$$\longrightarrow \text{Sophistication (only when justified)}$$
+```bash
+# 1. Backend Unit Tests
+pytest backend/tests -v
 
-**Core Guiding Rule**: *The project will not add algorithms solely to increase the number of techniques. Each technique must answer a defined analytical question and must be supported by the available data.*
+# 2. FastAPI Data Layer Validation Gate
+python src/validate_stage20.py
 
+# 3. Full Analytical Regression Suite (Stages 5–18)
+python src/validate_stage5.py
+python src/validate_stage6.py
+python src/validate_stage7.py
+python src/validate_stage8.py
+python src/validate_stage9.py
+python src/validate_stage10.py
+python src/validate_stage11.py
+python src/validate_stage12.py
+python src/validate_stage13.py
+python src/validate_stage14.py
+python src/validate_stage15.py
+python src/validate_stage16.py
+python src/validate_stage17.py
+python src/validate_stage18.py
+
+# 4. Frontend Lint & Production Build
+cd frontend
+npm run lint
+npm run build
+```
+
+---
+
+## 7. Authoritative Analytical Benchmarks (Frozen)
+
+All metrics displayed across the API and UI are verified against the frozen analytical artifacts:
+
+- **2023 Detailed Universe**: 86,420 registered cases across 36 States/UTs, 40 leaf offenses, and 18 specific motives.
+- **Act Group Breakdown**: IT Act = 44,237 (51.19%), IPC r/w IT Act = 41,849 (48.43%), SLL = 334 (0.39%).
+- **Geographic Concentration**: Top 5 States (Telangana, Karnataka, Uttar Pradesh, Maharashtra, Gujarat) account for 63,472 cases (73.45%).
+- **Longitudinal Growth**: National cases grew from 27,248 (2018) to 65,893 (2022), representing a $+141.83\%$ increase.
+- **Supervised Regression (Stage 7/14)**: Log-Linear OLS on 2022 held-out test data achieves $MAE = 479.37$, $RMSE = 1143.46$, $R^2 = 0.9000$, and $Median AE = 69.85$.
+- **Supervised Classification (Stage 13)**: Featured Interpretable Decision Tree ($d=3$) achieves $Accuracy = 0.9722$, $F1 = 0.9744$, $ROC-AUC = 0.9750$; Gaussian NB, Linear SVM, RBF SVM, and Random Forest achieve $1.0000$ test accuracy.
+- **Unsupervised Clustering (Stage 6/15)**: K-Means ($K=4$, StandardScaler, seed=42) produces a silhouette score of $0.3497$ across volume-excluded proportional features.
+- **Association Rule Mining (Stage 5/12)**: 129 frequent itemsets, 1,924 filtered rules, and 42 pairwise rules mined across $N=36$ median-split binary indicators ($Supp \ge 0.25, Conf \ge 0.60, Lift > 1.0$).
+- **Multi-Method Outlier Screening (Stage 8/16)**: Robust Mahalanobis (8/36 with $\chi^2(14, 0.975) = 26.119$ reference cutoff), Isolation Forest (6/36), LOF (4/36 at $k=10$), and Tukey IQR (18/36 jurisdictions, 52 feature violations).
+
+---
+
+## 8. Academic Limitations & Interpretation Boundaries
+
+1. **Registered Volume vs. True Incidence**: Registered crime figures reflect cases officially recorded by law enforcement; unobserved or unreported cybercrime ("dark figure") is not captured.
+2. **Reporting & Institutional Variation**: Cross-state differences reflect a mix of underlying incidence, public reporting awareness, digital penetration, and institutional police registration practices; aggregate data cannot isolate these mechanisms.
+3. **Cross-Sectional 2023 Design**: Detailed category and motive analyses are cross-sectional and cannot establish temporal causality, intervention effectiveness, or policy impact.
+4. **Historical Source Separation**: The 2018–2022 panel (Rajya Sabha) and 2023 cross-section (NCRB) originate from separate sources and are intentionally analyzed independently.
+5. **Small Denominator Sensitivity**: Union Territories with very small annual totals (Ladakh = 1, Lakshadweep = 1, DNHDD = 6) generate volatile percentage shares and should be interpreted cautiously.
+6. **Predictive Model Scope**: Machine learning regressions and classifications provide empirical baseline benchmarks on held-out historical data; they are not deployment-grade operational policing risk scores.
+7. **Association Rule Scope**: Mined rules describe cross-sectional state-level co-occurrence above medians; they do not imply causal links or criminal transitions.
+8. **Cluster Interpretations**: Clusters characterize descriptive similarity in specific proportional composition spaces; they do not represent normative performance tiers or threat rankings.
+9. **Outlier Screening Framing**: Outlier flags reflect statistical departures from chosen feature spaces. $\chi^2$ cutoffs serve as descriptive screening references rather than formal finite-sample p-values.
+
+---
+
+## 9. License & Academic Attribution
+
+This project is developed strictly for academic and educational research purposes utilizing publicly available data published by the National Crime Records Bureau (NCRB), Ministry of Home Affairs, Government of India, and Rajya Sabha official parliamentary proceedings.
