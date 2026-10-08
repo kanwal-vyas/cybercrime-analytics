@@ -758,12 +758,12 @@ validation. Output: `notebooks/01_data_understanding.ipynb`, this document, `REA
 
 ## 5. Known Data Limitations (carry through every stage)
 
-1. **Absence of Population Normalization**: All figures are raw reported police case counts from NCRB Table 9A.1. Without state census population normalization, figures represent absolute administrative volume, not per-capita crime rates.
+1. **Absence of Population Normalization & Reporting Variability**: All figures are raw reported police case counts from NCRB Table 9A.1. Without state census population normalization, figures represent absolute administrative volume, not per-capita crime rates. Differences in registered volume may reflect a combination of underlying incidence, reporting behavior, public awareness, and institutional registration practices; the available aggregate data cannot isolate these factors.
 2. **Strict Time-Series Discontinuity (2018–2022 vs. 2023)**: The historical 2018–2022 series (Rajya Sabha archival data) and the 2023 detailed NCRB dataset originate from distinct recording tables with structural discrepancies. They are maintained as separate series and must never be concatenated into a continuous 2018–2023 line.
 3. **Short Historical Window**: Only 5 annual data points exist nationally (2018–2022). Classical ARIMA/deep time-series forecasting is statistically unjustifiable; longitudinal analysis is restricted to 1-year panel lag regression.
 4. **Small Cross-Sectional Sample ($N = 36$)**: High-dimensional machine learning is constrained by the 36-state sample size. All techniques require strict degrees-of-freedom management, regularized parameters, and conservative interpretation.
 5. **Macro-Aggregate Transaction Representation**: NCRB publishes macro-level state aggregates, not incident-level crime logs. Apriori and FP-Growth association rules operate on binarized state-level profile co-occurrences as a syllabus demonstration, not individual case-level basket linkages.
-6. **Small-Denominator Proportion Distortion**: In small Union Territories (Dadra & Nagar Haveli $N=6$, Lakshadweep $N=1$, Ladakh $N=1$), proportions can reach extreme values ($83.3\%$ or $100\%$) due entirely to tiny denominators rather than high crime volume.
+6. **Small-Denominator Proportion Distortion**: Union Territories with very small case counts (e.g., Ladakh = 1 case, Lakshadweep = 1 case, and Dadra and Nagar Haveli and Daman and Diu = 6 cases) can produce extreme percentage swings; these observations are explicitly flagged and examined through sensitivity analyses.
 
 ---
 

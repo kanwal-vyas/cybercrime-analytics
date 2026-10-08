@@ -166,7 +166,7 @@ All modules, SQL views, notebooks, export tables, and Power BI semantic extracts
 - Univariate Tukey IQR fences flagged 52 instances across 18 states; Multivariate Isolation Forest ($c=0.15$) flagged 6 states.
 
 ### Stage 9: Power BI Semantic Package (FROZEN)
-- 20 validated CSV extracts and 6-page semantic architecture delivered.
+- Original Power BI semantic package; subsequently expanded and integrated through Stage 17.
 
 ### Stage 10: Advanced Data Preprocessing (FROZEN)
 - Multi-scale transformations, PCA dimensionality reduction ($>90\%$ variance explained in 4 PCs), discretization schemes, and concept hierarchies.
@@ -269,12 +269,12 @@ All 14 automated validation suites executed successfully with **100.0% pass rate
 ## 13. Known Limitations, Non-Blocking Warnings & Readiness Assessment
 
 ### 6 Core Methodological Limitations:
-1. **Absence of Population Normalization**: Figures represent raw reported police case registrations. Without census population normalization, counts represent administrative volume, not per-capita crime rates.
+1. **Absence of Population Normalization & Reporting Variability**: Figures represent raw reported police case registrations. Without census population normalization, counts represent administrative volume, not per-capita crime rates. Differences in registered volume may reflect a combination of underlying incidence, reporting behavior, public awareness, and institutional registration practices; the available aggregate data cannot isolate these factors.
 2. **Time-Series Discontinuity**: Historical 2018–2022 series and 2023 detailed dataset originate from distinct recording tables with discrepancies and are maintained as separate series.
 3. **Short Historical Horizon**: Only 5 annual panel points exist, restricting longitudinal analysis to 1-year panel lag modeling.
 4. **Small Cross-Sectional Sample ($N = 36$)**: High-dimensional machine learning is constrained by the 36-state sample size, requiring regularized models and non-causal interpretation.
 5. **Macro-Aggregate Transaction Representation**: Association rules operate on binarized state-level profile co-occurrences as a syllabus demonstration, not incident-level crime logs.
-6. **Small-Denominator Proportion Distortion**: Tiny case totals in small UTs (Dadra & Nagar Haveli $N=6$, Lakshadweep $N=1$) create extreme percentage shares ($83.3\%$ or $100\%$).
+6. **Small-Denominator Proportion Distortion**: Union Territories with very small case counts (e.g., Ladakh = 1 case, Lakshadweep = 1 case, and Dadra and Nagar Haveli and Daman and Diu = 6 cases) can produce extreme percentage swings; these observations are explicitly flagged and examined through sensitivity analyses.
 
 ### Non-Blocking Environmental Warnings:
 - **WARNING-01 (Power BI GUI)**: Power BI Desktop is not executable via CLI in headless Linux/Windows environments; complete 28-table semantic package and visual specifications provided.
