@@ -16,6 +16,9 @@ export const DataTable = ({
   error = null,
   onRetry = null,
   emptyMessage = 'No analytical records found.',
+  onRowClick = null,
+  selectedRowKey = null,
+  rowKey = 'id',
   className = '',
   style = {},
 }) => {
@@ -133,39 +136,54 @@ export const DataTable = ({
           </tr>
         </thead>
         <tbody>
-          {sortedData.map((row, rIdx) => (
-            <tr
-              key={row.id || rIdx}
-              style={{
-                borderBottom: rIdx === sortedData.length - 1 ? 'none' : '1px solid var(--border-subtle)',
-                transition: 'background-color var(--transition-fast)',
-                backgroundColor: rIdx % 2 === 0 ? 'transparent' : 'rgba(255, 255, 255, 0.01)',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-surface-hover)')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = rIdx % 2 === 0 ? 'transparent' : 'rgba(255, 255, 255, 0.01)')}
-            >
-              {columns.map((col) => {
-                const align = col.align || 'left';
-                const cellValue = row[col.key];
-                const isNumeric = typeof cellValue === 'number' || col.numeric;
+          {sortedData.map((row, rIdx) => {
+            const keyVal = row[rowKey] !== undefined ? row[rowKey] : (row.id || rIdx);
+            const isSelected = selectedRowKey !== null && selectedRowKey !== undefined && selectedRowKey === keyVal;
 
-                return (
-                  <td
-                    key={col.key}
-                    style={{
-                      padding: 'var(--space-3) var(--space-4)',
-                      color: 'var(--text-secondary)',
-                      textAlign: align,
-                      fontFamily: isNumeric ? 'var(--font-mono)' : 'inherit',
-                      whiteSpace: col.nowrap ? 'nowrap' : 'normal',
-                    }}
-                  >
-                    {col.render ? col.render(cellValue, row) : (cellValue !== null && cellValue !== undefined ? String(cellValue) : '—')}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
+            return (
+              <tr
+                key={keyVal}
+                onClick={() => onRowClick && onRowClick(row)}
+                style={{
+                  borderBottom: rIdx === sortedData.length - 1 ? 'none' : '1px solid var(--border-subtle)',
+                  transition: 'background-color var(--transition-fast)',
+                  backgroundColor: isSelected
+                    ? 'rgba(133, 162, 137, 0.12)'
+                    : rIdx % 2 === 0 ? 'transparent' : 'rgba(255, 255, 255, 0.01)',
+                  cursor: onRowClick ? 'pointer' : 'default',
+                  borderLeft: isSelected ? '3px solid var(--color-sage-light)' : '3px solid transparent',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isSelected) e.currentTarget.style.backgroundColor = 'var(--bg-surface-hover)';
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSelected) e.currentTarget.style.backgroundColor = rIdx % 2 === 0 ? 'transparent' : 'rgba(255, 255, 255, 0.01)';
+                }}
+              >
+                {columns.map((col) => {
+                  const align = col.align || 'left';
+                  const cellValue = row[col.key];
+                  const isNumeric = typeof cellValue === 'number' || col.numeric;
+
+                  return (
+                    <td
+                      key={col.key}
+                      style={{
+                        padding: 'var(--space-3) var(--space-4)',
+                        color: isSelected ? 'var(--text-primary)' : 'var(--text-secondary)',
+                        fontWeight: isSelected && col.key === 'state_name' ? 600 : 'normal',
+                        textAlign: align,
+                        fontFamily: isNumeric ? 'var(--font-mono)' : 'inherit',
+                        whiteSpace: col.nowrap ? 'nowrap' : 'normal',
+                      }}
+                    >
+                      {col.render ? col.render(cellValue, row, isSelected) : (cellValue !== null && cellValue !== undefined ? String(cellValue) : '—')}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
