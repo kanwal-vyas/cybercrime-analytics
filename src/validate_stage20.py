@@ -163,8 +163,15 @@ def validate_stage20() -> bool:
     res_cls = client.get("/api/models/classification")
     assert res_cls.status_code == 200
     cls_json = res_cls.json()
-    assert "High Volume Regime" in cls_json["target"]
-    assert len(cls_json["models"]) >= 4
+    assert cls_json["threshold"] == 367.0
+    assert cls_json["train_obs_count"] == 70
+    assert cls_json["test_obs_count"] == 36
+    assert len(cls_json["models"]) == 6
+    assert len(cls_json["feature_importance"]) == 6
+    dt_item = next(m for m in cls_json["models"] if "Decision Tree" in m.get("Model", ""))
+    assert dt_item["Accuracy"] == 0.9722
+    rf_item = next(m for m in cls_json["models"] if "Random Forest" in m.get("Model", ""))
+    assert rf_item["Accuracy"] == 1.0
     # Regression
     res_reg = client.get("/api/models/regression")
     assert res_reg.status_code == 200

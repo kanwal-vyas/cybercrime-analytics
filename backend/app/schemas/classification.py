@@ -30,8 +30,15 @@ class ConfusionMatrixItem(BaseModel):
 
 
 class ClassificationResponse(BaseModel):
-    target: str = Field(..., description="Target definition: High Volume Regime (Binary)")
-    evaluation_design: str = Field(..., description="Train: 2020-2021 (N=70), Test: 2022 Held-Out (N=36)")
-    academic_caveat: str = Field(..., description="Caveat regarding high temporal volume persistence")
+    task_definition: str = Field(..., description="Binary State/UT High-Volume Regime Classification")
+    target_definition: str = Field(..., description="HIGH_NEXT_YEAR: 1 if target_year cases >= 367.0, else 0")
+    threshold: float = Field(367.0, description="Training partition median volume threshold (367.0 cases)")
+    threshold_derivation: str = Field(..., description="Derived solely from training partition median (N=70, 2020-2021)")
+    evaluation_design: str = Field(..., description="Strict Chronological Split (Train: 2020-2021 N=70, Test: 2022 Held-Out N=36)")
+    train_obs_count: int = Field(70, description="Training observation count")
+    test_obs_count: int = Field(36, description="Test observation count")
+    features: List[str] = Field(..., description="6 historical lag features (zero contemporaneous leakage)")
     models: List[Dict[str, Any]] = Field(..., description="Classification model comparison leaderboard")
     confusion_matrices: List[Dict[str, Any]] = Field(..., description="Confusion matrix values on 2022 test set")
+    feature_importance: List[Dict[str, Any]] = Field(..., description="Feature importance for tree architectures")
+    academic_disclaimer: str = Field(..., description="Methodological interpretation: temporal scale persistence, non-causal")

@@ -131,12 +131,35 @@ def test_models_classification():
     res = client.get("/api/models/classification")
     assert res.status_code == 200
     data = res.json()
-    assert "High Volume Regime" in data["target"]
-    assert len(data["models"]) >= 5
+    assert data["threshold"] == 367.0
+    assert data["train_obs_count"] == 70
+    assert data["test_obs_count"] == 36
+    assert len(data["models"]) == 6
     
-    # Find Decision Tree
+    # Baseline
+    base_model = next(m for m in data["models"] if "Baseline" in m.get("Model", ""))
+    assert pytest.approx(base_model["Accuracy"], 0.0001) == 0.4444
+    assert pytest.approx(base_model["Specificity"], 0.0001) == 1.0
+    
+    # Decision Tree
     dt_model = next(m for m in data["models"] if "Decision Tree" in m.get("Model", ""))
-    assert pytest.approx(dt_model["Accuracy"], 0.01) == 0.9722
+    assert pytest.approx(dt_model["Accuracy"], 0.0001) == 0.9722
+    assert pytest.approx(dt_model["Balanced_Accuracy"], 0.0001) == 0.9750
+    assert pytest.approx(dt_model["Precision"], 0.0001) == 1.0
+    assert pytest.approx(dt_model["Recall"], 0.0001) == 0.95
+    assert pytest.approx(dt_model["F1_Score"], 0.0001) == 0.9744
+    assert pytest.approx(dt_model["ROC_AUC"], 0.0001) == 0.9750
+    
+    # Random Forest & Naive Bayes
+    rf_model = next(m for m in data["models"] if "Random Forest" in m.get("Model", ""))
+    assert pytest.approx(rf_model["Accuracy"], 0.0001) == 1.0
+    assert pytest.approx(rf_model["F1_Score"], 0.0001) == 1.0
+    
+    gnb_model = next(m for m in data["models"] if "Gaussian Naive Bayes" in m.get("Model", ""))
+    assert pytest.approx(gnb_model["Accuracy"], 0.0001) == 1.0
+    
+    # Feature importance
+    assert len(data["feature_importance"]) == 6
 
 
 def test_models_regression():

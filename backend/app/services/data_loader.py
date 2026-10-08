@@ -312,13 +312,21 @@ class DataLoaderService:
     def get_classification_models(self) -> Dict[str, Any]:
         df_comp = self._read_csv_cached(settings.DASHBOARD_DATA_DIR / "model_classification_comparison.csv")
         df_cm = self._read_csv_cached(settings.DASHBOARD_DATA_DIR / "model_classification_confusion_matrices.csv")
+        df_feat = self._read_csv_cached(settings.OUTPUTS_TABLES_DIR / "stage13_feature_importance.csv")
         
         return {
-            "target": "High Volume Regime (Binary: >= Median Historical Volume)",
+            "task_definition": "Binary State/UT High-Volume Regime Classification (Unit 5 Syllabus Alignment)",
+            "target_definition": "HIGH_NEXT_YEAR ∈ {0, 1} (1 if target_year aggregate cases >= 367.0, 0 otherwise)",
+            "threshold": 367.0,
+            "threshold_derivation": "Derived strictly from the training partition median (Median(Y_train) = 367.0 cases across N=70 observations in target years 2020 and 2021). Zero test data used.",
             "evaluation_design": "Strict Chronological Split (Train: 2020-2021 N=70, Test: 2022 Held-Out N=36)",
-            "academic_caveat": "High accuracy figures reflect strong temporal volume persistence across states rather than commercial deployment grade risk forecasting.",
+            "train_obs_count": 70,
+            "test_obs_count": 36,
+            "features": ["lag_1", "lag_2", "lag_diff", "lag_growth_rate", "log_lag_1", "log_lag_2"],
             "models": df_comp.to_dict(orient="records"),
             "confusion_matrices": df_cm.to_dict(orient="records"),
+            "feature_importance": df_feat.to_dict(orient="records"),
+            "academic_disclaimer": "Historical volume regime classification evaluates whether historical volume scale and momentum predict next-year volume tiers. High accuracy figures reflect strong inter-temporal volume persistence across jurisdictions, NOT a causal criminological model.",
         }
 
     def get_regression_models(self) -> Dict[str, Any]:

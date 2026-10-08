@@ -190,8 +190,11 @@ Every endpoint adheres strictly to the audited national totals established in St
 
 #### 4.7.1 Classification Benchmark (Stage 13)
 - **Endpoint**: `GET /api/models/classification`
-- **Authoritative Provenance**: `dashboard/powerbi_data/model_classification_comparison.csv` & `model_classification_confusion_matrices.csv`
-- **Methodological Context**: Predicts whether a State/UT exhibits high annual cybercrime volume ($>1,000$ cases) based on historical volume lag features. Evaluated on 2022 held-out test set ($N=36$).
+- **Authoritative Provenance**: `dashboard/powerbi_data/model_classification_comparison.csv`, `model_classification_confusion_matrices.csv`, and `outputs/tables/stage13_feature_importance.csv`
+- **Methodological Context**: Evaluates binary high-volume regime classification ($\text{HIGH\_NEXT\_YEAR} = 1$ if $y_t \ge 367.0$ cases, else $0$) based on 6 historical lag features (`lag_1`, `lag_2`, `lag_diff`, `lag_growth_rate`, `log_lag_1`, `log_lag_2`) with zero contemporaneous leakage. Threshold ($367.0$) is derived strictly from the training partition median ($N_{\text{train}}=70$, target years 2020–2021). Evaluated on the 2022 held-out test partition ($N_{\text{test}}=36$).
+- **Evaluated Models**: Baseline Most Frequent ($44.44\%$), Decision Tree depth=3 ($97.22\%$, $\text{Balanced Acc}=97.50\%$, $\text{Precision}=100.0\%$, $\text{Recall}=95.00\%$, $\text{F1}=0.9744$, $\text{ROC-AUC}=0.9750$), Gaussian Naive Bayes ($100.0\%$), Linear SVM ($100.0\%$), RBF SVM ($100.0\%$), Random Forest ($100.0\%$).
+- **Feature Importance**: Decision Tree concentrates $94.44\%$ Gini importance on $\log(1+\text{lag}_1)$; Random Forest balances across $\log(1+\text{lag}_1)$ ($27.14\%$), $\log(1+\text{lag}_2)$ ($25.42\%$), $\text{lag}_2$ ($23.72\%$), $\text{lag}_1$ ($21.26\%$).
+- **Non-Causal Disclaimer**: High classification accuracy reflects strong temporal volume persistence across jurisdictions rather than commercial deployment readiness or causal determinants.
 - **Response Model**: `ClassificationResponse`
 
 #### 4.7.2 Predictive Regression Benchmark (Stages 7 & 14)
