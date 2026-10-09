@@ -935,12 +935,13 @@ Stage 19: UI Foundation (React + Vite) ─────────► Interactiv
 
 ---
 
-### Post-Final UI Branding Enhancement — NIRIKSHA
+### Post-Final UI Branding Enhancement & Refinement — NIRIKSHA
 
 - **Identity**: NIRIKSHA (Sanskrit: *निरीक्षा* — Observation / Examination / Inspection)
+- **Mnemonic Expansion**: *National Intelligence & Research for Insightful Knowledge in Security Analytics*
 - **Primary Descriptor**: Cyber Crime Intelligence & Analytics
 - **Academic Title**: Cyber Crime Analytics for National Security (retained in academic documentation & metadata)
-- **Scope**: Rebranded global TopNavigation header with bespoke geometric observation SVG mark, 7 capsule navigation pills, right-side system utilities (`● DATA VERIFIED · NCRB 2023`, `36 JURISDICTIONS`), GitHub repository link, and dual-theme Dark/Light workstation toggle with localStorage persistence.
+- **Scope**: Rebranded global TopNavigation header with bespoke geometric observation SVG mark, NIRIKSHA wordmark, Devanagari etymology, full mnemonic display (`National Intelligence & Research for Insightful Knowledge in Security Analytics`) with accessible info popover, 7 capsule navigation pills, right-side system utilities (`● DATA VERIFIED · NCRB 2023`, `36 JURISDICTIONS`), GitHub repository link, and dual-theme Dark/Light workstation toggle with localStorage persistence.
 - **Analytical Boundary**: Zero modifications to analytical core, datasets, database schema, ML models, or API endpoints. All 29 stages remain frozen.
 
 ---

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Sun, Moon, Menu, X } from 'lucide-react';
+import { Sun, Moon, Menu, X, Info } from 'lucide-react';
 import { NAV_ITEMS, PROJECT_METADATA } from '../../lib/constants';
 import { useTheme } from '../../context/useTheme';
 
@@ -71,6 +71,8 @@ const GithubIcon = ({ size = 16 }) => (
 
 export const TopNavigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mnemonicOpen, setMnemonicOpen] = useState(false);
+  const [mnemonicHover, setMnemonicHover] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -105,79 +107,171 @@ export const TopNavigation = () => {
         {/* ========================================================= */}
         {/* LEFT: NIRIKSHA PRODUCT IDENTITY                           */}
         {/* ========================================================= */}
-        <NavLink
-          to="/"
-          aria-label="NIRIKSHA — Cyber Crime Intelligence & Analytics Home"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'var(--space-3)',
-            textDecoration: 'none',
-            flexShrink: 0,
-          }}
-        >
-          {/* Brand Mark Container */}
-          <div
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+          <NavLink
+            to="/"
+            aria-label={`NIRIKSHA — ${PROJECT_METADATA.mnemonic}`}
             style={{
-              width: '34px',
-              height: '34px',
-              borderRadius: 'var(--radius-sm)',
-              backgroundColor: 'var(--bg-surface-elevated)',
-              border: '1px solid var(--border-strong)',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
+              gap: 'var(--space-3)',
+              textDecoration: 'none',
               flexShrink: 0,
-              boxShadow: 'var(--shadow-sm)',
             }}
           >
-            <NirikshaMark size={22} />
-          </div>
+            {/* Brand Mark Container */}
+            <div
+              style={{
+                width: '34px',
+                height: '34px',
+                borderRadius: 'var(--radius-sm)',
+                backgroundColor: 'var(--bg-surface-elevated)',
+                border: '1px solid var(--border-strong)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+                boxShadow: 'var(--shadow-sm)',
+              }}
+            >
+              <NirikshaMark size={22} />
+            </div>
 
-          {/* Brand Text Stack */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
-              <span
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 700,
-                  fontSize: '1rem',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: 'var(--text-primary)',
-                  lineHeight: 1.1,
-                }}
-              >
-                NIRIKSHA
-              </span>
+            {/* Brand Text Stack */}
+            <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 700,
+                    fontSize: '1rem',
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--text-primary)',
+                    lineHeight: 1.1,
+                  }}
+                >
+                  NIRIKSHA
+                </span>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '0.625rem',
+                    fontWeight: 500,
+                    color: 'var(--text-dim)',
+                    letterSpacing: '0.04em',
+                  }}
+                  title="निरीक्षा (Sanskrit): Observation / Examination / Inspection"
+                >
+                  निरीक्षा
+                </span>
+              </div>
               <span
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: '0.625rem',
+                  fontSize: '0.6875rem',
                   fontWeight: 500,
-                  color: 'var(--text-dim)',
-                  letterSpacing: '0.04em',
+                  color: 'var(--text-muted)',
+                  letterSpacing: '0.01em',
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
                 }}
-                title="निरीक्षा (Sanskrit): Observation / Examination / Inspection"
               >
-                निरीक्षा
+                {PROJECT_METADATA.descriptor}
+              </span>
+              <span
+                className="niriksha-mnemonic-desktop"
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.5625rem',
+                  fontWeight: 500,
+                  fontStyle: 'italic',
+                  color: 'var(--text-dim)',
+                  letterSpacing: '0.01em',
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: '380px',
+                }}
+                title={PROJECT_METADATA.mnemonic}
+              >
+                {PROJECT_METADATA.mnemonic}
               </span>
             </div>
-            <span
+          </NavLink>
+
+          {/* Mnemonic Info Trigger & Accessible Popover */}
+          <div className="niriksha-mnemonic-info-wrapper" style={{ position: 'relative', display: 'inline-flex' }}>
+            <button
+              type="button"
+              aria-label="NIRIKSHA Name Expansion Information"
+              title={`${PROJECT_METADATA.name}: ${PROJECT_METADATA.mnemonic}`}
+              onClick={() => setMnemonicOpen(!mnemonicOpen)}
+              onMouseEnter={() => setMnemonicHover(true)}
+              onMouseLeave={() => setMnemonicHover(false)}
+              onFocus={() => setMnemonicHover(true)}
+              onBlur={() => setMnemonicHover(false)}
               style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.6875rem',
-                fontWeight: 500,
-                color: 'var(--text-muted)',
-                letterSpacing: '0.01em',
-                lineHeight: 1.2,
-                whiteSpace: 'nowrap',
+                background: 'none',
+                border: 'none',
+                padding: '4px',
+                cursor: 'pointer',
+                color: mnemonicHover || mnemonicOpen ? 'var(--primary)' : 'var(--text-dim)',
+                borderRadius: 'var(--radius-full)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'color var(--transition-fast)',
               }}
             >
-              {PROJECT_METADATA.descriptor}
-            </span>
+              <Info size={13} />
+            </button>
+
+            {/* Mnemonic Popover / Tooltip */}
+            {(mnemonicHover || mnemonicOpen) && (
+              <div
+                role="tooltip"
+                style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 8px)',
+                  left: 0,
+                  zIndex: 110,
+                  width: '320px',
+                  padding: 'var(--space-3) var(--space-4)',
+                  backgroundColor: 'var(--bg-surface-elevated)',
+                  border: '1px solid var(--border-strong)',
+                  borderRadius: 'var(--radius-md)',
+                  boxShadow: 'var(--shadow-lg)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px',
+                  pointerEvents: 'none',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.8125rem', letterSpacing: '0.06em', color: 'var(--text-primary)' }}>
+                    NIRIKSHA <span style={{ fontWeight: 400, color: 'var(--text-muted)' }}>(निरीक्षा)</span>
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--primary)', fontWeight: 600 }}>
+                    MNEMONIC
+                  </span>
+                </div>
+                <div style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-sage-light)', lineHeight: 1.35, fontStyle: 'italic' }}>
+                  {PROJECT_METADATA.mnemonic}
+                </div>
+                <div style={{ fontFamily: 'var(--font-sans)', fontSize: '0.6875rem', color: 'var(--text-secondary)', lineHeight: 1.4, marginTop: '2px', borderTop: '1px solid var(--border-subtle)', paddingTop: '4px' }}>
+                  <strong style={{ color: 'var(--text-primary)' }}>Descriptor:</strong> {PROJECT_METADATA.descriptor}
+                </div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--text-dim)', lineHeight: 1.3 }}>
+                  निरीक्षा (Sanskrit): Vigilant observation, examination & deep analytics
+                </div>
+              </div>
+            )}
           </div>
-        </NavLink>
+        </div>
 
         {/* ========================================================= */}
         {/* CENTER: CAPSULE NAVIGATION (7 ROUTES)                     */}
@@ -376,6 +470,34 @@ export const TopNavigation = () => {
             boxShadow: 'var(--shadow-lg)',
           }}
         >
+          {/* Mobile Drawer Header Branding Card */}
+          <div
+            style={{
+              padding: 'var(--space-3)',
+              backgroundColor: 'var(--bg-surface-elevated)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 'var(--radius-sm)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '4px',
+              marginBottom: 'var(--space-2)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <NirikshaMark size={18} />
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.08em', color: 'var(--text-primary)' }}>
+                NIRIKSHA
+              </span>
+              <span style={{ fontSize: '0.6875rem', color: 'var(--text-dim)' }}>निरीक्षा</span>
+            </div>
+            <div style={{ fontSize: '0.6875rem', fontWeight: 500, color: 'var(--color-sage-light)', fontStyle: 'italic', lineHeight: 1.35 }}>
+              {PROJECT_METADATA.mnemonic}
+            </div>
+            <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)' }}>
+              {PROJECT_METADATA.descriptor}
+            </div>
+          </div>
+
           {NAV_ITEMS.map((item) => (
             <NavLink
               key={item.id}
@@ -452,7 +574,8 @@ export const TopNavigation = () => {
         }
         .niriksha-nav-pill:focus-visible,
         .utility-icon-btn:focus-visible,
-        .mobile-menu-toggle:focus-visible {
+        .mobile-menu-toggle:focus-visible,
+        .mnemonic-info-btn:focus-visible {
           outline: 2px solid var(--primary) !important;
           outline-offset: 2px;
         }
@@ -460,6 +583,11 @@ export const TopNavigation = () => {
           color: var(--text-primary) !important;
           border-color: var(--border-strong) !important;
           background-color: var(--bg-surface-hover) !important;
+        }
+        @media (max-width: 1280px) {
+          .niriksha-mnemonic-desktop {
+            display: none !important;
+          }
         }
         @media (max-width: 1100px) {
           .desktop-utility {

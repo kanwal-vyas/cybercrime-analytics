@@ -6,6 +6,7 @@
 
 export const PROJECT_METADATA = {
   name: 'NIRIKSHA',
+  mnemonic: 'National Intelligence & Research for Insightful Knowledge in Security Analytics',
   sanskrit: 'निरीक्षा',
   meaning: 'Observation / Examination / Inspection',
   descriptor: 'Cyber Crime Intelligence & Analytics',
