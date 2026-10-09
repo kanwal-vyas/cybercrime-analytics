@@ -70,6 +70,18 @@ export const PatternsPage = () => {
   const [selectedClusterFilter, setSelectedClusterFilter] = useState('ALL'); // 'ALL' | 0 | 1 | 2 | 3
   const [stateSearchQuery, setStateSearchQuery] = useState('');
   const [hoveredStatePoint, setHoveredStatePoint] = useState(null);
+  const [selectedStatePoint, setSelectedStatePoint] = useState(null);
+
+  // Global Escape key listener to clear cluster selection
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setSelectedStatePoint(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Fetch Pattern Mining & Clustering Data
   const fetchData = useCallback(async () => {
@@ -956,107 +968,252 @@ export const PatternsPage = () => {
             title="PCA Projection of Standardized Composition Features"
             subtitle="36 States & UTs projected onto First 2 Principal Components (Color = K-Means Cluster)"
             sourceNote="PCA axes summarize linear combinations of legal act and motive shares. Non-causal geometric embedding."
-            height="360px"
+            height="390px"
           >
-            <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-              <svg viewBox="0 0 700 280" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
-                {/* Grid Center Lines */}
-                <line x1="50" y1="140" x2="680" y2="140" stroke="rgba(255, 255, 255, 0.06)" strokeDasharray="3 3" />
-                <line x1="365" y1="20" x2="365" y2="260" stroke="rgba(255, 255, 255, 0.06)" strokeDasharray="3 3" />
-
-                {/* Axis Labels */}
-                <text x="365" y="275" fill="var(--text-muted)" fontSize="10" fontFamily="var(--font-mono)" textAnchor="middle">
-                  PCA COMPONENT 1 (PRINCIPAL SPREAD)
-                </text>
-                <text x="20" y="140" fill="var(--text-muted)" fontSize="10" fontFamily="var(--font-mono)" textAnchor="middle" transform="rotate(-90 20 140)">
-                  PCA COMPONENT 2
-                </text>
-
-                {/* State Points */}
-                {stateAssignments.map((st) => {
-                  // PCA1 range: [-3.5, 3.5] -> [80, 650]
-                  // PCA2 range: [-2.5, 3.5] -> [250, 30]
-                  const x = 365 + (st.PCA1 / 3.8) * 280;
-                  const y = 140 - (st.PCA2 / 3.8) * 110;
-                  const cfg = CLUSTER_COLORS[st.cluster_id] || { color: '#85A289' };
-                  const isHovered = hoveredStatePoint?.state_name === st.state_name;
-                  const isFilteredOut = selectedClusterFilter !== 'ALL' && String(st.cluster_id) !== selectedClusterFilter;
-
-                  return (
-                    <g
-                      key={st.state_name}
-                      onMouseEnter={() => setHoveredStatePoint(st)}
-                      onMouseLeave={() => setHoveredStatePoint(null)}
-                      style={{ cursor: 'pointer', opacity: isFilteredOut ? 0.15 : 1, transition: 'opacity 0.2s ease' }}
-                    >
-                      <circle
-                        cx={x}
-                        cy={y}
-                        r={isHovered ? 7 : 5}
-                        fill={cfg.color}
-                        fillOpacity={isHovered ? 1 : 0.85}
-                        stroke={isHovered ? '#ffffff' : 'var(--bg-surface)'}
-                        strokeWidth={isHovered ? 2 : 1}
-                        style={{ transition: 'all 0.2s ease' }}
-                      />
-                      {(isHovered || st.total_cases >= 3000 || st.cluster_id === 2) && (
-                        <text
-                          x={x + 7}
-                          y={y + 3}
-                          fill={isHovered ? 'var(--text-primary)' : 'var(--text-muted)'}
-                          fontSize={isHovered ? '11' : '9'}
-                          fontFamily="var(--font-mono)"
-                          fontWeight={isHovered ? '700' : '500'}
-                        >
-                          {st.state_name.replace(' and ', ' & ')}
-                        </text>
-                      )}
-                    </g>
-                  );
-                })}
-              </svg>
-
-              {/* Hover Tooltip for PCA Point */}
-              {hoveredStatePoint && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '10px',
-                    right: '10px',
-                    backgroundColor: 'var(--bg-surface-elevated)',
-                    border: `1px solid ${CLUSTER_COLORS[hoveredStatePoint.cluster_id]?.color || 'var(--primary)'}`,
-                    borderRadius: 'var(--radius-sm)',
-                    padding: 'var(--space-3)',
-                    boxShadow: 'var(--shadow-lg)',
-                    fontSize: 'var(--text-xs)',
-                    fontFamily: 'var(--font-mono)',
-                    zIndex: 10,
-                    minWidth: '240px',
-                  }}
-                >
-                  <div style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: '4px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '2px' }}>
-                    {hoveredStatePoint.state_name}
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
-                    <span>Assigned Profile:</span>
-                    <strong style={{ color: CLUSTER_COLORS[hoveredStatePoint.cluster_id]?.color }}>
-                      Cluster {hoveredStatePoint.cluster_id} ({CLUSTER_COLORS[hoveredStatePoint.cluster_id]?.label})
-                    </strong>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
-                    <span>2023 Cases:</span>
-                    <strong style={{ color: 'var(--text-primary)' }}>{hoveredStatePoint.total_cases.toLocaleString()}</strong>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
-                    <span>IT Act Share:</span>
-                    <strong style={{ color: 'var(--text-primary)' }}>{(hoveredStatePoint.it_act_share * 100).toFixed(1)}%</strong>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
-                    <span>Fraud Motive Share:</span>
-                    <strong style={{ color: 'var(--text-primary)' }}>{(hoveredStatePoint.fraud_motive_share * 100).toFixed(1)}%</strong>
-                  </div>
+            <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+              {/* Interactive Status & Selection Control Bar */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '4px 10px',
+                  backgroundColor: 'var(--bg-surface-elevated)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '0.6875rem',
+                  fontFamily: 'var(--font-mono)',
+                  flexWrap: 'wrap',
+                  gap: 'var(--space-2)',
+                }}
+              >
+                <div style={{ color: 'var(--text-secondary)' }}>
+                  {selectedStatePoint ? (
+                    <span>
+                      Selected:{' '}
+                      <strong style={{ color: 'var(--text-primary)' }}>{selectedStatePoint.state_name}</strong>{' '}
+                      <span style={{ color: CLUSTER_COLORS[selectedStatePoint.cluster_id]?.color, fontWeight: 600 }}>
+                        (Cluster {selectedStatePoint.cluster_id} · {CLUSTER_COLORS[selectedStatePoint.cluster_id]?.label})
+                      </span>{' '}
+                      <button
+                        type="button"
+                        onClick={() => setSelectedStatePoint(null)}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: 'var(--color-sage-light)',
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
+                          fontFamily: 'inherit',
+                          fontSize: 'inherit',
+                          padding: 0,
+                          marginLeft: '6px',
+                        }}
+                      >
+                        (Clear Selection)
+                      </button>
+                    </span>
+                  ) : (
+                    'Click point or table row to lock persistent inspection • Esc to clear'
+                  )}
                 </div>
-              )}
+                <div style={{ color: 'var(--text-dim)' }}>
+                  {selectedClusterFilter !== 'ALL' ? `Filter Active: Cluster ${selectedClusterFilter}` : 'Showing all 36 jurisdictions'}
+                </div>
+              </div>
+
+              {/* Chart Grid: Scatter SVG on Left, Selected State Profile Card on Right when selected */}
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: selectedStatePoint ? 'minmax(0, 1fr) 250px' : '1fr',
+                  gap: 'var(--space-3)',
+                  alignItems: 'stretch',
+                  minHeight: '270px',
+                  position: 'relative',
+                }}
+              >
+                <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '270px' }}>
+                  <svg viewBox="0 0 700 280" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+                    {/* Grid Center Lines */}
+                    <line x1="50" y1="140" x2="680" y2="140" stroke="rgba(255, 255, 255, 0.06)" strokeDasharray="3 3" />
+                    <line x1="365" y1="20" x2="365" y2="260" stroke="rgba(255, 255, 255, 0.06)" strokeDasharray="3 3" />
+
+                    {/* Axis Labels */}
+                    <text x="365" y="275" fill="var(--text-muted)" fontSize="10" fontFamily="var(--font-mono)" textAnchor="middle">
+                      PCA COMPONENT 1 (PRINCIPAL SPREAD)
+                    </text>
+                    <text x="20" y="140" fill="var(--text-muted)" fontSize="10" fontFamily="var(--font-mono)" textAnchor="middle" transform="rotate(-90 20 140)">
+                      PCA COMPONENT 2
+                    </text>
+
+                    {/* State Points */}
+                    {stateAssignments.map((st) => {
+                      const x = 365 + (st.PCA1 / 3.8) * 280;
+                      const y = 140 - (st.PCA2 / 3.8) * 110;
+                      const cfg = CLUSTER_COLORS[st.cluster_id] || { color: '#85A289' };
+                      const isHovered = hoveredStatePoint?.state_name === st.state_name;
+                      const isSelected = selectedStatePoint?.state_name === st.state_name;
+                      const isFilteredOut = selectedClusterFilter !== 'ALL' && String(st.cluster_id) !== selectedClusterFilter;
+
+                      let opacity = 1;
+                      if (selectedStatePoint) {
+                        opacity = isSelected ? 1 : 0.22;
+                      } else if (isFilteredOut) {
+                        opacity = 0.15;
+                      }
+
+                      return (
+                        <g
+                          key={st.state_name}
+                          onClick={() => setSelectedStatePoint(isSelected ? null : st)}
+                          onMouseEnter={() => setHoveredStatePoint(st)}
+                          onMouseLeave={() => setHoveredStatePoint(null)}
+                          style={{ cursor: 'pointer', opacity, transition: 'opacity 0.2s ease' }}
+                        >
+                          <circle
+                            cx={x}
+                            cy={y}
+                            r={isSelected ? 9 : isHovered ? 7 : 5}
+                            fill={cfg.color}
+                            fillOpacity={isSelected ? 1 : isHovered ? 1 : 0.85}
+                            stroke={isSelected ? '#ffffff' : isHovered ? '#ffffff' : 'var(--bg-surface)'}
+                            strokeWidth={isSelected ? 2.5 : isHovered ? 2 : 1}
+                            style={{ transition: 'all 0.2s ease' }}
+                          />
+                          {(isSelected || isHovered || (!selectedStatePoint && (st.total_cases >= 3500 || st.cluster_id === 2))) && (
+                            <text
+                              x={x + (isSelected ? 10 : 7)}
+                              y={y + 3}
+                              fill={isSelected ? '#ffffff' : isHovered ? 'var(--text-primary)' : 'var(--text-muted)'}
+                              fontSize={isSelected ? '11' : isHovered ? '11' : '9'}
+                              fontFamily="var(--font-mono)"
+                              fontWeight={isSelected || isHovered ? '700' : '500'}
+                            >
+                              {st.state_name.replace(' and ', ' & ')}
+                            </text>
+                          )}
+                        </g>
+                      );
+                    })}
+                  </svg>
+
+                  {/* Hover Tooltip (Shown when hovering a non-selected point or when no selection is locked) */}
+                  {hoveredStatePoint && (!selectedStatePoint || hoveredStatePoint.state_name !== selectedStatePoint.state_name) && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '8px',
+                        left: '8px',
+                        backgroundColor: 'var(--bg-surface-elevated)',
+                        border: `1px solid ${CLUSTER_COLORS[hoveredStatePoint.cluster_id]?.color || 'var(--primary)'}`,
+                        borderRadius: 'var(--radius-sm)',
+                        padding: 'var(--space-2) var(--space-3)',
+                        boxShadow: 'var(--shadow-lg)',
+                        fontSize: 'var(--text-xs)',
+                        fontFamily: 'var(--font-mono)',
+                        zIndex: 10,
+                        maxWidth: '220px',
+                        pointerEvents: 'none',
+                      }}
+                    >
+                      <div style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px' }}>
+                        {hoveredStatePoint.state_name}
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)', fontSize: '0.6875rem' }}>
+                        <span>Cluster:</span>
+                        <strong style={{ color: CLUSTER_COLORS[hoveredStatePoint.cluster_id]?.color }}>
+                          C{hoveredStatePoint.cluster_id} ({CLUSTER_COLORS[hoveredStatePoint.cluster_id]?.label})
+                        </strong>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)', fontSize: '0.6875rem' }}>
+                        <span>2023 Cases:</span>
+                        <strong style={{ color: 'var(--text-primary)' }}>{hoveredStatePoint.total_cases.toLocaleString()}</strong>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Right: Selected State Persistent Detail Panel */}
+                {selectedStatePoint && (
+                  <div
+                    style={{
+                      backgroundColor: 'var(--bg-surface-elevated)',
+                      border: `1px solid ${CLUSTER_COLORS[selectedStatePoint.cluster_id]?.border || 'var(--border-default)'}`,
+                      borderLeft: `4px solid ${CLUSTER_COLORS[selectedStatePoint.cluster_id]?.color || 'var(--color-sage-light)'}`,
+                      borderRadius: 'var(--radius-sm)',
+                      padding: 'var(--space-3)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      fontSize: 'var(--text-xs)',
+                      fontFamily: 'var(--font-mono)',
+                      animation: 'fadeIn 0.2s ease-in-out',
+                    }}
+                  >
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-2)', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '4px' }}>
+                        <span style={{ fontSize: '0.625rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Selected Jurisdiction</span>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedStatePoint(null)}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: 'var(--text-dim)',
+                            cursor: 'pointer',
+                            fontSize: '0.625rem',
+                            padding: 0,
+                          }}
+                        >
+                          ✕ Close
+                        </button>
+                      </div>
+
+                      <div style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 'var(--space-2)' }}>
+                        {selectedStatePoint.state_name}
+                      </div>
+
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.6875rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span style={{ color: 'var(--text-secondary)' }}>Cluster Membership:</span>
+                          <strong style={{ color: CLUSTER_COLORS[selectedStatePoint.cluster_id]?.color }}>
+                            Cluster {selectedStatePoint.cluster_id} ({CLUSTER_COLORS[selectedStatePoint.cluster_id]?.label})
+                          </strong>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span style={{ color: 'var(--text-secondary)' }}>2023 Total Cases:</span>
+                          <strong style={{ color: 'var(--text-primary)' }}>{selectedStatePoint.total_cases.toLocaleString()}</strong>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span style={{ color: 'var(--text-secondary)' }}>IT Act Share:</span>
+                          <strong style={{ color: 'var(--color-sage-light)' }}>{(selectedStatePoint.it_act_share * 100).toFixed(1)}%</strong>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span style={{ color: 'var(--text-secondary)' }}>Fraud Motive:</span>
+                          <strong style={{ color: 'var(--color-mauve-dusty)' }}>{(selectedStatePoint.fraud_motive_share * 100).toFixed(1)}%</strong>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span style={{ color: 'var(--text-secondary)' }}>Extortion Motive:</span>
+                          <strong style={{ color: 'var(--text-primary)' }}>{(selectedStatePoint.extortion_motive_share * 100).toFixed(1)}%</strong>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span style={{ color: 'var(--text-secondary)' }}>Sex Expl Motive:</span>
+                          <strong style={{ color: 'var(--status-warning)' }}>{(selectedStatePoint.sexual_exploitation_motive_share * 100).toFixed(1)}%</strong>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '4px', borderTop: '1px solid var(--border-subtle)', color: 'var(--text-dim)' }}>
+                          <span>PCA Coordinates:</span>
+                          <span>({selectedStatePoint.PCA1.toFixed(2)}, {selectedStatePoint.PCA2.toFixed(2)})</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ fontSize: '0.625rem', color: 'var(--text-dim)', marginTop: 'var(--space-2)', paddingTop: '4px', borderTop: '1px solid var(--border-subtle)' }}>
+                      Click point again or press Esc to deselect.
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Explicit 4-Color Category Legend */}
@@ -1180,6 +1337,8 @@ export const PatternsPage = () => {
               columns={stateClusteringColumns}
               data={filteredStateAssignments}
               rowKey="state_name"
+              selectedRowKey={selectedStatePoint?.state_name}
+              onRowClick={(row) => setSelectedStatePoint(selectedStatePoint?.state_name === row.state_name ? null : row)}
               emptyMessage="No State/UT found for current cluster and search filter."
             />
           </Panel>
