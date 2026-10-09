@@ -941,7 +941,9 @@ Stage 19: UI Foundation (React + Vite) ─────────► Interactiv
 - **Mnemonic Expansion**: *National Intelligence & Research for Insightful Knowledge in Security Analytics*
 - **Primary Descriptor**: Cyber Crime Intelligence & Analytics
 - **Academic Title**: Cyber Crime Analytics for National Security (retained in academic documentation & metadata)
-- **Scope**: Rebranded global TopNavigation header with bespoke geometric observation SVG mark, NIRIKSHA wordmark, Devanagari etymology, full mnemonic display (`National Intelligence & Research for Insightful Knowledge in Security Analytics`) with accessible info popover, 7 capsule navigation pills, right-side system utilities (`● DATA VERIFIED · NCRB 2023`, `36 JURISDICTIONS`), GitHub repository link, and dual-theme Dark/Light workstation toggle with localStorage persistence.
+- **Scope**:
+  - Global TopNavigation header with bespoke geometric observation SVG mark, NIRIKSHA wordmark, Devanagari etymology, full mnemonic display (`National Intelligence & Research for Insightful Knowledge in Security Analytics`), 7 capsule navigation pills, right-side system utilities (`● DATA VERIFIED · NCRB 2023`, `36 JURISDICTIONS`), GitHub repository link, and dual-theme Dark/Light workstation toggle with localStorage persistence.
+  - Premium, restrained NIRIKSHA Branded Loading Experience (`BrandedLoader.jsx`) for initial application workstation initialization, featuring the 4-color semantic analytical network motif (Sage `#85A289`, Dusty Mauve `#B296AE`, Amber `#D6A15D`, Slate Blue `#607D8B`), smooth indeterminate activity progress line, dark (#090C0A) / light (#F5F3EF) token harmony, and full `prefers-reduced-motion` accessibility support.
 - **Analytical Boundary**: Zero modifications to analytical core, datasets, database schema, ML models, or API endpoints. All 29 stages remain frozen.
 
 ---
