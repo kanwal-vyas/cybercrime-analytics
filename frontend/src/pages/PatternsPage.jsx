@@ -28,6 +28,29 @@ const CLUSTER_COLORS = {
   3: { color: '#607D8B', name: 'Cluster 3 (Higher Extortion Share)', bg: 'rgba(96, 125, 139, 0.15)', border: 'rgba(96, 125, 139, 0.35)', label: 'Slate Blue' },
 };
 
+const RULE_CATEGORIES = {
+  FRAUD: { name: 'Fraud & Sec. 66D Personation', color: '#85A289', bg: 'rgba(133, 162, 137, 0.15)', border: 'rgba(133, 162, 137, 0.35)', label: 'Sage' },
+  EXTORTION: { name: 'Extortion Motive Linkages', color: '#B296AE', bg: 'rgba(178, 150, 174, 0.15)', border: 'rgba(178, 150, 174, 0.35)', label: 'Mauve' },
+  VULNERABLE: { name: 'Sexual Exploitation / Vulnerable', color: '#D6A15D', bg: 'rgba(214, 161, 93, 0.15)', border: 'rgba(214, 161, 93, 0.35)', label: 'Amber' },
+  IDENTITY: { name: 'Identity Theft (Sec. 66C)', color: '#607D8B', bg: 'rgba(96, 125, 139, 0.15)', border: 'rgba(96, 125, 139, 0.35)', label: 'Slate Blue' },
+};
+
+const getRuleCategory = (r) => {
+  if (!r) return RULE_CATEGORIES.FRAUD;
+  const ante = (r.antecedent || '').toUpperCase();
+  const cons = (r.consequent || '').toUpperCase();
+  if (ante.includes('FRAUD') || cons.includes('FRAUD') || ante.includes('SEC66D') || cons.includes('SEC66D')) {
+    return RULE_CATEGORIES.FRAUD;
+  }
+  if (ante.includes('EXTORTION') || cons.includes('EXTORTION')) {
+    return RULE_CATEGORIES.EXTORTION;
+  }
+  if (ante.includes('SEXUAL') || cons.includes('SEXUAL') || ante.includes('WOMEN') || cons.includes('WOMEN') || ante.includes('CHILD') || cons.includes('CHILD')) {
+    return RULE_CATEGORIES.VULNERABLE;
+  }
+  return RULE_CATEGORIES.IDENTITY;
+};
+
 export const PatternsPage = () => {
   // Primary API Data State
   const [associationData, setAssociationData] = useState(null);
@@ -368,16 +391,16 @@ export const PatternsPage = () => {
           description="129 Frequent Itemsets mined via Apriori & FP-Growth (100% equivalence)"
           badgeVariant="neutral"
           statusBadge="42 Pair Rules"
-          accentColor="var(--color-sage-light)"
+          accentColor="#85A289"
           icon={GitMerge}
         />
         <MetricCard
           label="KEY HIGHLIGHTED RULE"
           value="Lift 1.67"
           description="HIGH_FRAUD_MOTIVE ⇒ HIGH_SEC66D_CHEATING (Supp: 41.7%, Conf: 83.3%)"
-          badgeVariant="success"
+          badgeVariant="mauve"
           statusBadge="Syllabus Benchmark"
-          accentColor="var(--color-sage-deep)"
+          accentColor="#B296AE"
           icon={Sparkles}
         />
         <MetricCard
@@ -385,9 +408,9 @@ export const PatternsPage = () => {
           value="0.3497"
           unit="SILHOUETTE"
           description="K-Means (K=4, StandardScaler) • Calinski-Harabasz: 20.25"
-          badgeVariant="success"
+          badgeVariant="warning"
           statusBadge="4 Profiles"
-          accentColor="var(--color-mauve-dusty)"
+          accentColor="#D6A15D"
           icon={Layers}
         />
         <MetricCard
@@ -395,9 +418,9 @@ export const PatternsPage = () => {
           value="Cluster 2"
           unit="N=2 UTs"
           description="Dadra & Nagar Haveli (N=6), Lakshadweep (N=1) absorb extreme sex-expl share"
-          badgeVariant="warning"
+          badgeVariant="info"
           statusBadge="Cautionary Tag"
-          accentColor="var(--status-warning)"
+          accentColor="#607D8B"
           icon={AlertTriangle}
         />
       </div>
@@ -464,9 +487,9 @@ export const PatternsPage = () => {
           </Panel>
 
           {/* Featured Academic Association Rules */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-4)', marginBottom: 'var(--space-6)' }}>
-            <Panel variant="elevated" style={{ borderLeft: '3px solid var(--color-sage-light)' }}>
-              <div className="tech-label" style={{ fontSize: '0.625rem', color: 'var(--color-sage-light)', marginBottom: '4px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 'var(--space-4)', marginBottom: 'var(--space-6)' }}>
+            <Panel variant="elevated" style={{ borderLeft: '3px solid #85A289' }}>
+              <div className="tech-label" style={{ fontSize: '0.625rem', color: '#85A289', marginBottom: '4px' }}>
                 PRIMARY SYLLABUS BENCHMARK
               </div>
               <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '6px' }}>
@@ -474,33 +497,50 @@ export const PatternsPage = () => {
               </div>
               <div style={{ display: 'flex', gap: '12px', fontSize: '0.6875rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                 <span>Supp: <strong style={{ color: 'var(--text-primary)' }}>41.7%</strong></span>
-                <span>Conf: <strong style={{ color: 'var(--color-sage-light)' }}>83.3%</strong></span>
-                <span>Lift: <strong style={{ color: 'var(--status-warning)' }}>1.67</strong></span>
+                <span>Conf: <strong style={{ color: '#85A289' }}>83.3%</strong></span>
+                <span>Lift: <strong style={{ color: '#D6A15D' }}>1.67</strong></span>
               </div>
               <div style={{ fontSize: '0.625rem', color: 'var(--text-dim)', marginTop: '4px' }}>
                 State-level co-occurrence of high fraud motivation and Section 66D cyber cheating.
               </div>
             </Panel>
 
-            <Panel variant="elevated" style={{ borderLeft: '3px solid var(--color-mauve-dusty)' }}>
-              <div className="tech-label" style={{ fontSize: '0.625rem', color: 'var(--color-mauve-dusty)', marginBottom: '4px' }}>
-                EXTORTION & SEXUAL EXPLOITATION CO-OCCURRENCE
+            <Panel variant="elevated" style={{ borderLeft: '3px solid #B296AE' }}>
+              <div className="tech-label" style={{ fontSize: '0.625rem', color: '#B296AE', marginBottom: '4px' }}>
+                EXTORTION & SEXUAL EXPLOITATION
               </div>
               <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '6px' }}>
                 Extortion Motive ⇒ Sexual Exploitation
               </div>
               <div style={{ display: 'flex', gap: '12px', fontSize: '0.6875rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                 <span>Supp: <strong style={{ color: 'var(--text-primary)' }}>47.2%</strong></span>
-                <span>Conf: <strong style={{ color: 'var(--color-sage-light)' }}>94.4%</strong></span>
-                <span>Lift: <strong style={{ color: 'var(--status-warning)' }}>1.89</strong></span>
+                <span>Conf: <strong style={{ color: '#85A289' }}>94.4%</strong></span>
+                <span>Lift: <strong style={{ color: '#D6A15D' }}>1.89</strong></span>
               </div>
               <div style={{ fontSize: '0.625rem', color: 'var(--text-dim)', marginTop: '4px' }}>
                 Strongest pairwise rule with 94.4% conditional confidence across 17 states.
               </div>
             </Panel>
 
-            <Panel variant="elevated" style={{ borderLeft: '3px solid var(--status-warning)' }}>
-              <div className="tech-label" style={{ fontSize: '0.625rem', color: 'var(--status-warning)', marginBottom: '4px' }}>
+            <Panel variant="elevated" style={{ borderLeft: '3px solid #D6A15D' }}>
+              <div className="tech-label" style={{ fontSize: '0.625rem', color: '#D6A15D', marginBottom: '4px' }}>
+                SEXUAL EXPLOITATION & VULNERABLE
+              </div>
+              <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '6px' }}>
+                Sex Expl Motive ⇒ Child Cybercrime
+              </div>
+              <div style={{ display: 'flex', gap: '12px', fontSize: '0.6875rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                <span>Supp: <strong style={{ color: 'var(--text-primary)' }}>44.4%</strong></span>
+                <span>Conf: <strong style={{ color: '#85A289' }}>88.9%</strong></span>
+                <span>Lift: <strong style={{ color: '#D6A15D' }}>1.78</strong></span>
+              </div>
+              <div style={{ fontSize: '0.625rem', color: 'var(--text-dim)', marginTop: '4px' }}>
+                High sexual exploitation states strongly co-occur with high child victim FIRs.
+              </div>
+            </Panel>
+
+            <Panel variant="elevated" style={{ borderLeft: '3px solid #607D8B' }}>
+              <div className="tech-label" style={{ fontSize: '0.625rem', color: '#607D8B', marginBottom: '4px' }}>
                 IDENTITY THEFT & EXTORTION LINKAGE
               </div>
               <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '6px' }}>
@@ -508,8 +548,8 @@ export const PatternsPage = () => {
               </div>
               <div style={{ display: 'flex', gap: '12px', fontSize: '0.6875rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                 <span>Supp: <strong style={{ color: 'var(--text-primary)' }}>47.2%</strong></span>
-                <span>Conf: <strong style={{ color: 'var(--color-sage-light)' }}>94.4%</strong></span>
-                <span>Lift: <strong style={{ color: 'var(--status-warning)' }}>1.79</strong></span>
+                <span>Conf: <strong style={{ color: '#85A289' }}>94.4%</strong></span>
+                <span>Lift: <strong style={{ color: '#D6A15D' }}>1.79</strong></span>
               </div>
               <div style={{ fontSize: '0.625rem', color: 'var(--text-dim)', marginTop: '4px' }}>
                 High extortion states reliably co-exhibit above-median identity theft FIR volume.
@@ -657,8 +697,9 @@ export const PatternsPage = () => {
                 {rawRules.map((r) => {
                   const x = 50 + ((r.confidence - 0.60) / 0.40) * 620;
                   const y = 220 - ((r.lift - 1.0) / 1.0) * 190;
-                  const radius = 4 + (r.support / 0.50) * 8;
+                  const radius = 5 + (r.support / 0.50) * 8;
                   const isHovered = hoveredRule?.rule_id === r.rule_id;
+                  const cat = getRuleCategory(r);
 
                   return (
                     <g
@@ -671,9 +712,9 @@ export const PatternsPage = () => {
                         cx={x}
                         cy={y}
                         r={isHovered ? radius + 3 : radius}
-                        fill={r.lift >= 1.75 ? 'var(--status-warning)' : 'var(--color-sage-light)'}
-                        fillOpacity={isHovered ? 1 : 0.65}
-                        stroke={isHovered ? '#ffffff' : 'var(--border-default)'}
+                        fill={cat.color}
+                        fillOpacity={isHovered ? 1 : 0.80}
+                        stroke={isHovered ? '#ffffff' : 'var(--bg-surface)'}
                         strokeWidth={isHovered ? 2 : 1}
                         style={{ transition: 'all 0.2s ease' }}
                       />
@@ -690,18 +731,24 @@ export const PatternsPage = () => {
                     top: '10px',
                     right: '10px',
                     backgroundColor: 'rgba(14, 19, 16, 0.95)',
-                    border: '1px solid var(--color-sage-light)',
+                    border: `1px solid ${getRuleCategory(hoveredRule).color}`,
                     borderRadius: 'var(--radius-sm)',
                     padding: 'var(--space-3)',
                     boxShadow: 'var(--shadow-lg)',
                     fontSize: 'var(--text-xs)',
                     fontFamily: 'var(--font-mono)',
                     zIndex: 10,
-                    minWidth: '240px',
+                    minWidth: '260px',
                   }}
                 >
-                  <div style={{ fontWeight: 700, color: 'var(--color-sage-light)', marginBottom: '4px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '2px' }}>
+                  <div style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: '4px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '2px' }}>
                     {hoveredRule.rule_id}: {hoveredRule.antecedent.replace('HIGH_', '')} ⇒ {hoveredRule.consequent.replace('HIGH_', '')}
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
+                    <span>Crime Theme:</span>
+                    <strong style={{ color: getRuleCategory(hoveredRule).color }}>
+                      {getRuleCategory(hoveredRule).name}
+                    </strong>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
                     <span>Confidence:</span>
@@ -717,6 +764,43 @@ export const PatternsPage = () => {
                   </div>
                 </div>
               )}
+            </div>
+
+            {/* Explicit 4-Color Category Legend */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 'var(--space-4)',
+                flexWrap: 'wrap',
+                padding: 'var(--space-2) var(--space-4)',
+                borderTop: '1px solid var(--border-subtle)',
+                backgroundColor: 'var(--bg-surface-elevated)',
+                fontSize: '0.6875rem',
+                fontFamily: 'var(--font-mono)',
+              }}
+            >
+              {[
+                { name: 'Fraud & Sec. 66D Personation', color: '#85A289' },
+                { name: 'Extortion Motive Linkages', color: '#B296AE' },
+                { name: 'Sexual Exploitation / Vulnerable', color: '#D6A15D' },
+                { name: 'Identity Theft (Sec. 66C)', color: '#607D8B' },
+              ].map((item) => (
+                <div
+                  key={item.name}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '2px 6px',
+                    fontSize: '0.6875rem',
+                  }}
+                >
+                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color }} />
+                  <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{item.name}</span>
+                </div>
+              ))}
             </div>
           </ChartContainer>
         </div>
