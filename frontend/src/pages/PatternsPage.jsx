@@ -38,17 +38,16 @@ const RULE_CATEGORIES = {
 const getRuleCategory = (r) => {
   if (!r) return RULE_CATEGORIES.FRAUD;
   const ante = (r.antecedent || '').toUpperCase();
-  const cons = (r.consequent || '').toUpperCase();
-  if (ante.includes('FRAUD') || cons.includes('FRAUD') || ante.includes('SEC66D') || cons.includes('SEC66D')) {
-    return RULE_CATEGORIES.FRAUD;
+  if (ante.includes('IDENTITY') || ante.includes('SEC66C')) {
+    return RULE_CATEGORIES.IDENTITY;
   }
-  if (ante.includes('EXTORTION') || cons.includes('EXTORTION')) {
-    return RULE_CATEGORIES.EXTORTION;
-  }
-  if (ante.includes('SEXUAL') || cons.includes('SEXUAL') || ante.includes('WOMEN') || cons.includes('WOMEN') || ante.includes('CHILD') || cons.includes('CHILD')) {
+  if (ante.includes('SEXUAL') || ante.includes('WOMEN') || ante.includes('CHILD')) {
     return RULE_CATEGORIES.VULNERABLE;
   }
-  return RULE_CATEGORIES.IDENTITY;
+  if (ante.includes('EXTORTION')) {
+    return RULE_CATEGORIES.EXTORTION;
+  }
+  return RULE_CATEGORIES.FRAUD;
 };
 
 export const PatternsPage = () => {
