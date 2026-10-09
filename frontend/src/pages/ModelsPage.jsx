@@ -41,6 +41,18 @@ export const ModelsPage = () => {
   const [predictionModelKey, setPredictionModelKey] = useState('pred_log_linear'); // 'pred_log_linear' | 'pred_naive_lag1' | 'pred_linear_raw' | 'pred_random_forest'
   const [stateSearchQuery, setStateSearchQuery] = useState('');
   const [hoveredScatterPoint, setHoveredScatterPoint] = useState(null);
+  const [selectedStateName, setSelectedStateName] = useState(null);
+
+  // Global Escape key listener to clear scatter selection
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setSelectedStateName(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Fetch ML Model Data from FastAPI backend
   const fetchData = useCallback(async () => {
@@ -78,6 +90,12 @@ export const ModelsPage = () => {
   // Derived Regression Data
   const regModels = useMemo(() => regressionData?.models || [], [regressionData]);
   const actualVsPredicted = useMemo(() => regressionData?.actual_vs_predicted || [], [regressionData]);
+
+  // Active Selected State for Regression Diagnostic
+  const selectedPrediction = useMemo(() => {
+    if (!selectedStateName) return null;
+    return actualVsPredicted.find((item) => item.state_name === selectedStateName) || null;
+  }, [actualVsPredicted, selectedStateName]);
 
   // Filtered State Predictions for DataTable
   const filteredPredictions = useMemo(() => {
@@ -768,7 +786,7 @@ export const ModelsPage = () => {
             title="State/UT Cybercrime Volume: Actual vs Predicted (2022)"
             subtitle="Evaluating 2022 Observed Registration against Model Fitted Trajectory (N = 36 States & UTs)"
             sourceNote="Identity Line (y = x) represents perfect estimation. Points above indicate overprediction; points below indicate underprediction."
-            height="440px"
+            height="460px"
             controls={
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ fontSize: '0.6875rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>CANDIDATE MODEL:</span>
@@ -795,15 +813,14 @@ export const ModelsPage = () => {
               </div>
             }
           >
-            <div style={{ width: '100%', height: '100%', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
               {/* Compact Analytical Legend Bar */}
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  padding: '4px 8px',
-                  marginBottom: 'var(--space-2)',
+                  padding: '5px 10px',
                   backgroundColor: 'var(--bg-surface-elevated)',
                   border: '1px solid var(--border-subtle)',
                   borderRadius: 'var(--radius-sm)',
@@ -823,174 +840,424 @@ export const ModelsPage = () => {
                     <span style={{ color: 'var(--text-secondary)' }}>State/UT Observation (N = 36)</span>
                   </div>
                 </div>
-                <div style={{ color: 'var(--text-dim)', fontSize: '0.625rem' }}>
-                  Hover points for exact residual breakdown
+                <div style={{ color: 'var(--text-dim)', fontSize: '0.6875rem' }}>
+                  {selectedStateName ? (
+                    <span>
+                      Selected: <strong style={{ color: 'var(--text-primary)' }}>{selectedStateName}</strong>{' '}
+                      <button
+                        type="button"
+                        onClick={() => setSelectedStateName(null)}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: 'var(--primary)',
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
+                          fontFamily: 'inherit',
+                          fontSize: 'inherit',
+                          padding: 0,
+                          marginLeft: '4px',
+                        }}
+                      >
+                        (Clear)
+                      </button>
+                    </span>
+                  ) : (
+                    'Click point to lock persistent inspection • Esc to clear'
+                  )}
                 </div>
               </div>
 
-              {/* Responsive SVG Scatter Plot Area */}
-              <div style={{ width: '100%', height: '360px', position: 'relative' }}>
-                <svg
-                  viewBox="0 0 720 360"
-                  style={{ width: '100%', height: '100%', overflow: 'visible' }}
-                >
-                  {/* Chart Plot Margins: left=70, right=680, top=20, bottom=310 */}
-                  {/* Horizontal and Vertical Plot Spans: width=610, height=290 */}
-                  
-                  {/* Grid Lines & Ticks across 4.3 Log-10 Decades */}
-                  {[
-                    { log: 0, label: '1' },
-                    { log: 1, label: '10' },
-                    { log: 2, label: '100' },
-                    { log: 3, label: '1,000' },
-                    { log: 4, label: '10,000' },
-                  ].map((tick) => {
-                    const norm = tick.log / 4.3;
-                    const y = 310 - norm * 290;
-                    const x = 70 + norm * 610;
-
-                    return (
-                      <g key={tick.log}>
-                        {/* Horizontal Gridline */}
-                        <line x1="70" y1={y} x2="680" y2={y} stroke="var(--border-subtle)" strokeDasharray="3 3" strokeWidth="0.8" />
-                        <text x="62" y={y + 3.5} fill="var(--text-dim)" fontSize="10" fontFamily="var(--font-mono)" textAnchor="end">
-                          {tick.label}
-                        </text>
-
-                        {/* Vertical Gridline */}
-                        <line x1={x} y1="20" x2={x} y2="310" stroke="var(--border-subtle)" strokeDasharray="3 3" strokeWidth="0.8" />
-                        <text x={x} y="328" fill="var(--text-dim)" fontSize="10" fontFamily="var(--font-mono)" textAnchor="middle">
-                          {tick.label}
-                        </text>
-                      </g>
-                    );
-                  })}
-
-                  {/* Quadrant Visual Context Guides */}
-                  <text x="120" y="55" fill="var(--text-dim)" fontSize="9" fontFamily="var(--font-mono)" opacity="0.65" letterSpacing="0.04em">
-                    ▲ OVERPREDICTION (Predicted &gt; Actual)
-                  </text>
-                  <text x="490" y="285" fill="var(--text-dim)" fontSize="9" fontFamily="var(--font-mono)" opacity="0.65" letterSpacing="0.04em">
-                    ▼ UNDERPREDICTION (Predicted &lt; Actual)
-                  </text>
-
-                  {/* 45-Degree Equality Identity Line (y = x) */}
-                  <line
-                    x1="70"
-                    y1="310"
-                    x2="680"
-                    y2="20"
-                    stroke="var(--border-strong)"
-                    strokeWidth="1.75"
-                    strokeDasharray="5 5"
-                  />
-                  <text x="645" y="35" fill="var(--text-muted)" fontSize="9" fontFamily="var(--font-mono)" textAnchor="end">
-                    y = x
-                  </text>
-
-                  {/* Outer Plot Border Frame */}
-                  <rect
-                    x="70"
-                    y="20"
-                    width="610"
-                    height="290"
-                    fill="none"
-                    stroke="var(--border-default)"
-                    strokeWidth="1"
-                  />
-
-                  {/* Axis Titles */}
-                  <text x="375" y="348" fill="var(--text-secondary)" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600" textAnchor="middle" letterSpacing="0.05em">
-                    ACTUAL 2022 REGISTERED CASES (LOG SCALE)
-                  </text>
-                  <text x="18" y="165" fill="var(--text-secondary)" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600" textAnchor="middle" transform="rotate(-90 18 165)" letterSpacing="0.05em">
-                    PREDICTED 2022 CASES (LOG SCALE)
-                  </text>
-
-                  {/* Scatter Data Points (Decluttered - No Overlapping Labels) */}
-                  {actualVsPredicted.map((item) => {
-                    const actual = Math.max(1, item.actual_2022);
-                    const pred = Math.max(1, item[predModelConfig.predKey]);
-                    
-                    // Standardized 4.3 Log-10 coordinate projection
-                    const logActual = Math.log10(actual);
-                    const logPred = Math.log10(pred);
-                    const maxLog = 4.3;
-
-                    const cx = 70 + (logActual / maxLog) * 610;
-                    const cy = 310 - (logPred / maxLog) * 290;
-
-                    const isHovered = hoveredScatterPoint?.state_name === item.state_name;
-
-                    return (
-                      <g
-                        key={item.state_name}
-                        onMouseEnter={() => setHoveredScatterPoint(item)}
-                        onMouseLeave={() => setHoveredScatterPoint(null)}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <circle
-                          cx={cx}
-                          cy={cy}
-                          r={isHovered ? 7.5 : 5}
-                          fill={isHovered ? 'var(--color-ivory)' : 'var(--primary)'}
-                          fillOpacity={isHovered ? 1 : 0.85}
-                          stroke={isHovered ? 'var(--primary)' : 'var(--border-strong)'}
-                          strokeWidth={isHovered ? 2.5 : 1.25}
-                          style={{ transition: 'all var(--transition-fast)' }}
-                        />
-                      </g>
-                    );
-                  })}
-                </svg>
-
-                {/* Floating Interactive Tooltip for Hovered Observation */}
-                {hoveredScatterPoint && (
-                  <div
-                    role="tooltip"
-                    style={{
-                      position: 'absolute',
-                      top: '12px',
-                      right: '12px',
-                      backgroundColor: 'var(--bg-surface-elevated)',
-                      border: '1px solid var(--border-strong)',
-                      borderRadius: 'var(--radius-sm)',
-                      padding: 'var(--space-3) var(--space-4)',
-                      boxShadow: 'var(--shadow-lg)',
-                      fontSize: 'var(--text-xs)',
-                      fontFamily: 'var(--font-mono)',
-                      zIndex: 10,
-                      minWidth: '240px',
-                      backdropFilter: 'blur(12px)',
-                      WebkitBackdropFilter: 'blur(12px)',
-                      pointerEvents: 'none',
-                    }}
+              {/* Grid: SVG Scatter Plot on Left, Anchored Selected Detail Panel on Right */}
+              <div
+                className="regression-diagnostic-grid"
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'minmax(0, 1fr) 270px',
+                  gap: 'var(--space-4)',
+                  alignItems: 'stretch',
+                  minHeight: '340px',
+                }}
+              >
+                {/* Left: Responsive SVG Scatter Canvas */}
+                <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '320px' }}>
+                  <svg
+                    viewBox="0 0 540 320"
+                    style={{ width: '100%', height: '100%', overflow: 'visible', display: 'block' }}
                   >
-                    <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--text-primary)', marginBottom: '6px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '4px' }}>
-                      {hoveredScatterPoint.state_name}
+                    {/* Plot Margins: left=55, right=510, top=15, bottom=275 */}
+                    {/* Horizontal Span: 455px, Vertical Span: 260px across 4.3 Log-10 Decades */}
+                    
+                    {/* Logarithmic Gridlines & Ticks */}
+                    {[
+                      { log: 0, label: '1' },
+                      { log: 1, label: '10' },
+                      { log: 2, label: '100' },
+                      { log: 3, label: '1,000' },
+                      { log: 4, label: '10,000' },
+                    ].map((tick) => {
+                      const norm = tick.log / 4.3;
+                      const y = 275 - norm * 260;
+                      const x = 55 + norm * 455;
+
+                      return (
+                        <g key={tick.log}>
+                          {/* Horizontal Gridline */}
+                          <line x1="55" y1={y} x2="510" y2={y} stroke="var(--border-subtle)" strokeDasharray="3 3" strokeWidth="0.8" />
+                          <text x="48" y={y + 3.5} fill="var(--text-dim)" fontSize="9.5" fontFamily="var(--font-mono)" textAnchor="end">
+                            {tick.label}
+                          </text>
+
+                          {/* Vertical Gridline */}
+                          <line x1={x} y1="15" x2={x} y2="275" stroke="var(--border-subtle)" strokeDasharray="3 3" strokeWidth="0.8" />
+                          <text x={x} y="292" fill="var(--text-dim)" fontSize="9.5" fontFamily="var(--font-mono)" textAnchor="middle">
+                            {tick.label}
+                          </text>
+                        </g>
+                      );
+                    })}
+
+                    {/* 45-Degree Equality Identity Line (y = x) */}
+                    <line
+                      x1="55"
+                      y1="275"
+                      x2="510"
+                      y2="15"
+                      stroke="var(--border-strong)"
+                      strokeWidth="1.5"
+                      strokeDasharray="4 4"
+                    />
+                    <text x="485" y="28" fill="var(--text-muted)" fontSize="9" fontFamily="var(--font-mono)" textAnchor="end">
+                      y = x
+                    </text>
+
+                    {/* Outer Plot Border Frame */}
+                    <rect
+                      x="55"
+                      y="15"
+                      width="455"
+                      height="260"
+                      fill="none"
+                      stroke="var(--border-default)"
+                      strokeWidth="1"
+                    />
+
+                    {/* Axis Titles */}
+                    <text x="282" y="312" fill="var(--text-secondary)" fontSize="9.5" fontFamily="var(--font-mono)" fontWeight="600" textAnchor="middle" letterSpacing="0.05em">
+                      ACTUAL 2022 REGISTERED CASES (LOG SCALE)
+                    </text>
+                    <text x="14" y="145" fill="var(--text-secondary)" fontSize="9.5" fontFamily="var(--font-mono)" fontWeight="600" textAnchor="middle" transform="rotate(-90 14 145)" letterSpacing="0.05em">
+                      PREDICTED 2022 CASES (LOG SCALE)
+                    </text>
+
+                    {/* Scatter Data Points */}
+                    {actualVsPredicted.map((item) => {
+                      const actual = Math.max(1, item.actual_2022);
+                      const pred = Math.max(1, item[predModelConfig.predKey]);
+                      
+                      const logActual = Math.log10(actual);
+                      const logPred = Math.log10(pred);
+                      const maxLog = 4.3;
+
+                      const cx = 55 + (logActual / maxLog) * 455;
+                      const cy = 275 - (logPred / maxLog) * 260;
+
+                      const isSelected = selectedStateName === item.state_name;
+                      const isHovered = hoveredScatterPoint?.state_name === item.state_name;
+                      const hasActiveSelection = Boolean(selectedStateName);
+
+                      return (
+                        <g
+                          key={item.state_name}
+                          tabIndex={0}
+                          role="button"
+                          aria-label={`${item.state_name}: Actual ${actual}, Predicted ${Math.round(pred)}`}
+                          onClick={() => setSelectedStateName((prev) => (prev === item.state_name ? null : item.state_name))}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              setSelectedStateName((prev) => (prev === item.state_name ? null : item.state_name));
+                            }
+                          }}
+                          onMouseEnter={() => setHoveredScatterPoint(item)}
+                          onMouseLeave={() => setHoveredScatterPoint(null)}
+                          style={{ cursor: 'pointer', outline: 'none' }}
+                        >
+                          {/* Selection Target Ring */}
+                          {isSelected && (
+                            <circle
+                              cx={cx}
+                              cy={cy}
+                              r={11}
+                              fill="none"
+                              stroke="var(--primary)"
+                              strokeWidth="1.5"
+                              strokeDasharray="2 2"
+                            />
+                          )}
+
+                          <circle
+                            cx={cx}
+                            cy={cy}
+                            r={isSelected ? 7 : isHovered ? 6.5 : 4.5}
+                            fill={
+                              isSelected
+                                ? 'var(--color-ivory)'
+                                : isHovered
+                                ? 'var(--color-ivory)'
+                                : 'var(--primary)'
+                            }
+                            fillOpacity={
+                              isSelected
+                                ? 1
+                                : isHovered
+                                ? 1
+                                : hasActiveSelection
+                                ? 0.3
+                                : 0.75
+                            }
+                            stroke={
+                              isSelected
+                                ? 'var(--primary)'
+                                : isHovered
+                                ? 'var(--primary)'
+                                : hasActiveSelection
+                                ? 'var(--border-subtle)'
+                                : 'var(--border-strong)'
+                            }
+                            strokeWidth={isSelected ? 2.5 : isHovered ? 2 : 1}
+                            style={{ transition: 'all var(--transition-fast)' }}
+                          />
+                        </g>
+                      );
+                    })}
+                  </svg>
+
+                  {/* Non-intrusive Floating Hover Tooltip */}
+                  {hoveredScatterPoint && hoveredScatterPoint.state_name !== selectedStateName && (
+                    <div
+                      role="tooltip"
+                      style={{
+                        position: 'absolute',
+                        top: '8px',
+                        left: '60px',
+                        backgroundColor: 'var(--bg-surface-elevated)',
+                        border: '1px solid var(--border-strong)',
+                        borderRadius: 'var(--radius-sm)',
+                        padding: '4px 8px',
+                        boxShadow: 'var(--shadow-md)',
+                        fontSize: '0.6875rem',
+                        fontFamily: 'var(--font-mono)',
+                        zIndex: 10,
+                        pointerEvents: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        backdropFilter: 'blur(8px)',
+                      }}
+                    >
+                      <strong style={{ color: 'var(--text-primary)' }}>{hoveredScatterPoint.state_name}</strong>
+                      <span style={{ color: 'var(--text-dim)' }}>|</span>
+                      <span style={{ color: 'var(--text-secondary)' }}>Act: {hoveredScatterPoint.actual_2022.toLocaleString()}</span>
+                      <span style={{ color: 'var(--text-dim)' }}>|</span>
+                      <span style={{ color: 'var(--primary)' }}>Pred: {Math.round(hoveredScatterPoint[predModelConfig.predKey]).toLocaleString()}</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)', marginBottom: '3px' }}>
-                      <span>Actual 2022 Cases:</span>
-                      <strong style={{ color: 'var(--text-primary)' }}>{hoveredScatterPoint.actual_2022.toLocaleString()}</strong>
+                  )}
+                </div>
+
+                {/* Right: Anchored Selected Detail Inspection Panel */}
+                <div
+                  style={{
+                    backgroundColor: 'var(--bg-surface-elevated)',
+                    border: '1px solid var(--border-default)',
+                    borderRadius: 'var(--radius-sm)',
+                    padding: 'var(--space-4)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    gap: 'var(--space-3)',
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  {selectedPrediction ? (
+                    <>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+                        {/* Panel Header with Title & Clear Control */}
+                        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--space-2)' }}>
+                          <div>
+                            <div className="tech-label" style={{ fontSize: '0.625rem', marginBottom: '2px' }}>
+                              SELECTED JURISDICTION
+                            </div>
+                            <h4 style={{ margin: 0, fontSize: '0.9375rem', color: 'var(--text-primary)', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
+                              {selectedPrediction.state_name}
+                            </h4>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setSelectedStateName(null)}
+                            style={{
+                              padding: '2px 6px',
+                              backgroundColor: 'var(--bg-surface)',
+                              border: '1px solid var(--border-default)',
+                              borderRadius: 'var(--radius-sm)',
+                              color: 'var(--text-muted)',
+                              fontFamily: 'var(--font-mono)',
+                              fontSize: '0.625rem',
+                              cursor: 'pointer',
+                            }}
+                            title="Clear jurisdiction selection (Esc)"
+                          >
+                            ✕ Clear
+                          </button>
+                        </div>
+
+                        {/* Over/Under Prediction Classification Badge */}
+                        <div>
+                          {selectedPrediction[predModelConfig.errKey] >= 0 ? (
+                            <span
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                padding: '3px 8px',
+                                borderRadius: 'var(--radius-sm)',
+                                backgroundColor: 'rgba(216, 165, 99, 0.15)',
+                                border: '1px solid rgba(216, 165, 99, 0.35)',
+                                color: 'var(--status-warning)',
+                                fontFamily: 'var(--font-mono)',
+                                fontSize: '0.6875rem',
+                                fontWeight: 600,
+                              }}
+                            >
+                              ▲ Overprediction (Model &gt; Observed)
+                            </span>
+                          ) : (
+                            <span
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                padding: '3px 8px',
+                                borderRadius: 'var(--radius-sm)',
+                                backgroundColor: 'rgba(126, 158, 184, 0.15)',
+                                border: '1px solid rgba(126, 158, 184, 0.35)',
+                                color: 'var(--status-info)',
+                                fontFamily: 'var(--font-mono)',
+                                fontSize: '0.6875rem',
+                                fontWeight: 600,
+                              }}
+                            >
+                              ▼ Underprediction (Model &lt; Observed)
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Quantitative Diagnostic Breakdown */}
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '6px',
+                            backgroundColor: 'var(--bg-surface)',
+                            border: '1px solid var(--border-subtle)',
+                            borderRadius: 'var(--radius-sm)',
+                            padding: 'var(--space-3)',
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '0.75rem',
+                          }}
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span style={{ color: 'var(--text-muted)' }}>Actual 2022 Cases:</span>
+                            <strong style={{ color: 'var(--text-primary)' }}>
+                              {selectedPrediction.actual_2022.toLocaleString()}
+                            </strong>
+                          </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span style={{ color: 'var(--text-muted)' }}>Predicted Cases:</span>
+                            <strong style={{ color: 'var(--primary)' }}>
+                              {Math.round(selectedPrediction[predModelConfig.predKey]).toLocaleString()}
+                            </strong>
+                          </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '4px', borderTop: '1px solid var(--border-subtle)' }}>
+                            <span style={{ color: 'var(--text-muted)' }}>Prediction Error:</span>
+                            <strong
+                              style={{
+                                color:
+                                  selectedPrediction[predModelConfig.errKey] >= 0
+                                    ? 'var(--status-warning)'
+                                    : 'var(--status-info)',
+                              }}
+                            >
+                              {selectedPrediction[predModelConfig.errKey] >= 0
+                                ? `+${Math.round(selectedPrediction[predModelConfig.errKey]).toLocaleString()}`
+                                : Math.round(selectedPrediction[predModelConfig.errKey]).toLocaleString()}
+                            </strong>
+                          </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span style={{ color: 'var(--text-muted)' }}>Relative Deviation:</span>
+                            <span style={{ color: 'var(--text-secondary)' }}>
+                              {(
+                                ((selectedPrediction[predModelConfig.predKey] - selectedPrediction.actual_2022) /
+                                  Math.max(1, selectedPrediction.actual_2022)) *
+                                100
+                              ).toFixed(1)}
+                              %
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{ fontSize: '0.625rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)', lineHeight: 1.4 }}>
+                        Active model: <strong style={{ color: 'var(--text-secondary)' }}>{predModelConfig.label}</strong>. Evaluated on 2022 held-out panel.
+                      </div>
+                    </>
+                  ) : (
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: '100%',
+                        textAlign: 'center',
+                        color: 'var(--text-dim)',
+                        gap: 'var(--space-2)',
+                        padding: 'var(--space-2)',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          border: '1px dashed var(--border-strong)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'var(--text-muted)',
+                        }}
+                      >
+                        ●
+                      </div>
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+                        Select a Jurisdiction
+                      </div>
+                      <p style={{ margin: 0, fontSize: '0.6875rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                        Click any point on the scatter plot to lock persistent diagnostic details.
+                      </p>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)', marginBottom: '3px' }}>
-                      <span>Predicted ({predModelConfig.label.split(' ')[0]}):</span>
-                      <strong style={{ color: 'var(--primary)' }}>
-                        {Math.round(hoveredScatterPoint[predModelConfig.predKey]).toLocaleString()}
-                      </strong>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)', paddingTop: '4px', borderTop: '1px solid var(--border-subtle)' }}>
-                      <span>Prediction Error:</span>
-                      <strong style={{ color: hoveredScatterPoint[predModelConfig.errKey] >= 0 ? 'var(--status-warning)' : 'var(--status-info)' }}>
-                        {hoveredScatterPoint[predModelConfig.errKey] >= 0
-                          ? `+${Math.round(hoveredScatterPoint[predModelConfig.errKey]).toLocaleString()} (Over)`
-                          : `${Math.round(hoveredScatterPoint[predModelConfig.errKey]).toLocaleString()} (Under)`}
-                      </strong>
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
+
+            <style>{`
+              @media (max-width: 960px) {
+                .regression-diagnostic-grid {
+                  grid-template-columns: 1fr !important;
+                }
+              }
+            `}</style>
           </ChartContainer>
 
           {/* State Predictions Data Table */}
