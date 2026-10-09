@@ -1,12 +1,13 @@
 import React from 'react';
 import { PROJECT_METADATA } from '../../lib/constants';
+import NirikshaLogo from './NirikshaLogo';
 
 /**
  * NIRIKSHA Branded Loading Experience
  * 
  * A restrained, premium analytical workstation loading experience.
  * Features:
- * - Geometric observation aperture with 4-category categorical coordinate network
+ * - Official NIRIKSHA brand mark with 4-category coordinate network
  *   (Sage #85A289, Dusty Mauve #B296AE, Amber #D6A15D, Slate Blue #607D8B)
  * - Brand wordmark with Devanagari annotation (NIRIKSHA निरीक्षा)
  * - Restrained indeterminate activity line (no artificial percentage progress)
@@ -59,14 +60,14 @@ export const BrandedLoader = ({
         }}
       >
         {/* ========================================================= */}
-        {/* 1. Observation Aperture & 4-Color Network SVG Motif       */}
+        {/* 1. Official NIRIKSHA Icon & 4-Color Network Motif         */}
         {/* ========================================================= */}
         <div
           className="niriksha-loader-emblem-container"
           style={{
             position: 'relative',
-            width: '104px',
-            height: '104px',
+            width: '112px',
+            height: '112px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -74,19 +75,20 @@ export const BrandedLoader = ({
           }}
         >
           <svg
-            width="104"
-            height="104"
-            viewBox="0 0 104 104"
+            width="112"
+            height="112"
+            viewBox="0 0 112 112"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             className="niriksha-loader-svg"
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
             aria-hidden="true"
           >
             {/* Outer Coordinate Target Ring */}
             <circle
-              cx="52"
-              cy="52"
-              r="46"
+              cx="56"
+              cy="56"
+              r="50"
               stroke="var(--border-strong)"
               strokeWidth="1"
               strokeDasharray="3 3"
@@ -94,64 +96,20 @@ export const BrandedLoader = ({
             />
 
             {/* Coordinate Axis Crosshairs */}
-            <line x1="52" y1="2" x2="52" y2="16" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="52" y1="88" x2="52" y2="102" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="2" y1="52" x2="16" y2="52" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="88" y1="52" x2="102" y2="52" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
-
-            {/* Diagonal Network Coordinate Rays (Connectors to Satellite Nodes) */}
-            <line x1="24" y1="24" x2="52" y2="52" stroke="var(--border-default)" strokeWidth="1" strokeDasharray="2 2" />
-            <line x1="80" y1="24" x2="52" y2="52" stroke="var(--border-default)" strokeWidth="1" strokeDasharray="2 2" />
-            <line x1="80" y1="80" x2="52" y2="52" stroke="var(--border-default)" strokeWidth="1" strokeDasharray="2 2" />
-            <line x1="24" y1="80" x2="52" y2="52" stroke="var(--border-default)" strokeWidth="1" strokeDasharray="2 2" />
+            <line x1="56" y1="2" x2="56" y2="14" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="56" y1="98" x2="56" y2="110" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="2" y1="56" x2="14" y2="56" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="98" y1="56" x2="110" y2="56" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
 
             {/* 4 Categorical Network Nodes (Sage, Dusty Mauve, Amber, Slate Blue) */}
-            {/* Node 1: Sage (Top-Left) */}
-            <circle cx="24" cy="24" r="4" fill="#85A289" className="niriksha-node-1" />
-            <circle cx="24" cy="24" r="7" stroke="#85A289" strokeWidth="1" opacity="0.4" />
-
-            {/* Node 2: Dusty Mauve (Top-Right) */}
-            <circle cx="80" cy="24" r="4" fill="#B296AE" className="niriksha-node-2" />
-            <circle cx="80" cy="24" r="7" stroke="#B296AE" strokeWidth="1" opacity="0.4" />
-
-            {/* Node 3: Amber (Bottom-Right) */}
-            <circle cx="80" cy="80" r="4" fill="#D6A15D" className="niriksha-node-3" />
-            <circle cx="80" cy="80" r="7" stroke="#D6A15D" strokeWidth="1" opacity="0.4" />
-
-            {/* Node 4: Slate Blue (Bottom-Left) */}
-            <circle cx="24" cy="80" r="4" fill="#607D8B" className="niriksha-node-4" />
-            <circle cx="24" cy="80" r="7" stroke="#607D8B" strokeWidth="1" opacity="0.4" />
-
-            {/* Central Observation Aperture Eye Geometry */}
-            <path
-              d="M 22 52 C 34 32, 70 32, 82 52 C 70 72, 34 72, 22 52 Z"
-              stroke="var(--primary)"
-              strokeWidth="2"
-              strokeLinejoin="round"
-              fill="none"
-              className="niriksha-eye-contour"
-            />
-
-            {/* Inner Analytical Iris */}
-            <circle
-              cx="52"
-              cy="52"
-              r="13"
-              stroke="var(--accent-mauve)"
-              strokeWidth="2"
-              fill="var(--bg-surface-elevated)"
-              className="niriksha-iris"
-            />
-
-            {/* Reticle Focus Core */}
-            <circle
-              cx="52"
-              cy="52"
-              r="4.5"
-              fill="var(--primary)"
-              className="niriksha-core"
-            />
+            <circle cx="20" cy="20" r="3.5" fill="#85A289" className="niriksha-node-1" />
+            <circle cx="92" cy="20" r="3.5" fill="#B296AE" className="niriksha-node-2" />
+            <circle cx="92" cy="92" r="3.5" fill="#D6A15D" className="niriksha-node-3" />
+            <circle cx="20" cy="92" r="3.5" fill="#607D8B" className="niriksha-node-4" />
           </svg>
+
+          {/* Focal Official Brand Icon */}
+          <NirikshaLogo size={58} rounded={true} style={{ position: 'relative', zIndex: 2 }} />
         </div>
 
         {/* ========================================================= */}

@@ -3,50 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import { NAV_ITEMS, PROJECT_METADATA } from '../../lib/constants';
 import { useTheme } from '../../context/useTheme';
-
-/**
- * NIRIKSHA Brand Mark SVG Component
- * Concept: Geometric observation aperture + analytical coordinate network.
- */
-const NirikshaMark = ({ size = 22 }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    style={{ display: 'block' }}
-    aria-hidden="true"
-  >
-    {/* Coordinate Crosshairs */}
-    <line x1="12" y1="2" x2="12" y2="6" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
-    <line x1="12" y1="18" x2="12" y2="22" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
-    <line x1="2" y1="12" x2="6" y2="12" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
-    <line x1="18" y1="12" x2="22" y2="12" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
-
-    {/* Outer Observation Eye Aperture */}
-    <path
-      d="M 3 12 C 7 6.5, 17 6.5, 21 12 C 17 17.5, 7 17.5, 3 12 Z"
-      stroke="var(--primary)"
-      strokeWidth="1.5"
-      strokeLinejoin="round"
-      fill="none"
-    />
-
-    {/* Inner Analytical Iris */}
-    <circle
-      cx="12"
-      cy="12"
-      r="3.5"
-      stroke="var(--accent-mauve)"
-      strokeWidth="1.5"
-      fill="var(--bg-surface-elevated)"
-    />
-
-    {/* Focus Core Reticle */}
-    <circle cx="12" cy="12" r="1.2" fill="var(--color-ivory)" />
-  </svg>
-);
+import { NirikshaMark } from '../ui/NirikshaLogo';
 
 /**
  * GitHub Icon SVG Component
@@ -131,16 +88,14 @@ export const TopNavigation = () => {
                 width: '34px',
                 height: '34px',
                 borderRadius: 'var(--radius-sm)',
-                backgroundColor: 'var(--bg-surface-elevated)',
-                border: '1px solid var(--border-strong)',
+                backgroundColor: 'transparent',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexShrink: 0,
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
-              <NirikshaMark size={22} />
+              <NirikshaMark size={32} />
             </div>
 
             {/* Brand Text Stack */}
@@ -400,7 +355,7 @@ export const TopNavigation = () => {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <NirikshaMark size={18} />
+              <NirikshaMark size={22} />
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.08em', color: 'var(--text-primary)' }}>
                 NIRIKSHA
               </span>
