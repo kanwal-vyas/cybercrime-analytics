@@ -764,14 +764,14 @@ export const ModelsPage = () => {
 
           {/* Actual vs Predicted Scatter Visualizer + Interactive Model Selector */}
           <ChartContainer
-            category="ACTUAL VS PREDICTED DIAGNOSTIC"
-            title="State/UT Cybercrime Volume Predictions (2022 Held-Out Panel)"
-            subtitle="Comparing 2022 Observed Registration vs Model Fitted Trajectory (N=36)"
-            sourceNote="Identity Line (y=x) indicates perfect prediction. Log-transformed display for scale legibility."
-            height="380px"
+            category="REGRESSION DIAGNOSTIC • HELD-OUT EVALUATION"
+            title="State/UT Cybercrime Volume: Actual vs Predicted (2022)"
+            subtitle="Evaluating 2022 Observed Registration against Model Fitted Trajectory (N = 36 States & UTs)"
+            sourceNote="Identity Line (y = x) represents perfect estimation. Points above indicate overprediction; points below indicate underprediction."
+            height="440px"
             controls={
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontSize: '0.6875rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>MODEL:</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '0.6875rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>CANDIDATE MODEL:</span>
                 <select
                   value={predictionModelKey}
                   onChange={(e) => setPredictionModelKey(e.target.value)}
@@ -780,14 +780,14 @@ export const ModelsPage = () => {
                     color: 'var(--text-primary)',
                     border: '1px solid var(--border-default)',
                     borderRadius: 'var(--radius-sm)',
-                    padding: '4px 8px',
+                    padding: '4px 10px',
                     fontSize: '0.6875rem',
                     fontFamily: 'var(--font-mono)',
                     cursor: 'pointer',
                     outline: 'none',
                   }}
                 >
-                  <option value="pred_log_linear">Log-Linear OLS (R² = 0.9000)</option>
+                  <option value="pred_log_linear">Log-Linear OLS (Selected Best, R² = 0.9000)</option>
                   <option value="pred_naive_lag1">Naive Persistent Lag-1 (R² = 0.8625)</option>
                   <option value="pred_linear_raw">Linear OLS Raw (R² = 0.7840)</option>
                   <option value="pred_random_forest">Random Forest Regressor (R² = 0.8118)</option>
@@ -796,82 +796,131 @@ export const ModelsPage = () => {
             }
           >
             <div style={{ width: '100%', height: '100%', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              {/* Responsive SVG Scatter Plot */}
-              <div style={{ width: '100%', height: '300px', position: 'relative' }}>
+              {/* Compact Analytical Legend Bar */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '4px 8px',
+                  marginBottom: 'var(--space-2)',
+                  backgroundColor: 'var(--bg-surface-elevated)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '0.6875rem',
+                  fontFamily: 'var(--font-mono)',
+                  flexWrap: 'wrap',
+                  gap: 'var(--space-2)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ width: '16px', height: '0', borderTop: '2px dashed var(--border-strong)', display: 'inline-block' }} />
+                    <span style={{ color: 'var(--text-secondary)' }}>Ideal Fit (y = x)</span>
+                  </div>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--primary)', border: '1px solid var(--border-strong)', display: 'inline-block' }} />
+                    <span style={{ color: 'var(--text-secondary)' }}>State/UT Observation (N = 36)</span>
+                  </div>
+                </div>
+                <div style={{ color: 'var(--text-dim)', fontSize: '0.625rem' }}>
+                  Hover points for exact residual breakdown
+                </div>
+              </div>
+
+              {/* Responsive SVG Scatter Plot Area */}
+              <div style={{ width: '100%', height: '360px', position: 'relative' }}>
                 <svg
-                  viewBox="0 0 700 300"
+                  viewBox="0 0 720 360"
                   style={{ width: '100%', height: '100%', overflow: 'visible' }}
                 >
-                  {/* Grid Lines */}
-                  <line x1="60" y1="20" x2="60" y2="260" stroke="var(--border-subtle)" strokeWidth="1" />
-                  <line x1="60" y1="260" x2="680" y2="260" stroke="var(--border-subtle)" strokeWidth="1" />
+                  {/* Chart Plot Margins: left=70, right=680, top=20, bottom=310 */}
+                  {/* Horizontal and Vertical Plot Spans: width=610, height=290 */}
                   
-                  {/* Grid horizontal ticks */}
-                  {[0, 1, 2, 3, 4].map((tick) => {
-                    const y = 260 - tick * 60;
-                    const val = Math.pow(10, tick);
+                  {/* Grid Lines & Ticks across 4.3 Log-10 Decades */}
+                  {[
+                    { log: 0, label: '1' },
+                    { log: 1, label: '10' },
+                    { log: 2, label: '100' },
+                    { log: 3, label: '1,000' },
+                    { log: 4, label: '10,000' },
+                  ].map((tick) => {
+                    const norm = tick.log / 4.3;
+                    const y = 310 - norm * 290;
+                    const x = 70 + norm * 610;
+
                     return (
-                      <g key={tick}>
-                        <line x1="55" y1={y} x2="680" y2={y} stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="3 3" />
-                        <text x="50" y={y + 4} fill="var(--text-dim)" fontSize="10" fontFamily="var(--font-mono)" textAnchor="end">
-                          {val >= 1000 ? `${val / 1000}k` : val}
+                      <g key={tick.log}>
+                        {/* Horizontal Gridline */}
+                        <line x1="70" y1={y} x2="680" y2={y} stroke="var(--border-subtle)" strokeDasharray="3 3" strokeWidth="0.8" />
+                        <text x="62" y={y + 3.5} fill="var(--text-dim)" fontSize="10" fontFamily="var(--font-mono)" textAnchor="end">
+                          {tick.label}
+                        </text>
+
+                        {/* Vertical Gridline */}
+                        <line x1={x} y1="20" x2={x} y2="310" stroke="var(--border-subtle)" strokeDasharray="3 3" strokeWidth="0.8" />
+                        <text x={x} y="328" fill="var(--text-dim)" fontSize="10" fontFamily="var(--font-mono)" textAnchor="middle">
+                          {tick.label}
                         </text>
                       </g>
                     );
                   })}
 
-                  {/* Grid vertical ticks */}
-                  {[0, 1, 2, 3, 4].map((tick) => {
-                    const x = 60 + tick * 155;
-                    const val = Math.pow(10, tick);
-                    return (
-                      <g key={tick}>
-                        <line x1={x} y1="20" x2={x} y2="265" stroke="rgba(255, 255, 255, 0.04)" strokeDasharray="3 3" />
-                        <text x={x} y="280" fill="var(--text-dim)" fontSize="10" fontFamily="var(--font-mono)" textAnchor="middle">
-                          {val >= 1000 ? `${val / 1000}k` : val}
-                        </text>
-                      </g>
-                    );
-                  })}
+                  {/* Quadrant Visual Context Guides */}
+                  <text x="120" y="55" fill="var(--text-dim)" fontSize="9" fontFamily="var(--font-mono)" opacity="0.65" letterSpacing="0.04em">
+                    ▲ OVERPREDICTION (Predicted &gt; Actual)
+                  </text>
+                  <text x="490" y="285" fill="var(--text-dim)" fontSize="9" fontFamily="var(--font-mono)" opacity="0.65" letterSpacing="0.04em">
+                    ▼ UNDERPREDICTION (Predicted &lt; Actual)
+                  </text>
 
-                  {/* 45 Degree Identity Line (y = x) */}
+                  {/* 45-Degree Equality Identity Line (y = x) */}
                   <line
-                    x1="60"
-                    y1="260"
+                    x1="70"
+                    y1="310"
                     x2="680"
                     y2="20"
-                    stroke="var(--text-dim)"
-                    strokeWidth="1.5"
-                    strokeDasharray="4 4"
-                    opacity="0.5"
+                    stroke="var(--border-strong)"
+                    strokeWidth="1.75"
+                    strokeDasharray="5 5"
                   />
-                  <text x="650" y="40" fill="var(--text-muted)" fontSize="9" fontFamily="var(--font-mono)">
-                    Ideal Fit (y = x)
+                  <text x="645" y="35" fill="var(--text-muted)" fontSize="9" fontFamily="var(--font-mono)" textAnchor="end">
+                    y = x
                   </text>
 
-                  {/* Axis Labels */}
-                  <text x="370" y="295" fill="var(--text-muted)" fontSize="10" fontFamily="var(--font-mono)" textAnchor="middle">
+                  {/* Outer Plot Border Frame */}
+                  <rect
+                    x="70"
+                    y="20"
+                    width="610"
+                    height="290"
+                    fill="none"
+                    stroke="var(--border-default)"
+                    strokeWidth="1"
+                  />
+
+                  {/* Axis Titles */}
+                  <text x="375" y="348" fill="var(--text-secondary)" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600" textAnchor="middle" letterSpacing="0.05em">
                     ACTUAL 2022 REGISTERED CASES (LOG SCALE)
                   </text>
-                  <text x="20" y="140" fill="var(--text-muted)" fontSize="10" fontFamily="var(--font-mono)" textAnchor="middle" transform="rotate(-90 20 140)">
-                    PREDICTED 2022 CASES
+                  <text x="18" y="165" fill="var(--text-secondary)" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600" textAnchor="middle" transform="rotate(-90 18 165)" letterSpacing="0.05em">
+                    PREDICTED 2022 CASES (LOG SCALE)
                   </text>
 
-                  {/* Scatter Data Points */}
+                  {/* Scatter Data Points (Decluttered - No Overlapping Labels) */}
                   {actualVsPredicted.map((item) => {
                     const actual = Math.max(1, item.actual_2022);
                     const pred = Math.max(1, item[predModelConfig.predKey]);
                     
-                    // Log-scaled mapping to [60, 680] and [260, 20]
+                    // Standardized 4.3 Log-10 coordinate projection
                     const logActual = Math.log10(actual);
                     const logPred = Math.log10(pred);
-                    const maxLog = 4.2; // ~15,000 cases
+                    const maxLog = 4.3;
 
-                    const cx = 60 + (logActual / maxLog) * 620;
-                    const cy = 260 - (logPred / maxLog) * 240;
+                    const cx = 70 + (logActual / maxLog) * 610;
+                    const cy = 310 - (logPred / maxLog) * 290;
 
                     const isHovered = hoveredScatterPoint?.state_name === item.state_name;
-                    const isMajor = actual >= 2000;
 
                     return (
                       <g
@@ -883,66 +932,59 @@ export const ModelsPage = () => {
                         <circle
                           cx={cx}
                           cy={cy}
-                          r={isHovered ? 7 : isMajor ? 5 : 4}
-                          fill={isHovered ? 'var(--color-sage-light)' : predModelConfig.color}
-                          fillOpacity={isHovered ? 1 : 0.8}
-                          stroke={isHovered ? '#ffffff' : 'var(--bg-surface)'}
-                          strokeWidth={isHovered ? 2 : 1}
-                          style={{ transition: 'all 0.2s ease' }}
+                          r={isHovered ? 7.5 : 5}
+                          fill={isHovered ? 'var(--color-ivory)' : 'var(--primary)'}
+                          fillOpacity={isHovered ? 1 : 0.85}
+                          stroke={isHovered ? 'var(--primary)' : 'var(--border-strong)'}
+                          strokeWidth={isHovered ? 2.5 : 1.25}
+                          style={{ transition: 'all var(--transition-fast)' }}
                         />
-                        {/* Callout labels for top volume states */}
-                        {(isMajor || isHovered) && (
-                          <text
-                            x={cx + 8}
-                            y={cy + 3}
-                            fill={isHovered ? 'var(--text-primary)' : 'var(--text-muted)'}
-                            fontSize={isHovered ? '11' : '9'}
-                            fontFamily="var(--font-mono)"
-                            fontWeight={isHovered ? '700' : '500'}
-                          >
-                            {item.state_name.replace(' and ', ' & ')}
-                          </text>
-                        )}
                       </g>
                     );
                   })}
                 </svg>
 
-                {/* Floating Tooltip for Hovered Point */}
+                {/* Floating Interactive Tooltip for Hovered Observation */}
                 {hoveredScatterPoint && (
                   <div
+                    role="tooltip"
                     style={{
                       position: 'absolute',
-                      top: '10px',
-                      right: '10px',
-                      backgroundColor: 'rgba(14, 19, 16, 0.95)',
-                      border: '1px solid var(--color-sage-light)',
+                      top: '12px',
+                      right: '12px',
+                      backgroundColor: 'var(--bg-surface-elevated)',
+                      border: '1px solid var(--border-strong)',
                       borderRadius: 'var(--radius-sm)',
-                      padding: 'var(--space-3)',
+                      padding: 'var(--space-3) var(--space-4)',
                       boxShadow: 'var(--shadow-lg)',
                       fontSize: 'var(--text-xs)',
                       fontFamily: 'var(--font-mono)',
                       zIndex: 10,
-                      minWidth: '220px',
+                      minWidth: '240px',
+                      backdropFilter: 'blur(12px)',
+                      WebkitBackdropFilter: 'blur(12px)',
+                      pointerEvents: 'none',
                     }}
                   >
-                    <div style={{ fontWeight: 700, color: 'var(--color-sage-light)', marginBottom: '4px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '2px' }}>
+                    <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--text-primary)', marginBottom: '6px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '4px' }}>
                       {hoveredScatterPoint.state_name}
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
-                      <span>Actual 2022:</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)', marginBottom: '3px' }}>
+                      <span>Actual 2022 Cases:</span>
                       <strong style={{ color: 'var(--text-primary)' }}>{hoveredScatterPoint.actual_2022.toLocaleString()}</strong>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
-                      <span>Predicted:</span>
-                      <strong style={{ color: predModelConfig.color }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)', marginBottom: '3px' }}>
+                      <span>Predicted ({predModelConfig.label.split(' ')[0]}):</span>
+                      <strong style={{ color: 'var(--primary)' }}>
                         {Math.round(hoveredScatterPoint[predModelConfig.predKey]).toLocaleString()}
                       </strong>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
-                      <span>Residual Error:</span>
-                      <strong style={{ color: hoveredScatterPoint[predModelConfig.errKey] >= 0 ? 'var(--color-sage-light)' : 'var(--status-danger)' }}>
-                        {hoveredScatterPoint[predModelConfig.errKey] >= 0 ? `+${hoveredScatterPoint[predModelConfig.errKey].toLocaleString()}` : hoveredScatterPoint[predModelConfig.errKey].toLocaleString()}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)', paddingTop: '4px', borderTop: '1px solid var(--border-subtle)' }}>
+                      <span>Prediction Error:</span>
+                      <strong style={{ color: hoveredScatterPoint[predModelConfig.errKey] >= 0 ? 'var(--status-warning)' : 'var(--status-info)' }}>
+                        {hoveredScatterPoint[predModelConfig.errKey] >= 0
+                          ? `+${Math.round(hoveredScatterPoint[predModelConfig.errKey]).toLocaleString()} (Over)`
+                          : `${Math.round(hoveredScatterPoint[predModelConfig.errKey]).toLocaleString()} (Under)`}
                       </strong>
                     </div>
                   </div>
