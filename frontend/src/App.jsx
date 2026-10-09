@@ -7,6 +7,8 @@ import BrandedLoader from './components/ui/BrandedLoader';
 import ErrorState from './components/ui/ErrorState';
 import api from './services/api';
 
+const MIN_INITIAL_LOAD_DURATION_MS = 3000;
+
 export function App() {
   const [isInitializing, setIsInitializing] = useState(true);
   const [initError, setInitError] = useState(null);
@@ -14,12 +16,21 @@ export function App() {
   const initializeWorkstation = useCallback(async () => {
     setIsInitializing(true);
     setInitError(null);
+
+    // Enforce minimum branded loading experience duration on initial startup
+    const minDurationPromise = new Promise((resolve) =>
+      setTimeout(resolve, MIN_INITIAL_LOAD_DURATION_MS)
+    );
+
     try {
-      // Verify analytical API service health on initial boot
-      await api.getHealth();
+      // Execute backend API health verification and minimum display timer in parallel
+      await Promise.all([
+        api.getHealth(),
+        minDurationPromise,
+      ]);
     } catch (err) {
       console.warn('[App] Workstation initialization notice:', err.message);
-      // If health check fails on initial startup, record error to allow retry
+      // If health check fails on initial startup, transition to error state with retry
       setInitError(err.message || 'Unable to connect to backend analytical service.');
     } finally {
       setIsInitializing(false);
