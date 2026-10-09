@@ -90,11 +90,11 @@ export const ModelsPage = () => {
   const predModelConfig = useMemo(() => {
     switch (predictionModelKey) {
       case 'pred_naive_lag1':
-        return { label: 'Naive Persistent (Lag-1)', predKey: 'pred_naive_lag1', errKey: 'error_naive', color: '#D8A563' };
+        return { label: 'Naive Persistent (Lag-1)', predKey: 'pred_naive_lag1', errKey: 'error_naive', color: '#D6A15D' };
       case 'pred_linear_raw':
         return { label: 'Linear Regression (Raw OLS)', predKey: 'pred_linear_raw', errKey: 'error_linear_raw', color: '#B296AE' };
       case 'pred_random_forest':
-        return { label: 'Random Forest Regressor', predKey: 'pred_random_forest', errKey: 'error_rf', color: '#765070' };
+        return { label: 'Random Forest Regressor', predKey: 'pred_random_forest', errKey: 'error_rf', color: '#607D8B' };
       case 'pred_log_linear':
       default:
         return { label: 'Log-Linear OLS (Selected Best, R²=0.90)', predKey: 'pred_log_linear', errKey: 'error_log_linear', color: '#85A289' };

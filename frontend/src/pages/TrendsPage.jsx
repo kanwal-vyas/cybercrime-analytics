@@ -21,11 +21,10 @@ import {
 } from 'lucide-react';
 
 const COMPARISON_COLORS = [
-  { name: 'Sage Primary', hex: '#85A289', varName: 'var(--color-sage-light)' },
-  { name: 'Mauve Dusty', hex: '#B296AE', varName: 'var(--color-mauve-dusty)' },
-  { name: 'Deep Sage', hex: '#507656', varName: 'var(--color-sage-deep)' },
-  { name: 'Warning Amber', hex: '#D8A563', varName: 'var(--status-warning)' },
-  { name: 'Deep Mauve', hex: '#765070', varName: 'var(--color-mauve-deep)' },
+  { name: 'Sage', hex: '#85A289', varName: 'var(--cat-sage)' },
+  { name: 'Dusty Mauve', hex: '#B296AE', varName: 'var(--cat-mauve)' },
+  { name: 'Amber', hex: '#D6A15D', varName: 'var(--cat-amber)' },
+  { name: 'Deep Slate Blue', hex: '#607D8B', varName: 'var(--cat-slate)' },
 ];
 
 export const TrendsPage = () => {
