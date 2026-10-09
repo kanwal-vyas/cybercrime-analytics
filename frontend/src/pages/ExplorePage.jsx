@@ -78,20 +78,23 @@ export const ExplorePage = () => {
 
   // Filtered States List for Table and Search
   const filteredStates = useMemo(() => {
+    const cleanQuery = stateSearchQuery.trim().toLowerCase();
     return statesData.filter((s) => {
       const matchesAdmin = adminTypeFilter === 'ALL' || s.admin_type === adminTypeFilter;
       const matchesSearch =
-        !stateSearchQuery.trim() ||
-        s.state_name.toLowerCase().includes(stateSearchQuery.toLowerCase()) ||
-        s.admin_type.toLowerCase().includes(stateSearchQuery.toLowerCase());
+        !cleanQuery ||
+        s.state_name.toLowerCase().includes(cleanQuery) ||
+        s.admin_type.toLowerCase().includes(cleanQuery);
       return matchesAdmin && matchesSearch;
     });
   }, [statesData, adminTypeFilter, stateSearchQuery]);
 
-  // Top 10 Jurisdictions for Visual Bar Chart
+  // Top Jurisdictions for Visual Bar Chart (dynamic based on active filters)
   const top10States = useMemo(() => {
-    return [...statesData].sort((a, b) => b.total_cases - a.total_cases).slice(0, 10);
-  }, [statesData]);
+    const isFiltered = Boolean(stateSearchQuery.trim() || adminTypeFilter !== 'ALL');
+    const pool = isFiltered ? filteredStates : statesData;
+    return [...pool].sort((a, b) => b.total_cases - a.total_cases).slice(0, 10);
+  }, [statesData, filteredStates, stateSearchQuery, adminTypeFilter]);
 
   // Max Cases among top 10 for bar proportions
   const maxTop10Cases = useMemo(() => {
@@ -456,24 +459,33 @@ export const ExplorePage = () => {
                 }}
               >
                 <option value="ALL">All India (National Total — 86,420 Cases)</option>
-                <optgroup label="States (28)">
-                  {statesData
-                    .filter((s) => s.admin_type === 'State')
-                    .map((s) => (
-                      <option key={s.state_name} value={s.state_name}>
-                        {s.national_rank ? `#${s.national_rank} ` : ''}{s.state_name} ({s.total_cases.toLocaleString()} cases)
-                      </option>
-                    ))}
-                </optgroup>
-                <optgroup label="Union Territories (8)">
-                  {statesData
-                    .filter((s) => s.admin_type === 'Union Territory')
-                    .map((s) => (
-                      <option key={s.state_name} value={s.state_name}>
-                        {s.national_rank ? `#${s.national_rank} ` : ''}{s.state_name} ({s.total_cases.toLocaleString()} cases)
-                      </option>
-                    ))}
-                </optgroup>
+                {filteredStates.filter((s) => s.admin_type === 'State').length > 0 && (
+                  <optgroup label={`States (${filteredStates.filter((s) => s.admin_type === 'State').length})`}>
+                    {filteredStates
+                      .filter((s) => s.admin_type === 'State')
+                      .map((s) => (
+                        <option key={s.state_name} value={s.state_name}>
+                          {s.national_rank ? `#${s.national_rank} ` : ''}{s.state_name} ({s.total_cases.toLocaleString()} cases)
+                        </option>
+                      ))}
+                  </optgroup>
+                )}
+                {filteredStates.filter((s) => s.admin_type === 'Union Territory').length > 0 && (
+                  <optgroup label={`Union Territories (${filteredStates.filter((s) => s.admin_type === 'Union Territory').length})`}>
+                    {filteredStates
+                      .filter((s) => s.admin_type === 'Union Territory')
+                      .map((s) => (
+                        <option key={s.state_name} value={s.state_name}>
+                          {s.national_rank ? `#${s.national_rank} ` : ''}{s.state_name} ({s.total_cases.toLocaleString()} cases)
+                        </option>
+                      ))}
+                  </optgroup>
+                )}
+                {selectedStateName !== 'ALL' && !filteredStates.some((s) => s.state_name === selectedStateName) && (
+                  <option value={selectedStateName}>
+                    {selectedStateName} (Selected)
+                  </option>
+                )}
               </select>
             </div>
           </div>
@@ -495,7 +507,26 @@ export const ExplorePage = () => {
 
           {/* Quick Search */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: '220px', flex: '1 1 220px' }}>
-            <span className="tech-label" style={{ fontSize: '0.6875rem' }}>SEARCH JURISDICTIONS</span>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span className="tech-label" style={{ fontSize: '0.6875rem' }}>SEARCH JURISDICTIONS</span>
+              {stateSearchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setStateSearchQuery('')}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--text-muted)',
+                    fontSize: '0.625rem',
+                    fontFamily: 'var(--font-mono)',
+                    cursor: 'pointer',
+                    padding: 0,
+                  }}
+                >
+                  Clear search
+                </button>
+              )}
+            </div>
             <div
               style={{
                 display: 'flex',
@@ -507,12 +538,17 @@ export const ExplorePage = () => {
                 gap: '8px',
               }}
             >
-              <Search size={14} style={{ color: 'var(--text-muted)' }} />
+              <Search size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
               <input
                 type="text"
-                placeholder="Filter by name (e.g. Karnataka, Delhi)..."
+                placeholder="Filter by name (e.g. Karnataka, Gujarat)..."
                 value={stateSearchQuery}
                 onChange={(e) => setStateSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && filteredStates.length > 0) {
+                    setSelectedStateName(filteredStates[0].state_name);
+                  }
+                }}
                 style={{
                   background: 'transparent',
                   border: 'none',
@@ -522,6 +558,25 @@ export const ExplorePage = () => {
                   width: '100%',
                 }}
               />
+              {stateSearchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setStateSearchQuery('')}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--text-dim)',
+                    cursor: 'pointer',
+                    fontSize: '0.75rem',
+                    padding: '0 2px',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                  title="Clear search"
+                >
+                  ✕
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -864,15 +919,15 @@ export const ExplorePage = () => {
       <section style={{ marginTop: 'var(--space-8)' }}>
         <SectionHeader
           badge="JURISDICTION ROSTER"
-          title="All 36 States & Union Territories Exploration"
+          title={`All 36 States & Union Territories Exploration${filteredStates.length !== statesData.length ? ` (${filteredStates.length} Displayed)` : ''}`}
           subtitle="Interactive multidimensional ranking table. Click any row to inspect jurisdiction profile."
         />
 
-        {/* Top 10 Visual Ranking Bar Chart */}
+        {/* Top Visual Ranking Bar Chart */}
         <div style={{ marginBottom: 'var(--space-6)' }}>
           <Panel
             category="VOLUME HIERARCHY"
-            title="Top 10 Jurisdictions by Registered Volume"
+            title={stateSearchQuery.trim() || adminTypeFilter !== 'ALL' ? `Filtered Jurisdictions by Registered Volume (${top10States.length})` : 'Top 10 Jurisdictions by Registered Volume'}
             subtitle="Click any bar to switch active state focus"
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
