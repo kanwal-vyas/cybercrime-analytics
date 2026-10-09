@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Sun, Moon, Menu, X, Info } from 'lucide-react';
+import { Sun, Moon, Menu, X } from 'lucide-react';
 import { NAV_ITEMS, PROJECT_METADATA } from '../../lib/constants';
 import { useTheme } from '../../context/useTheme';
 
@@ -71,35 +71,7 @@ const GithubIcon = ({ size = 16 }) => (
 
 export const TopNavigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mnemonicOpen, setMnemonicOpen] = useState(false);
-  const popoverRef = React.useRef(null);
   const { theme, toggleTheme } = useTheme();
-
-  React.useEffect(() => {
-    if (!mnemonicOpen) return;
-
-    const handleOutsideClick = (event) => {
-      if (popoverRef.current && !popoverRef.current.contains(event.target)) {
-        setMnemonicOpen(false);
-      }
-    };
-
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        setMnemonicOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleOutsideClick);
-    document.addEventListener('touchstart', handleOutsideClick);
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-      document.removeEventListener('touchstart', handleOutsideClick);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [mnemonicOpen]);
 
   return (
     <header
@@ -134,7 +106,6 @@ export const TopNavigation = () => {
         {/* LEFT: NIRIKSHA PRODUCT IDENTITY                           */}
         {/* ========================================================= */}
         <div
-          ref={popoverRef}
           style={{
             position: 'relative',
             display: 'flex',
@@ -145,7 +116,7 @@ export const TopNavigation = () => {
         >
           <NavLink
             to="/"
-            aria-label={`NIRIKSHA — ${PROJECT_METADATA.descriptor}`}
+            aria-label={`NIRIKSHA — ${PROJECT_METADATA.mnemonic}`}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -203,90 +174,19 @@ export const TopNavigation = () => {
               <span
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: '0.6875rem',
+                  fontSize: '0.625rem',
                   fontWeight: 500,
                   color: 'var(--text-muted)',
                   letterSpacing: '0.01em',
                   lineHeight: 1.2,
                   whiteSpace: 'nowrap',
                 }}
+                title={PROJECT_METADATA.mnemonic}
               >
-                {PROJECT_METADATA.descriptor}
+                {PROJECT_METADATA.mnemonic}
               </span>
             </div>
           </NavLink>
-
-          {/* Mnemonic Info Trigger Icon Button */}
-          <button
-            type="button"
-            aria-label="NIRIKSHA Name Mnemonic Information"
-            aria-expanded={mnemonicOpen}
-            onClick={() => setMnemonicOpen((prev) => !prev)}
-            className="mnemonic-info-btn"
-            style={{
-              background: 'none',
-              border: 'none',
-              padding: '4px',
-              cursor: 'pointer',
-              color: mnemonicOpen ? 'var(--primary)' : 'var(--text-dim)',
-              borderRadius: 'var(--radius-full)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'color var(--transition-fast)',
-            }}
-          >
-            <Info size={13} />
-          </button>
-
-          {/* Compact Mnemonic Popover */}
-          {mnemonicOpen && (
-            <div
-              role="dialog"
-              aria-label="NIRIKSHA Name Mnemonic"
-              style={{
-                position: 'absolute',
-                top: 'calc(100% + 8px)',
-                left: 0,
-                zIndex: 120,
-                width: '300px',
-                maxWidth: 'calc(100vw - 32px)',
-                padding: '12px 14px',
-                backgroundColor: 'var(--bg-surface-elevated)',
-                border: '1px solid var(--border-strong)',
-                borderRadius: 'var(--radius-md)',
-                boxShadow: 'var(--shadow-lg)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '4px',
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 700,
-                  fontSize: '0.75rem',
-                  letterSpacing: '0.04em',
-                  color: 'var(--text-primary)',
-                }}
-              >
-                NIRIKSHA — Name Mnemonic
-              </div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.75rem',
-                  fontWeight: 500,
-                  color: 'var(--text-secondary)',
-                  lineHeight: 1.4,
-                }}
-              >
-                {PROJECT_METADATA.mnemonic}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* ========================================================= */}
@@ -507,7 +407,7 @@ export const TopNavigation = () => {
               <span style={{ fontSize: '0.6875rem', color: 'var(--text-dim)' }}>निरीक्षा</span>
             </div>
             <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
-              {PROJECT_METADATA.descriptor}
+              {PROJECT_METADATA.mnemonic}
             </div>
           </div>
 
