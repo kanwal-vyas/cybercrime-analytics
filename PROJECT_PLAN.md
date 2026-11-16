@@ -879,22 +879,22 @@ Stage 19: UI Foundation (React + Vite) ─────────► Interactiv
 
 ---
 
-### Stage 26 — Anomaly & Outlier UI *(Planned / Not Started)*
+### Stage 26 — Anomaly & Outlier UI *(Complete / Frozen)*
 - **Purpose**: Multidimensional anomaly detection interface visualizing statistical departures across univariate and multivariate methods.
-- **Planned Scope**:
-  - Multi-method anomaly matrix: Tukey IQR fences, Isolation Forest ($c=0.15$), Robust Mahalanobis (MinCovDet with $\chi^2$ screening cutoff), and Local Outlier Factor (LOF, $k=10$)
+- **Implemented Scope**:
+  - Multi-method anomaly matrix (`AnomaliesPage.jsx`): Tukey IQR fences, Isolation Forest ($c=0.15$), Robust Mahalanobis (MinCovDet with $\chi^2$ screening cutoff), and Local Outlier Factor (LOF, $k=10$)
   - Consensus Anomaly Score visualizer ($0$ to $4$ methods agreeing) highlighting 3 consensus states (Karnataka, Dadra & Nagar Haveli, Lakshadweep)
   - Dual-Space Separation view: Absolute Volume Extremes (Karnataka, Telangana, UP) vs. Compositional Extremes (Dadra & Nagar Haveli, Lakshadweep)
   - Non-destructive Small-Denominator Sensitivity Analysis toggle ($N=36$ vs. $N=34$ excluding tiny UTs)
   - Strict non-normative academic terminology: departures represent statistical extremity in feature space, not criminological "hotspots" or "risk"
-- **Status**: **Planned / Not Started**
+- **Status**: **Complete / Frozen**
 
 ---
 
-### Stage 27 — Methodology & Data Explorer *(Planned / Not Started)*
+### Stage 27 — Methodology & Data Explorer *(Complete / Frozen)*
 - **Purpose**: Full academic transparency interface providing data provenance, star schema dictionaries, algorithm documentation, and limitation disclosures.
-- **Planned Scope**:
-  - Source Data Provenance: NCRB Crime in India (Tables 9A.2, 9A.3, 9A.10, 9A.11) and Rajya Sabha archival records
+- **Implemented Scope**:
+  - Source Data Provenance (`MethodologyPage.jsx`): NCRB Crime in India (Tables 9A.2, 9A.3, 9A.10, 9A.11) and Rajya Sabha archival records
   - Relational Schema Explorer: Interactive Star Schema diagram (`dim_state`, `dim_crime_category`, `dim_motive`, `dim_year`, and fact tables)
   - End-to-End Pipeline Architecture: Visual representation of Stages 1–18 analytical lifecycle
   - Prominent 6 Core Methodological Limitations view:
@@ -905,33 +905,35 @@ Stage 19: UI Foundation (React + Vite) ─────────► Interactiv
     5. Macro-aggregate transaction proxies (syllabus demonstration)
     6. Small-denominator percentage distortion in tiny UTs
   - Reference link to Power BI 28-table semantic package and data dictionary
-- **Status**: **Planned / Not Started**
+  - Bharatiya Nyaya Sanhita (BNS) 2023 Legal Crosswalk (`BnsLegalCrosswalk.jsx`)
+- **Status**: **Complete / Frozen**
 
 ---
 
-### Stage 28 — UI Integration & UX Polish *(Planned / Not Started)*
+### Stage 28 — UI Integration & UX Polish *(Complete / Frozen)*
 - **Purpose**: Integrate all modular UI components into a responsive, accessible, and polished single-page application.
-- **Planned Scope**:
-  - Unified global header, collapsible sidebar navigation, breadcrumbs, and deep-linking
-  - Theme toggle (Dark / Light mode) with high-contrast accessibility compliance
+- **Implemented Scope**:
+  - Unified global header (`TopNavigation.jsx`), collapsible sidebar navigation (`AnalyticalSidebar.jsx`), breadcrumbs, and deep-linking
+  - Theme toggle (Dark / Light mode) with high-contrast accessibility compliance via CSS custom properties (`ThemeProvider.jsx`, `tokens.css`)
   - Cross-module filter synchronization and persistent user selection state
+  - Interactive Choropleth Map with accurate SVG paths, centroids, hover tooltips, and cluster overlays (`IndiaChoroplethMap.jsx`)
   - Seamless transitions, responsive layouts for desktop and tablet screens
-  - Reusable chart formatting, consistent tooltips, number formatting (Indian and International numbering systems)
-  - Performance optimization: Lazy loading of heavy chart views, optimized bundle size
-- **Status**: **Planned / Not Started**
+  - Reusable chart formatting, consistent tooltips, Indian and International numbering formatting
+  - Performance optimization: lazy rendering of heavy chart views, optimized bundle size
+- **Status**: **Complete / Frozen**
 
 ---
 
-### Stage 29 — Final UI QA & Deployment Readiness *(Planned / Not Started)*
+### Stage 29 — Final UI QA & Deployment Readiness *(Complete / Frozen)*
 - **Purpose**: Comprehensive end-to-end quality assurance, data reconciliation audit, and production deployment packaging.
-- **Planned Scope**:
-  - End-to-end automated UI component testing and API endpoint integration test suite
+- **Implemented Scope**:
+  - End-to-end automated UI component testing and API endpoint integration test suite (18 Pytest tests, 16 validation suites)
   - Strict UI data reconciliation audit against authoritative outputs ($86,420$ national total check)
   - Cross-browser compatibility and responsive layout validation
   - Production build optimization (Vite production bundle + FastAPI Uvicorn ASGI server)
-  - Containerization / deployment configuration (Docker, environment files, setup scripts)
-  - Final UI user guide and academic presentation walkthrough documentation
-- **Status**: **Done (FROZEN)**
+  - Containerization / deployment configuration (Docker, `docker-compose.yml`, health checks, non-root users)
+  - Automated CI/CD verification pipeline via GitHub Actions (`.github/workflows/ci.yml`) testing Python 3.11/3.12, Node 20, and Docker verification
+- **Status**: **Complete / Frozen**
 
 ---
 
