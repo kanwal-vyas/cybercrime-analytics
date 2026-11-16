@@ -256,7 +256,7 @@ export default function LiveOperationsPage() {
                   border: isConnected ? '1px solid #3E6347' : '1px solid #7A5328',
                 }}
               >
-                {isConnected ? 'LIVE WEBSOCKET STREAMING' : 'POLLING TELEMETRY'}
+                {isConnected ? 'SIMULATED STREAM · WEBSOCKET' : 'SIMULATED STREAM · POLLING'}
               </span>
             </div>
             <h2 style={{ margin: 0, fontSize: 'var(--text-xl)', color: 'var(--text-primary)' }}>
@@ -283,7 +283,7 @@ export default function LiveOperationsPage() {
                 animation: 'pulse 1s infinite',
               }}
             >
-              <Zap size={14} /> LIVE INGESTION: {livePulseState}
+              <Zap size={14} /> SIMULATED INGESTION: {livePulseState}
             </div>
           )}
 
@@ -324,6 +324,32 @@ export default function LiveOperationsPage() {
             <RefreshCw size={14} /> Refresh
           </button>
         </div>
+      </div>
+
+      {/* Simulation & Provenance Transparency Notice */}
+      <div
+        style={{
+          backgroundColor: 'rgba(214, 161, 93, 0.08)',
+          border: '1px solid rgba(214, 161, 93, 0.3)',
+          borderRadius: 'var(--radius-md)',
+          padding: '10px 16px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '12px',
+          fontSize: '0.8125rem',
+          color: 'var(--text-secondary)',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <ShieldAlert size={16} style={{ color: 'var(--color-amber)', flexShrink: 0 }} />
+          <span>
+            <strong style={{ color: 'var(--color-amber)' }}>DATA PROVENANCE & SIMULATION DISCLOSURE:</strong> Incident dispatch telemetry events are <strong>statistically calibrated synthetic simulations</strong> parameterized by empirical NCRB 2023 state volume distributions and common modus operandi patterns. CERT-In advisories are curated from official bulletins; Threat Radar IOCs are derived from public NCIIPC/DoT/CFCFRMS alerts. The core SQLite warehouse remains strictly immutable.
+          </span>
+        </div>
+        <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-amber)', whiteSpace: 'nowrap' }}>
+          CALIBRATED SIMULATION
+        </span>
       </div>
 
       {/* Real-Time Telemetry KPI Strip */}

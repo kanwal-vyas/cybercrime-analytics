@@ -52,10 +52,13 @@ export default function ThreatRadarPanel({ radarData = null, loading = false }) 
             <Radar size={20} />
           </div>
           <div>
-            <div className="tech-label" style={{ fontSize: '0.6875rem' }}>INDIAN THREAT INTELLIGENCE RADAR</div>
+            <div className="tech-label" style={{ fontSize: '0.6875rem' }}>INDIAN THREAT INTELLIGENCE RADAR (CURATED REFERENCE)</div>
             <h3 style={{ margin: 0, fontSize: 'var(--text-lg)', color: 'var(--text-primary)' }}>
               Active Phishing & Infrastructure Indicators
             </h3>
+            <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+              Derived from official DoT / NCIIPC / I4C CFCFRMS published advisories
+            </div>
           </div>
         </div>
 

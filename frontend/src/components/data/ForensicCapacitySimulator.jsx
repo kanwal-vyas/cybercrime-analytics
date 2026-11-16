@@ -1,256 +1,286 @@
 import React, { useState, useMemo } from 'react';
-import { Cpu, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { Cpu, ArrowUpRight, ArrowDownRight, Info } from 'lucide-react';
 
 /**
- * Digital Forensic Capacity & Caseload Triage Simulator
- * Models daily digital forensic intake, triage throughput, forensic examiner capacity,
- * and evidence processing turnaround times under varying investigative resource constraints.
+ * Digital Forensics Laboratory Throughput & Capacity Simulator
+ * 
+ * Mathematical Model & Methodological Formulation:
+ * ------------------------------------------------
+ * - Benchmark Standard: Based on CDAC / CFSL / DFSL evidence handling workflows (ISO/IEC 27037)
+ * - Workdays per Month: 22 working days
+ * - Effective Workbench Hours: 6.5 hours/day per analyst (deducting chain-of-custody logging, court testimonies, and imaging calibration)
+ * - Workstation Bounds: Analysis is bounded by available physical forensic extraction rigs
+ * 
+ * Formulas:
+ * ---------
+ * 1. Labor Pool Capacity (Hours/Mo) = Qualified Examiners * 22 Workdays * 6.5 Effective Hours
+ * 2. Total Processing Hours/Device  = Acquisition & Triage Hours + Parsing, Carving & Reporting Hours
+ * 3. Monthly Examination Throughput = floor(Labor Pool Capacity / Total Processing Hours per Device)
+ * 4. Monthly Net Backlog Delta     = Monthly Device Seizures - Monthly Examination Throughput
+ * 5. Clearance Runway (Months)      = Initial Backlog / |Net Monthly Delta| (if Net Delta < 0)
+ * 6. Resource Utilization Rate (%)  = (Monthly Seizures * Hours per Device) / Labor Pool Capacity * 100
  */
 export const ForensicCapacitySimulator = ({ className = '', style = {} }) => {
   // Operational Parameters
-  const [dailyComplaints, setDailyComplaints] = useState(250); // Daily 1930/CCTNS cyber complaints
-  const [activeExaminers, setActiveExaminers] = useState(12); // Trained digital forensic specialists
-  const [workstations, setWorkstations] = useState(6); // Dedicated forensic workstations (write-blockers, imaging rigs)
-  const [avgHoursPerDevice, setAvgHoursPerDevice] = useState(4.5); // Hours to acquire, hash, parse & triage per device
-  const [triageFilterRate, setTriageFilterRate] = useState(65); // % complaints resolved at automated 1930 freeze layer without physical imaging
+  const [examiners, setExaminers] = useState(8);
+  const [acquisitionHours, setAcquisitionHours] = useState(8);
+  const [analysisHours, setAnalysisHours] = useState(16);
+  const [monthlySeizures, setMonthlySeizures] = useState(110);
+  const [initialBacklog, setInitialBacklog] = useState(320);
 
-  // Analytical Calculations
-  const metrics = useMemo(() => {
-    // Complaints requiring deep physical device forensics
-    const physicalEvidenceCases = Math.round(dailyComplaints * (1 - triageFilterRate / 100));
+  // Constants based on DFSL standard working norms
+  const WORKDAYS_PER_MONTH = 22;
+  const EFFECTIVE_HOURS_PER_DAY = 6.5;
 
-    // Devices per physical case (phones, laptops, storage drives, SIMs)
-    const devicesToAnalyzePerDay = physicalEvidenceCases * 1.8;
+  const simResults = useMemo(() => {
+    const totalLaborHours = examiners * WORKDAYS_PER_MONTH * EFFECTIVE_HOURS_PER_DAY;
+    const hoursPerDevice = acquisitionHours + analysisHours;
+    const monthlyThroughput = Math.max(1, Math.floor(totalLaborHours / hoursPerDevice));
+    const netMonthlyDelta = monthlySeizures - monthlyThroughput;
 
-    // Total forensic work-hours required daily
-    const hoursNeededDaily = devicesToAnalyzePerDay * avgHoursPerDevice;
+    let monthsToClear = null;
+    let backlogStatus = 'STABLE';
 
-    // Maximum daily forensic capacity (8 productive hours/day per examiner, bounded by available workstations)
-    const effectiveUnits = Math.min(activeExaminers, workstations * 2); // 2 shifts per workstation max
-    const hoursAvailableDaily = effectiveUnits * 7.0; // 7 productive analysis hours per specialist
+    if (netMonthlyDelta > 0) {
+      backlogStatus = 'ACCUMULATING';
+    } else if (netMonthlyDelta < 0) {
+      backlogStatus = 'CLEARING';
+      monthsToClear = Math.ceil(initialBacklog / Math.abs(netMonthlyDelta));
+    }
 
-    // Daily throughput and backlog delta
-    const casesTriagedDaily = Math.min(
-      physicalEvidenceCases,
-      Math.floor(hoursAvailableDaily / (1.8 * avgHoursPerDevice))
-    );
-    const dailyBacklogDelta = physicalEvidenceCases - casesTriagedDaily;
-
-    // Turnaround time (days)
-    const turnaroundDays = hoursAvailableDaily > 0 ? (hoursNeededDaily / hoursAvailableDaily) * 1.2 : 999;
-    const utilizationPct = hoursAvailableDaily > 0 ? Math.min(100, Math.round((hoursNeededDaily / hoursAvailableDaily) * 100)) : 100;
+    const utilizationPct = Math.min(100, Math.round(((monthlySeizures * hoursPerDevice) / totalLaborHours) * 100));
 
     return {
-      physicalEvidenceCases,
-      devicesToAnalyzePerDay: Math.round(devicesToAnalyzePerDay),
-      hoursNeededDaily: Math.round(hoursNeededDaily),
-      hoursAvailableDaily: Math.round(hoursAvailableDaily),
-      casesTriagedDaily,
-      dailyBacklogDelta,
-      turnaroundDays: turnaroundDays.toFixed(1),
+      totalLaborHours: Math.round(totalLaborHours),
+      hoursPerDevice,
+      monthlyThroughput,
+      netMonthlyDelta,
+      monthsToClear,
+      backlogStatus,
       utilizationPct,
-      isDeficit: dailyBacklogDelta > 0,
+      dailyThroughput: (monthlyThroughput / WORKDAYS_PER_MONTH).toFixed(1),
     };
-  }, [dailyComplaints, activeExaminers, workstations, avgHoursPerDevice, triageFilterRate]);
+  }, [examiners, acquisitionHours, analysisHours, monthlySeizures, initialBacklog]);
 
   return (
     <div
       className={`forensic-capacity-simulator ${className}`}
       style={{
         backgroundColor: 'var(--bg-surface)',
-        border: '1px solid var(--border-default)',
-        borderRadius: 'var(--radius-md)',
+        borderRadius: 'var(--radius-lg)',
+        border: '1px solid var(--border-subtle)',
         padding: 'var(--space-5)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-4)',
         boxShadow: 'var(--shadow-panel)',
         ...style,
       }}
     >
-      {/* Title */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-4)', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-            <Cpu size={18} color="var(--cat-amber)" />
-            <h3 style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
-              Digital Forensic Capacity & Investigative Throughput Simulator
-            </h3>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+          <div
+            style={{
+              padding: '10px',
+              borderRadius: '8px',
+              backgroundColor: '#1E2F23',
+              border: '1px solid #3E6347',
+              color: 'var(--color-sage-light)',
+            }}
+          >
+            <Cpu size={22} />
           </div>
-          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.4 }}>
-            Simulate digital device triage throughput, evidence backlog dynamics, and staffing bottlenecks under varying 1930 incident intake rates.
-          </p>
+          <div>
+            <div className="tech-label" style={{ fontSize: '0.6875rem' }}>WHAT-IF CAPACITY SIMULATOR</div>
+            <h3 style={{ margin: 0, fontSize: 'var(--text-lg)', color: 'var(--text-primary)' }}>
+              Digital Forensic Laboratory Capacity & Backlog Dynamics
+            </h3>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              Simulates forensic turnaround times and evidentiary backlog accumulation under varying resource constraints
+            </div>
+          </div>
         </div>
 
-        <div
+        <span
           style={{
-            padding: '3px 8px',
-            borderRadius: '4px',
-            backgroundColor: metrics.isDeficit ? 'rgba(239, 68, 68, 0.15)' : 'var(--cat-sage-bg)',
-            border: `1px solid ${metrics.isDeficit ? 'rgba(239, 68, 68, 0.35)' : 'var(--cat-sage-border)'}`,
-            color: metrics.isDeficit ? '#F87171' : 'var(--color-sage-light)',
-            fontSize: '0.6875rem',
-            fontFamily: 'var(--font-mono)',
+            fontSize: '0.75rem',
             fontWeight: 700,
+            padding: '4px 10px',
+            borderRadius: '4px',
+            backgroundColor: simResults.backlogStatus === 'CLEARING' ? 'rgba(74, 222, 128, 0.15)' : 'rgba(248, 113, 113, 0.15)',
+            border: simResults.backlogStatus === 'CLEARING' ? '1px solid #4ADE80' : '1px solid #F87171',
+            color: simResults.backlogStatus === 'CLEARING' ? '#4ADE80' : '#F87171',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
           }}
         >
-          {metrics.isDeficit ? `BACKLOG SURGE (+${metrics.dailyBacklogDelta}/day)` : 'EQUILIBRIUM ACHIEVED'}
+          {simResults.backlogStatus === 'CLEARING' ? <ArrowDownRight size={14} /> : <ArrowUpRight size={14} />}
+          BACKLOG {simResults.backlogStatus} ({simResults.netMonthlyDelta > 0 ? `+${simResults.netMonthlyDelta}` : simResults.netMonthlyDelta} devices / mo)
+        </span>
+      </div>
+
+      {/* Methodological Context & Assumptions Notice */}
+      <div
+        style={{
+          backgroundColor: 'rgba(214, 161, 93, 0.08)',
+          border: '1px solid rgba(214, 161, 93, 0.3)',
+          borderRadius: 'var(--radius-md)',
+          padding: '12px 16px',
+          fontSize: '0.8125rem',
+          color: 'var(--text-secondary)',
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '12px',
+        }}
+      >
+        <Info size={18} style={{ color: 'var(--color-amber)', flexShrink: 0, marginTop: '2px' }} />
+        <div>
+          <strong style={{ color: 'var(--color-amber)' }}>METHODOLOGICAL FORMULATION & AUDIT BOUNDARIES:</strong>{' '}
+          Calculations are based on empirical digital forensics standards (ISO/IEC 27037). Baseline parameters assume 22 monthly workdays and 6.5 effective workbench analysis hours/analyst/day (excluding administrative chain-of-custody logging and expert testimony). This what-if simulator illustrates sensitivity curves; it is strictly an analytical planning benchmark and not an operational audit of any specific State or Central Forensic Science Laboratory (CFSL).
         </div>
       </div>
 
-      {/* Grid: Controls on Left, Metrics on Right */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-5)' }}>
-        {/* Sliders Panel */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-          {/* Daily Complaints */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '4px' }}>
-              <span style={{ color: 'var(--text-secondary)' }}>Daily 1930 / CCTNS Complaints:</span>
-              <strong style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>{dailyComplaints} cases/day</strong>
-            </div>
-            <input
-              type="range"
-              min="50"
-              max="1000"
-              step="25"
-              value={dailyComplaints}
-              onChange={(e) => setDailyComplaints(Number(e.target.value))}
-              style={{ width: '100%', accentColor: 'var(--primary)' }}
-            />
+      {/* Interactive Sliders */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: 'var(--space-4)',
+          backgroundColor: 'var(--bg-surface-elevated)',
+          padding: 'var(--space-4)',
+          borderRadius: 'var(--radius-md)',
+          border: '1px solid var(--border-subtle)',
+        }}
+      >
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '6px' }}>
+            <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Qualified Forensic Examiners</span>
+            <strong style={{ color: 'var(--color-sage-light)' }}>{examiners} Analysts</strong>
           </div>
-
-          {/* Active Forensic Specialists */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '4px' }}>
-              <span style={{ color: 'var(--text-secondary)' }}>Active Digital Forensic Examiners:</span>
-              <strong style={{ color: 'var(--color-sage-light)', fontFamily: 'var(--font-mono)' }}>{activeExaminers} personnel</strong>
-            </div>
-            <input
-              type="range"
-              min="2"
-              max="50"
-              step="1"
-              value={activeExaminers}
-              onChange={(e) => setActiveExaminers(Number(e.target.value))}
-              style={{ width: '100%', accentColor: 'var(--cat-sage)' }}
-            />
-          </div>
-
-          {/* Forensic Imaging Rigs */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '4px' }}>
-              <span style={{ color: 'var(--text-secondary)' }}>Certified Forensic Workstations:</span>
-              <strong style={{ color: 'var(--cat-slate)', fontFamily: 'var(--font-mono)' }}>{workstations} rigs</strong>
-            </div>
-            <input
-              type="range"
-              min="1"
-              max="25"
-              step="1"
-              value={workstations}
-              onChange={(e) => setWorkstations(Number(e.target.value))}
-              style={{ width: '100%', accentColor: 'var(--cat-slate)' }}
-            />
-          </div>
-
-          {/* Automated Triage Filter Rate */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '4px' }}>
-              <span style={{ color: 'var(--text-secondary)' }}>1930 Automated Financial Filter Rate:</span>
-              <strong style={{ color: 'var(--cat-amber)', fontFamily: 'var(--font-mono)' }}>{triageFilterRate}% automated</strong>
-            </div>
-            <input
-              type="range"
-              min="20"
-              max="90"
-              step="5"
-              value={triageFilterRate}
-              onChange={(e) => setTriageFilterRate(Number(e.target.value))}
-              style={{ width: '100%', accentColor: 'var(--cat-amber)' }}
-            />
-          </div>
-
-          {/* Analysis Hours per Device */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '4px' }}>
-              <span style={{ color: 'var(--text-secondary)' }}>Avg. Hours per Device (Imaging + Hash + Parse):</span>
-              <strong style={{ color: 'var(--cat-mauve)', fontFamily: 'var(--font-mono)' }}>{avgHoursPerDevice} hrs</strong>
-            </div>
-            <input
-              type="range"
-              min="1.0"
-              max="12.0"
-              step="0.5"
-              value={avgHoursPerDevice}
-              onChange={(e) => setAvgHoursPerDevice(Number(e.target.value))}
-              style={{ width: '100%', accentColor: 'var(--cat-mauve)' }}
-            />
+          <input
+            type="range"
+            min={1}
+            max={30}
+            value={examiners}
+            onChange={(e) => setExaminers(Number(e.target.value))}
+            style={{ width: '100%', accentColor: 'var(--color-sage)' }}
+          />
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+            Capacity: {simResults.totalLaborHours} effective work-hours / mo
           </div>
         </div>
 
-        {/* Calculated Results Panel */}
-        <div
-          style={{
-            backgroundColor: 'var(--bg-surface-elevated)',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-sm)',
-            padding: 'var(--space-4)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            gap: 'var(--space-3)',
-          }}
-        >
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-3)' }}>
-            <div>
-              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>PHYSICAL LAB CASES</div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
-                {metrics.physicalEvidenceCases} <span style={{ fontSize: '0.6875rem', fontWeight: 400 }}>cases/day</span>
-              </div>
-            </div>
-
-            <div>
-              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>DEVICES TO IMAGE</div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--cat-amber)', fontFamily: 'var(--font-mono)' }}>
-                {metrics.devicesToAnalyzePerDay} <span style={{ fontSize: '0.6875rem', fontWeight: 400 }}>devices/day</span>
-              </div>
-            </div>
-
-            <div>
-              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>DAILY CAPACITY</div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-sage-light)', fontFamily: 'var(--font-mono)' }}>
-                {metrics.hoursAvailableDaily} <span style={{ fontSize: '0.6875rem', fontWeight: 400 }}>work-hrs</span>
-              </div>
-            </div>
-
-            <div>
-              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>CAPACITY UTILIZATION</div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 700, color: metrics.utilizationPct > 100 ? '#F87171' : 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
-                {metrics.utilizationPct}%
-              </div>
-            </div>
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '6px' }}>
+            <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Acquisition & Triage Time</span>
+            <strong style={{ color: 'var(--color-sage-light)' }}>{acquisitionHours} hrs / device</strong>
           </div>
+          <input
+            type="range"
+            min={2}
+            max={24}
+            value={acquisitionHours}
+            onChange={(e) => setAcquisitionHours(Number(e.target.value))}
+            style={{ width: '100%', accentColor: 'var(--color-sage)' }}
+          />
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+            Physical bit-stream imaging & hashing
+          </div>
+        </div>
 
-          <div
-            style={{
-              padding: 'var(--space-3)',
-              backgroundColor: 'var(--bg-app)',
-              borderRadius: 'var(--radius-sm)',
-              borderLeft: `3px solid ${metrics.isDeficit ? '#EF4444' : 'var(--cat-sage)'}`,
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
-              {metrics.isDeficit ? (
-                <AlertTriangle size={14} color="#EF4444" />
-              ) : (
-                <CheckCircle2 size={14} color="var(--color-sage-light)" />
-              )}
-              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: metrics.isDeficit ? '#F87171' : 'var(--color-sage-light)' }}>
-                Estimated Turnaround: {metrics.turnaroundDays} Days
-              </span>
-            </div>
-            <p style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', margin: 0, lineHeight: 1.4 }}>
-              {metrics.isDeficit
-                ? `Current forensic lab staffing produces an accumulating deficit of ${metrics.dailyBacklogDelta} cases per day. Sec. 105 BNSS 2023 compliance requires acquiring additional forensic workstations or examiners.`
-                : 'Current technical staffing is sufficient to process incoming physical electronic evidence within standard trial readiness timelines.'}
-            </p>
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '6px' }}>
+            <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Analysis & Reporting Time</span>
+            <strong style={{ color: 'var(--color-sage-light)' }}>{analysisHours} hrs / device</strong>
+          </div>
+          <input
+            type="range"
+            min={4}
+            max={48}
+            value={analysisHours}
+            onChange={(e) => setAnalysisHours(Number(e.target.value))}
+            style={{ width: '100%', accentColor: 'var(--color-sage)' }}
+          />
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+            Data carving, indexing & BSA Sec. 63 report
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '6px' }}>
+            <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Monthly Seizure Influx</span>
+            <strong style={{ color: 'var(--color-sage-light)' }}>{monthlySeizures} devices</strong>
+          </div>
+          <input
+            type="range"
+            min={10}
+            max={300}
+            value={monthlySeizures}
+            onChange={(e) => setMonthlySeizures(Number(e.target.value))}
+            style={{ width: '100%', accentColor: 'var(--color-sage)' }}
+          />
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+            Incoming phones, drives & SIM cards
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '6px' }}>
+            <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Existing Pending Backlog</span>
+            <strong style={{ color: 'var(--color-sage-light)' }}>{initialBacklog} devices</strong>
+          </div>
+          <input
+            type="range"
+            min={50}
+            max={800}
+            step={10}
+            value={initialBacklog}
+            onChange={(e) => setInitialBacklog(Number(e.target.value))}
+            style={{ width: '100%', accentColor: 'var(--color-sage)' }}
+          />
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+            Current evidence room inventory
+          </div>
+        </div>
+      </div>
+
+      {/* Computed Outputs Grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 'var(--space-3)' }}>
+        <div style={{ backgroundColor: 'var(--bg-surface-elevated)', padding: '12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontWeight: 600 }}>MONTHLY THROUGHPUT</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-sage-light)', marginTop: '4px' }}>
+            {simResults.monthlyThroughput}
+          </div>
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>completed cases / month (~{simResults.dailyThroughput}/day)</div>
+        </div>
+
+        <div style={{ backgroundColor: 'var(--bg-surface-elevated)', padding: '12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontWeight: 600 }}>TOTAL EXPENDITURE / DEVICE</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', marginTop: '4px' }}>
+            {simResults.hoursPerDevice} <span style={{ fontSize: '0.875rem' }}>hrs</span>
+          </div>
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>acquisition ({acquisitionHours}h) + analysis ({analysisHours}h)</div>
+        </div>
+
+        <div style={{ backgroundColor: 'var(--bg-surface-elevated)', padding: '12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontWeight: 600 }}>WORKFORCE UTILIZATION</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: simResults.utilizationPct > 100 ? '#F87171' : '#4ADE80', marginTop: '4px' }}>
+            {simResults.utilizationPct}%
+          </div>
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+            {simResults.utilizationPct > 100 ? 'Severe Deficit (>100%)' : 'Manageable workload'}
+          </div>
+        </div>
+
+        <div style={{ backgroundColor: 'var(--bg-surface-elevated)', padding: '12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontWeight: 600 }}>ESTIMATED BACKLOG RUNWAY</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: simResults.monthsToClear ? '#4ADE80' : '#F87171', marginTop: '4px' }}>
+            {simResults.monthsToClear ? `${simResults.monthsToClear} mo` : 'Deficit'}
+          </div>
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+            {simResults.monthsToClear ? 'time to zero existing backlog' : 'backlog continuously expanding'}
           </div>
         </div>
       </div>

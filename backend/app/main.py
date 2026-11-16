@@ -106,8 +106,9 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     description=(
         "Specialized Data Access API Layer serving validated NCRB 2023 cybercrime datasets, "
-        "relational warehouse star schemas, longitudinal panel trends (2018–2022), "
-        "and validated machine learning models from Stages 1–18."
+        "relational warehouse star schemas (strictly immutable/read-only), "
+        "longitudinal panel trends (2018–2022), validated machine learning models from Stages 1–18, "
+        "and statistically calibrated demonstration telemetry for real-time triage workstation simulation."
     ),
     version=settings.VERSION,
     docs_url="/docs",

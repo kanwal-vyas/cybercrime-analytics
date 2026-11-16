@@ -33,6 +33,7 @@ const SECTION_TABS = [
   { id: 'architecture', value: 'architecture', label: 'SYSTEM ARCHITECTURE & WAREHOUSE' },
   { id: 'methods', value: 'methods', label: 'ANALYTICAL METHODS SPECIFICATION' },
   { id: 'validation', value: 'validation', label: 'VALIDATION & QUALITY GATES' },
+  { id: 'bns_crosswalk', value: 'bns_crosswalk', label: 'BNS 2023 LEGAL CROSSWALK' },
   { id: 'limitations', value: 'limitations', label: 'DEFINITIONS & LIMITATIONS' },
   { id: 'crosswalk', value: 'crosswalk', label: 'BNS 2023 STATUTORY CROSSWALK' },
   { id: 'explorer', value: 'explorer', label: 'INTERACTIVE METADATA EXPLORER' },
@@ -602,6 +603,15 @@ export const MethodologyPage = () => {
               The repository contains a fully validated 28-table Power BI semantic data package in <code>dashboard/powerbi_data/</code> with a 10-page architecture and 25+ pre-calculated DAX measure specifications. Both the Power BI semantic layer and this React/FastAPI web workstation serve as presentation tiers over the exact same frozen analytical core.
             </p>
           </Panel>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* SECTION: BNS 2023 STATUTORY REFORM CROSSWALK */}
+      {/* ========================================================================= */}
+      {(activeTab === 'all' || activeTab === 'bns_crosswalk') && (
+        <div style={{ marginBottom: 'var(--space-8)' }}>
+          <BnsLegalCrosswalk />
         </div>
       )}
 

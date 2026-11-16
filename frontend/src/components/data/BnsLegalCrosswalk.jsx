@@ -1,279 +1,414 @@
 import React, { useState, useMemo } from 'react';
-import { Scale, Search } from 'lucide-react';
+import { Scale, Search, ShieldCheck, BookOpen, AlertTriangle } from 'lucide-react';
 
 /**
- * Statutory Legal Crosswalk Matrix
- * Maps legacy Indian Penal Code (IPC 1860) & Indian Evidence Act (IEA 1872) provisions
- * to the Bharatiya Nyaya Sanhita (BNS 2023), Bharatiya Nagarik Suraksha Sanhita (BNSS 2023),
- * and Bharatiya Sakshya Adhiniyam (BSA 2023) alongside IT Act 2000 provisions.
+ * Statutory Legal Crosswalk Matrix: IPC (1860) to BNS (2023) & Evidence/Procedure Laws
+ * Sources:
+ * - The Bharatiya Nyaya Sanhita, 2023 (Act No. 45 of 2023)
+ * - The Bharatiya Nagarik Suraksha Sanhita, 2023 (Act No. 46 of 2023)
+ * - The Bharatiya Sakshya Adhiniyam, 2023 (Act No. 47 of 2023)
+ * - The Information Technology Act, 2000 (as amended)
+ * Effective Date: 1 July 2024
  */
-
-const LEGAL_CROSSWALK_DATA = [
+const STATUTORY_MAPPINGS = [
   {
+    id: 'cheating_delivery',
     domain: 'Fraud & Financial Crimes',
-    legacySection: 'Sec. 420 IPC',
-    legacyTitle: 'Cheating and dishonestly inducing delivery of property',
-    newSection: 'Sec. 318(4) BNS 2023',
-    newTitle: 'Cheating with inducement to deliver property',
-    itActCrosswalk: 'Sec. 66D IT Act (Punishment for cheating by personation by using computer resource)',
-    proceduralShift: 'Cognizable & non-bailable; triable by Magistrate of the First Class. Penalty up to 7 years imprisonment and fine.',
-    operationalImplication: 'Primary charge for digital banking fraud, investment telegram traps, and fake job scams in NCRB reporting.',
+    offense_name: 'Cheating and dishonestly inducing delivery of property',
+    legacy_ipc: 'Sec. 420 IPC',
+    new_bns: 'Sec. 318(4) BNS',
+    it_act_conjunction: 'Sec. 66D IT Act (Cheating by Personation)',
+    punishment_comparison: 'IPC: Up to 7 yrs + fine | BNS: Up to 7 yrs + fine (Cognizable, Non-Bailable)',
+    procedural_note: 'Primary charge for digital banking fraud, investment telegram traps, and fake job scams in NCRB reporting.',
+    substantive_changes: 'BNS retains substantive elements; combines with Sec. 319 BNS for electronic personation.',
   },
   {
+    id: 'cheating_personation',
     domain: 'Identity Theft & Personation',
-    legacySection: 'Sec. 419 IPC',
-    legacyTitle: 'Punishment for cheating by personation',
-    newSection: 'Sec. 319(2) BNS 2023',
-    newTitle: 'Cheating by personation',
-    itActCrosswalk: 'Sec. 66C IT Act (Identity theft) & Sec. 66D IT Act',
-    proceduralShift: 'Explicitly broadens personation to digital personas, deepfakes, and automated spoofed profiles. Up to 5 years imprisonment or fine or both.',
-    operationalImplication: 'Applied in Digital Arrest scams where actors impersonate CBI, ED, Mumbai Police, and Customs officials over video calls.',
+    offense_name: 'Cheating by Personation (Identity spoofing, fake profile)',
+    legacy_ipc: 'Sec. 419 IPC',
+    new_bns: 'Sec. 319(2) BNS',
+    it_act_conjunction: 'Sec. 66C & 66D IT Act',
+    punishment_comparison: 'IPC: Up to 3 yrs or fine | BNS: Up to 5 yrs or fine (Increased penalty)',
+    procedural_note: 'Explicitly broadens personation to digital personas, deepfakes, and automated spoofed profiles.',
+    substantive_changes: 'Penalty enhanced under BNS from 3 years to up to 5 years imprisonment.',
   },
   {
-    domain: 'Cyber Extortion & Blackmail',
-    legacySection: 'Sec. 384 IPC',
-    legacyTitle: 'Punishment for extortion',
-    newSection: 'Sec. 308(2) BNS 2023',
-    newTitle: 'Extortion',
-    itActCrosswalk: 'Sec. 66E IT Act (Violation of privacy) & Sec. 67A IT Act (Sexually explicit acts)',
-    proceduralShift: 'Imprisonment of either description for a term which may extend to 7 years, or with fine, or with both.',
-    operationalImplication: 'Governs sextortion video blackmail, ransomware demand extortion, and loan-app contact harassment syndicates.',
+    id: 'forgery_cheating',
+    domain: 'Document Forgery & Electronic Records',
+    offense_name: 'Forgery for purpose of cheating (Fake KYC, forged documents)',
+    legacy_ipc: 'Sec. 468 IPC',
+    new_bns: 'Sec. 336(3) BNS',
+    it_act_conjunction: 'Sec. 66 r/w Sec. 43 IT Act',
+    punishment_comparison: 'IPC: Up to 7 yrs + fine | BNS: Up to 7 yrs + fine (Cognizable, Non-Bailable)',
+    procedural_note: 'Electronic records explicitly recognized as documents under BSA Sec. 2(1)(d).',
+    substantive_changes: 'Incorporates forged digital certificates, e-signatures, and manipulated metadata.',
   },
   {
-    domain: 'Forgery of Electronic Records',
-    legacySection: 'Sec. 468 & 471 IPC',
-    legacyTitle: 'Forgery for purpose of cheating & using forged document as genuine',
-    newSection: 'Sec. 336(3) & 340(2) BNS 2023',
-    newTitle: 'Forgery for purpose of cheating & using forged electronic record as genuine',
-    itActCrosswalk: 'Sec. 66 IT Act (Computer related offences) & Sec. 74 IT Act (Publication for fraudulent purpose)',
-    proceduralShift: 'Direct statutory parity between physical instruments and electronic records, digital signatures, and metadata files.',
-    operationalImplication: 'Covers fake court arrest warrants, forged RBI verification letters, and cloned KYC utility bills.',
+    id: 'using_forged_document',
+    domain: 'Document Forgery & Electronic Records',
+    offense_name: 'Using as genuine a forged electronic record or document',
+    legacy_ipc: 'Sec. 471 IPC',
+    new_bns: 'Sec. 340(2) BNS',
+    it_act_conjunction: 'Sec. 66 IT Act',
+    punishment_comparison: 'Punished in same manner as if forged directly by accused.',
+    procedural_note: 'Applies to mules transmitting forged bank statements or fabricated PAN cards.',
+    substantive_changes: 'Harmonized with BSA Sec. 63 certificate requirements for secondary electronic proof.',
   },
   {
-    domain: 'Insult to Modesty of Women',
-    legacySection: 'Sec. 509 IPC',
-    legacyTitle: 'Word, gesture or act intended to insult modesty of a woman',
-    newSection: 'Sec. 79 BNS 2023',
-    newTitle: 'Word, gesture or act intended to insult modesty of a woman',
-    itActCrosswalk: 'Sec. 67 IT Act & Sec. 67A IT Act',
-    proceduralShift: 'Includes intrusive surveillance and electronic tracking. Term may extend to 3 years with fine; subsequent conviction up to 5 years.',
-    operationalImplication: 'Key statutory provision for cyberstalking, non-consensual image dissemination, and morphed social media abuse.',
+    id: 'stalking',
+    domain: 'Cyber Crimes Against Women & Minors',
+    offense_name: 'Cyber Stalking (Monitoring internet/email/social media of woman)',
+    legacy_ipc: 'Sec. 354D IPC',
+    new_bns: 'Sec. 78 BNS',
+    it_act_conjunction: 'Sec. 67 / 67A IT Act',
+    punishment_comparison: 'BNS: 1st conviction up to 3 yrs; subsequent up to 5 yrs + fine',
+    procedural_note: 'Sub-clause (1)(ii) specifically criminalizes electronic/cyber monitoring of women.',
+    substantive_changes: 'Retains gender-specific victim protection; expands electronic communication surveillance scope.',
   },
   {
-    domain: 'Digital Evidence Search & Seizure',
-    legacySection: 'Sec. 100 CrPC 1973',
-    legacyTitle: 'Persons in charge of closed place to allow search',
-    newSection: 'Sec. 105 BNSS 2023',
-    newTitle: 'Recording of search and seizure through audio-video electronic means',
-    itActCrosswalk: 'Sec. 78 IT Act (Power to investigate offences)',
-    proceduralShift: 'MANDATORY videography and audio-visual recording of digital device seizure, hashing, and packaging at crime scene without delay.',
-    operationalImplication: 'Strict evidentiary requirement for digital forensic officers; non-compliance may compromise trial admissibility.',
+    id: 'modesty_insult',
+    domain: 'Cyber Crimes Against Women & Minors',
+    offense_name: 'Word, gesture, or act intended to insult modesty of woman',
+    legacy_ipc: 'Sec. 509 IPC',
+    new_bns: 'Sec. 79 BNS',
+    it_act_conjunction: 'Sec. 67 IT Act',
+    punishment_comparison: 'IPC: Up to 3 yrs + fine | BNS: Up to 3 yrs + fine (Cognizable, Bailable)',
+    procedural_note: 'Applies to non-consensual transmission of abusive, degrading, or morphed digital messages.',
+    substantive_changes: 'Expanded judicial interpretation covering deepfake generation and AI morphing.',
   },
   {
-    domain: 'Electronic Records Admissibility',
-    legacySection: 'Sec. 65B IEA 1872',
-    legacyTitle: 'Admissibility of electronic records (Mandatory Certificate)',
-    newSection: 'Sec. 63 BSA 2023',
-    newTitle: 'Admissibility of electronic records in evidence',
-    itActCrosswalk: 'Sec. 65B Certificate replaced by Schedule Certificate under Sec. 63(4) BSA 2023',
-    proceduralShift: 'Requires certified statement by person in charge of device or expert, confirming integrity of hash values and cryptographic custody.',
-    operationalImplication: 'Governs server log extracts, CDR/IPDR cellular records, WhatsApp chat exports, and database forensics presented in court.',
+    id: 'extortion_cyber',
+    domain: 'Extortion & Intimidation',
+    offense_name: 'Extortion via electronic communication (Sextortion, Ransomware)',
+    legacy_ipc: 'Sec. 384 IPC',
+    new_bns: 'Sec. 308(2) BNS',
+    it_act_conjunction: 'Sec. 66 & 67A IT Act',
+    punishment_comparison: 'IPC: Up to 3 yrs or fine | BNS: Up to 7 yrs or fine (Significantly enhanced)',
+    procedural_note: 'Maximum penalty increased from 3 years to up to 7 years imprisonment under BNS.',
+    substantive_changes: 'Directly penalizes extortion threats delivered through encrypted messaging and VoIP.',
+  },
+  {
+    id: 'criminal_intimidation',
+    domain: 'Extortion & Intimidation',
+    offense_name: 'Criminal Intimidation by electronic message / threat',
+    legacy_ipc: 'Sec. 506 IPC',
+    new_bns: 'Sec. 351(2) BNS',
+    it_act_conjunction: 'Sec. 66 IT Act',
+    punishment_comparison: 'Simple: Up to 2 yrs; if threat to cause death/grievous hurt: Up to 7 yrs',
+    procedural_note: 'Applied to loan-app recovery agent harassment audio notes and dox threats.',
+    substantive_changes: 'BNS structure consolidated; threat via anonymous communication addressed under Sec. 351(4).',
+  },
+  {
+    id: 'criminal_conspiracy',
+    domain: 'Organized Cybercrime & Syndicates',
+    offense_name: 'Criminal Conspiracy (Syndicate networks, multi-tier mule rings)',
+    legacy_ipc: 'Sec. 120B IPC',
+    new_bns: 'Sec. 61(2) BNS',
+    it_act_conjunction: 'Sec. 84B & 84C IT Act (Abetment / Attempt)',
+    punishment_comparison: 'Same punishment as abetment of the substantive offense conspired.',
+    procedural_note: 'Frequently charged alongside BNS Sec. 111 (Organized Crime) for multi-state call centers.',
+    substantive_changes: 'Now complemented by BNS Sec. 111, which introduces explicit organized crime syndicates.',
+  },
+  {
+    id: 'organized_cybercrime',
+    domain: 'Organized Cybercrime & Syndicates',
+    offense_name: 'Organized Crime & Transnational Cyber Syndicates',
+    legacy_ipc: 'No direct IPC equivalent (Special State Acts: MCOCA/GUJCTOC)',
+    new_bns: 'Sec. 111 BNS (NEW PROVISION)',
+    it_act_conjunction: 'IT Act read with PMLA & BNS 111',
+    punishment_comparison: 'Death or life imprisonment if death results; otherwise min 5 yrs up to life + ₹5L fine',
+    procedural_note: 'Empowers national law enforcement to seize illicit cyber fraud proceeds and freeze assets.',
+    substantive_changes: 'NEW: Explicitly covers cyber crimes committed on behalf of a crime syndicate.',
+  },
+];
+
+const PROCEDURAL_TRANSFORMS = [
+  {
+    topic: 'Electronic Records Admissibility',
+    legacy: 'Sec. 65B Indian Evidence Act, 1872',
+    current: 'Sec. 63 Bharatiya Sakshya Adhiniyam, 2023 (BSA)',
+    key_difference: 'Digital records have equal evidentiary status to paper. Certificate under Sec. 63(4) required, signed by custodian of computer device or qualified expert.',
+  },
+  {
+    topic: 'Mandatory Videography of Digital Search & Seizure',
+    legacy: 'CrPC Sec. 100 (Discretionary videography based on case law)',
+    current: 'BNSS Sec. 105 & Sec. 185 (MANDATORY)',
+    key_difference: 'Search of premises, seizure of mobile devices/laptops, and inventory preparation MUST be recorded through audio-video electronic means (e.g. mobile recording) without delay.',
+  },
+  {
+    topic: 'Police Custody Interrogation Window',
+    legacy: 'CrPC Sec. 167 (15 days strictly within first 15 days of arrest)',
+    current: 'BNSS Sec. 187(3)',
+    key_difference: '15-day police custody can now be sought in whole or in parts across the first 40 or 60 days of the total detention period, aiding complex digital forensic extraction.',
   },
 ];
 
 export const BnsLegalCrosswalk = ({ className = '', style = {} }) => {
-  const [selectedDomain, setSelectedDomain] = useState('ALL');
-  const [searchQuery, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedGroup, setSelectedGroup] = useState('ALL');
 
-  const domains = useMemo(() => {
-    const set = new Set(LEGAL_CROSSWALK_DATA.map((d) => d.domain));
-    return ['ALL', ...Array.from(set)];
-  }, []);
+  const groups = ['ALL', 'Fraud & Financial Crimes', 'Identity Theft & Personation', 'Document Forgery & Electronic Records', 'Cyber Crimes Against Women & Minors', 'Extortion & Intimidation', 'Organized Cybercrime & Syndicates'];
 
-  const filteredData = useMemo(() => {
-    const q = searchQuery.toLowerCase().trim();
-    return LEGAL_CROSSWALK_DATA.filter((item) => {
-      const matchDomain = selectedDomain === 'ALL' || item.domain === selectedDomain;
+  const filtered = useMemo(() => {
+    return STATUTORY_MAPPINGS.filter((item) => {
+      const matchGroup = selectedGroup === 'ALL' || item.domain === selectedGroup;
+      const term = searchTerm.toLowerCase();
       const matchSearch =
-        !q ||
-        item.legacySection.toLowerCase().includes(q) ||
-        item.newSection.toLowerCase().includes(q) ||
-        item.legacyTitle.toLowerCase().includes(q) ||
-        item.newTitle.toLowerCase().includes(q) ||
-        item.itActCrosswalk.toLowerCase().includes(q) ||
-        item.operationalImplication.toLowerCase().includes(q);
-      return matchDomain && matchSearch;
+        item.offense_name.toLowerCase().includes(term) ||
+        item.legacy_ipc.toLowerCase().includes(term) ||
+        item.new_bns.toLowerCase().includes(term) ||
+        item.it_act_conjunction.toLowerCase().includes(term);
+      return matchGroup && matchSearch;
     });
-  }, [selectedDomain, searchQuery]);
+  }, [searchTerm, selectedGroup]);
 
   return (
-    <div
-      className={`bns-legal-crosswalk ${className}`}
-      style={{
-        backgroundColor: 'var(--bg-surface)',
-        border: '1px solid var(--border-default)',
-        borderRadius: 'var(--radius-md)',
-        padding: 'var(--space-5)',
-        boxShadow: 'var(--shadow-panel)',
-        ...style,
-      }}
-    >
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-4)', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-            <Scale size={18} color="var(--color-sage-light)" />
-            <h3 style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
-              Bharatiya Nyaya Sanhita (BNS 2023) Legal Crosswalk
-            </h3>
-          </div>
-          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.4 }}>
-            Statutory mapping across IPC (1860) / CrPC (1973) / IEA (1872) and new criminal laws effective July 1, 2024.
-          </p>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-          {/* Domain Filter */}
-          <select
-            value={selectedDomain}
-            onChange={(e) => setSelectedDomain(e.target.value)}
-            aria-label="Filter by Legal Domain"
+    <div className={`bns-legal-crosswalk ${className}`} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', ...style }}>
+      {/* Header Banner */}
+      <div
+        style={{
+          backgroundColor: 'var(--bg-surface)',
+          borderRadius: 'var(--radius-lg)',
+          border: '1px solid var(--border-subtle)',
+          padding: 'var(--space-4)',
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 'var(--space-3)',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+          <div
             style={{
-              padding: '6px 10px',
-              backgroundColor: 'var(--bg-surface-elevated)',
-              border: '1px solid var(--border-default)',
-              borderRadius: 'var(--radius-sm)',
-              color: 'var(--text-primary)',
-              fontSize: '0.75rem',
-              fontFamily: 'var(--font-mono)',
+              padding: '10px',
+              borderRadius: '8px',
+              backgroundColor: '#1E2F23',
+              border: '1px solid #3E6347',
+              color: 'var(--color-sage-light)',
             }}
           >
-            {domains.map((dom) => (
-              <option key={dom} value={dom}>
-                {dom === 'ALL' ? 'ALL LEGAL DOMAINS' : dom.toUpperCase()}
-              </option>
-            ))}
-          </select>
-
-          {/* Search Box */}
-          <div style={{ position: 'relative' }}>
-            <Search
-              size={13}
-              style={{ position: 'absolute', left: '8px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}
-            />
-            <input
-              type="text"
-              placeholder="Search section or keyword..."
-              value={searchQuery}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              aria-label="Search crosswalk provisions"
-              style={{
-                padding: '6px 10px 6px 28px',
-                backgroundColor: 'var(--bg-surface-elevated)',
-                border: '1px solid var(--border-default)',
-                borderRadius: 'var(--radius-sm)',
-                color: 'var(--text-primary)',
-                fontSize: '0.75rem',
-                minWidth: '200px',
-              }}
-            />
+            <Scale size={24} />
           </div>
+          <div>
+            <div className="tech-label" style={{ fontSize: '0.6875rem' }}>STATUTORY REFORM CROSSWALK</div>
+            <h2 style={{ margin: 0, fontSize: 'var(--text-xl)', color: 'var(--text-primary)' }}>
+              IPC (1860) to Bharatiya Nyaya Sanhita (BNS 2023) Legal Concordance
+            </h2>
+            <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+              Authoritative criminal law transition matrix for Indian cybercrime investigations (Effective 1 July 2024)
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span
+            style={{
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              padding: '4px 10px',
+              borderRadius: '4px',
+              backgroundColor: '#1E2F23',
+              border: '1px solid #3E6347',
+              color: '#4ADE80',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}
+          >
+            <ShieldCheck size={14} /> STATUTORY REFERENCE VERIFIED
+          </span>
         </div>
       </div>
 
-      {/* Cards Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--space-4)' }}>
-        {filteredData.map((item, idx) => (
-          <div
-            key={idx}
+      {/* Academic & Legal Disclaimer */}
+      <div
+        style={{
+          backgroundColor: 'rgba(214, 161, 93, 0.08)',
+          border: '1px solid rgba(214, 161, 93, 0.3)',
+          borderRadius: 'var(--radius-md)',
+          padding: '12px 16px',
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '12px',
+          fontSize: '0.8125rem',
+          color: 'var(--text-secondary)',
+        }}
+      >
+        <AlertTriangle size={18} style={{ color: 'var(--color-amber)', flexShrink: 0, marginTop: '2px' }} />
+        <div>
+          <strong style={{ color: 'var(--color-amber)' }}>LEGAL PROVENANCE & INTERPRETATION BOUNDARY:</strong>{' '}
+          This concordant table maps legacy Indian Penal Code (IPC 1860) sections reported in NCRB 2023 tables to the corresponding Bharatiya Nyaya Sanhita (BNS 2023, Act No. 45 of 2023), Bharatiya Nagarik Suraksha Sanhita (BNSS 2023), and Bharatiya Sakshya Adhiniyam (BSA 2023). Under Article 20(1) of the Constitution of India, offenses committed on or before 30 June 2024 remain triable under IPC 1860, while offenses committed on or after 1 July 2024 are registered under BNS 2023. This crosswalk serves academic research and comparative legal analytics; it does not constitute formal legal counsel.
+        </div>
+      </div>
+
+      {/* Search & Filter Controls */}
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 'var(--space-3)',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div style={{ position: 'relative', minWidth: '280px', flex: '1 1 300px' }}>
+          <Search
+            size={16}
             style={{
-              backgroundColor: 'var(--bg-surface-elevated)',
-              border: '1px solid var(--border-subtle)',
-              borderTop: '3px solid var(--cat-sage)',
-              borderRadius: 'var(--radius-sm)',
-              padding: 'var(--space-4)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--space-3)',
+              position: 'absolute',
+              left: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: 'var(--text-muted)',
             }}
-          >
-            {/* Domain & Section Headers */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 'var(--space-2)' }}>
-              <div>
-                <span
+          />
+          <input
+            type="text"
+            placeholder="Search by IPC section (420, 354D), BNS section (318, 78), or offense..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '8px 12px 8px 36px',
+              backgroundColor: 'var(--bg-surface)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 'var(--radius-md)',
+              color: 'var(--text-primary)',
+              fontSize: '0.8125rem',
+            }}
+          />
+        </div>
+
+        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+          {groups.map((grp) => (
+            <button
+              key={grp}
+              onClick={() => setSelectedGroup(grp)}
+              style={{
+                padding: '6px 12px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: selectedGroup === grp ? 'var(--color-sage)' : 'var(--bg-surface)',
+                color: selectedGroup === grp ? '#090C0A' : 'var(--text-secondary)',
+                border: '1px solid var(--border-subtle)',
+                fontSize: '0.75rem',
+                fontWeight: selectedGroup === grp ? 700 : 500,
+                cursor: 'pointer',
+              }}
+            >
+              {grp === 'ALL' ? 'All Offenses' : grp}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Crosswalk Concordance Table */}
+      <div
+        style={{
+          backgroundColor: 'var(--bg-surface)',
+          borderRadius: 'var(--radius-lg)',
+          border: '1px solid var(--border-subtle)',
+          overflow: 'hidden',
+        }}
+      >
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.8125rem' }}>
+            <thead>
+              <tr style={{ backgroundColor: 'var(--bg-surface-elevated)', borderBottom: '1px solid var(--border-subtle)' }}>
+                <th style={{ padding: '12px', color: 'var(--text-muted)', fontWeight: 600 }}>OFFENSE DESCRIPTION</th>
+                <th style={{ padding: '12px', color: '#F87171', fontWeight: 700 }}>LEGACY IPC (1860)</th>
+                <th style={{ padding: '12px', color: '#4ADE80', fontWeight: 700 }}>NEW BNS (2023)</th>
+                <th style={{ padding: '12px', color: 'var(--color-amber)', fontWeight: 600 }}>IT ACT (2000) JOINT CONJUNCTION</th>
+                <th style={{ padding: '12px', color: 'var(--text-muted)', fontWeight: 600 }}>SUBSTANTIVE CHANGE & INVESTIGATIVE NOTE</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((row, idx) => (
+                <tr
+                  key={row.id}
                   style={{
-                    fontSize: '0.625rem',
-                    fontFamily: 'var(--font-mono)',
-                    textTransform: 'uppercase',
-                    color: 'var(--color-sage-light)',
-                    fontWeight: 700,
-                    letterSpacing: '0.04em',
+                    borderBottom: '1px solid var(--border-subtle)',
+                    backgroundColor: idx % 2 === 0 ? 'transparent' : 'rgba(255, 255, 255, 0.015)',
                   }}
                 >
-                  {item.domain}
-                </span>
-                <div style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--text-primary)', marginTop: '2px' }}>
-                  {item.newSection}
-                </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                  {item.newTitle}
-                </div>
-              </div>
+                  <td style={{ padding: '12px', color: 'var(--text-primary)', verticalAlign: 'top', maxWidth: '240px' }}>
+                    <div style={{ fontWeight: 600 }}>{row.offense_name}</div>
+                    <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+                      {row.domain}
+                    </div>
+                  </td>
+                  <td style={{ padding: '12px', verticalAlign: 'top', whiteSpace: 'nowrap' }}>
+                    <span style={{ fontWeight: 700, color: '#F87171', backgroundColor: 'rgba(248, 113, 113, 0.1)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(248, 113, 113, 0.3)' }}>
+                      {row.legacy_ipc}
+                    </span>
+                  </td>
+                  <td style={{ padding: '12px', verticalAlign: 'top', whiteSpace: 'nowrap' }}>
+                    <span style={{ fontWeight: 700, color: '#4ADE80', backgroundColor: 'rgba(74, 222, 128, 0.1)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(74, 222, 128, 0.3)' }}>
+                      {row.new_bns}
+                    </span>
+                  </td>
+                  <td style={{ padding: '12px', color: 'var(--color-amber)', verticalAlign: 'top', fontSize: '0.75rem', maxWidth: '200px' }}>
+                    {row.it_act_conjunction}
+                  </td>
+                  <td style={{ padding: '12px', color: 'var(--text-secondary)', verticalAlign: 'top', fontSize: '0.75rem', maxWidth: '320px' }}>
+                    <div>{row.substantive_changes}</div>
+                    <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: '4px', fontStyle: 'italic' }}>
+                      {row.punishment_comparison}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-              <div
-                style={{
-                  padding: '2px 6px',
-                  borderRadius: '3px',
-                  backgroundColor: 'var(--cat-mauve-bg)',
-                  border: '1px solid var(--cat-mauve-border)',
-                  color: 'var(--cat-mauve)',
-                  fontSize: '0.6875rem',
-                  fontFamily: 'var(--font-mono)',
-                  fontWeight: 600,
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                was {item.legacySection}
-              </div>
-            </div>
+      {/* Procedural Transformations (BNSS & BSA) */}
+      <div
+        style={{
+          backgroundColor: 'var(--bg-surface)',
+          borderRadius: 'var(--radius-lg)',
+          border: '1px solid var(--border-subtle)',
+          padding: 'var(--space-4)',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: 'var(--space-3)' }}>
+          <BookOpen size={18} style={{ color: 'var(--color-sage-light)' }} />
+          <h3 style={{ margin: 0, fontSize: 'var(--text-md)', color: 'var(--text-primary)' }}>
+            Key Procedural & Evidentiary Reforms (BNSS 2023 & BSA 2023)
+          </h3>
+        </div>
 
-            {/* IT Act Crosswalk */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-3)' }}>
+          {PROCEDURAL_TRANSFORMS.map((pt, idx) => (
             <div
+              key={idx}
               style={{
-                padding: 'var(--space-2) var(--space-3)',
-                backgroundColor: 'var(--bg-app)',
-                borderRadius: 'var(--radius-sm)',
-                borderLeft: '2px solid var(--cat-amber)',
-                fontSize: '0.6875rem',
-                color: 'var(--text-muted)',
+                backgroundColor: 'var(--bg-surface-elevated)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: 'var(--radius-md)',
+                padding: 'var(--space-3)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '6px',
               }}
             >
-              <strong style={{ color: 'var(--cat-amber)', display: 'block', marginBottom: '2px' }}>
-                IT Act 2000 Concurrence:
-              </strong>
-              {item.itActCrosswalk}
+              <div style={{ fontWeight: 600, color: 'var(--color-sage-light)', fontSize: '0.8125rem' }}>
+                {pt.topic}
+              </div>
+              <div style={{ display: 'flex', gap: '8px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                <span>Legacy: <strong style={{ color: '#F87171' }}>{pt.legacy}</strong></span>
+              </div>
+              <div style={{ display: 'flex', gap: '8px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                <span>Reform: <strong style={{ color: '#4ADE80' }}>{pt.current}</strong></span>
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                {pt.key_difference}
+              </div>
             </div>
-
-            {/* Operational Implication */}
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.4, margin: 0 }}>
-              {item.operationalImplication}
-            </p>
-
-            {/* Procedural Shift */}
-            <div
-              style={{
-                fontSize: '0.6875rem',
-                fontFamily: 'var(--font-mono)',
-                color: 'var(--text-dim)',
-                borderTop: '1px solid var(--border-subtle)',
-                paddingTop: 'var(--space-2)',
-              }}
-            >
-              <span style={{ color: 'var(--text-muted)' }}>Statutory Shift: </span>
-              {item.proceduralShift}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

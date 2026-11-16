@@ -889,7 +889,7 @@ export const ModelsPage = () => {
                   >
                     {/* Plot Margins: left=55, right=510, top=15, bottom=275 */}
                     {/* Horizontal Span: 455px, Vertical Span: 260px across 4.3 Log-10 Decades */}
-                    
+
                     {/* Logarithmic Gridlines & Ticks */}
                     {[
                       { log: 0, label: '1' },
@@ -956,7 +956,7 @@ export const ModelsPage = () => {
                     {actualVsPredicted.map((item) => {
                       const actual = Math.max(1, item.actual_2022);
                       const pred = Math.max(1, item[predModelConfig.predKey]);
-                      
+
                       const logActual = Math.log10(actual);
                       const logPred = Math.log10(pred);
                       const maxLog = 4.3;
@@ -1006,26 +1006,26 @@ export const ModelsPage = () => {
                               isSelected
                                 ? 'var(--color-ivory)'
                                 : isHovered
-                                ? 'var(--color-ivory)'
-                                : 'var(--primary)'
+                                  ? 'var(--color-ivory)'
+                                  : 'var(--primary)'
                             }
                             fillOpacity={
                               isSelected
                                 ? 1
                                 : isHovered
-                                ? 1
-                                : hasActiveSelection
-                                ? 0.3
-                                : 0.75
+                                  ? 1
+                                  : hasActiveSelection
+                                    ? 0.3
+                                    : 0.75
                             }
                             stroke={
                               isSelected
                                 ? 'var(--primary)'
                                 : isHovered
-                                ? 'var(--primary)'
-                                : hasActiveSelection
-                                ? 'var(--border-subtle)'
-                                : 'var(--border-strong)'
+                                  ? 'var(--primary)'
+                                  : hasActiveSelection
+                                    ? 'var(--border-subtle)'
+                                    : 'var(--border-strong)'
                             }
                             strokeWidth={isSelected ? 2.5 : isHovered ? 2 : 1}
                             style={{ transition: 'all var(--transition-fast)' }}
