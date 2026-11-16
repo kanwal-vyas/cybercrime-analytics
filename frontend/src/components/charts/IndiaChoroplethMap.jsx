@@ -252,7 +252,7 @@ export const IndiaChoroplethMap = ({
               style={{
                 border: 'none',
                 background: activeLayer === 'volume' ? 'var(--color-sage-deep)' : 'transparent',
-                color: activeLayer === 'volume' ? '#fff' : 'var(--text-muted)',
+                color: activeLayer === 'volume' ? '#fff' : 'var(--text-secondary)',
                 padding: '4px 10px',
                 borderRadius: 'var(--radius-sm)',
                 fontSize: '0.75rem',
@@ -268,7 +268,7 @@ export const IndiaChoroplethMap = ({
               style={{
                 border: 'none',
                 background: activeLayer === 'act_dominance' ? 'var(--color-mauve-deep)' : 'transparent',
-                color: activeLayer === 'act_dominance' ? '#fff' : 'var(--text-muted)',
+                color: activeLayer === 'act_dominance' ? '#fff' : 'var(--text-secondary)',
                 padding: '4px 10px',
                 borderRadius: 'var(--radius-sm)',
                 fontSize: '0.75rem',
@@ -284,7 +284,7 @@ export const IndiaChoroplethMap = ({
               style={{
                 border: 'none',
                 background: activeLayer === 'cluster' ? 'var(--cat-amber)' : 'transparent',
-                color: activeLayer === 'cluster' ? '#111' : 'var(--text-muted)',
+                color: activeLayer === 'cluster' ? '#111' : 'var(--text-secondary)',
                 padding: '4px 10px',
                 borderRadius: 'var(--radius-sm)',
                 fontSize: '0.75rem',
@@ -300,7 +300,7 @@ export const IndiaChoroplethMap = ({
               style={{
                 border: 'none',
                 background: activeLayer === 'anomalies' ? 'var(--status-danger)' : 'transparent',
-                color: activeLayer === 'anomalies' ? '#fff' : 'var(--text-muted)',
+                color: activeLayer === 'anomalies' ? '#fff' : 'var(--text-secondary)',
                 padding: '4px 10px',
                 borderRadius: 'var(--radius-sm)',
                 fontSize: '0.75rem',
@@ -417,54 +417,57 @@ export const IndiaChoroplethMap = ({
             position: 'absolute',
             bottom: 'var(--space-3)',
             left: 'var(--space-4)',
-            backgroundColor: 'rgba(14, 19, 16, 0.88)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid var(--border-default)',
+            backgroundColor: 'rgba(10, 15, 12, 0.94)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(133, 162, 137, 0.35)',
             borderRadius: 'var(--radius-sm)',
             padding: 'var(--space-3) var(--space-4)',
             fontSize: '0.75rem',
             fontFamily: 'var(--font-mono)',
             zIndex: 5,
             pointerEvents: 'none',
+            color: '#E8E3DE',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.6)',
           }}
         >
           {activeLayer === 'volume' && (
             <div>
-              <div style={{ fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '4px' }}>
+              <div style={{ fontWeight: 700, color: '#A4C4A9', marginBottom: '6px', fontSize: '0.6875rem', letterSpacing: '0.04em' }}>
                 VOLUME HEAT SCALE
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ color: 'var(--text-muted)' }}>Low (1)</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ color: '#B4C0B7', fontSize: '0.6875rem' }}>Low (1)</span>
                 <div
                   style={{
                     width: '100px',
                     height: '8px',
                     borderRadius: '4px',
                     background: 'linear-gradient(to right, #1B261E, #304735, #507656, #85A289, #E0A340)',
+                    border: '1px solid rgba(255,255,255,0.1)',
                   }}
                 />
-                <span style={{ color: 'var(--cat-amber)', fontWeight: 700 }}>21,889</span>
+                <span style={{ color: '#FBBF24', fontWeight: 700, fontSize: '0.75rem' }}>21,889</span>
               </div>
             </div>
           )}
 
           {activeLayer === 'act_dominance' && (
             <div>
-              <div style={{ fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '4px' }}>
+              <div style={{ fontWeight: 700, color: '#A4C4A9', marginBottom: '6px', fontSize: '0.6875rem', letterSpacing: '0.04em' }}>
                 STATUTORY ACT DOMINANCE
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', color: '#E8E3DE' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '10px', height: '10px', backgroundColor: '#6A9370', borderRadius: '2px' }} />
-                  <span>IT Act Dominant (&gt;60%)</span>
+                  <div style={{ width: '10px', height: '10px', backgroundColor: '#6A9370', borderRadius: '2px', border: '1px solid rgba(255,255,255,0.2)' }} />
+                  <span style={{ color: '#E8E3DE', fontWeight: 500 }}>IT Act Dominant (&gt;60%)</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '10px', height: '10px', backgroundColor: '#956E92', borderRadius: '2px' }} />
-                  <span>IPC Dominant (&gt;60%)</span>
+                  <div style={{ width: '10px', height: '10px', backgroundColor: '#956E92', borderRadius: '2px', border: '1px solid rgba(255,255,255,0.2)' }} />
+                  <span style={{ color: '#E8E3DE', fontWeight: 500 }}>IPC Dominant (&gt;60%)</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '10px', height: '10px', backgroundColor: '#4E6B6E', borderRadius: '2px' }} />
-                  <span>Balanced Statutory Portfolio</span>
+                  <div style={{ width: '10px', height: '10px', backgroundColor: '#4E6B6E', borderRadius: '2px', border: '1px solid rgba(255,255,255,0.2)' }} />
+                  <span style={{ color: '#E8E3DE', fontWeight: 500 }}>Balanced Statutory Portfolio</span>
                 </div>
               </div>
             </div>
@@ -472,25 +475,25 @@ export const IndiaChoroplethMap = ({
 
           {activeLayer === 'cluster' && (
             <div>
-              <div style={{ fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '4px' }}>
+              <div style={{ fontWeight: 700, color: '#A4C4A9', marginBottom: '6px', fontSize: '0.6875rem', letterSpacing: '0.04em' }}>
                 COMPOSITIONAL CLUSTERS (K=4)
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', color: '#E8E3DE' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--cat-sage)', borderRadius: '2px' }} />
-                  <span>C0: Mod. Fraud / Low IT (n=15)</span>
+                  <span style={{ color: '#E8E3DE', fontWeight: 500 }}>C0: Mod. Fraud / Low IT (n=15)</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--cat-slate)', borderRadius: '2px' }} />
-                  <span>C1: Balanced IT & IPC (n=12)</span>
+                  <span style={{ color: '#E8E3DE', fontWeight: 500 }}>C1: Balanced IT & IPC (n=12)</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--cat-amber)', borderRadius: '2px' }} />
-                  <span>C2: Small UTs / Sex. Expl. (n=2)</span>
+                  <span style={{ color: '#E8E3DE', fontWeight: 500 }}>C2: Small UTs / Sex. Expl. (n=2)</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--cat-mauve)', borderRadius: '2px' }} />
-                  <span>C3: High IT & Fraud (n=7)</span>
+                  <span style={{ color: '#E8E3DE', fontWeight: 500 }}>C3: High IT & Fraud (n=7)</span>
                 </div>
               </div>
             </div>
@@ -498,17 +501,17 @@ export const IndiaChoroplethMap = ({
 
           {activeLayer === 'anomalies' && (
             <div>
-              <div style={{ fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '4px' }}>
+              <div style={{ fontWeight: 700, color: '#A4C4A9', marginBottom: '6px', fontSize: '0.6875rem', letterSpacing: '0.04em' }}>
                 OUTLIER CONSENSUS SCREENING
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', color: '#E8E3DE' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '10px', height: '10px', backgroundColor: '#D65A65', borderRadius: '2px' }} />
-                  <span>Multivariate Departure (Consensus)</span>
+                  <div style={{ width: '10px', height: '10px', backgroundColor: '#D65A65', borderRadius: '2px', border: '1px solid #FF8A95' }} />
+                  <span style={{ color: '#FCA5A5', fontWeight: 600 }}>Multivariate Departure (Consensus)</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '10px', height: '10px', backgroundColor: '#1C2520', border: '1px solid #333', borderRadius: '2px' }} />
-                  <span>Statistically Nominal Jurisdiction</span>
+                  <div style={{ width: '10px', height: '10px', backgroundColor: '#1C2520', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '2px' }} />
+                  <span style={{ color: '#D1DDD4', fontWeight: 500 }}>Statistically Nominal Jurisdiction</span>
                 </div>
               </div>
             </div>
@@ -522,19 +525,20 @@ export const IndiaChoroplethMap = ({
               position: 'absolute',
               top: Math.min(Math.max(mousePos.y - 120, 10), 400),
               left: Math.min(Math.max(mousePos.x + 20, 10), 520),
-              backgroundColor: 'rgba(14, 19, 16, 0.95)',
-              border: '1px solid var(--border-strong)',
+              backgroundColor: 'rgba(10, 15, 12, 0.96)',
+              border: '1px solid rgba(133, 162, 137, 0.45)',
               borderRadius: 'var(--radius-sm)',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.65)',
               padding: 'var(--space-3) var(--space-4)',
               width: '260px',
               zIndex: 30,
               pointerEvents: 'none',
               backdropFilter: 'blur(10px)',
+              color: '#E8E3DE',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-              <span style={{ fontWeight: 700, fontSize: '0.875rem', color: 'var(--text-primary)' }}>
+              <span style={{ fontWeight: 700, fontSize: '0.875rem', color: '#FFFFFF' }}>
                 {hoveredState.state_name}
               </span>
               <span
@@ -544,7 +548,7 @@ export const IndiaChoroplethMap = ({
                   borderRadius: '4px',
                   backgroundColor: hoveredState.is_ut ? 'var(--cat-amber-bg)' : 'var(--cat-sage-bg)',
                   color: hoveredState.is_ut ? 'var(--cat-amber)' : 'var(--cat-sage)',
-                  fontWeight: 600,
+                  fontWeight: 700,
                   textTransform: 'uppercase',
                 }}
               >
@@ -553,17 +557,17 @@ export const IndiaChoroplethMap = ({
             </div>
 
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-2)', marginBottom: '8px' }}>
-              <span style={{ fontSize: '1.25rem', fontWeight: 800, fontFamily: 'var(--font-mono)', color: '#fff' }}>
+              <span style={{ fontSize: '1.25rem', fontWeight: 800, fontFamily: 'var(--font-mono)', color: '#FFFFFF' }}>
                 {(hoveredState.total_cases || 0).toLocaleString()}
               </span>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              <span style={{ fontSize: '0.75rem', color: '#B4C0B7' }}>
                 cases ({hoveredState.national_share || 0}% national)
               </span>
             </div>
 
             {/* Statutory Split Progress Mini-Bar */}
             <div style={{ marginBottom: '8px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.6875rem', color: 'var(--text-muted)', marginBottom: '2px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.6875rem', color: '#D1DDD4', marginBottom: '2px' }}>
                 <span>IT Act: {hoveredState.it_act_share || 0}%</span>
                 <span>IPC: {hoveredState.ipc_share || 0}%</span>
               </div>
@@ -574,27 +578,27 @@ export const IndiaChoroplethMap = ({
             </div>
 
             {/* Intelligence Context Details */}
-            <div style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '3px' }}>
+            <div style={{ fontSize: '0.6875rem', color: '#E8E3DE', display: 'flex', flexDirection: 'column', gap: '3px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: 'var(--text-muted)' }}>Fraud Motive Share:</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{hoveredState.fraud_motive_share || 0}%</span>
+                <span style={{ color: '#A4B8AB' }}>Fraud Motive Share:</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: '#FFFFFF' }}>{hoveredState.fraud_motive_share || 0}%</span>
               </div>
               {clusterMap.has(hoveredState.state_name) && (
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Composition Cluster:</span>
+                  <span style={{ color: '#A4B8AB' }}>Composition Cluster:</span>
                   <span style={{ fontWeight: 600, color: 'var(--cat-amber)' }}>
                     Cluster {clusterMap.get(hoveredState.state_name).cluster_id}
                   </span>
                 </div>
               )}
               {anomalySet.has(hoveredState.state_name) && (
-                <div style={{ marginTop: '4px', padding: '2px 6px', backgroundColor: 'rgba(214, 90, 101, 0.2)', border: '1px solid rgba(214, 90, 101, 0.4)', borderRadius: '3px', color: '#E57373', fontWeight: 600, fontSize: '0.625rem' }}>
+                <div style={{ marginTop: '4px', padding: '2px 6px', backgroundColor: 'rgba(214, 90, 101, 0.25)', border: '1px solid rgba(214, 90, 101, 0.5)', borderRadius: '3px', color: '#FCA5A5', fontWeight: 600, fontSize: '0.625rem' }}>
                   Multivariate Anomaly Flag
                 </div>
               )}
             </div>
 
-            <div style={{ marginTop: '8px', paddingTop: '4px', borderTop: '1px solid var(--border-subtle)', fontSize: '0.625rem', color: 'var(--text-muted)', textAlign: 'center' }}>
+            <div style={{ marginTop: '8px', paddingTop: '4px', borderTop: '1px solid rgba(133, 162, 137, 0.2)', fontSize: '0.625rem', color: 'var(--color-sage-light)', textAlign: 'center', fontWeight: 500 }}>
               Click jurisdiction to filter explorer view
             </div>
           </div>
@@ -606,7 +610,7 @@ export const IndiaChoroplethMap = ({
         style={{
           padding: 'var(--space-2) var(--space-4)',
           backgroundColor: 'var(--bg-surface-elevated)',
-          borderTop: '1px solid var(--border-subtle)',
+          borderTop: '1px solid var(--border-default)',
           display: 'flex',
           alignItems: 'center',
           gap: 'var(--space-2)',
@@ -615,8 +619,8 @@ export const IndiaChoroplethMap = ({
           zIndex: 10,
         }}
       >
-        <span style={{ color: 'var(--text-muted)', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <MapPin size={12} />
+        <span style={{ color: 'var(--text-primary)', fontWeight: 700, whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <MapPin size={12} color="var(--color-sage-light)" />
           Fast Select:
         </span>
         {quickUtList.map((name) => {
@@ -626,12 +630,13 @@ export const IndiaChoroplethMap = ({
               key={name}
               onClick={() => handleStateClick(name)}
               style={{
-                border: isSelected ? '1px solid var(--color-sage-light)' : '1px solid var(--border-subtle)',
-                backgroundColor: isSelected ? 'var(--color-sage-deep)' : 'var(--bg-card)',
-                color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',
+                border: isSelected ? '1px solid var(--color-sage-light)' : '1px solid var(--border-default)',
+                backgroundColor: isSelected ? 'var(--color-sage-deep)' : 'var(--bg-surface)',
+                color: isSelected ? '#FFFFFF' : 'var(--text-primary)',
                 borderRadius: 'var(--radius-sm)',
-                padding: '2px 8px',
+                padding: '3px 9px',
                 fontSize: '0.6875rem',
+                fontWeight: isSelected ? 700 : 500,
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
                 transition: 'all 0.15s ease',

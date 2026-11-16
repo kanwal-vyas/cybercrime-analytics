@@ -160,9 +160,9 @@ export const StateRadarComparison = ({
                   y={labelY}
                   textAnchor="middle"
                   dominantBaseline="central"
-                  fill="var(--text-secondary)"
-                  fontSize="9.5"
-                  fontWeight="600"
+                  fill="var(--text-primary)"
+                  fontSize="10"
+                  fontWeight="700"
                   fontFamily="var(--font-mono)"
                 >
                   {dim.label}
