@@ -12,6 +12,7 @@ export default function LiveIncidentTicker({
   onTriggerEvent = () => {},
   onSelectEvent = () => {},
   selectedEventId = null,
+  height = '640px',
 }) {
   const [filterUrgency, setFilterUrgency] = useState('ALL');
 
@@ -49,13 +50,14 @@ export default function LiveIncidentTicker({
       style={{
         backgroundColor: 'var(--bg-surface)',
         borderRadius: 'var(--radius-lg)',
-        border: '1px solid var(--border-subtle)',
+        border: '1px solid var(--border-default)',
         display: 'flex',
         flexDirection: 'column',
-        height: '100%',
-        minHeight: '580px',
+        height,
+        maxHeight: height,
         boxShadow: 'var(--shadow-sm)',
         overflow: 'hidden',
+        boxSizing: 'border-box',
       }}
     >
       {/* Header */}
@@ -166,15 +168,18 @@ export default function LiveIncidentTicker({
         </div>
       </div>
 
-      {/* Incident List */}
+      {/* Incident List (Smooth Scrolling) */}
       <div
+        className="custom-scrollbar"
         style={{
           flex: 1,
           overflowY: 'auto',
-          padding: 'var(--space-2)',
+          padding: 'var(--space-3)',
           display: 'flex',
           flexDirection: 'column',
           gap: 'var(--space-2)',
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'var(--color-sage-light) transparent',
         }}
       >
         {filtered.length === 0 ? (

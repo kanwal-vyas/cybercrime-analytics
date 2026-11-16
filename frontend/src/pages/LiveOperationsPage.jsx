@@ -394,8 +394,8 @@ export default function LiveOperationsPage() {
           alignItems: 'start',
         }}
       >
-        {/* Left Column: Live Incident Stream */}
-        <div>
+        {/* Left Column: Live Incident Stream (Aligned to Map Height) */}
+        <div style={{ height: '640px' }}>
           <LiveIncidentTicker
             events={events}
             isConnected={isConnected}
@@ -404,6 +404,7 @@ export default function LiveOperationsPage() {
             onTriggerEvent={handleTriggerManualEvent}
             onSelectEvent={handleSelectEvent}
             selectedEventId={selectedEvent?.event_id}
+            height="640px"
           />
         </div>
 
@@ -415,6 +416,7 @@ export default function LiveOperationsPage() {
             onSelectState={(name) => setSelectedState(name)}
             title={livePulseState ? `Live Ingestion Active: ${livePulseState}` : 'Real-Time National Tactical Map'}
             subtitle="Real-time incident dispatch overlays mapped onto 36 statutory jurisdictions"
+            height="640px"
           />
 
           {/* Selected Event Tactical Card */}
