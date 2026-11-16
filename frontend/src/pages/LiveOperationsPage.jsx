@@ -21,6 +21,8 @@ export default function LiveOperationsPage() {
   const [statesData, setStatesData] = useState([]);
   const [advisories, setAdvisories] = useState([]);
   const [threatRadar, setThreatRadar] = useState(null);
+  const [clusteringData, setClusteringData] = useState(null);
+  const [outliersData, setOutliersData] = useState(null);
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [inspectedIncident, setInspectedIncident] = useState(null);
@@ -48,11 +50,13 @@ export default function LiveOperationsPage() {
   const fetchInitialData = useCallback(async () => {
     setLoadingInitial(true);
     try {
-      const [statesRes, advRes, radarRes, eventsRes] = await Promise.allSettled([
-        api.getStates(),
+      const [statesRes, advRes, radarRes, eventsRes, clusterRes, outliersRes] = await Promise.allSettled([
+        api.getStates({ sort_by: 'total_cases', order: 'desc' }),
         api.getCertInAdvisories(),
         api.getThreatRadar(),
         api.getLiveEvents(15),
+        api.getClusterProfiles(),
+        api.getOutlierConsensus(),
       ]);
 
       if (statesRes.status === 'fulfilled') {
@@ -66,6 +70,12 @@ export default function LiveOperationsPage() {
       }
       if (eventsRes.status === 'fulfilled') {
         setEvents(eventsRes.value || []);
+      }
+      if (clusterRes.status === 'fulfilled') {
+        setClusteringData(clusterRes.value);
+      }
+      if (outliersRes.status === 'fulfilled') {
+        setOutliersData(outliersRes.value);
       }
     } catch (err) {
       console.warn('Initial live operations load error:', err);
@@ -427,9 +437,12 @@ export default function LiveOperationsPage() {
         {/* Right Column: Live Tactical Map with Hotspot HUD */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
           <IndiaChoroplethMap
+            states={statesData}
             statesData={statesData}
             selectedState={selectedState}
             onSelectState={(name) => setSelectedState(name)}
+            clusteringData={clusteringData}
+            outliersData={outliersData}
             title={livePulseState ? `Live Ingestion Active: ${livePulseState}` : 'Real-Time National Tactical Map'}
             subtitle="Real-time incident dispatch overlays mapped onto 36 statutory jurisdictions"
             height="640px"

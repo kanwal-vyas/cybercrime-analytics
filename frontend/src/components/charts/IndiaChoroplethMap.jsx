@@ -10,7 +10,8 @@ import { MapPin, RotateCcw } from 'lucide-react';
  * rich hover inspection cards, and synchronized click-to-filter mechanics.
  */
 export const IndiaChoroplethMap = ({
-  states = [],
+  states: rawStates = [],
+  statesData,
   selectedState = null,
   onSelectState = () => { },
   clusteringData = null,
@@ -21,6 +22,8 @@ export const IndiaChoroplethMap = ({
   className = '',
   style = {},
 }) => {
+  const states = useMemo(() => statesData || rawStates || [], [statesData, rawStates]);
+
   // Layer selection: 'volume' | 'act_dominance' | 'cluster' | 'anomalies'
   const [activeLayer, setActiveLayer] = useState('volume');
   const [hoveredState, setHoveredState] = useState(null);
@@ -581,7 +584,13 @@ export const IndiaChoroplethMap = ({
             <div style={{ fontSize: '0.6875rem', color: '#E8E3DE', display: 'flex', flexDirection: 'column', gap: '3px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: '#A4B8AB' }}>Fraud Motive Share:</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: '#FFFFFF' }}>{hoveredState.fraud_motive_share || 0}%</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: '#FFFFFF' }}>
+                  {hoveredState.fraud_motive_share != null
+                    ? (hoveredState.fraud_motive_share <= 1
+                        ? (hoveredState.fraud_motive_share * 100).toFixed(1)
+                        : Number(hoveredState.fraud_motive_share).toFixed(1))
+                    : 0}%
+                </span>
               </div>
               {clusterMap.has(hoveredState.state_name) && (
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
