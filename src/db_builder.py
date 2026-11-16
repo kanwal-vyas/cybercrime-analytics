@@ -9,12 +9,15 @@ Runs comprehensive data-quality and referential integrity validations.
 from pathlib import Path
 import re
 import sqlite3
+import sys
 import pandas as pd
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.data_loader import get_sqlite_connection, load_master_2023, load_trend_data
 from src.preprocessing import CATEGORIES_PARENT_TOTAL_COLS
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SQL_DIR = PROJECT_ROOT / "sql"
 DB_DIR = PROJECT_ROOT / "data" / "database"
 DB_PATH = DB_DIR / "cybercrime.db"
