@@ -11,6 +11,7 @@ import ChartContainer from '../components/charts/ChartContainer';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorState from '../components/ui/ErrorState';
 import EmptyState from '../components/ui/EmptyState';
+import ForensicCapacitySimulator from '../components/data/ForensicCapacitySimulator';
 import api from '../services/api';
 import {
   Cpu,
@@ -481,6 +482,7 @@ export const ModelsPage = () => {
             { value: 'all', label: 'ALL MODELS & METHODOLOGY' },
             { value: 'classification', label: 'CLASSIFICATION (High-Volume Regime)' },
             { value: 'regression', label: 'REGRESSION (Continuous Volume)' },
+            { value: 'forensics', label: 'FORENSIC CAPACITY SIMULATOR' },
           ]}
           value={activeTab}
           onChange={setActiveTab}
@@ -1301,6 +1303,13 @@ export const ModelsPage = () => {
               emptyMessage="No matching State/UT found in predictions."
             />
           </Panel>
+        </div>
+      )}
+
+      {/* 6.5 FORENSIC CAPACITY SIMULATOR */}
+      {(activeTab === 'all' || activeTab === 'forensics') && (
+        <div style={{ marginBottom: 'var(--space-8)' }}>
+          <ForensicCapacitySimulator />
         </div>
       )}
 

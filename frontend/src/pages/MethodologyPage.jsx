@@ -8,6 +8,7 @@ import SegmentedControl from '../components/ui/SegmentedControl';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorState from '../components/ui/ErrorState';
 import DataTable from '../components/data/DataTable';
+import BnsLegalCrosswalk from '../components/data/BnsLegalCrosswalk';
 import api from '../services/api';
 import {
   Database,
@@ -33,6 +34,7 @@ const SECTION_TABS = [
   { id: 'methods', value: 'methods', label: 'ANALYTICAL METHODS SPECIFICATION' },
   { id: 'validation', value: 'validation', label: 'VALIDATION & QUALITY GATES' },
   { id: 'limitations', value: 'limitations', label: 'DEFINITIONS & LIMITATIONS' },
+  { id: 'crosswalk', value: 'crosswalk', label: 'BNS 2023 STATUTORY CROSSWALK' },
   { id: 'explorer', value: 'explorer', label: 'INTERACTIVE METADATA EXPLORER' },
 ];
 
@@ -775,6 +777,15 @@ export const MethodologyPage = () => {
               </div>
             </div>
           </Panel>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* SECTION F.5: BHARATIYA NYAYA SANHITA (BNS 2023) LEGAL CROSSWALK */}
+      {/* ========================================================================= */}
+      {(activeTab === 'all' || activeTab === 'crosswalk') && (
+        <div style={{ marginBottom: 'var(--space-8)' }}>
+          <BnsLegalCrosswalk />
         </div>
       )}
 
