@@ -9,6 +9,7 @@ import SegmentedControl from '../components/ui/SegmentedControl';
 import DataTable from '../components/data/DataTable';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorState from '../components/ui/ErrorState';
+import InteractiveTrendChart from '../components/charts/InteractiveTrendChart';
 import api from '../services/api';
 import {
   Calendar,
@@ -502,6 +503,15 @@ export const TrendsPage = () => {
             accentColor="var(--color-mauve-deep)"
           />
         </div>
+      </section>
+
+      {/* 2.5 INTERACTIVE LONGITUDINAL TRAJECTORY CHART */}
+      <section style={{ marginTop: 'var(--space-8)' }}>
+        <InteractiveTrendChart
+          trendData={trendData}
+          selectedState={selectedJurisdictions[0] === 'All India' ? null : selectedJurisdictions[0]}
+          height="380px"
+        />
       </section>
 
       {/* 3. NATIONAL HISTORICAL TREND & YoY GROWTH DYNAMICS */}

@@ -154,6 +154,18 @@ pip install -r backend/requirements.txt
 ```
 
 ### 2. Start the FastAPI Backend Service
+
+On Windows PowerShell, after installing dependencies, start both services from the
+repository root with the development launcher:
+```powershell
+.\scripts\start-dev.ps1
+```
+The launcher opens backend and frontend consoles, reuses the repository virtual
+environment, and waits for both local endpoints to respond. Existing listeners on
+the default ports are reused rather than started again. Use Ctrl+C in each service
+console to stop it.
+
+On Linux/macOS, or when starting the services manually, use separate terminals:
 ```bash
 # Launch FastAPI server on http://localhost:8000
 uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
@@ -174,7 +186,24 @@ cp .env.example .env
 # Launch the Vite development server
 npm run dev
 ```
-Open your browser at: `http://localhost:5173/`
+Open your browser at: `http://localhost:5173/` (or port auto-assigned if occupied).
+
+The backend builds the SQLite warehouse on startup only if the database is missing
+or empty. It fails startup with a list of missing tables/views if the database is
+partially populated, instead of reporting a healthy API against an unusable schema.
+
+### One-Click Local Multi-Port Development Script (PowerShell)
+```powershell
+# Automatically detects available ports (8008, 5175, etc.) and syncs frontend configuration
+.\scripts\start-dev.ps1
+```
+
+### Docker Production Deployment
+```bash
+# Build and run backend (FastAPI) and frontend (Nginx) multi-stage containers
+docker compose up --build -d
+```
+Frontend serves at `http://localhost:80/` with built-in API proxy to `http://localhost:8000/api/`.
 
 ---
 
@@ -210,6 +239,9 @@ cd frontend
 npm run lint
 npm run build
 ```
+
+Frontend lint currently reports React effect-pattern warnings; these are recorded
+as baseline items and are not changed by the setup phase.
 
 ---
 

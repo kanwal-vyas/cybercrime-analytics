@@ -3,11 +3,48 @@ FastAPI Backend Integration & Data Reconciliation Tests
 Cyber Crime Analytics for National Security — Stage 20
 """
 
+import sqlite3
+
 import pytest
 from fastapi.testclient import TestClient
+from backend.app import main
 from backend.app.main import app
 
 client = TestClient(app)
+
+
+def test_missing_database_is_built(tmp_path, monkeypatch):
+    """A missing generated warehouse is bootstrapped from the validated source data."""
+    db_path = tmp_path / "cybercrime.db"
+    monkeypatch.setattr(main.settings, "DB_PATH", db_path)
+
+    main.ensure_database_ready()
+
+    assert db_path.is_file()
+    with sqlite3.connect(db_path) as conn:
+        objects = {
+            row[0]
+            for row in conn.execute(
+                "SELECT name FROM sqlite_master WHERE type IN ('table', 'view')"
+            )
+        }
+    assert main.REQUIRED_DATABASE_OBJECTS <= objects
+
+
+def test_incomplete_database_fails_without_rebuilding(tmp_path, monkeypatch):
+    """A partially populated warehouse is reported instead of being silently replaced."""
+    db_path = tmp_path / "cybercrime.db"
+    with sqlite3.connect(db_path) as conn:
+        conn.execute("CREATE TABLE preserve_me (value INTEGER)")
+    monkeypatch.setattr(main.settings, "DB_PATH", db_path)
+
+    with pytest.raises(RuntimeError, match="warehouse.*incomplete"):
+        main.ensure_database_ready()
+
+    with __import__("sqlite3").connect(db_path) as conn:
+        assert conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='preserve_me'"
+        ).fetchone()
 
 
 def test_health():
@@ -212,3 +249,22 @@ def test_models_outliers():
         "Dadra and Nagar Haveli and Daman and Diu",
         "Lakshadweep"
     }
+
+
+def test_system_metrics_and_security_headers():
+    """Verify Tier 3 operational diagnostics, rate limiting, and security headers."""
+    res = client.get("/api/system/metrics")
+    assert res.status_code == 200
+
+    # Security & Performance Headers
+    assert "X-Process-Time" in res.headers
+    assert "X-Request-ID" in res.headers
+    assert res.headers.get("X-Content-Type-Options") == "nosniff"
+    assert res.headers.get("X-Frame-Options") == "SAMEORIGIN"
+
+    data = res.json()
+    assert data["status"] == "operational"
+    assert data["database"]["reconciled_cases"] == 86420
+    assert data["database"]["reconciliation_match"] is True
+    assert data["database"]["table_counts"]["dim_state"] == 36
+    assert data["rate_limit"]["max_requests_per_minute"] == 180

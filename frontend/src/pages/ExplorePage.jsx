@@ -8,6 +8,8 @@ import SegmentedControl from '../components/ui/SegmentedControl';
 import DataTable from '../components/data/DataTable';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorState from '../components/ui/ErrorState';
+import IndiaChoroplethMap from '../components/charts/IndiaChoroplethMap';
+import StateRadarComparison from '../components/charts/StateRadarComparison';
 import api from '../services/api';
 import {
   MapPin,
@@ -25,6 +27,8 @@ export const ExplorePage = () => {
   const [categoriesData, setCategoriesData] = useState([]);
   const [motivesData, setMotivesData] = useState([]);
   const [summaryData, setSummaryData] = useState(null);
+  const [clusteringData, setClusteringData] = useState(null);
+  const [outliersData, setOutliersData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -47,17 +51,21 @@ export const ExplorePage = () => {
     setLoading(true);
     setError(null);
     try {
-      const [statesRes, categoriesRes, motivesRes, summaryRes] = await Promise.all([
+      const [statesRes, categoriesRes, motivesRes, summaryRes, clusterRes, outliersRes] = await Promise.all([
         api.getStates({ sort_by: 'total_cases', order: 'desc' }),
         api.getCategories({ sort_by: 'national_cases', order: 'desc' }),
         api.getMotives({ exclude_total: true, sort_by: 'national_cases', order: 'desc' }),
         api.getSummary(),
+        api.getClusterProfiles().catch(() => null),
+        api.getOutlierConsensus().catch(() => null),
       ]);
 
       setStatesData(statesRes?.states || []);
       setCategoriesData(categoriesRes?.categories || []);
       setMotivesData(motivesRes?.motives || []);
       setSummaryData(summaryRes || null);
+      if (clusterRes) setClusteringData(clusterRes);
+      if (outliersRes) setOutliersData(outliersRes);
     } catch (err) {
       console.error('[ExplorePage] Error fetching exploration data:', err);
       setError(err.message || 'Unable to load geographic and crime exploration data from API.');
@@ -576,6 +584,89 @@ export const ExplorePage = () => {
                 >
                   ✕
                 </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2.5 GEOSPATIAL INTELLIGENCE & JURISDICTION SIGNATURE */}
+      <section style={{ marginTop: 'var(--space-6)' }}>
+        <SectionHeader
+          badge="GEOSPATIAL & MULTIDIMENSIONAL RADAR"
+          title="Interactive National Territory Choropleth & Profile Radar"
+          subtitle="Explore case distributions across 36 jurisdictions, toggle analytical layers (Volume, Act Dominance, K=4 Clusters, Outliers), and click any territory to filter all tables and models."
+        />
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1.35fr) minmax(0, 0.95fr)',
+            gap: 'var(--space-5)',
+            alignItems: 'stretch',
+          }}
+        >
+          <IndiaChoroplethMap
+            states={statesData}
+            selectedState={selectedStateName}
+            onSelectState={(name) => setSelectedStateName(name)}
+            clusteringData={clusteringData}
+            outliersData={outliersData}
+            height="580px"
+          />
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+            <StateRadarComparison
+              stateData={activeState}
+              height="340px"
+            />
+
+            {/* Quick Territory Context Card */}
+            <div
+              style={{
+                flex: 1,
+                backgroundColor: 'var(--bg-surface)',
+                border: '1px solid var(--border-default)',
+                borderRadius: 'var(--radius-md)',
+                padding: 'var(--space-4)',
+                boxShadow: 'var(--shadow-panel)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div>
+                <div className="tech-label" style={{ fontSize: '0.6875rem', marginBottom: '4px' }}>
+                  ACTIVE SELECTION CONTEXT
+                </div>
+                <div style={{ fontSize: 'var(--text-lg)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '4px' }}>
+                  {activeState ? activeState.state_name : 'National Total (36 Jurisdictions)'}
+                </div>
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', lineHeight: '1.5', margin: 0 }}>
+                  {activeState
+                    ? `${activeState.state_name} registers ${activeState.total_cases.toLocaleString()} cases (${activeState.national_share}% national share). Click "Reset" on the map or select another territory to switch focus.`
+                    : 'Showing aggregated national metrics across 86,420 registered cybercrime cases. Click on any State or Union Territory on the map to inspect its unique statutory and motive signature.'}
+                </p>
+              </div>
+
+              {activeState && (
+                <div
+                  style={{
+                    marginTop: 'var(--space-3)',
+                    padding: 'var(--space-2) var(--space-3)',
+                    backgroundColor: 'var(--bg-surface-elevated)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--radius-sm)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    fontSize: '0.75rem',
+                    fontFamily: 'var(--font-mono)',
+                  }}
+                >
+                  <span style={{ color: 'var(--text-muted)' }}>Jurisdiction Type:</span>
+                  <span style={{ color: 'var(--color-sage-light)', fontWeight: 600 }}>{activeState.admin_type}</span>
+                </div>
               )}
             </div>
           </div>

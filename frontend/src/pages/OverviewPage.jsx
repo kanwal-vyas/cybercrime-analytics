@@ -7,6 +7,7 @@ import StatusBadge from '../components/ui/StatusBadge';
 import StatusDot from '../components/ui/StatusDot';
 import Panel from '../components/ui/Panel';
 import ChartContainer from '../components/charts/ChartContainer';
+import IndiaChoroplethMap from '../components/charts/IndiaChoroplethMap';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorState from '../components/ui/ErrorState';
 import api from '../services/api';
@@ -31,9 +32,11 @@ export const OverviewPage = () => {
 
   // Coordinated API State
   const [summaryData, setSummaryData] = useState(null);
+  const [allStates, setAllStates] = useState([]);
   const [topStates, setTopStates] = useState([]);
   const [leafCategories, setLeafCategories] = useState([]);
   const [trendData, setTrendData] = useState(null);
+  const [selectedMapState, setSelectedMapState] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [lastRefreshed, setLastRefreshed] = useState(null);
@@ -45,13 +48,15 @@ export const OverviewPage = () => {
       // Coordinated parallel loading across authoritative API endpoints
       const [summaryRes, statesRes, categoriesRes, trendRes] = await Promise.all([
         api.getSummary(),
-        api.getStates({ limit: 5, sort_by: 'total_cases', order: 'desc' }),
+        api.getStates({ sort_by: 'total_cases', order: 'desc' }),
         api.getCategories({ leaf_only: true, limit: 5, sort_by: 'national_cases', order: 'desc' }),
         api.getTrend(),
       ]);
 
       setSummaryData(summaryRes);
-      setTopStates(statesRes?.states || []);
+      const stList = statesRes?.states || [];
+      setAllStates(stList);
+      setTopStates(stList.slice(0, 5));
       setLeafCategories(categoriesRes?.categories || []);
       setTrendData(trendRes);
       setLastRefreshed(new Date().toLocaleTimeString());
@@ -534,6 +539,27 @@ export const OverviewPage = () => {
           </Panel>
 
         </div>
+      </section>
+
+      {/* 3.5 GEOSPATIAL INTELLIGENCE MAP */}
+      <section style={{ marginTop: 'var(--space-8)' }}>
+        <SectionHeader
+          badge="GEOSPATIAL INTELLIGENCE"
+          title="National Territorial Case Density & Profile Map"
+          subtitle="Interactive choropleth projection across all 36 Indian States and Union Territories with multi-layer tactical screening"
+        />
+
+        <IndiaChoroplethMap
+          states={allStates}
+          selectedState={selectedMapState}
+          onSelectState={(name) => {
+            setSelectedMapState(name);
+            if (name && name !== 'ALL') {
+              navigate('/explore');
+            }
+          }}
+          height="540px"
+        />
       </section>
 
       {/* 4. CORE ANALYTICS GRID — ROW 2: GEOGRAPHIC & CATEGORY CONCENTRATION */}
