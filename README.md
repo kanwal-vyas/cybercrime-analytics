@@ -1,9 +1,17 @@
-# Cyber Crime Analytics for National Security
+# NIRIKSHA — Cyber Crime Analytics for National Security
 
-An undergraduate **Data Analytics & Visualization / Data Mining** laboratory and analytical workstation analyzing publicly available Indian cybercrime data across time, geography, statutory crime categories, and recorded motives.
+[![CI Pipeline](https://github.com/kanwal-vyas/cybercrime-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/kanwal-vyas/cybercrime-analytics/actions/workflows/ci.yml)
+[![Python 3.11 | 3.12](https://img.shields.io/badge/Python-3.11%20%7C%203.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React 19](https://img.shields.io/badge/React-19.2-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![Docker](https://img.shields.io/badge/Docker-Multi--Stage-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Validation Gates](https://img.shields.io/badge/Audit%20Gates-16%2F16%20Passing-success)](./PROJECT_FINAL_AUDIT.md)
+[![Data Provenance](https://img.shields.io/badge/Data-NCRB%202023%20%26%20Rajya%20Sabha-orange)](https://ncrb.gov.in/)
+
+An advanced **Data Analytics, Data Mining, Machine Learning & Cyber Intelligence Workstation** analyzing publicly available Indian cybercrime data across time, geography, statutory crime categories, recorded motives, and live threat telemetry.
 
 > **Final Project Status: Stages 1–29 Complete, Validated, Audited, and Frozen.**  
-> All core analytical pipelines, SQLite database warehouse, machine learning models, Power BI semantic packages, FastAPI data presentation services, and React/Vite UI analytics workstation pages are fully integrated, validated, audited, and frozen. See [`PROJECT_FINAL_AUDIT.md`](./PROJECT_FINAL_AUDIT.md) and [`PROJECT_PLAN.md`](./PROJECT_PLAN.md) for full audit reports and gate verifications.
+> All core analytical pipelines, SQLite database warehouse, machine learning models, Power BI semantic packages, FastAPI data presentation services, React/Vite UI analytics workstation pages, and GitHub Actions CI/CD workflows are fully integrated, validated, audited, and frozen. See [`PROJECT_FINAL_AUDIT.md`](./PROJECT_FINAL_AUDIT.md) and [`PROJECT_PLAN.md`](./PROJECT_PLAN.md) for full audit reports and gate verifications.
 
 ---
 
