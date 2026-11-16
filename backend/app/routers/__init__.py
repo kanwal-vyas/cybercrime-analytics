@@ -4,3 +4,4 @@ from .categories import router as categories_router
 from .motives import router as motives_router
 from .trends import router as trends_router
 from .models import router as models_router
+from .live import router as live_router

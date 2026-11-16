@@ -87,6 +87,30 @@ class ApiClient {
   async getOutlierConsensus() {
     return this.request('/models/outliers');
   }
+
+  // Live Threat Intelligence & Triage Streams
+  async getCertInAdvisories() {
+    return this.request('/live/cert-in');
+  }
+
+  async getThreatRadar() {
+    return this.request('/live/threat-radar');
+  }
+
+  async getLiveEvents(limit = 25) {
+    return this.request('/live/events', {}, { limit });
+  }
+
+  async triggerLiveEvent() {
+    return this.request('/live/generate-event', { method: 'POST' });
+  }
+
+  getWebSocketUrl(path = '/live/ws-triage') {
+    const isHttps = this.baseUrl.startsWith('https');
+    const wsProto = isHttps ? 'wss:' : 'ws:';
+    const host = this.baseUrl.replace(/^https?:\/\//, '');
+    return `${wsProto}//${host}${path}`;
+  }
 }
 
 export const api = new ApiClient(API_BASE_URL);

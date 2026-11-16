@@ -9,6 +9,7 @@ import DataTable from '../components/data/DataTable';
 import ChartContainer from '../components/charts/ChartContainer';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorState from '../components/ui/ErrorState';
+import SyndicateKnowledgeGraph from '../components/charts/SyndicateKnowledgeGraph';
 import api from '../services/api';
 import {
   GitMerge,
@@ -441,6 +442,7 @@ export const PatternsPage = () => {
         <SegmentedControl
           options={[
             { value: 'all', label: 'ALL PATTERNS' },
+            { value: 'syndicate_graph', label: 'THREAT SYNDICATE TOPOLOGY' },
             { value: 'association', label: 'ASSOCIATION RULES (Apriori / FP-Growth)' },
             { value: 'clustering', label: 'CLUSTERING (K-Means K=4)' },
           ]}
@@ -448,9 +450,16 @@ export const PatternsPage = () => {
           onChange={setActiveTab}
         />
         <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
-          Authoritative Provenance: Stages 5, 6, 12 & 15
+          Authoritative Provenance: Stages 5, 6, 12, 15 & CTI Syndicate Intelligence
         </div>
       </div>
+
+      {/* MODULE: THREAT SYNDICATE & MODUS OPERANDI TOPOLOGY */}
+      {(activeTab === 'all' || activeTab === 'syndicate_graph') && (
+        <div style={{ marginBottom: 'var(--space-8)' }}>
+          <SyndicateKnowledgeGraph />
+        </div>
+      )}
 
       {/* 5. MODULE A: ASSOCIATION RULE MINING */}
       {(activeTab === 'all' || activeTab === 'association') && (

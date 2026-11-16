@@ -22,6 +22,7 @@ export const PROJECT_METADATA = {
 
 export const NAV_ITEMS = [
   { id: 'overview', label: 'Overview', path: '/' },
+  { id: 'operations', label: 'Live Operations', path: '/operations', badge: 'LIVE' },
   { id: 'explore', label: 'Explore', path: '/explore' },
   { id: 'trends', label: 'Trends', path: '/trends' },
   { id: 'models', label: 'Models', path: '/models' },

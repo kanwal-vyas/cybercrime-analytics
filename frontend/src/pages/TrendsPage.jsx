@@ -10,6 +10,7 @@ import DataTable from '../components/data/DataTable';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorState from '../components/ui/ErrorState';
 import InteractiveTrendChart from '../components/charts/InteractiveTrendChart';
+import LongitudinalForecaster from '../components/data/LongitudinalForecaster';
 import api from '../services/api';
 import {
   Calendar,
@@ -512,6 +513,11 @@ export const TrendsPage = () => {
           selectedState={selectedJurisdictions[0] === 'All India' ? null : selectedJurisdictions[0]}
           height="380px"
         />
+      </section>
+
+      {/* 2.6 PREDICTIVE LONGITUDINAL FORECASTING SIMULATOR (2024-2026) */}
+      <section style={{ marginTop: 'var(--space-8)' }}>
+        <LongitudinalForecaster />
       </section>
 
       {/* 3. NATIONAL HISTORICAL TREND & YoY GROWTH DYNAMICS */}

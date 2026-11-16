@@ -186,6 +186,23 @@ export const TopNavigation = () => {
               })}
             >
               {item.label}
+              {item.badge && (
+                <span
+                  style={{
+                    marginLeft: '5px',
+                    fontSize: '0.5625rem',
+                    padding: '1px 4px',
+                    borderRadius: '3px',
+                    backgroundColor: '#3D1C20',
+                    border: '1px solid #7A2E36',
+                    color: '#F87171',
+                    fontWeight: 700,
+                    letterSpacing: '0.04em',
+                  }}
+                >
+                  {item.badge}
+                </span>
+              )}
             </NavLink>
           ))}
         </nav>
@@ -385,6 +402,21 @@ export const TopNavigation = () => {
               })}
             >
               {item.label}
+              {item.badge && (
+                <span
+                  style={{
+                    marginLeft: '8px',
+                    fontSize: '0.625rem',
+                    padding: '1px 5px',
+                    borderRadius: '3px',
+                    backgroundColor: '#3D1C20',
+                    color: '#F87171',
+                    fontWeight: 700,
+                  }}
+                >
+                  {item.badge}
+                </span>
+              )}
             </NavLink>
           ))}
           <div

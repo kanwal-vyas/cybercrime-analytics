@@ -12,7 +12,7 @@ import { MapPin, RotateCcw } from 'lucide-react';
 export const IndiaChoroplethMap = ({
   states = [],
   selectedState = null,
-  onSelectState = () => {},
+  onSelectState = () => { },
   clusteringData = null,
   outliersData = null,
   height = '620px',
@@ -384,8 +384,8 @@ export const IndiaChoroplethMap = ({
               const stroke = isSelected
                 ? '#5DE6A6'
                 : isHovered
-                ? '#FFFFFF'
-                : 'rgba(133, 162, 137, 0.45)';
+                  ? '#FFFFFF'
+                  : 'rgba(133, 162, 137, 0.45)';
               const strokeWidth = isSelected ? 2.5 : isHovered ? 1.8 : 0.75;
 
               return (

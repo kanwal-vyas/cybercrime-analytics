@@ -70,10 +70,11 @@ The React/Vite analytics workstation exposes seven integrated analytical views:
 | Route | Page Name | Analytical Focus |
 |---|---|---|
 | `/` | **Executive Overview** | Authoritative national synthesis across 86,420 registered cases, top-5 state concentration (73.45%), Pareto crime categories, motive distribution, and longitudinal growth summary. |
-| `/explore` | **Geographic & Crime Explorer** | Interactive multi-dimensional filtering across 36 States/UTs, 40 statutory leaf offenses, and 18 recorded motives with state-level profile comparisons. |
-| `/trends` | **Historical Analytics** | 2018–2022 longitudinal series across 180 warehouse tuples, year-over-year growth trajectories, state-specific trajectories, and explicit separation of Ladakh missing values. |
-| `/models` | **Machine Learning Analytics** | Empirical supervised regression (Log-Linear OLS $R^2=0.9000$) and classification (Featured Decision Tree depth 3, $97.22\%$ accuracy) on 2022 held-out test data. |
-| `/patterns` | **Patterns & Clustering** | 42 pairwise association rules (Apriori/FP-Growth) and 4 composition-based K-Means clusters (Silhouette $= 0.3497$) with volume-excluded feature spaces. |
+| `/operations` | **Tactical Operations Center (TOC)** | Live streaming 1930 / CCTNS incident dispatch telemetry (WebSocket & polling), real-time CERT-In national cyber defense advisories feed, and active Indian cyber threat radar IOCs. |
+| `/explore` | **Geographic & Crime Explorer** | Interactive 36-state choropleth SVG projection with 5 tactical layers, BNS 2023 legal crosswalk matrix, 2023 population normalization, and radar profile comparison. |
+| `/trends` | **Historical & Predictive Analytics** | 2018–2022 longitudinal panel series (+141.83% growth), interactive SVG multi-state trajectory explorer, and 2024–2026 predictive longitudinal forecasting simulator. |
+| `/models` | **Machine Learning Analytics** | Empirical supervised regression (Log-Linear OLS $R^2=0.9000$), classification (Decision Tree $97.22\%$ accuracy), and interactive digital forensic capacity simulator. |
+| `/patterns` | **Patterns & Threat Syndicates** | 42 pairwise association rules (Apriori/FP-Growth), 4 composition-based K-Means clusters, and interactive Modus Operandi & Threat Syndicate Knowledge Graph. |
 | `/anomalies` | **Anomaly & Outlier Analytics** | Multi-method descriptive statistical screening (IQR, Isolation Forest, LOF, Robust Mahalanobis) and volume vs. composition dual-space analysis. |
 | `/methodology` | **Methodology & Data Explorer** | Complete academic data provenance, star schema data dictionaries, 11 validation gates, live metadata explorer, and full disclosure of the 9 core limitations. |
 

@@ -21,6 +21,7 @@ from backend.app.routers import (
     motives_router,
     trends_router,
     models_router,
+    live_router,
 )
 
 SERVER_START_TIME = time.time()
@@ -234,6 +235,7 @@ app.include_router(categories_router, prefix=settings.API_V1_PREFIX)
 app.include_router(motives_router, prefix=settings.API_V1_PREFIX)
 app.include_router(trends_router, prefix=settings.API_V1_PREFIX)
 app.include_router(models_router, prefix=settings.API_V1_PREFIX)
+app.include_router(live_router, prefix=settings.API_V1_PREFIX)
 
 
 @app.get("/", tags=["Root"])
