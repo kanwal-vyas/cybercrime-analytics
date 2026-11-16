@@ -36,6 +36,11 @@ MODUS_OPERANDI_CATALOG = [
         "avg_amount": 850000,
         "urgency": "CRITICAL",
         "syndicate_origin": "Southeast Asia / Tri-Border Ring",
+        "channel": "VoIP Video Calls (Skype/WhatsApp) & RTGS/NEFT",
+        "bns_section": "Sec. 318(4) BNS 2023 (Cheating) r/w Sec. 204 BNS (Personating a Public Servant)",
+        "target_profile": "Senior Citizens, Retired Bureaucrats & Defense Personnel",
+        "evidence_protocol": "Video call logs, spoofed police seals, RTGS transaction UTRs, VoIP PBX IP logs",
+        "mechanics": "Victim receives an automated call alleging an illegal parcel containing narcotics was intercepted in their name by Customs in Mumbai. A fake 'police officer' conducts a high-pressure Skype video session with fabricated arrest warrants, forcing the victim to transfer lifetime savings into a 'RBI verification account'.",
     },
     {
         "name": "Part-Time Job Rating & Crypto Recharge Trap",
@@ -44,6 +49,11 @@ MODUS_OPERANDI_CATALOG = [
         "avg_amount": 280000,
         "urgency": "HIGH",
         "syndicate_origin": "Telegram Bot / P2P Mule Network",
+        "channel": "Telegram Bot VIP Groups & P2P USDT (Tron TRC20)",
+        "bns_section": "Sec. 318(4) BNS 2023 (Cheating with inducement to deliver property)",
+        "target_profile": "College Students, Homemakers & Work-from-Home Job Seekers",
+        "evidence_protocol": "Telegram channel handles, bot transaction logs, wallet deposit txhashes, mule IFSCs",
+        "mechanics": "Complainant was approached via WhatsApp with an offer to earn ₹3,000-₹5,000 daily by rating Google Maps places and hotel listings. Initial micro-tasks paid small real returns (₹500). Victim was then promoted to 'VIP Crypto Tasks' requiring upfront capital recharges, followed by frozen withdrawals demanding withdrawal fees.",
     },
     {
         "name": "Fake Electricity Bill Disconnection APK",
@@ -52,6 +62,11 @@ MODUS_OPERANDI_CATALOG = [
         "avg_amount": 45000,
         "urgency": "HIGH",
         "syndicate_origin": "Mewat-Bharatpur Syndicate",
+        "channel": "Smishing SMS + Sideloaded Android APK (RAT)",
+        "bns_section": "Sec. 319(2) BNS 2023 (Cheating by Personation) r/w Sec. 66 IT Act",
+        "target_profile": "Residential & Small Commercial Power Consumers",
+        "evidence_protocol": "Malicious APK hash, SMS gateway sender header, OTP forwarding server IP logs",
+        "mechanics": "Urgent SMS sent threatening power disconnection at 9:30 PM due to unpaid previous month bill. Victim calls the provided support number and is instructed to install a 2MB 'DISCOM Bill Pay' APK via WhatsApp. The trojan intercepts banking OTPs via accessibility service and drains net banking limits.",
     },
     {
         "name": "Sextortion Video Call & Screen Recording Blackmail",
@@ -60,6 +75,11 @@ MODUS_OPERANDI_CATALOG = [
         "avg_amount": 75000,
         "urgency": "CRITICAL",
         "syndicate_origin": "Alwar-Bharatpur Cyber Cell",
+        "channel": "WhatsApp Video Call + Social Media Friend List Doxing",
+        "bns_section": "Sec. 308(2) BNS 2023 (Extortion) r/w Sec. 67A IT Act",
+        "target_profile": "Male Working Professionals & Business Owners",
+        "evidence_protocol": "Video recording metadata, call timestamps, threatened contact lists, UPI VPAs",
+        "mechanics": "Victim receives an unexpected WhatsApp video call showing an explicit pre-recorded video. A split-screen recording is captured showing the victim's face. Within minutes, extortionists share the video and threaten to upload it to YouTube and send it to all Facebook/Instagram relatives unless an immediate ransom is transferred.",
     },
     {
         "name": "Aadhaar Enabled Payment System (AePS) Clone Fraud",
@@ -68,6 +88,11 @@ MODUS_OPERANDI_CATALOG = [
         "avg_amount": 35000,
         "urgency": "MEDIUM",
         "syndicate_origin": "Mule CSP Point Network",
+        "channel": "Micro-ATM / Bank CSP Kiosks & Silicone Thumb Impressions",
+        "bns_section": "Sec. 319 BNS 2023 (Cheating by Impersonation) r/w Sec. 66C IT Act",
+        "target_profile": "Rural Account Holders, Pensioners & Land Registrars",
+        "evidence_protocol": "Land registry deed biometric copies, micro-ATM Terminal IDs, NPCI switch logs",
+        "mechanics": "Attackers harvest high-resolution fingerprint scans from public land registration deeds uploaded on state revenue portals. Biometrics are etched onto polymer silicone sheets and used at rogue Customer Service Points (CSPs) across state borders to withdraw maximum daily AePS cash limits without OTP.",
     },
     {
         "name": "Fake Stock Trading / Institutional VIP Group",
@@ -76,6 +101,11 @@ MODUS_OPERANDI_CATALOG = [
         "avg_amount": 1450000,
         "urgency": "CRITICAL",
         "syndicate_origin": "Overseas Transnational Ring",
+        "channel": "Fake Trading App (Web/APK) & Corporate Current Mule Accounts",
+        "bns_section": "Sec. 318(4) BNS 2023 (Cheating) r/w Sec. 111 BNS (Organized Crime)",
+        "target_profile": "High Net-Worth Individuals (HNIs), Doctors & Stock Investors",
+        "evidence_protocol": "Fake trading app APK, fraudulent SEBI registration certs, multi-layer RTGS chains",
+        "mechanics": "Victim added to a WhatsApp trading group claiming affiliation with Goldman Sachs or BlackRock institutional desk. Inside a mock web portal, victim sees virtual portfolio balances surge +300%. When attempting to liquidate, 'professors' demand a 20% institutional capital gains tax before locking the account.",
     },
     {
         "name": "Instant Loan App Harassment & Gallery Doxing",
@@ -84,6 +114,11 @@ MODUS_OPERANDI_CATALOG = [
         "avg_amount": 25000,
         "urgency": "HIGH",
         "syndicate_origin": "Shadow NBFC Syndicates",
+        "channel": "Unregistered Loan APK + Contact List & Photo Gallery Scraper",
+        "bns_section": "Sec. 78 BNS 2023 (Stalking) r/w Sec. 351 BNS (Criminal Intimidation)",
+        "target_profile": "Gig Workers, College Students & Urgent Cash Borrowers",
+        "evidence_protocol": "APK permission manifests, abusive WhatsApp audio notes, morphed photo attachments",
+        "mechanics": "Victim installs an unregulated loan app promising instant ₹5,000 credit without collateral. The app silently exfiltrates contact lists and photo albums. After 7 days, recovery call agents begin calling victim's parents, colleagues, and friends sending morphed obscene photos demanding triple the repayment.",
     },
     {
         "name": "UPI QR Code Reverse Collect Exploit",
@@ -92,6 +127,11 @@ MODUS_OPERANDI_CATALOG = [
         "avg_amount": 18000,
         "urgency": "MEDIUM",
         "syndicate_origin": "Jamtara-Karmatar Syndicate",
+        "channel": "OLX / Quikr Marketplace Listings & Spoofed UPI Collect Requests",
+        "bns_section": "Sec. 318(4) BNS 2023 (Cheating) r/w Sec. 66D IT Act",
+        "target_profile": "Second-hand Goods Sellers on OLX & Marketplace Apps",
+        "evidence_protocol": "UPI VPA handles, PhonePe/GooglePay collect request IDs, call recordings",
+        "mechanics": "Victim posts second-hand furniture for sale on OLX. Scammer posing as an Army Officer agrees to buy immediately without negotiation and sends a QR code claiming 'scan this QR to receive advance token payment into your account'. Scanning the QR and entering UPI PIN authorizes an outgoing debit instead of a credit.",
     },
 ]
 
@@ -262,13 +302,20 @@ class LiveFeedService:
         time_display = dt.strftime("%H:%M:%S IST")
         date_display = dt.strftime("%Y-%m-%d")
 
+        # Forensic artifacts
+        utr = f"UTR{random.randint(100000000000, 999999999999)}"
+        mule_acc = f"SBIN00{random.randint(1000, 9999)} / Acc: ********{random.randint(1000, 9999)}"
+        ack_number = f"ACK-1930-{dt.strftime('%Y%m%d')}-{random.randint(10000, 99999)}"
+
         event = {
             "event_id": event_id,
+            "ack_number": ack_number,
             "timestamp": timestamp,
             "time_display": time_display,
             "date_display": date_display,
             "state": state,
             "district": district,
+            "police_station": f"{district} Cyber Crime Police Station (CCPS)",
             "modus_operandi": mo["name"],
             "crime_category": mo["category"],
             "motive": mo["motive"],
@@ -276,6 +323,13 @@ class LiveFeedService:
             "syndicate_origin": mo["syndicate_origin"],
             "amount_inr": amount,
             "status": status,
+            "channel": mo.get("channel", "Digital Payment Rail"),
+            "bns_section": mo.get("bns_section", "Sec. 318(4) BNS 2023"),
+            "target_profile": mo.get("target_profile", "Individual Citizen"),
+            "evidence_protocol": mo.get("evidence_protocol", "Mandatory Videography under Sec. 105 BNSS 2023"),
+            "mechanics": mo.get("mechanics", "Complainant was defrauded using deceptive digital communication channels."),
+            "utr_number": utr,
+            "suspect_mule_account": mule_acc,
         }
         return event
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, Pause, Zap } from 'lucide-react';
+import { Play, Pause, Zap, ChevronRight } from 'lucide-react';
 
 /**
  * Live 1930 / CCTNS Incident Triage Stream & Dispatch Feed
@@ -196,6 +196,7 @@ export default function LiveIncidentTicker({
               <div
                 key={evt.event_id}
                 onClick={() => onSelectEvent(evt)}
+                title="Click to inspect full investigative case dossier"
                 style={{
                   padding: 'var(--space-3)',
                   borderRadius: 'var(--radius-md)',
@@ -246,9 +247,23 @@ export default function LiveIncidentTicker({
                     ₹{evt.amount_inr?.toLocaleString('en-IN')}
                   </span>
 
-                  <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: status.color }}>
-                    ● {status.text}
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: status.color }}>
+                      ● {status.text}
+                    </span>
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '2px',
+                        fontSize: '0.6875rem',
+                        color: 'var(--color-sage-light)',
+                        fontWeight: 600,
+                      }}
+                    >
+                      Dossier <ChevronRight size={12} />
+                    </span>
+                  </div>
                 </div>
               </div>
             );

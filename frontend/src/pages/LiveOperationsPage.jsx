@@ -5,12 +5,14 @@ import {
   Radar,
   RefreshCw,
   Zap,
+  FileText,
 } from 'lucide-react';
 import api from '../services/api';
 import IndiaChoroplethMap from '../components/charts/IndiaChoroplethMap';
 import CertInFeed from '../components/live/CertInFeed';
 import ThreatRadarPanel from '../components/live/ThreatRadarPanel';
 import LiveIncidentTicker from '../components/live/LiveIncidentTicker';
+import IncidentDetailModal from '../components/live/IncidentDetailModal';
 
 /**
  * Tactical Operations Center (TOC) — Live Cyber Threat Intelligence & 1930 Triage Telemetry
@@ -21,6 +23,7 @@ export default function LiveOperationsPage() {
   const [threatRadar, setThreatRadar] = useState(null);
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [inspectedIncident, setInspectedIncident] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [livePulseState, setLivePulseState] = useState(null);
 
@@ -176,6 +179,19 @@ export default function LiveOperationsPage() {
     setSelectedEvent(evt);
     setSelectedState(evt.state);
     triggerStatePulse(evt.state);
+    setInspectedIncident(evt);
+  };
+
+  const handleUpdateStatus = (eventId, newStatus) => {
+    setEvents((prev) =>
+      prev.map((e) => (e.event_id === eventId ? { ...e, status: newStatus } : e))
+    );
+    if (selectedEvent && selectedEvent.event_id === eventId) {
+      setSelectedEvent((prev) => (prev ? { ...prev, status: newStatus } : null));
+    }
+    if (inspectedIncident && inspectedIncident.event_id === eventId) {
+      setInspectedIncident((prev) => (prev ? { ...prev, status: newStatus } : null));
+    }
   };
 
   // Aggregated KPIs
@@ -461,13 +477,35 @@ export default function LiveOperationsPage() {
                 </div>
               </div>
 
-              <div style={{ textAlign: 'right' }}>
-                <div className="font-mono" style={{ fontSize: '1.25rem', fontWeight: 700, color: '#FBBF24' }}>
-                  ₹{selectedEvent.amount_inr?.toLocaleString('en-IN')}
+              <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
+                <div>
+                  <div className="font-mono" style={{ fontSize: '1.25rem', fontWeight: 700, color: '#FBBF24' }}>
+                    ₹{selectedEvent.amount_inr?.toLocaleString('en-IN')}
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                    Syndicate: <span style={{ color: 'var(--color-mauve-light)' }}>{selectedEvent.syndicate_origin}</span>
+                  </div>
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                  Syndicate: <span style={{ color: 'var(--color-mauve-light)' }}>{selectedEvent.syndicate_origin}</span>
-                </div>
+
+                <button
+                  onClick={() => setInspectedIncident(selectedEvent)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '4px 10px',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: 'rgba(80, 118, 86, 0.2)',
+                    border: '1px solid var(--border-strong)',
+                    color: 'var(--color-sage-light)',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <FileText size={13} /> Inspect Case Dossier
+                </button>
               </div>
             </div>
           )}
@@ -522,6 +560,13 @@ export default function LiveOperationsPage() {
           <CertInFeed advisories={advisories} loading={loadingInitial} />
         )}
       </div>
+
+      {/* Incident Investigative Case Dossier Modal */}
+      <IncidentDetailModal
+        incident={inspectedIncident}
+        onClose={() => setInspectedIncident(null)}
+        onUpdateStatus={handleUpdateStatus}
+      />
     </div>
   );
 }
