@@ -3,7 +3,21 @@
  * Future FastAPI integration (Stage 20+)
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+function resolveApiBaseUrl() {
+  let raw = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+  raw = raw.trim();
+  // Ensure protocol is present
+  if (!raw.startsWith('http://') && !raw.startsWith('https://')) {
+    raw = `https://${raw}`;
+  }
+  // Ensure /api suffix is present
+  if (!raw.endsWith('/api') && !raw.includes('/api/')) {
+    raw = raw.replace(/\/+$/, '') + '/api';
+  }
+  return raw;
+}
+
+const API_BASE_URL = resolveApiBaseUrl();
 
 class ApiClient {
   constructor(baseUrl) {
