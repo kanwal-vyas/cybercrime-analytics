@@ -58,9 +58,8 @@ export const TopNavigation = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: 'var(--space-2)',
+          gap: 'var(--space-3)',
           boxSizing: 'border-box',
-          minWidth: 0,
         }}
       >
         {/* ========================================================= */}
@@ -68,10 +67,8 @@ export const TopNavigation = () => {
         {/* ========================================================= */}
         <div
           style={{
-            position: 'relative',
             display: 'flex',
             alignItems: 'center',
-            gap: '6px',
             flexShrink: 0,
           }}
         >
@@ -81,7 +78,7 @@ export const TopNavigation = () => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 'var(--space-3)',
+              gap: '10px',
               textDecoration: 'none',
               flexShrink: 0,
             }}
@@ -89,21 +86,20 @@ export const TopNavigation = () => {
             {/* Brand Mark Container */}
             <div
               style={{
-                width: '34px',
-                height: '34px',
+                width: '32px',
+                height: '32px',
                 borderRadius: 'var(--radius-sm)',
-                backgroundColor: 'transparent',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexShrink: 0,
               }}
             >
-              <NirikshaMark size={32} />
+              <NirikshaMark size={30} />
             </div>
 
             {/* Brand Text Stack */}
-            <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <span
                   style={{
@@ -131,22 +127,6 @@ export const TopNavigation = () => {
                 </span>
               </div>
               <span
-                className="brand-mnemonic-full"
-                style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.625rem',
-                  fontWeight: 500,
-                  color: 'var(--text-muted)',
-                  letterSpacing: '0.01em',
-                  lineHeight: 1.2,
-                  whiteSpace: 'nowrap',
-                }}
-                title={PROJECT_METADATA.mnemonic}
-              >
-                {PROJECT_METADATA.mnemonic}
-              </span>
-              <span
-                className="brand-mnemonic-compact"
                 style={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: '0.625rem',
@@ -178,8 +158,7 @@ export const TopNavigation = () => {
             backgroundColor: 'var(--bg-surface)',
             border: '1px solid var(--border-subtle)',
             borderRadius: 'var(--radius-md)',
-            flexShrink: 1,
-            minWidth: 0,
+            flexShrink: 0,
           }}
         >
           {NAV_ITEMS.map((item) => (
@@ -189,12 +168,12 @@ export const TopNavigation = () => {
               end={item.path === '/'}
               className="niriksha-nav-pill"
               style={({ isActive }) => ({
-                padding: '5px 11px',
+                padding: '5px 10px',
                 borderRadius: 'var(--radius-sm)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.6875rem',
                 fontWeight: isActive ? 600 : 500,
-                letterSpacing: '0.04em',
+                letterSpacing: '0.03em',
                 textTransform: 'uppercase',
                 color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
                 backgroundColor: isActive ? 'var(--bg-surface-elevated)' : 'transparent',
@@ -207,7 +186,14 @@ export const TopNavigation = () => {
                 alignItems: 'center',
               })}
             >
-              {item.label}
+              {item.id === 'operations' ? (
+                <>
+                  <span className="nav-label-full">Live Operations</span>
+                  <span className="nav-label-compact">Live Ops</span>
+                </>
+              ) : (
+                item.label
+              )}
               {item.badge && (
                 <span
                   style={{
@@ -237,7 +223,7 @@ export const TopNavigation = () => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 'var(--space-2)',
+            gap: '8px',
             flexShrink: 0,
           }}
         >
@@ -502,7 +488,7 @@ export const TopNavigation = () => {
         </div>
       )}
 
-      {/* Scoped CSS for Hover and Progressive Responsiveness */}
+      {/* Scoped CSS for Zero-Overlap Navigation */}
       <style>{`
         .niriksha-nav-pill:hover {
           color: var(--text-primary) !important;
@@ -510,8 +496,7 @@ export const TopNavigation = () => {
         }
         .niriksha-nav-pill:focus-visible,
         .utility-icon-btn:focus-visible,
-        .mobile-menu-toggle:focus-visible,
-        .mnemonic-info-btn:focus-visible {
+        .mobile-menu-toggle:focus-visible {
           outline: 2px solid var(--primary) !important;
           outline-offset: 2px;
         }
@@ -521,32 +506,28 @@ export const TopNavigation = () => {
           background-color: var(--bg-surface-hover) !important;
         }
 
-        .brand-mnemonic-compact {
+        .nav-label-compact {
           display: none !important;
         }
         .badge-text-compact {
           display: none !important;
         }
 
-        /* Tier 1: Large Laptops / Scaled Displays (<= 1440px) */
-        @media (max-width: 1440px) {
-          .brand-mnemonic-full {
-            display: none !important;
-          }
-          .brand-mnemonic-compact {
-            display: block !important;
-          }
+        /* Large screens: 36 jurisdictions only shown when >= 1480px */
+        @media (max-width: 1480px) {
           .header-badge-jurisdictions {
             display: none !important;
           }
-          .niriksha-nav-pill {
-            padding: 4px 8px !important;
-            font-size: 0.65rem !important;
-          }
         }
 
-        /* Tier 2: Typical 1366px Laptops (<= 1300px) */
-        @media (max-width: 1300px) {
+        /* Standard Laptops (<= 1350px): compact "Live Ops" & "NCRB 2023" */
+        @media (max-width: 1350px) {
+          .nav-label-full {
+            display: none !important;
+          }
+          .nav-label-compact {
+            display: inline !important;
+          }
           .badge-text-full {
             display: none !important;
           }
@@ -554,24 +535,24 @@ export const TopNavigation = () => {
             display: inline !important;
           }
           .niriksha-nav-pill {
-            padding: 4px 6px !important;
-            font-size: 0.625rem !important;
-            letter-spacing: 0.02em !important;
+            padding: 4px 8px !important;
+            font-size: 0.65rem !important;
           }
         }
 
-        /* Tier 3: Compact Viewports (<= 1180px) */
-        @media (max-width: 1180px) {
-          .brand-mnemonic-compact {
-            display: none !important;
-          }
+        /* Narrower Laptops (<= 1200px): hide verified badge to guarantee 0 overlap */
+        @media (max-width: 1200px) {
           .header-badge-verified {
             display: none !important;
           }
+          .niriksha-nav-pill {
+            padding: 4px 6px !important;
+            font-size: 0.625rem !important;
+          }
         }
 
-        /* Tier 4: Tablets and Mobile Navigation Drawer (<= 1040px) */
-        @media (max-width: 1040px) {
+        /* Tablets & Mobile (<= 1100px): switch to mobile drawer */
+        @media (max-width: 1100px) {
           .desktop-nav {
             display: none !important;
           }
