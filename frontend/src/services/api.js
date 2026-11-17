@@ -4,8 +4,22 @@
  */
 
 function resolveApiBaseUrl() {
-  let raw = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+  let raw = import.meta.env.VITE_API_BASE_URL || '';
   raw = raw.trim();
+
+  // If in browser on Render and no explicit API base was injected, fallback to known backend
+  if (!raw && typeof window !== 'undefined' && window.location.hostname.includes('onrender.com')) {
+    raw = 'https://niriksha-backend-nlln.onrender.com/api';
+  } else if (!raw) {
+    raw = 'http://localhost:8000/api';
+  }
+
+  // Render fromService returns internal hostname without domain (e.g. niriksha-backend-nlln)
+  let hostPart = raw.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+  if (hostPart && !hostPart.includes('.') && !hostPart.includes('localhost') && !hostPart.includes(':')) {
+    raw = raw.replace(hostPart, `${hostPart}.onrender.com`);
+  }
+
   // Ensure protocol is present
   if (!raw.startsWith('http://') && !raw.startsWith('https://')) {
     raw = `https://${raw}`;
