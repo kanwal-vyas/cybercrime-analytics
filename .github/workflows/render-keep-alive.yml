@@ -1,0 +1,38 @@
+name: Render 24/7 Keep-Alive
+
+on:
+  schedule:
+    # Runs every 12 minutes to keep the Render free tier Web Service from sleeping (15-min limit)
+    - cron: '*/12 * * * *'
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: 'Target Render Backend URL to ping'
+        required: false
+        default: ''
+
+jobs:
+  keep-alive:
+    name: Ping Render Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Uptime Heartbeat
+        run: |
+          TARGET="${{ inputs.target_url || secrets.RENDER_BACKEND_URL }}"
+          if [ -z "$TARGET" ]; then
+            # Default placeholder; set RENDER_BACKEND_URL secret or workflow dispatch input
+            TARGET="https://niriksha-backend.onrender.com"
+          fi
+          
+          # Strip trailing slash if present
+          TARGET="${TARGET%/}"
+          
+          echo "Sending keep-alive ping to $TARGET/api/ping..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -m 30 "$TARGET/api/ping" || echo "FAILED")
+          
+          echo "Ping response status: $HTTP_STATUS"
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "Render backend is awake and healthy (200 OK)."
+          else
+            echo "Wake-up signal delivered (HTTP $HTTP_STATUS). Render instance is activating."
+          fi

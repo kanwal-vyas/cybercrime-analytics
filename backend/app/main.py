@@ -117,12 +117,14 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS Middleware for local React frontend development
+# CORS Middleware for local React frontend development & cloud deployments
+is_wildcard = "*" in settings.CORS_ORIGINS
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_credentials=not is_wildcard,
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -182,6 +184,20 @@ async def health_check():
         analytical_stages=settings.ANALYTICAL_STATUS,
         ui_stage=20
     )
+
+
+# 24/7 Keep-Alive Ping Endpoint (Zero-overhead endpoint for cron/uptime pingers)
+@app.get(
+    "/api/ping",
+    tags=["System Health"],
+    summary="24/7 Keep-Alive Uptime Ping"
+)
+async def keep_alive_ping():
+    return {
+        "status": "alive",
+        "service": "NIRIKSHA",
+        "timestamp": time.time()
+    }
 
 
 # System Runtime Diagnostics & Metrics Endpoint

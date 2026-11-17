@@ -58,6 +58,16 @@ def test_health():
     assert data["ui_stage"] == 20
 
 
+def test_ping():
+    """Verify 24/7 keep-alive ping endpoint."""
+    res = client.get("/api/ping")
+    assert res.status_code == 200
+    data = res.json()
+    assert data["status"] == "alive"
+    assert data["service"] == "NIRIKSHA"
+    assert "timestamp" in data
+
+
 def test_summary():
     """Verify authoritative 2023 national totals reconciliation."""
     res = client.get("/api/summary")
