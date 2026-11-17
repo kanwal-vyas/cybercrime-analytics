@@ -615,10 +615,10 @@ export const ExplorePage = () => {
             height="580px"
           />
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             <StateRadarComparison
               stateData={activeState}
-              height="340px"
+              height="380px"
             />
 
             {/* Quick Territory Context Card */}
@@ -628,7 +628,7 @@ export const ExplorePage = () => {
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-default)',
                 borderRadius: 'var(--radius-md)',
-                padding: 'var(--space-4)',
+                padding: '12px 16px',
                 boxShadow: 'var(--shadow-panel)',
                 display: 'flex',
                 flexDirection: 'column',
@@ -636,13 +636,13 @@ export const ExplorePage = () => {
               }}
             >
               <div>
-                <div className="tech-label" style={{ fontSize: '0.6875rem', marginBottom: '4px' }}>
+                <div className="tech-label" style={{ fontSize: '0.625rem', marginBottom: '2px' }}>
                   ACTIVE SELECTION CONTEXT
                 </div>
-                <div style={{ fontSize: 'var(--text-lg)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '4px' }}>
+                <div style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px' }}>
                   {activeState ? activeState.state_name : 'National Total (36 Jurisdictions)'}
                 </div>
-                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', lineHeight: '1.5', margin: 0 }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: '1.45', margin: 0 }}>
                   {activeState
                     ? `${activeState.state_name} registers ${activeState.total_cases.toLocaleString()} cases (${activeState.national_share}% national share). Click "Reset" on the map or select another territory to switch focus.`
                     : 'Showing aggregated national metrics across 86,420 registered cybercrime cases. Click on any State or Union Territory on the map to inspect its unique statutory and motive signature.'}
@@ -652,15 +652,15 @@ export const ExplorePage = () => {
               {activeState && (
                 <div
                   style={{
-                    marginTop: 'var(--space-3)',
-                    padding: 'var(--space-2) var(--space-3)',
+                    marginTop: 'var(--space-2)',
+                    padding: '4px 8px',
                     backgroundColor: 'var(--bg-surface-elevated)',
                     border: '1px solid var(--border-subtle)',
                     borderRadius: 'var(--radius-sm)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    fontSize: '0.75rem',
+                    fontSize: '0.6875rem',
                     fontFamily: 'var(--font-mono)',
                   }}
                 >

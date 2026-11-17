@@ -12,9 +12,9 @@ const DIMENSIONS = [
   { key: 'extortion_share', label: 'Extortion %', max: 20 },
 ];
 
-const SIZE = 300;
+const SIZE = 320;
 const CENTER = SIZE / 2;
-const RADIUS = CENTER - 45;
+const RADIUS = 88;
 
 const getCoordinates = (value, maxVal, index, total) => {
   const angle = (Math.PI * 2 / total) * index - Math.PI / 2;
@@ -38,7 +38,7 @@ export const StateRadarComparison = ({
     women_share: 22.58,
     extortion_share: 5.62,
   },
-  height = '360px',
+  height = '370px',
   className = '',
   style = {},
 }) => {
@@ -84,22 +84,24 @@ export const StateRadarComparison = ({
         position: 'relative',
         overflow: 'hidden',
         height,
+        minHeight: 0,
         ...style,
       }}
     >
       <div
         style={{
-          padding: 'var(--space-3) var(--space-4)',
+          padding: '8px 14px',
           borderBottom: '1px solid var(--border-subtle)',
           backgroundColor: 'var(--bg-surface-elevated)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          flexShrink: 0,
         }}
       >
         <div>
-          <div className="tech-label" style={{ fontSize: '0.6875rem' }}>MULTI-DIMENSIONAL PROFILE</div>
-          <h4 style={{ margin: '2px 0 0 0', fontSize: 'var(--text-sm)', color: 'var(--text-primary)' }}>
+          <div className="tech-label" style={{ fontSize: '0.625rem' }}>MULTI-DIMENSIONAL PROFILE</div>
+          <h4 style={{ margin: '2px 0 0 0', fontSize: 'var(--text-sm)', color: 'var(--text-primary)', fontWeight: 600 }}>
             {stateData ? `${stateData.state_name} Profile Signature` : 'National Baseline Signature'}
           </h4>
         </div>
@@ -117,8 +119,30 @@ export const StateRadarComparison = ({
         </div>
       </div>
 
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-        <svg viewBox={`0 0 ${size} ${size}`} style={{ width: '92%', height: '92%', overflow: 'visible' }}>
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          padding: '6px',
+          minHeight: 0,
+          overflow: 'hidden',
+        }}
+      >
+        <svg
+          viewBox={`0 0 ${size} ${size}`}
+          style={{
+            maxHeight: '100%',
+            maxWidth: '100%',
+            width: 'auto',
+            height: '100%',
+            aspectRatio: '1 / 1',
+            display: 'block',
+            margin: '0 auto',
+          }}
+        >
           {/* Background Concentric Radar Webs */}
           {rings.map((factor, rIdx) => {
             const pts = dimensions.map((_, idx) => {
@@ -131,7 +155,7 @@ export const StateRadarComparison = ({
                 key={rIdx}
                 points={pts}
                 fill="none"
-                stroke="rgba(133, 162, 137, 0.12)"
+                stroke="rgba(133, 162, 137, 0.16)"
                 strokeWidth="1"
               />
             );
@@ -152,7 +176,7 @@ export const StateRadarComparison = ({
                   y1={center}
                   x2={x}
                   y2={y}
-                  stroke="rgba(133, 162, 137, 0.20)"
+                  stroke="rgba(133, 162, 137, 0.22)"
                   strokeWidth="1"
                 />
                 <text
@@ -211,13 +235,14 @@ export const StateRadarComparison = ({
 
       <div
         style={{
-          padding: 'var(--space-2) var(--space-4)',
+          padding: '6px 14px',
           borderTop: '1px solid var(--border-subtle)',
           backgroundColor: 'var(--bg-surface-elevated)',
           display: 'flex',
           justifyContent: 'space-between',
-          fontSize: '0.6875rem',
+          fontSize: '0.625rem',
           color: 'var(--text-muted)',
+          flexShrink: 0,
         }}
       >
         <span>Normalized 5-Axis Analytical Envelope</span>
