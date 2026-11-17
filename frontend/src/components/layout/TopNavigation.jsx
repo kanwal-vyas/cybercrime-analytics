@@ -44,7 +44,9 @@ export const TopNavigation = () => {
         borderBottom: '1px solid var(--border-default)',
         display: 'flex',
         alignItems: 'center',
-        padding: '0 var(--space-6)',
+        padding: '0 var(--space-4)',
+        boxSizing: 'border-box',
+        width: '100%',
         transition: 'background-color var(--transition-normal), border-color var(--transition-normal)',
       }}
     >
@@ -56,7 +58,9 @@ export const TopNavigation = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: 'var(--space-4)',
+          gap: 'var(--space-2)',
+          boxSizing: 'border-box',
+          minWidth: 0,
         }}
       >
         {/* ========================================================= */}
@@ -127,6 +131,7 @@ export const TopNavigation = () => {
                 </span>
               </div>
               <span
+                className="brand-mnemonic-full"
                 style={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: '0.625rem',
@@ -140,12 +145,27 @@ export const TopNavigation = () => {
               >
                 {PROJECT_METADATA.mnemonic}
               </span>
+              <span
+                className="brand-mnemonic-compact"
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.625rem',
+                  fontWeight: 500,
+                  color: 'var(--text-muted)',
+                  letterSpacing: '0.01em',
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
+                }}
+                title={PROJECT_METADATA.mnemonic}
+              >
+                Cyber Crime Intelligence &amp; Analytics
+              </span>
             </div>
           </NavLink>
         </div>
 
         {/* ========================================================= */}
-        {/* CENTER: CAPSULE NAVIGATION (7 ROUTES)                     */}
+        {/* CENTER: CAPSULE NAVIGATION (8 ROUTES)                     */}
         {/* ========================================================= */}
         <nav
           aria-label="Main Navigation"
@@ -158,6 +178,8 @@ export const TopNavigation = () => {
             backgroundColor: 'var(--bg-surface)',
             border: '1px solid var(--border-subtle)',
             borderRadius: 'var(--radius-md)',
+            flexShrink: 1,
+            minWidth: 0,
           }}
         >
           {NAV_ITEMS.map((item) => (
@@ -167,12 +189,12 @@ export const TopNavigation = () => {
               end={item.path === '/'}
               className="niriksha-nav-pill"
               style={({ isActive }) => ({
-                padding: '5px 12px',
+                padding: '5px 11px',
                 borderRadius: 'var(--radius-sm)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.6875rem',
                 fontWeight: isActive ? 600 : 500,
-                letterSpacing: '0.05em',
+                letterSpacing: '0.04em',
                 textTransform: 'uppercase',
                 color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
                 backgroundColor: isActive ? 'var(--bg-surface-elevated)' : 'transparent',
@@ -189,7 +211,7 @@ export const TopNavigation = () => {
               {item.badge && (
                 <span
                   style={{
-                    marginLeft: '5px',
+                    marginLeft: '4px',
                     fontSize: '0.5625rem',
                     padding: '1px 4px',
                     borderRadius: '3px',
@@ -210,10 +232,18 @@ export const TopNavigation = () => {
         {/* ========================================================= */}
         {/* RIGHT: SYSTEM UTILITIES & CONTROLS                        */}
         {/* ========================================================= */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+        <div
+          className="utility-cluster"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-2)',
+            flexShrink: 0,
+          }}
+        >
           {/* A. Data Status Indicator */}
           <div
-            className="desktop-utility"
+            className="header-badge-verified"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -228,6 +258,7 @@ export const TopNavigation = () => {
               fontWeight: 600,
               letterSpacing: '0.04em',
               whiteSpace: 'nowrap',
+              flexShrink: 0,
             }}
             title="NCRB Crime in India (2023) Official Dataset — Audited & Frozen"
           >
@@ -238,15 +269,16 @@ export const TopNavigation = () => {
                 borderRadius: '50%',
                 backgroundColor: 'var(--status-success)',
                 display: 'inline-block',
+                flexShrink: 0,
               }}
             />
-            <span>DATA VERIFIED</span>
-            <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>· NCRB 2023</span>
+            <span className="badge-text-full">DATA VERIFIED · NCRB 2023</span>
+            <span className="badge-text-compact">NCRB 2023</span>
           </div>
 
           {/* B. Jurisdiction Indicator */}
           <div
-            className="desktop-utility"
+            className="header-badge-jurisdictions"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -259,6 +291,7 @@ export const TopNavigation = () => {
               color: 'var(--text-secondary)',
               letterSpacing: '0.04em',
               whiteSpace: 'nowrap',
+              flexShrink: 0,
             }}
             title="36 States and Union Territories of India (N = 36)"
           >
@@ -286,6 +319,7 @@ export const TopNavigation = () => {
               transition: 'all var(--transition-fast)',
               textDecoration: 'none',
               cursor: 'pointer',
+              flexShrink: 0,
             }}
           >
             <GithubIcon size={15} />
@@ -310,6 +344,7 @@ export const TopNavigation = () => {
               color: 'var(--text-secondary)',
               transition: 'all var(--transition-fast)',
               cursor: 'pointer',
+              flexShrink: 0,
             }}
           >
             {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
@@ -331,6 +366,7 @@ export const TopNavigation = () => {
               display: 'none',
               alignItems: 'center',
               justifyContent: 'center',
+              flexShrink: 0,
             }}
           >
             {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
@@ -466,7 +502,7 @@ export const TopNavigation = () => {
         </div>
       )}
 
-      {/* Scoped CSS for Hover and Responsiveness */}
+      {/* Scoped CSS for Hover and Progressive Responsiveness */}
       <style>{`
         .niriksha-nav-pill:hover {
           color: var(--text-primary) !important;
@@ -484,12 +520,58 @@ export const TopNavigation = () => {
           border-color: var(--border-strong) !important;
           background-color: var(--bg-surface-hover) !important;
         }
-        @media (max-width: 1100px) {
-          .desktop-utility {
+
+        .brand-mnemonic-compact {
+          display: none !important;
+        }
+        .badge-text-compact {
+          display: none !important;
+        }
+
+        /* Tier 1: Large Laptops / Scaled Displays (<= 1440px) */
+        @media (max-width: 1440px) {
+          .brand-mnemonic-full {
+            display: none !important;
+          }
+          .brand-mnemonic-compact {
+            display: block !important;
+          }
+          .header-badge-jurisdictions {
+            display: none !important;
+          }
+          .niriksha-nav-pill {
+            padding: 4px 8px !important;
+            font-size: 0.65rem !important;
+          }
+        }
+
+        /* Tier 2: Typical 1366px Laptops (<= 1300px) */
+        @media (max-width: 1300px) {
+          .badge-text-full {
+            display: none !important;
+          }
+          .badge-text-compact {
+            display: inline !important;
+          }
+          .niriksha-nav-pill {
+            padding: 4px 6px !important;
+            font-size: 0.625rem !important;
+            letter-spacing: 0.02em !important;
+          }
+        }
+
+        /* Tier 3: Compact Viewports (<= 1180px) */
+        @media (max-width: 1180px) {
+          .brand-mnemonic-compact {
+            display: none !important;
+          }
+          .header-badge-verified {
             display: none !important;
           }
         }
-        @media (max-width: 900px) {
+
+        /* Tier 4: Tablets and Mobile Navigation Drawer (<= 1040px) */
+        @media (max-width: 1040px) {
           .desktop-nav {
             display: none !important;
           }
